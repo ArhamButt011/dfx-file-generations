@@ -26,20 +26,20 @@ function Hero() {
                     {/* AI powered */}
                     <div className='flex flex-col items-center'>
                         <Image src="/images/user/home/AI.svg" alt="" className='' width={100} height={100} />
-                        <p className='font-bold text-[30px] text-center'>AI-Powered Precision:</p>
-                        <p className='text-center text-[#00000066] text-[21px] mx-auto font-medium max-w-[90%]'>Our AI technology ensures that results should be accurately preserved during the conversion process, guaranteeing high-quality DXF files every time.</p>
+                        <p className='font-bold text-[30px] text-center'>AI-Powered Precision</p>
+                        <p className='text-center text-[#00000066] text-[21px] mx-auto font-medium max-w-[80%]'>Our advanced AI detects and processes tool layouts with extreme accuracy, instantly generating high-quality DXF files—no manual tracing required.</p>
                     </div>
                     {/* fast & simple */}
                     <div className='flex flex-col items-center'>
                         <Image src="/images/user/home/fast.svg" alt="" className='' width={100} height={100} />
-                        <p className='font-bold text-[30px] text-center'>Fast & Simple Results:</p>
-                        <p className='text-center text-[#00000066] text-[21px] mx-auto font-medium max-w-[90%]'>Save time with our intuitive interface. Upload your design files, preview the results, and download your DXF file in just a few clicks.</p>
+                        <p className='font-bold text-[30px] text-center'>Custom Offset Parameter</p>
+                        <p className='text-center text-[#00000066] text-[21px] mx-auto font-medium max-w-[70%]'>Fine-tune tool fitment with the custom offset parameter, allowing you to control how snug or loose each tool sits within the insert. Achieve the perfect balance of security and accessibility for your tools</p>
                     </div>
                     {/* access Anytime */}
                     <div className='flex flex-col items-center'>
                         <Image src="/images/user/home/access.svg" alt="" className='' width={100} height={100} />
-                        <p className='font-bold text-[30px] text-center'>Access Anytime, Anywhere</p>
-                        <p className='text-center text-[#00000066] text-[21px] mx-auto font-medium max-w-[90%]'>Whether you’re in the office, at home, or on the go, access the DXF Generator from any device , ensuring your projects are never out of reach.</p>
+                        <p className='font-bold text-[30px] text-center'>Production-Ready Outputs</p>
+                        <p className='text-center text-[#00000066] text-[21px] mx-auto font-medium max-w-[80%]'>Generate DXF files ready for cutting, with an optional bounding box that auto-centers tool contours and scales to your specified width and length—no extra adjustments needed.</p>
                     </div>
                 </div>
 
