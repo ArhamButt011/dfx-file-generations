@@ -35,7 +35,7 @@ const config: Config = {
         },
         body: '#64748B',
         bodydark: '#D9D9D933',
-        bodydark1: '#0000001A',
+        bodydark1: '#F8F8F8',
         bodydark2: '#8A99AF',
         primary: '#00000066',
         secondary: '#266CA8',
