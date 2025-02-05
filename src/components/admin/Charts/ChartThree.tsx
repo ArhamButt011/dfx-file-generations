@@ -17,11 +17,13 @@ const options: ApexOptions = {
     show: false,
     position: 'bottom',
   },
+
   plotOptions: {
     pie: {
       donut: {
         size: '65%',
-        background: 'transparent',
+
+        background: 'white',
         labels: {
           show: true,
           total: {
@@ -49,10 +51,11 @@ const options: ApexOptions = {
       breakpoint: 2600,
       options: {
         chart: {
-          width: 380,
+          width: 360,
         },
       },
     },
+
     {
       breakpoint: 640,
       options: {
@@ -118,33 +121,29 @@ const ChartThree: React.FC = () => {
         </div>
       </div>
 
-      <div className="-mx-8 flex flex-wrap items-center justify-center gap-y-3">
-        <div className="w-full px-8 sm:w-1/2">
-          <div className="flex w-full items-center">
-            <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-primary"></span>
-            <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
-              <span> Basic: </span>
-              <span> 65% </span>
-            </p>
-          </div>
+      <div className="-mx-8 flex flex-wrap items-center gap-y-3 sm:gap-y-0 sm:flex-row sm:justify-between">
+        <div className="w-full sm:w-auto flex items-center ml-5">
+          <span className="mr-2 block h-5 w-5 rounded-md bg-secondary"></span>
+          <p className="flex items-center text-sm font-medium text-black dark:text-white">
+            <span> Basic: </span>
+            <span className="text-secondary ml-1"> 65% </span>
+          </p>
         </div>
-        <div className="w-full px-8 sm:w-1/2">
-          <div className="flex w-full items-center">
-            <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#6577F3]"></span>
-            <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
-              <span> Pro: </span>
-              <span> 34% </span>
-            </p>
-          </div>
+
+        <div className="w-full sm:w-auto flex items-center ml-5 sm:ml-3">
+          <span className="mr-2 block h-5 w-5 rounded-md bg-[#F5704B]"></span>
+          <p className="flex items-center text-sm font-medium text-black dark:text-white">
+            <span> Pro: </span>
+            <span className="text-[#F5704B] ml-1"> 34% </span>
+          </p>
         </div>
-        <div className="w-full px-8 sm:w-1/2">
-          <div className="flex w-full items-center">
-            <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#8FD0EF]"></span>
-            <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
-              <span> Premium: </span>
-              <span> 45% </span>
-            </p>
-          </div>
+
+        <div className="w-full sm:w-auto flex items-center ml-5 sm:mr-3">
+          <span className="mr-2 block h-5 w-5 rounded-md bg-[#E6E6E6]"></span>
+          <p className="flex items-center text-sm font-medium text-black dark:text-white">
+            <span> Premium: </span>
+            <span className="text-[#0000006E] ml-1"> 45% </span>
+          </p>
         </div>
       </div>
     </div>
