@@ -6,31 +6,44 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import Image from 'next/image'
 import logo from '/public/images/user/home/logo.svg'
 import Modal from '../UI/Modal'
-// import Link from 'next/link'
+import BilingModal from '../UI/BilingModal'
+import { useRouter } from "next/navigation";
 import backarrow from '/public/images/admin/backarrow.svg'
 import image3 from '/public/images/user/AuthScreens/login.svg'
 import Swal from 'sweetalert2'
+import { ClipLoader } from 'react-spinners'
 // Defining types for the props
-// type included = {
-//     text: string
-// }
+type included = {
+    id: number;
+    text: string;
+}
 
-// type DataItem = {
-//     desc: string
-//     title: string;
-//     price: string;
-//     include: included[];
-//     buttonText: string
-// };
+type DataItem = {
+    id: number;
+    desc: string;
+    title: string;
+    price: string;
+    include: included[];
+    buttonText: string
+};
 
 const UserLogin = () => {
+    const router = useRouter();
     const [email, setEmail] = useState<string>('')
-    const [password, setPassword] = useState<string>('')
+    // const [password, setPassword] = useState<string>('')
+    const [loginForm, setLoginForm] = useState({
+        email: '',
+        password: '',
+        role: "User"
+    });
     const [isNewOpen, setIsNewOpen] = useState<boolean>(false);
     const [isVerifyOpen, setIsVerifyOpen] = useState<boolean>(false);
     const [isForgetOpen, setIsForgetOpen] = useState<boolean>(false);
     const [isResetOpen, setIsResetOpen] = useState<boolean>(false);
-    const onClose = () => { setIsNewOpen(false); setIsVerifyOpen(false); setIsForgetOpen(false); setIsResetOpen(false) }
+    const [isBilingOpen, setIsBilingOpen] = useState<boolean>(false);
+    const [isAccountVerified, setIsAccountVerified] = useState<boolean>(false);
+    const [isAccountCreated, setIsAccountCreated] = useState<boolean>(false);
+    const onClose = () => { setIsNewOpen(false); setIsVerifyOpen(false); setIsForgetOpen(false); setIsResetOpen(false); setIsBilingOpen(false) };
     const [showPassword, setShowPassword] = useState<boolean>(false)
     const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false)
     const [newAccountFormData, setNewAccountFormData] = useState({
@@ -38,8 +51,10 @@ const UserLogin = () => {
         email: '',
         password: '',
         confirm: '',
-        agree: false
+        agree: false,
+        role: "User"
     });
+    const [loading, setLoading] = useState<boolean>(false)
     const [ResetFormData, setResetFormData] = useState({
         password: '',
         confirm: '',
@@ -65,22 +80,21 @@ const UserLogin = () => {
         }
     };
 
-    const handleOTPVerification = (email: string) => {
-        //send otp to server and verify
-        //after verification
-        console.log(email);
-        setIsForgetOpen(false);
-        setIsVerifyOpen(false);
-    }
 
 
-    const sendOTP = () => {
-        //send OTP to email
-        if (email != null || email != "" || validateEmail(email))
-            alert("send otp")
-    }
 
-    const handleNewAccountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+
+    const handleLoginChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+
+        setLoginForm((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
+    const handleSignupChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, type, checked, value } = e.target;
 
         setNewAccountFormData((prevData) => ({
@@ -89,8 +103,47 @@ const UserLogin = () => {
         }));
     };
 
-    const handleLogin = (e: FormEvent<HTMLFormElement>) => {
+    const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+        setLoading(true);
+        try {
+            const res = await fetch("/api/auth/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ loginForm })
+            });
+
+            if (!res.ok) {
+                const data = await res.json();
+
+                throw new Error(data.message);
+            }
+
+            const { token, name } = await res.json();
+            localStorage.setItem("token", token);
+            localStorage.setItem("username", name);
+
+            router.push("/Generate_DXF");
+
+            setLoginForm({
+                email: '',
+                password: '',
+                role: "User"
+            });
+
+
+        } catch (err: unknown) {
+            Swal.fire({
+                title: 'Error!',
+                text: err instanceof Error ? err.message : String(err),
+                icon: 'error',
+                showConfirmButton: false,
+                timer: 2000,
+            });
+
+        } finally {
+            setLoading(false);
+        }
     }
 
     const handleResetPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -110,7 +163,7 @@ const UserLogin = () => {
         return false
     }
 
-    const handleNewAccountSubmit = (e: React.FormEvent) => {
+    const handleNewAccountSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (newAccountFormData.password != newAccountFormData.confirm) {
             Swal.fire({
@@ -122,7 +175,7 @@ const UserLogin = () => {
             });
             return;
         }
-        else if (validateEmail(email)) {
+        else if (!validateEmail(email)) {
             Swal.fire({
                 title: 'Error!',
                 text: 'Please Enter valid Email',
@@ -132,16 +185,193 @@ const UserLogin = () => {
             })
             return
         }
+        setLoading(true);
+        try {
+            const res = await fetch("/api/auth/signup", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ newAccountFormData }),
+            });
 
-        //get response from backend
-        //const response=fetch();
-        setIsNewOpen(false);
-        setIsVerifyOpen(true);
+            if (!res.ok) {
+                const data = await res.json();
+
+                throw new Error(data.message);
+            }
+
+            setIsAccountCreated(true);
+            setIsVerifyOpen(true);
+            setIsNewOpen(false);
+            setEmail(newAccountFormData.email)
+            setNewAccountFormData({
+                name: '',
+                email: '',
+                password: '',
+                confirm: '',
+                agree: false,
+                role: "User"
+            });
 
 
+        } catch (err: unknown) {
+            Swal.fire({
+                title: 'Error!',
+                text: err instanceof Error ? err.message : String(err),
+                icon: 'error',
+                showConfirmButton: false,
+                timer: 2000,
+            });
+            // if (err instanceof Error) {
+            //     setError(err.message);
+            // } else {
+            //     setError("An unexpected error occurred");
+            // }
+        } finally {
+            setLoading(false);
+        }
+    }
+    const SignupOTPVerification = async (e: React.FormEvent, email: string) => {
+
+        e.preventDefault();
+        setLoading(true);
+        try {
+
+            const res = await verifyOTP(e, email);
+
+            setIsAccountCreated(false);
+            setIsAccountVerified(false);
+            setIsVerifyOpen(false);
+            setIsNewOpen(false);
+            setEmail("");
+            // setIsBilingOpen(true);
+            setVerifyFormData({
+                otp1: '',
+                otp2: '',
+                otp3: '',
+                otp4: '',
+                otp5: ''
+            });
+
+            const { token, name } = await res?.json();
+            sessionStorage.setItem("token", token);
+            sessionStorage.setItem("username", name);
+
+            router.push("/Generate_DXF");
+
+
+        } catch (err: unknown) {
+            Swal.fire({
+                title: 'Error!',
+                text: err instanceof Error ? err.message : String(err),
+                icon: 'error',
+                showConfirmButton: false,
+                timer: 2000,
+            });
+        } finally {
+            setLoading(false);
+        }
     }
 
-    const handleResetPasswordSubmit = (e: React.FormEvent) => {
+    const verifyOTP = async (e: React.FormEvent, email: string,) => {
+        e.preventDefault();
+        try {
+            const otp = parseInt(verifyFormData.otp1 + verifyFormData.otp2 + verifyFormData.otp3 + verifyFormData.otp4 + verifyFormData.otp5);
+
+            const res = await fetch("/api/auth/OTPVerification/verifyOTP", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, otp }),
+            });
+
+            if (!res.ok) {
+                const data = await res.json();
+
+                throw new Error(data.message);
+            }
+
+            return res;
+        } catch (err: unknown) {
+            Swal.fire({
+                title: 'Error!',
+                text: err instanceof Error ? err.message : String(err),
+                icon: 'error',
+                showConfirmButton: false,
+                timer: 2000,
+            });
+        }
+    }
+
+    const ForgetOTPVerification = async (e: React.FormEvent, email: string) => {
+
+        e.preventDefault();
+        setLoading(true);
+        try {
+
+            const res = await verifyOTP(e, email);
+            setVerifyFormData({
+                otp1: '',
+                otp2: '',
+                otp3: '',
+                otp4: '',
+                otp5: ''
+            });
+
+            if (!res?.ok) {
+                const data = await res?.json();
+
+                throw new Error(data.message);
+            }
+
+            setIsForgetOpen(false);
+            setIsResetOpen(true);
+
+
+        } catch (err: unknown) {
+            Swal.fire({
+                title: 'Error!',
+                text: err instanceof Error ? err.message : String(err),
+                icon: 'error',
+                showConfirmButton: false,
+                timer: 2000,
+            });
+        } finally {
+            setLoading(false);
+        }
+    }
+
+
+    const sendOTP = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            const res = await fetch("/api/auth/OTPVerification/sendOTP", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email }),
+            });
+
+            if (!res.ok) {
+                const data = await res.json();
+
+                throw new Error(data.message);
+            }
+
+
+            // router.push("/Generate_DXF");
+
+
+        } catch (err: unknown) {
+            Swal.fire({
+                title: 'Error!',
+                text: err instanceof Error ? err.message : String(err),
+                icon: 'error',
+                showConfirmButton: false,
+                timer: 2000,
+            });
+
+        }
+    }
+
+    const handleResetPasswordSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (ResetFormData.password != ResetFormData.confirm) {
             Swal.fire({
@@ -154,6 +384,44 @@ const UserLogin = () => {
             return;
         }
 
+        setLoading(true);
+        try {
+            const res = await fetch("/api/auth/signup", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ newAccountFormData }),
+            });
+
+            if (!res.ok) {
+                const data = await res.json();
+
+                throw new Error(data.message);
+            }
+
+            setIsAccountCreated(true);
+            setIsVerifyOpen(true);
+            setIsNewOpen(false);
+            setEmail(newAccountFormData.email)
+            setResetFormData({
+                password: '',
+                confirm: '',
+            });
+
+
+        } catch (err: unknown) {
+            Swal.fire({
+                title: 'Error!',
+                text: err instanceof Error ? err.message : String(err),
+                icon: 'error',
+                showConfirmButton: false,
+                timer: 2000,
+            });
+        } finally {
+            setLoading(false);
+        }
+
+
+
 
         //get response from backend
         //const response=fetch();
@@ -162,66 +430,84 @@ const UserLogin = () => {
 
     }
 
-    // const bilingPlans: DataItem[] = [
-    //     {
-    //         desc: "Free Plan",
-    //         title: "Free Trial",
-    //         price: "$0.00/month",
-    //         include: [
-    //             {
-    //                 text: "Unlimited DXF file downloads for 7 days."
-    //             },
-    //             {
-    //                 text: "No payment required"
-    //             }
-    //         ],
-    //         buttonText:"Start Free Trial"
-    //     },
-    //     {
-    //         desc: "Pay Per Download",
-    //         title: "Bais",
-    //         price: "$10.00/File",
-    //         include: [
-    //             {
-    //                 text: "Free upload and preview"
-    //             },
-    //             {
-    //                 text: "Purchase DXF files individually for $10 per download."
-    //             },
-    //             {
-    //                 text: "No commitment or subscription"
-    //             },
-    //             {
-    //                 text: "Secure payment processing"
-    //             },
-    //         ],
-    //         buttonText:"Get Started"
-    //     },
-    //     {
-    //         desc: "Unlimited Plan",
-    //         title: "Premium",
-    //         price: "$100.00/Month",
-    //         include: [
-    //             {
-    //                 text: "Unlimited DXF downloads"
-    //             },
-    //             {
-    //                 text: "Exclusive customer support "
-    //             },
-    //             {
-    //                 text: "Cancel or modify anytime"
-    //             },
-    //             {
-    //                 text: "Secure payment processing"
-    //             },
-    //         ],
-    //         buttonText:"Get Started"
-    //     },
-    // ]
+    const bilingPlans: DataItem[] = [
+        {
+            id: 1,
+            desc: "Free Plan",
+            title: "Free Trial",
+            price: "$0.00/month",
+            include: [
+                {
+                    id: 1,
+                    text: "Unlimited DXF file downloads for 7 days."
+                },
+                {
+                    id: 2,
+                    text: "No payment required"
+                }
+            ],
+            buttonText: "Start Free Trial"
+        },
+        {
+            id: 2,
+            desc: "Pay Per Download",
+            title: "Basic",
+            price: "$10.00/File",
+            include: [
+                {
+                    id: 1,
+                    text: "Free upload and preview"
+                },
+                {
+                    id: 2,
+                    text: "Purchase DXF files individually for $10 per download."
+                },
+                {
+                    id: 3,
+                    text: "No commitment or subscription"
+                },
+                {
+                    id: 4,
+                    text: "Secure payment processing"
+                },
+            ],
+            buttonText: "Get Started"
+        },
+        {
+            id: 3,
+            desc: "Unlimited Plan",
+            title: "Premium",
+            price: "$100.00/Month",
+            include: [
+                {
+                    id: 1,
+                    text: "Unlimited DXF downloads"
+                },
+                {
+                    id: 2,
+                    text: "Exclusive customer support "
+                },
+                {
+                    id: 3,
+                    text: "Cancel or modify anytime"
+                },
+                {
+                    id: 4,
+                    text: "Secure payment processing"
+                },
+            ],
+            buttonText: "Get Started"
+        },
+    ]
 
 
     return (
         <div className="flex h-screen w-full mob:flex-col">
+            {loading && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[1000]">
+                    <ClipLoader color="#007bff" size={50} />
+                </div>
+            )}
             {/* Left Form Section */}
             <div className="w-[55%] bg-white flex items-center justify-center p-6 mob:w-[100%] mob:p-0">
                 <div className="w-[90%] p-6 mx-5 mob:mx-0 mob:w-[100%]">
@@ -245,8 +531,9 @@ const UserLogin = () => {
                             <input
                                 type="email"
                                 placeholder="Enter Your Email Address"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                                name='email'
+                                value={loginForm.email}
+                                onChange={handleLoginChange}
                                 className="w-full px-4 py-2 mt-1 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-[94.17px]"
                                 required
                             />
@@ -259,8 +546,9 @@ const UserLogin = () => {
                                 <input
                                     type={showPassword ? 'text' : 'password'}
                                     placeholder="Enter Password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
+                                    value={loginForm.password}
+                                    name='password'
+                                    onChange={handleLoginChange}
                                     className="w-full px-4 py-2 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-[94.17px]"
                                     required
                                 />
@@ -291,7 +579,21 @@ const UserLogin = () => {
                         >
                             Login
                         </button>
-                        <p className='font-semibold text-xl text-center mt-5'>Don&apos;t have an account? <span className=' underline text-[#266CAB] cursor-pointer' onClick={() => setIsNewOpen(true)}>Create Account</span></p>
+                        <p className='font-semibold text-xl text-center mt-5'>Don&apos;t have an account?
+                            <span
+                                className=' underline text-[#266CAB] cursor-pointer'
+                                onClick={() => {
+                                    if (isAccountCreated && !isAccountVerified) {
+                                        setIsVerifyOpen(true);
+                                    }
+                                    else if (!isAccountCreated) {
+                                        setIsNewOpen(true);
+                                    }
+
+                                }}>
+                                Create Account
+                            </span>
+                        </p>
                     </form>
                 </div>
             </div>
@@ -330,6 +632,7 @@ const UserLogin = () => {
             {/* create account */}
             <Modal isOpen={isNewOpen} onClose={onClose}>
                 <div>
+
                     <div className="text-center">
                         <p className='font-semibold text-3xl'>Create Account</p>
                         <p className='font-medium text-xl text-[#00000080]'>Create Your account to Lumashape by adding and verifying your details</p>
@@ -346,7 +649,7 @@ const UserLogin = () => {
                                 value={newAccountFormData.name}
                                 placeholder='Enter User Name'
                                 className='border w-full p-3 rounded-full mt-2'
-                                onChange={handleNewAccountChange}
+                                onChange={handleSignupChange}
                             />
                         </div>
                         {/* email */}
@@ -360,7 +663,7 @@ const UserLogin = () => {
                                 value={newAccountFormData.email}
                                 placeholder='Enter Email Address'
                                 className='border w-full p-3 rounded-full'
-                                onChange={handleNewAccountChange}
+                                onChange={handleSignupChange}
                             />
                         </div>
                         {/* password */}
@@ -374,9 +677,10 @@ const UserLogin = () => {
                                     name='password'
                                     placeholder="Enter Password"
                                     value={newAccountFormData.password}
-                                    onChange={handleNewAccountChange}
+                                    onChange={handleSignupChange}
                                     className="w-full p-3 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
                                     required
+                                    minLength={8}
                                 />
                                 <button
                                     type="button"
@@ -399,17 +703,18 @@ const UserLogin = () => {
                             </label>
                             <div className="relative">
                                 <input
-                                    type={showPassword ? 'text' : 'password'}
+                                    type={showConfirmPassword ? 'text' : 'password'}
                                     name='confirm'
                                     placeholder="Confirm Password"
                                     value={newAccountFormData.confirm}
-                                    onChange={handleNewAccountChange}
+                                    onChange={handleSignupChange}
                                     className="w-full p-3 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
                                     required
+                                    minLength={8}
                                 />
                                 <button
                                     type="button"
-                                    onClick={() => setShowConfirmPassword(!showPassword)}
+                                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                                     className="absolute inset-y-0 right-3 flex items-center text-gray-500"
                                 >
                                     {showConfirmPassword ? (
@@ -429,7 +734,7 @@ const UserLogin = () => {
                                 id="agree"
                                 checked={newAccountFormData.agree}
                                 className="mr-2"
-                                onChange={handleNewAccountChange}
+                                onChange={handleSignupChange}
                             />
                             <label htmlFor="agree" className="flex items-center space-x-1">
                                 <span>I have read and agree to the</span>
@@ -456,7 +761,7 @@ const UserLogin = () => {
                         <p className='font-semibold text-3xl'>Account Verification</p>
                         <p className='font-medium text-xl text-[#00000080]'>Please enter the verification code sent to <span className='underline text-black'><strong>{newAccountFormData.email}</strong></span></p>
                     </div>
-                    <form onSubmit={() => handleOTPVerification(newAccountFormData.email)}>
+                    <form onSubmit={(e) => SignupOTPVerification(e, email)}>
 
 
                         <div className="flex justify-center space-x-5 mb-2 mt-10">
@@ -516,7 +821,7 @@ const UserLogin = () => {
                         </div>
                     </form>
 
-                    <form onSubmit={() => handleOTPVerification(email)}>
+                    <form onSubmit={(e) => ForgetOTPVerification(e, email)}>
 
 
                         <div className="flex justify-center space-x-5 mb-2 mt-10">
@@ -598,7 +903,7 @@ const UserLogin = () => {
                                 </label>
                                 <div className="relative">
                                     <input
-                                        type={showPassword ? 'text' : 'password'}
+                                        type={showConfirmPassword ? 'text' : 'password'}
                                         name='confirm'
                                         placeholder="Confirm Password"
                                         value={ResetFormData.confirm}
@@ -608,7 +913,7 @@ const UserLogin = () => {
                                     />
                                     <button
                                         type="button"
-                                        onClick={() => setShowConfirmPassword(!showPassword)}
+                                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                                         className="absolute inset-y-0 right-3 flex items-center text-gray-500"
                                     >
                                         {showConfirmPassword ? (
@@ -636,19 +941,54 @@ const UserLogin = () => {
             </Modal>
 
             {/* biling */}
-            <Modal isOpen={isResetOpen} onClose={onClose}>
+            <BilingModal isOpen={isBilingOpen} onClose={onClose}>
                 <div>
                     <div className="text-center">
                         <p className='font-semibold text-3xl cursor-pointer'>Choose Your Subscription Plan</p>
                         <p className='font-medium text-xl text-[#00000080]'>Choose a plan that fits your needs, and let&apos;s start designing together.</p>
                     </div>
 
-                    <div className="flex">
+                    <div className="flex justify-between mt-10">
+                        {bilingPlans.map((item) => (
+                            <div key={item.id} className="border p-4 flex-1 max-w-[30%] rounded-2xl flex flex-col justify-between">
+                                <div>
+                                    <p className="font-medium text-base text-[#22222280]">{item.desc}</p>
+                                    <p className="font-semibold text-3xl">{item.title}</p>
+                                    <p className='mt-10'>
+                                        <span className="text-4xl font-semibold text-[#266CA8]">
+                                            {item.price.split('/')[0]}
+                                        </span>
+                                        <span className="text-base text-[#22222280] font-medium">
+                                            /{item.price.split('/')[1]}
+                                        </span>
+                                    </p>
+                                    <p className="font-semibold text-base mt-5">Whats Included</p>
+                                    {item.include.map((inc) => (
+                                        <div key={inc.id} className="flex items-center gap-2">
+                                            <Image
+                                                src="/images/user/AuthScreens/Check Circle.svg"
+                                                alt=""
+                                                width={24}
+                                                height={24}
+                                                className="flex-shrink-0"
+                                            />
+                                            <p className="font-medium text-base text-[#22222280]">{inc.text}</p>
+                                        </div>
+                                    ))}
 
+
+                                </div>
+                                <button className="mt-4 bg-[#266CA8] text-white py-2 px-4 rounded-full">
+                                    {item.buttonText}
+                                </button>
+                            </div>
+                        ))}
                     </div>
 
+
+
                 </div>
-            </Modal>
+            </BilingModal>
 
         </div>
     )
