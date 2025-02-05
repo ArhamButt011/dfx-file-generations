@@ -155,13 +155,11 @@ const UserLogin = () => {
         }));
     };
 
-    const validateEmail = (email: string) => {
-        const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-        if (regex.test(email)) {
-            return true
-        }
-        return false
-    }
+    const validateEmail = (email: string): boolean => {
+        const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return regex.test(email);
+    };
+
 
     const handleNewAccountSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -175,7 +173,7 @@ const UserLogin = () => {
             });
             return;
         }
-        else if (!validateEmail(email)) {
+        else if (validateEmail(email)) {
             Swal.fire({
                 title: 'Error!',
                 text: 'Please Enter valid Email',
@@ -385,11 +383,12 @@ const UserLogin = () => {
         }
 
         setLoading(true);
+
         try {
-            const res = await fetch("/api/auth/signup", {
+            const res = await fetch("/api/auth/ResetPassword", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ newAccountFormData }),
+                body: JSON.stringify({ email, ResetFormData }),
             });
 
             if (!res.ok) {
@@ -398,10 +397,15 @@ const UserLogin = () => {
                 throw new Error(data.message);
             }
 
-            setIsAccountCreated(true);
-            setIsVerifyOpen(true);
-            setIsNewOpen(false);
-            setEmail(newAccountFormData.email)
+            Swal.fire({
+                title: 'Success!',
+                text: "Password Changed",
+                icon: 'success',
+                showConfirmButton: false,
+                timer: 2000,
+            });
+
+            setIsResetOpen(false);
             setResetFormData({
                 password: '',
                 confirm: '',
@@ -787,7 +791,7 @@ const UserLogin = () => {
                         >
                             Verify
                         </button>
-                        <p className='font-semibold text-xl text-center mt-5'>Didn’t receive the code? <span className=' underline text-[#266CAB] cursor-pointer' onClick={() => setIsNewOpen(true)}>Resend Code</span></p>
+                        <p className='font-semibold text-xl text-center mt-5' >Didn’t receive the code? <span className=' underline text-[#266CAB] cursor-pointer' onClick={sendOTP}>Resend Code</span></p>
                     </form>
                 </div>
             </Modal>
@@ -849,7 +853,6 @@ const UserLogin = () => {
                         >
                             Verify
                         </button>
-                        <p className='font-semibold text-xl text-center mt-5'>Didn’t receive the code? <span className=' underline text-[#266CAB] cursor-pointer' onClick={() => setIsNewOpen(true)}>Resend Code</span></p>
                     </form>
                 </div>
             </Modal>
@@ -858,8 +861,7 @@ const UserLogin = () => {
             <Modal isOpen={isResetOpen} onClose={onClose}>
                 <div>
                     <div className="text-center">
-                        <p className='font-semibold text-3xl cursor-pointer'>Forgot Password</p>
-                        <p className='font-medium text-xl text-[#00000080]'>Please enter the email address so that we can verify your account</p>
+                        <p className='font-semibold text-3xl cursor-pointer'>Reset Password</p>
                     </div>
 
 
@@ -933,9 +935,8 @@ const UserLogin = () => {
 
                         //   disabled={loading}
                         >
-                            Verify
+                            Continue
                         </button>
-                        <p className='font-semibold text-xl text-center mt-5'>Didn’t receive the code? <span className=' underline text-[#266CAB] cursor-pointer' onClick={() => setIsNewOpen(true)}>Resend Code</span></p>
                     </form>
                 </div>
             </Modal>
