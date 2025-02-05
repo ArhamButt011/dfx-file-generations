@@ -13,6 +13,7 @@
     "@tailwindcss/typography": "^0.5.16",
     "aos": "^2.3.4",
     "apexcharts": "^4.4.0",
+    "axios": "^1.7.9",
     "bcryptjs": "^2.4.3",
     "globals": "^15.14.0",
     "globalthis": "^1.0.4",
