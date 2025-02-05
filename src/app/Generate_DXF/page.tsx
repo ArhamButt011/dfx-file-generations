@@ -1,10 +1,11 @@
+import DefaultLayout from '@/components/user/Layout/DefaultLayout'
 import React from 'react'
 
 function page() {
   return (
-    <div>
+    <DefaultLayout>
       hello
-    </div>
+    </DefaultLayout>
   )
 }
 
