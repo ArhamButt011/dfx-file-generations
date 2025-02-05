@@ -3,6 +3,8 @@ import { useState } from 'react'
 import Image from 'next/image'
 import logo from '/public/images/user/home/logo.svg'
 import RightSection from './common'
+import Swal from 'sweetalert2'
+import { ClipLoader } from 'react-spinners'
 // import { useRouter } from 'next/navigation'
 
 interface ForgotProps {
@@ -13,7 +15,7 @@ interface ForgotProps {
 const Forgot: React.FC<ForgotProps> = ({ title, content }) => {
   //   const router = useRouter()
   const [email, setEmail] = useState<string>('')
-
+  const [loading, setLoading] = useState<boolean>(false)
   const [verifyFormData, setVerifyFormData] = useState({
     otp1: '',
     otp2: '',
@@ -22,27 +24,105 @@ const Forgot: React.FC<ForgotProps> = ({ title, content }) => {
     otp5: '',
   })
 
-  //   const [error, setError] = useState<string | null>(null)
-  //   const [loading, setLoading] = useState<boolean>(false)
+  // const validateEmail = (email: string) => {
+  //   const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+  //   if (regex.test(email)) {
+  //     return true
+  //   }
+  //   return false
+  // }
 
-  const validateEmail = (email: string) => {
-    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-    if (regex.test(email)) {
-      return true
+  const sendOTP = async (e: React.FormEvent) => {
+    setLoading(true)
+    e.preventDefault()
+    try {
+      const res = await fetch('/api/auth/OTPVerification/sendOTP', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      })
+
+      if (!res.ok) {
+        const data = await res.json()
+
+        throw new Error(data.message)
+      }
+    } catch (err) {
+      Swal.fire({
+        title: 'Error!',
+        text: err instanceof Error ? err.message : String(err),
+        icon: 'error',
+        showConfirmButton: false,
+        timer: 2000,
+      })
+    } finally {
+      setLoading(false)
     }
-    return false
+  }
+  const verifyOTP = async (e: React.FormEvent, email: string) => {
+    e.preventDefault()
+    try {
+      const otp = parseInt(
+        verifyFormData.otp1 +
+          verifyFormData.otp2 +
+          verifyFormData.otp3 +
+          verifyFormData.otp4 +
+          verifyFormData.otp5,
+      )
+
+      const res = await fetch('/api/auth/OTPVerification/verifyOTP', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, otp }),
+      })
+
+      if (!res.ok) {
+        const data = await res.json()
+
+        throw new Error(data.message)
+      }
+
+      return res
+    } catch (err) {
+      Swal.fire({
+        title: 'Error!',
+        text: err instanceof Error ? err.message : String(err),
+        icon: 'error',
+        showConfirmButton: false,
+        timer: 2000,
+      })
+    }
   }
 
-  const sendOTP = () => {
-    //send OTP to email
-    if (email != null || email != '' || validateEmail(email)) alert('send otp')
-    console.log(email)
-  }
+  const ForgetOTPVerification = async (e: React.FormEvent, email: string) => {
+    e.preventDefault()
+    setLoading(true)
+    try {
+      const res = await verifyOTP(e, email)
+      setVerifyFormData({
+        otp1: '',
+        otp2: '',
+        otp3: '',
+        otp4: '',
+        otp5: '',
+      })
 
-  const handleOTPVerification = (email: string) => {
-    //send otp to server and verify
-    //after verification
-    console.log(email)
+      if (!res?.ok) {
+        const data = await res?.json()
+
+        throw new Error(data.message)
+      }
+    } catch (err) {
+      Swal.fire({
+        title: 'Error!',
+        text: err instanceof Error ? err.message : String(err),
+        icon: 'error',
+        showConfirmButton: false,
+        timer: 2000,
+      })
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleOTPChange = (
@@ -62,6 +142,11 @@ const Forgot: React.FC<ForgotProps> = ({ title, content }) => {
 
   return (
     <div className="flex flex-col w-full md:flex-row">
+      {loading && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[1000]">
+          <ClipLoader color="#007bff" size={50} />
+        </div>
+      )}
       {/* Left Form Section */}
       <div className="w-[100%] bg-white flex items-center justify-center md:w-[55%] p-6 md:p-0">
         <div className="md:w-[70%] w-[100%]">
@@ -106,7 +191,7 @@ const Forgot: React.FC<ForgotProps> = ({ title, content }) => {
               </div>
             </div>
           </form>
-          <form onSubmit={() => handleOTPVerification(email)}>
+          <form onSubmit={(e) => ForgetOTPVerification(e, email)}>
             <div className="flex justify-center space-x-5 mb-2 mt-10">
               {/* OTP Inputs */}
               {[

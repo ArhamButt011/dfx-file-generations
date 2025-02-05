@@ -42,9 +42,10 @@ const Login: React.FC<LoginProps> = ({ title, content }) => {
         throw new Error(data.message)
       }
 
-      const { token, name } = await res.json()
+      const { token, name, role } = await res.json()
       localStorage.setItem('token', token)
       localStorage.setItem('username', name)
+      localStorage.setItem('role', role)
 
       router.push('/')
 
