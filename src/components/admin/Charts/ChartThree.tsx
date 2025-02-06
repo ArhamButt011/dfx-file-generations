@@ -12,7 +12,7 @@ const options: ApexOptions = {
     type: 'donut',
   },
   colors: ['#266CA8', '#F5704B', '#E6E6E6'],
-  labels: ['Basic', 'Pro', 'Premium'],
+  labels: ['Basic', 'Free', 'Premium'],
   legend: {
     show: false,
     position: 'bottom',
@@ -133,7 +133,7 @@ const ChartThree: React.FC = () => {
         <div className="w-full sm:w-auto flex items-center ml-5 sm:ml-3">
           <span className="mr-2 block h-5 w-5 rounded-md bg-[#F5704B]"></span>
           <p className="flex items-center text-sm font-medium text-black dark:text-white">
-            <span> Pro: </span>
+            <span> Free: </span>
             <span className="text-[#F5704B] ml-1"> 34% </span>
           </p>
         </div>

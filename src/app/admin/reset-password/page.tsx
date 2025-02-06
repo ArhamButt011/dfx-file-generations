@@ -1,6 +1,7 @@
 import ResetPassword from '@/components/auth/ResetPassword'
 import React from 'react'
 
+// Defining types for the page component
 const Page: React.FC = () => {
   const title = 'Reset Password'
   const content =

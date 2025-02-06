@@ -6,24 +6,16 @@ import Working from '@/components/Home/Working'
 import Pricing from '@/components/Home/Pricing'
 import FAQ from '@/components/Home/FAQ'
 import Footer from '@/components/Home/Footer'
-import { useEffect, useState } from 'react'
 import DefaultLayout from '@/components/admin/Layouts/DefaultLayout'
 import Dashboard from '@/components/admin/Dashboard'
+import { useAuth } from '@/context/AuthContext'
 
 export default function Home() {
-  enum Role {
-    Admin = 'admin',
-    User = 'user',
-  }
-
-  const [role, setRole] = useState<Role>(Role.Admin)
-  useEffect(() => {
-    setRole(Role.Admin)
-  }, [])
+  const { userData } = useAuth()
 
   return (
     <>
-      {role === Role.Admin ? (
+      {userData && userData.role == 'admin' ? (
         <DefaultLayout>
           <Dashboard />
         </DefaultLayout>
