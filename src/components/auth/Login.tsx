@@ -1,13 +1,15 @@
 'use client'
 
 import { useState, FormEvent } from 'react'
-// import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import Image from 'next/image'
 import logo from '/public/images/user/home/logo.svg'
 //
 import Link from 'next/link'
 import RightSection from './common'
+import Swal from 'sweetalert2'
+import { ClipLoader } from 'react-spinners'
 
 // Defining types for the props
 interface LoginProps {
@@ -16,28 +18,69 @@ interface LoginProps {
 }
 
 const Login: React.FC<LoginProps> = ({ title, content }) => {
-  const [email, setEmail] = useState<string>('')
-  const [password, setPassword] = useState<string>('')
-  //   const role = 'admin'
+  const [loading, setLoading] = useState<boolean>(false)
   const [showPassword, setShowPassword] = useState<boolean>(false)
-  //   const [error, setError] = useState<string | null>(null)
-  //   const [loading, setLoading] = useState<boolean>(false)
-  //   const [isForgotPasswordVisible, setIsForgotPasswordVisible] = useState<
-  //     boolean
-  //   >(false)
-  //   const [isResetPasswordVisible, setIsResetPasswordVisible] = useState<boolean>(
-  //     false,
-  //   )
-  //   const [userEmail, setUserEmail] = useState<string | null>(null)
-  //   const router = useRouter()
+  const [loginForm, setLoginForm] = useState({
+    email: '',
+    password: '',
+    role: 'Admin',
+  })
+  const router = useRouter()
 
-  const handleLogin = (e: FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    // Handle login logic here
+    setLoading(true)
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ loginForm }),
+      })
+
+      if (!res.ok) {
+        const data = await res.json()
+        throw new Error(data.message)
+      }
+
+      const { token, name } = await res.json()
+      localStorage.setItem('token', token)
+      localStorage.setItem('username', name)
+
+      router.push('/')
+
+      setLoginForm({
+        email: '',
+        password: '',
+        role: 'Admin',
+      })
+    } catch (err) {
+      Swal.fire({
+        title: 'Error!',
+        text: err instanceof Error ? err.message : String(err),
+        icon: 'error',
+        showConfirmButton: false,
+        timer: 2000,
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
+  const handleLoginChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+
+    setLoginForm((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }))
   }
 
   return (
     <div className="flex flex-col w-full md:flex-row">
+      {loading && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[1000]">
+          <ClipLoader color="#007bff" size={50} />
+        </div>
+      )}
       {/* Left Form Section */}
       <div className="w-[100%] bg-white flex items-center justify-center md:w-[55%] p-6 md:p-0">
         <div className="md:w-[70%] w-[100%]">
@@ -60,8 +103,9 @@ const Login: React.FC<LoginProps> = ({ title, content }) => {
               <input
                 type="email"
                 placeholder="Enter Your Email Address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                name="email" // Ensure this matches the state property name
+                value={loginForm.email}
+                onChange={handleLoginChange}
                 className="w-full px-4 py-4 mt-1 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
                 required
               />
@@ -74,8 +118,9 @@ const Login: React.FC<LoginProps> = ({ title, content }) => {
                 <input
                   type={showPassword ? 'text' : 'password'}
                   placeholder="Enter Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  name="password" // Ensure this matches the state property name
+                  value={loginForm.password}
+                  onChange={handleLoginChange}
                   className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
                   required
                 />
