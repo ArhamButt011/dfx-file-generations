@@ -1,0 +1,26 @@
+.modal-body-custom {
+    max-height: calc(60vh - 210px);
+    overflow-y: auto;
+}
+
+.modal-body-custom::-webkit-scrollbar {
+    width: 5px;
+}
+
+.modal-body-custom::-webkit-scrollbar-track {
+    background: #F8F8F8;
+}
+
+.modal-body-custom::-webkit-scrollbar-thumb {
+    background: #c9c2c2;
+    border-radius: 30px;
+}
+
+/* Uncomment to customize scrollbar handle on hover */
+/* .modal-body-custom::-webkit-scrollbar-thumb:hover {
+    background: #F8F8F8;
+} */
+
+.modal-content {
+    border: none;
+}

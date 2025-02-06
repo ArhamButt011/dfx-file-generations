@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import userImage from '/public/images/admin/dashboard/user.svg'
+import '@/components/admin/LastestUsers/LatestUsers.css'
 
 export type LatestUsers = {
   id: number
@@ -50,12 +51,13 @@ const chatData: LatestUsers[] = [
 
 const LastestUsersCard = () => {
   return (
-    <div className="col-span-12 rounded-xl rounded-sm border border-stroke bg-bodydark py-6 xl:col-span-4">
+    <div className="col-span-12 rounded-xl border border-stroke bg-bodydark py-6 xl:col-span-4">
       <h4 className="mb-6 px-7.5 text-xl font-semibold text-black dark:text-white">
         Latest Added Users
       </h4>
 
-      <div>
+      {/* Scrollable container for user list */}
+      <div className="modal-body-custom">
         {chatData.map((chat, key) => (
           <Link
             href="/"
@@ -73,11 +75,6 @@ const LastestUsersCard = () => {
                   height: 'auto',
                 }}
               />
-              {/* <span
-                className={`absolute bottom-0 right-0 h-3.5 w-3.5 rounded-full border-2 border-white ${
-                  chat.dot === 6 ? 'bg-meta-6' : `bg-meta-${chat.dot}`
-                } `}
-              ></span> */}
             </div>
 
             <div className="flex flex-1 items-center justify-between">
@@ -89,17 +86,8 @@ const LastestUsersCard = () => {
                   <span className="text-sm text-primary dark:text-white">
                     {chat.email}
                   </span>
-                  {/* <span className="text-xs"> . {chat.time} min</span> */}
                 </p>
               </div>
-              {/* {chat.textCount !== 0 && (
-                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary">
-                  <span className="text-sm font-medium text-white">
-                    {' '}
-                    {chat.textCount}
-                  </span>
-                </div>
-              )} */}
             </div>
           </Link>
         ))}

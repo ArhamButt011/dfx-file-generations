@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import clientPromise from '@/lib/mongodb'
 
-const SECRET_KEY = process.env.NEXT_PUBLIC_JWT_SECRET as string
+const SECRET_KEY = process.env.NEXT_JWT_SECRET as string
 
 export async function POST(req: Request) {
   try {
@@ -66,6 +66,7 @@ export async function POST(req: Request) {
         name: user.name,
         email: user.email,
         id: user._id,
+        role: user.role,
       },
       { status: 200 },
     )
