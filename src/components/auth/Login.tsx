@@ -17,14 +17,19 @@ interface LoginProps {
 }
 
 const Login: React.FC<LoginProps> = ({ title, content }) => {
+  const { userData } = useAuth()
+  const router = useRouter()
   const [loading, setLoading] = useState<boolean>(false)
+
+  if (userData) {
+    router.push('/admin/dashboard')
+  }
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [loginForm, setLoginForm] = useState({
     email: '',
     password: '',
     role: 'Admin',
   })
-  const router = useRouter()
   const { login } = useAuth()
 
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
@@ -45,7 +50,8 @@ const Login: React.FC<LoginProps> = ({ title, content }) => {
       const { token } = await res.json()
       login(token)
 
-      router.push('/')
+      router.push('/admin/dashboard')
+      // window.location.href('/admin/dashboard')
 
       setLoginForm({
         email: '',

@@ -13,6 +13,7 @@ import { useAuth } from '@/context/AuthContext'
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const { logout } = useAuth()
+  const { userData } = useAuth()
   const handleLogoutClick = () => {
     logout()
     window.location.href = '/admin'
@@ -27,7 +28,7 @@ const DropdownUser = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            Thomas Anree
+            {userData?.username}
           </span>
           {/* <span className="block text-xs">UX Designer</span> */}
         </span>

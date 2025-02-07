@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import logo from '/public/images/user/home/logo.svg'
 import RightSection from './common'
@@ -16,6 +16,8 @@ const Forgot: React.FC<ForgotProps> = ({ title, content }) => {
   const router = useRouter()
   const [email, setEmail] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
+  const [isOTPSent, setIsOTPSent] = useState(false)
+  const [timer, setTimer] = useState(60) // 1 minute
   const [verifyFormData, setVerifyFormData] = useState({
     otp1: '',
     otp2: '',
@@ -58,6 +60,7 @@ const Forgot: React.FC<ForgotProps> = ({ title, content }) => {
 
         throw new Error(data.message)
       }
+      setIsOTPSent(true)
     } catch (err) {
       Swal.fire({
         title: 'Error!',
@@ -111,6 +114,24 @@ const Forgot: React.FC<ForgotProps> = ({ title, content }) => {
       setLoading(false)
     }
   }
+  useEffect(() => {
+    let interval: NodeJS.Timeout
+    if (isOTPSent) {
+      interval = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1)
+      }, 1000)
+    }
+
+    return () => {
+      clearInterval(interval)
+    }
+  }, [isOTPSent])
+  useEffect(() => {
+    if (timer === 0) {
+      setIsOTPSent(false)
+      setTimer(60)
+    }
+  }, [timer])
 
   const handleOTPChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -168,12 +189,18 @@ const Forgot: React.FC<ForgotProps> = ({ title, content }) => {
                 required
               />
               <div className="flex justify-end">
-                <button
-                  type="submit"
-                  className="text-right mt-2 text-[#266CA8] underline text-sm font-semibold cursor-pointer"
-                >
-                  Send OTP
-                </button>
+                {isOTPSent ? (
+                  <p className="text-right mt-2 text-secondary font-semibold">
+                    OTP sent! Wait {timer} seconds to resend
+                  </p>
+                ) : (
+                  <button
+                    type="submit"
+                    className="text-right mt-2 text-[#266CA8] underline text-sm font-semibold cursor-pointer"
+                  >
+                    Send OTP
+                  </button>
+                )}
               </div>
             </div>
           </form>
@@ -192,8 +219,28 @@ const Forgot: React.FC<ForgotProps> = ({ title, content }) => {
                     type="text"
                     value={otp}
                     onChange={(e) => handleOTPChange(e, index)}
+                    onKeyUp={(e) => {
+                      const input = e.target as HTMLInputElement
+                      if (e.key === 'Backspace' && input.value.length === 0) {
+                        const prevInput = document.getElementById(
+                          `otp-${index}`,
+                        )
+                        if (prevInput) {
+                          prevInput.focus()
+                        }
+                      } else if (input.value.length === 1) {
+                        const nextInput = document.getElementById(
+                          `otp-${index + 2}`,
+                        )
+                        if (nextInput) {
+                          nextInput.focus()
+                        }
+                      }
+                    }}
                     className="w-[50px] h-[50px] text-center px-4 py-2 mt-1 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
                     required
+                    id={`otp-${index + 1}`}
+                    maxLength={1}
                   />
                 </div>
               ))}
