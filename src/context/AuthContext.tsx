@@ -12,6 +12,7 @@ interface UserData {
   id: string
   name: string
   email: string
+  role: string // Add this line
   [key: string]: string
 }
 
@@ -38,6 +39,7 @@ interface AuthProviderProps {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [userData, setUserData] = useState<UserData | null>(null)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token')
@@ -63,16 +65,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
 
     fetchUserData()
-  }, [])
-
+  }, [isLoggedIn])
   const login = (token: string) => {
     localStorage.setItem('token', token)
+    setIsLoggedIn(true)
   }
 
   const logout = () => {
     localStorage.removeItem('token')
     localStorage.removeItem('selectedMenu')
     setUserData(null)
+    setIsLoggedIn(false)
   }
 
   const isAuthenticated = (): boolean => {

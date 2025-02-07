@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-// import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import Image from 'next/image'
 import logo from '/public/images/user/home/logo.svg'
@@ -16,11 +16,6 @@ interface ResetProps {
 
 const ResetPassword: React.FC<ResetProps> = ({ title, content }) => {
   const email = sessionStorage.getItem('email')
-  // console.log(email)
-
-  // const emails = 'arhamhamidbutt@gmail.com'
-
-  // console.log('emails', typeof emails, 'emial', typeof email)
 
   const [ResetFormData, setResetFormData] = useState({
     password: '',
@@ -31,6 +26,7 @@ const ResetPassword: React.FC<ResetProps> = ({ title, content }) => {
     false,
   )
   const [loading, setLoading] = useState<boolean>(false)
+  const router = useRouter()
 
   const handleResetPasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -58,7 +54,7 @@ const ResetPassword: React.FC<ResetProps> = ({ title, content }) => {
 
         throw new Error(data.message)
       }
-
+      router.push('/admin')
       Swal.fire({
         title: 'Success',
         text: 'Password Reset Successfully',

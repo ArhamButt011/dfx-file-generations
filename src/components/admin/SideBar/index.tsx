@@ -35,7 +35,7 @@ const menuGroups = [
           </svg>
         ),
         label: 'Dashboard',
-        route: '/',
+        route: '/admin/dashboard',
       },
       {
         icon: (
@@ -79,7 +79,7 @@ const menuGroups = [
           </svg>
         ),
         label: 'All Users',
-        route: '/users',
+        route: '/admin/allusers',
       },
       {
         icon: (
