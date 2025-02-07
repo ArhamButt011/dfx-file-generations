@@ -5,7 +5,7 @@ import logo from '/public/images/user/home/logo.svg'
 import RightSection from './common'
 import Swal from 'sweetalert2'
 import { ClipLoader } from 'react-spinners'
-// import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
 interface ForgotProps {
   title: string
@@ -13,7 +13,7 @@ interface ForgotProps {
 }
 
 const Forgot: React.FC<ForgotProps> = ({ title, content }) => {
-  //   const router = useRouter()
+  const router = useRouter()
   const [email, setEmail] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
   const [verifyFormData, setVerifyFormData] = useState({
@@ -42,6 +42,17 @@ const Forgot: React.FC<ForgotProps> = ({ title, content }) => {
         body: JSON.stringify({ email }),
       })
 
+      if (res.ok) {
+        Swal.fire({
+          title: 'Success!',
+          text:
+            'An OTP has been sent to your registered email. Please check your inbox to proceed.',
+          icon: 'success',
+          showConfirmButton: false,
+          timer: 2000,
+        })
+      }
+
       if (!res.ok) {
         const data = await res.json()
 
@@ -53,14 +64,16 @@ const Forgot: React.FC<ForgotProps> = ({ title, content }) => {
         text: err instanceof Error ? err.message : String(err),
         icon: 'error',
         showConfirmButton: false,
-        timer: 2000,
+        timer: 3000,
       })
     } finally {
       setLoading(false)
     }
   }
   const verifyOTP = async (e: React.FormEvent, email: string) => {
+    setLoading(true)
     e.preventDefault()
+
     try {
       const otp = parseInt(
         verifyFormData.otp1 +
@@ -75,7 +88,10 @@ const Forgot: React.FC<ForgotProps> = ({ title, content }) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, otp }),
       })
-
+      if (res.ok) {
+        sessionStorage.setItem('email', email)
+        router.push('/admin/reset-password')
+      }
       if (!res.ok) {
         const data = await res.json()
 
@@ -83,35 +99,6 @@ const Forgot: React.FC<ForgotProps> = ({ title, content }) => {
       }
 
       return res
-    } catch (err) {
-      Swal.fire({
-        title: 'Error!',
-        text: err instanceof Error ? err.message : String(err),
-        icon: 'error',
-        showConfirmButton: false,
-        timer: 2000,
-      })
-    }
-  }
-
-  const ForgetOTPVerification = async (e: React.FormEvent, email: string) => {
-    e.preventDefault()
-    setLoading(true)
-    try {
-      const res = await verifyOTP(e, email)
-      setVerifyFormData({
-        otp1: '',
-        otp2: '',
-        otp3: '',
-        otp4: '',
-        otp5: '',
-      })
-
-      if (!res?.ok) {
-        const data = await res?.json()
-
-        throw new Error(data.message)
-      }
     } catch (err) {
       Swal.fire({
         title: 'Error!',
@@ -131,7 +118,6 @@ const Forgot: React.FC<ForgotProps> = ({ title, content }) => {
   ) => {
     const value = e.target.value
 
-    // Only allow digits
     if (/^\d?$/.test(value)) {
       setVerifyFormData((prevData) => ({
         ...prevData,
@@ -148,7 +134,7 @@ const Forgot: React.FC<ForgotProps> = ({ title, content }) => {
         </div>
       )}
       {/* Left Form Section */}
-      <div className="w-[100%] bg-white flex items-center justify-center md:w-[55%] p-6 md:p-0">
+      <div className="w-[100%] bg-white flex items-center justify-center md:w-[60%] p-6 md:p-0">
         <div className="md:w-[70%] w-[100%]">
           <div className="flex items-center md:mb-16 mb-10">
             <Image
@@ -161,7 +147,7 @@ const Forgot: React.FC<ForgotProps> = ({ title, content }) => {
             />
           </div>
           <h1 className="text-[34px] font-bold mb-2 text-black">{title}</h1>
-          <p className="text-gray-500 mb-7">{content}</p>
+          <p className="text-gray-500 mb-7 text-lg">{content}</p>
           {/* {error && <p className="text-red-500 text-center mb-4">{error}</p>}
           {loading && (
             <p className="text-center text-blue-500 font-medium mb-4">
@@ -178,7 +164,7 @@ const Forgot: React.FC<ForgotProps> = ({ title, content }) => {
                 placeholder="Enter Your Email Address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full p-3 mt-1 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
+                className="w-full px-4 py-4 mt-1 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
                 required
               />
               <div className="flex justify-end">
@@ -191,7 +177,7 @@ const Forgot: React.FC<ForgotProps> = ({ title, content }) => {
               </div>
             </div>
           </form>
-          <form onSubmit={(e) => ForgetOTPVerification(e, email)}>
+          <form onSubmit={(e) => verifyOTP(e, email)}>
             <div className="flex justify-center space-x-5 mb-2 mt-10">
               {/* OTP Inputs */}
               {[
@@ -215,7 +201,7 @@ const Forgot: React.FC<ForgotProps> = ({ title, content }) => {
 
             <button
               type="submit"
-              className="w-full bg-[#005B97] text-white p-3 md:mt-10 mt-10 font-bold rounded-full hover:bg-[#005b97f0] transition duration-300"
+              className="w-full bg-[#266CA8] text-white py-4 px-4 mt-20 md:mt-24 font-semibold rounded-full hover:bg-[#005b97f0] transition duration-300"
 
               //   disabled={loading}
             >

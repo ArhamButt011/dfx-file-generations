@@ -1,15 +1,14 @@
 'use client'
-
 import { useState, FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import Image from 'next/image'
 import logo from '/public/images/user/home/logo.svg'
-//
 import Link from 'next/link'
 import RightSection from './common'
 import Swal from 'sweetalert2'
 import { ClipLoader } from 'react-spinners'
+import { useAuth } from '@/context/AuthContext'
 
 // Defining types for the props
 interface LoginProps {
@@ -26,6 +25,7 @@ const Login: React.FC<LoginProps> = ({ title, content }) => {
     role: 'Admin',
   })
   const router = useRouter()
+  const { login } = useAuth()
 
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -42,10 +42,8 @@ const Login: React.FC<LoginProps> = ({ title, content }) => {
         throw new Error(data.message)
       }
 
-      const { token, name, role } = await res.json()
-      localStorage.setItem('token', token)
-      localStorage.setItem('username', name)
-      localStorage.setItem('role', role)
+      const { token } = await res.json()
+      login(token)
 
       router.push('/')
 
@@ -83,13 +81,13 @@ const Login: React.FC<LoginProps> = ({ title, content }) => {
         </div>
       )}
       {/* Left Form Section */}
-      <div className="w-[100%] bg-white flex items-center justify-center md:w-[55%] p-6 md:p-0">
+      <div className="w-[100%] bg-white flex items-center justify-center md:w-[60%] p-6 md:p-0">
         <div className="md:w-[70%] w-[100%]">
           <div className="flex items-center md:mb-16 mb-10">
             <Image src={logo} alt="logo" width={250} height={250} priority />
           </div>
           <h1 className="text-[36px] font-bold mb-2 text-black">{title}</h1>
-          <p className="text-gray-500 mb-7">{content}</p>
+          <p className="text-primary mb-10 text-lg">{content}</p>
           {/* {error && <p className="text-red-500 text-center mb-4">{error}</p>}
           {loading && (
             <p className="text-center text-blue-500 font-medium mb-4">
@@ -97,7 +95,7 @@ const Login: React.FC<LoginProps> = ({ title, content }) => {
             </p>
           )} */}
           <form onSubmit={handleLogin}>
-            <div className="mb-4">
+            <div className="mb-8">
               <label className="block text-black font-semibold mb-1 text-lg">
                 Email Address
               </label>
@@ -152,7 +150,7 @@ const Login: React.FC<LoginProps> = ({ title, content }) => {
               //   className={`w-full bg-[#005B97] text-white py-2 px-4 mt-20 font-bold rounded-full hover:bg-[#005b97f0] transition duration-300 ${
               //     loading ? 'opacity-50 cursor-not-allowed' : ''
               //   }`}
-              className="w-full bg-[#005B97] text-white py-4 px-4 mt-20 md:mt-10 font-bold rounded-full hover:bg-[#005b97f0] transition duration-300"
+              className="w-full bg-[#266CA8] text-white py-4 px-4 mt-20 md:mt-24 font-semibold rounded-full hover:bg-[#005b97f0] transition duration-300"
               //   disabled={loading}
             >
               Login

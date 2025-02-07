@@ -1,0 +1,89 @@
+'use client'
+import axios from 'axios'
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from 'react'
+
+interface UserData {
+  id: string
+  name: string
+  email: string
+  [key: string]: string
+}
+
+interface AuthContextType {
+  userData: UserData | null
+  login: (token: string) => void
+  logout: () => void
+  isAuthenticated: () => boolean
+}
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined)
+
+export const useAuth = (): AuthContextType => {
+  const context = useContext(AuthContext)
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider')
+  }
+  return context
+}
+
+interface AuthProviderProps {
+  children: ReactNode
+}
+
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  const [userData, setUserData] = useState<UserData | null>(null)
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token')
+
+    const fetchUserData = async () => {
+      if (!storedToken) return
+
+      const formData = {
+        token: storedToken,
+      }
+
+      try {
+        const response = await axios.post<UserData>(
+          '/api/auth/verifyToken',
+          formData,
+        )
+
+        console.log('Data from API:', response.data)
+        setUserData(response.data)
+      } catch (error) {
+        console.error('API Error:', error)
+      }
+    }
+
+    fetchUserData()
+  }, [])
+
+  const login = (token: string) => {
+    localStorage.setItem('token', token)
+  }
+
+  const logout = () => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('selectedMenu')
+    setUserData(null)
+  }
+
+  const isAuthenticated = (): boolean => {
+    return !!localStorage.getItem('token')
+  }
+
+  return (
+    <AuthContext.Provider value={{ userData, login, logout, isAuthenticated }}>
+      {children}
+    </AuthContext.Provider>
+  )
+}
+
+export default AuthContext

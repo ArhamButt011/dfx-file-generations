@@ -5,38 +5,36 @@ import { useState } from 'react'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import Image from 'next/image'
 import logo from '/public/images/user/home/logo.svg'
-// import backarrow from '/public/images/admin/backarrow.svg'
-// import image3 from '/public/images/admin/login/image3.svg'
-// import Link from 'next/link'
 import RightSection from './common'
 import Swal from 'sweetalert2'
+import { ClipLoader } from 'react-spinners'
 
-// Defining types for the props
 interface ResetProps {
   title: string
   content: string
 }
 
 const ResetPassword: React.FC<ResetProps> = ({ title, content }) => {
-  const [newPassword, setNewPassword] = useState<string>('')
-  const [confirmNewPassword, setConfirmNewPassword] = useState<string>('')
+  const email = sessionStorage.getItem('email')
+  // console.log(email)
 
+  // const emails = 'arhamhamidbutt@gmail.com'
+
+  // console.log('emails', typeof emails, 'emial', typeof email)
+
+  const [ResetFormData, setResetFormData] = useState({
+    password: '',
+    confirm: '',
+  })
   const [showNewPassword, setShowNewPassword] = useState<boolean>(false)
   const [showConfirmNewPassword, setShowConfirmNewPassword] = useState<boolean>(
     false,
   )
+  const [loading, setLoading] = useState<boolean>(false)
 
-  //   const [error, setError] = useState<string | null>(null)
-  //   const [loading, setLoading] = useState<boolean>(false)
-
-  const handleResetPasswordSubmit = (e: React.FormEvent) => {
+  const handleResetPasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (confirmNewPassword === newPassword) {
-      setConfirmNewPassword('')
-      setNewPassword('')
-    }
-
-    if (newPassword != confirmNewPassword) {
+    if (ResetFormData.password != ResetFormData.confirm) {
       Swal.fire({
         title: 'Error!',
         text: 'The Passwords are not same',
@@ -46,12 +44,63 @@ const ResetPassword: React.FC<ResetProps> = ({ title, content }) => {
       })
       return
     }
+
+    setLoading(true)
+    try {
+      const res = await fetch('/api/auth/ResetPassword', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, ResetFormData }),
+      })
+
+      if (!res.ok) {
+        const data = await res.json()
+
+        throw new Error(data.message)
+      }
+
+      Swal.fire({
+        title: 'Success',
+        text: 'Password Reset Successfully',
+        icon: 'success',
+        showConfirmButton: false,
+        timer: 2000,
+      })
+      setResetFormData({
+        password: '',
+        confirm: '',
+      })
+    } catch (err) {
+      Swal.fire({
+        title: 'Error!',
+        text: err instanceof Error ? err.message : String(err),
+        icon: 'error',
+        showConfirmButton: false,
+        timer: 2000,
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleResetPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+
+    setResetFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }))
   }
 
   return (
     <div className="flex flex-col w-full md:flex-row">
+      {loading && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[1000]">
+          <ClipLoader color="#007bff" size={50} />
+        </div>
+      )}
       {/* Left Form Section */}
-      <div className="w-[100%] bg-white flex items-center justify-center md:w-[55%] p-6 md:p-0">
+      <div className="w-[100%] bg-white flex items-center justify-center md:w-[60%] p-6 md:p-0">
         <div className="md:w-[70%] w-[100%]">
           <div className="flex items-center md:mb-16 mb-10">
             <Image
@@ -64,7 +113,7 @@ const ResetPassword: React.FC<ResetProps> = ({ title, content }) => {
             />
           </div>
           <h1 className="text-[34px] font-bold mb-2 text-black">{title}</h1>
-          <p className="text-gray-500 mb-7">{content}</p>
+          <p className="text-gray-500 mb-7 text-lg">{content}</p>
           {/* {error && <p className="text-red-500 text-center mb-4">{error}</p>} */}
           {/* {loading && (
             <p className="text-center text-blue-500 font-medium mb-4">
@@ -72,17 +121,18 @@ const ResetPassword: React.FC<ResetProps> = ({ title, content }) => {
             </p>
           )} */}
           <form onSubmit={handleResetPasswordSubmit}>
-            <div className="mb-5 relative">
+            <div className="mb-8 relative">
               <label className="block text-black font-semibold mb-1 text-lg">
                 New Password
               </label>
               <div className="relative">
                 <input
                   type={showNewPassword ? 'text' : 'password'}
+                  name="password"
                   placeholder="Enter Password"
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
+                  value={ResetFormData.password}
+                  onChange={handleResetPassword}
+                  className="w-full px-4 py-4 mt-1 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
                   required
                   minLength={8}
                 />
@@ -107,9 +157,10 @@ const ResetPassword: React.FC<ResetProps> = ({ title, content }) => {
               <div className="relative">
                 <input
                   type={showConfirmNewPassword ? 'text' : 'password'}
+                  name="confirm"
                   placeholder="Enter Password"
-                  value={confirmNewPassword}
-                  onChange={(e) => setConfirmNewPassword(e.target.value)}
+                  value={ResetFormData.confirm}
+                  onChange={handleResetPassword}
                   className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
                   required
                   minLength={8}
@@ -135,7 +186,7 @@ const ResetPassword: React.FC<ResetProps> = ({ title, content }) => {
               //   className={`w-full bg-[#005B97] text-white py-2 px-4 mt-20 font-bold rounded-full hover:bg-[#005b97f0] transition duration-300 ${
               //     loading ? 'opacity-50 cursor-not-allowed' : ''
               //   }`}
-              className="w-full bg-[#005B97] text-white py-4 px-4 md:mt-20 mt-10 font-bold rounded-full hover:bg-[#005b97f0] transition duration-300"
+              className="w-full bg-[#266CA8] text-white py-4 px-4 mt-20 md:mt-24 font-semibold rounded-full hover:bg-[#005b97f0] transition duration-300"
               //   disabled={loading}
             >
               Continue
