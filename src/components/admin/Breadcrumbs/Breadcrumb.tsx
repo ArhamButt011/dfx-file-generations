@@ -1,25 +1,22 @@
 interface BreadcrumbProps {
-  pageName: string
+  pageName: string;
+  leftContent: string | React.ReactNode;
+  totalContent: string | React.ReactNode;
+  rightContent: string | React.ReactNode;
+  buttonContent: string | React.ReactNode;
 }
-const Breadcrumb = ({ pageName }: BreadcrumbProps) => {
+// const Breadcrumb = ({ pageName }: BreadcrumbProps) => {
+const Breadcrumb: React.FC<BreadcrumbProps> = ({ pageName, rightContent, totalContent }) => {
   return (
     <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       <div>
-        <h2 className="text-3xl font-semibold text-black dark:text-white">
+        <h1 className="text-3xl font-medium text-white">
           {pageName}
-        </h2>
-        <p className="text-primary mt-3 font-medium">Total Users: 230</p>
+        </h1>
+        <p className="mt-2 font-medium text-white text-lg">Total Users: {totalContent}</p>
       </div>
       <div>
-        <input
-          type="text"
-          placeholder="Search..."
-          // Ensure this matches the state property name
-          //   value={loginForm.email}
-          //   onChange={handleLoginChange}
-          className="w-full px-4 py-2 mt-1 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-lg"
-          required
-        />
+        {rightContent}
       </div>
 
       {/* <nav>

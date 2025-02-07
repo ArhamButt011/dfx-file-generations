@@ -34,6 +34,7 @@ export async function POST(req: Request) {
         const formattedRole = role.replace(/\s+/g, '').toLowerCase();
 
         const client = await clientPromise;
+        
         const db = client.db("DFXFileGeneration");
 
         const existingUser = await db.collection("users").findOne({ email: normalizedEmail });
@@ -51,12 +52,15 @@ export async function POST(req: Request) {
             name: name.trim(),
             email: normalizedEmail,
             role: formattedRole,
+            image: "",
             password: hashedPassword,
             otp: randomOTP,
             createdAt: new Date(),
+            updatedAt: new Date(),
+
         });
 
-        await EmailService(email,randomOTP.toString());
+        await EmailService(email, randomOTP.toString());
 
         return NextResponse.json(
             { message: "User created successfully" },

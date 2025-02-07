@@ -1,7 +1,11 @@
 import { NextResponse } from 'next/server'
-import jwt from 'jsonwebtoken'
+import jwt, { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken'
 
 const SECRET_KEY = process.env.NEXT_JWT_SECRET as string
+
+if (!SECRET_KEY) {
+  throw new Error("Missing NEXT_JWT_SECRET in environment variables")
+}
 
 export async function POST(req: Request) {
   try {
@@ -16,17 +20,28 @@ export async function POST(req: Request) {
 
     const user = jwt.verify(token, SECRET_KEY)
 
-    return NextResponse.json(
-      user,
+    return NextResponse.json(user, { status: 200 })
 
-      { status: 200 },
-    )
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Token verification error:', error)
 
+    if (error instanceof TokenExpiredError) {
+      return NextResponse.json(
+        { message: 'Token expired. Please log in again.' },
+        { status: 401 }
+      )
+    }
+
+    if (error instanceof JsonWebTokenError) {
+      return NextResponse.json(
+        { message: 'Invalid token' },
+        { status: 401 }
+      )
+    }
+
     return NextResponse.json(
-      { message: 'Invalid or expired token' },
-      { status: 401 },
+      { message: 'An unknown error occurred' },
+      { status: 500 }
     )
   }
 }

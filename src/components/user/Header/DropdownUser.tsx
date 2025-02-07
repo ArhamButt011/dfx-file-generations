@@ -3,9 +3,15 @@ import Link from 'next/link'
 import Image from 'next/image'
 import ClickOutside from '@/components/admin/ClickOutside'
 import user from '/public/images/admin/dashboard/user.svg'
+import { useAuth } from '@/context/AuthContext'
 
 const DropdownUser = () => {
-  const [dropdownOpen, setDropdownOpen] = useState(false)
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const { logout } = useAuth()
+  const handleLogoutClick = () => {
+    logout()
+    window.location.href = '/user'
+  }
 
   return (
     <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
@@ -15,7 +21,6 @@ const DropdownUser = () => {
         href="#"
       >
         
-
         <span className="h-12 w-12 rounded-full">
           <Image
             width={112}
@@ -130,7 +135,7 @@ const DropdownUser = () => {
               </Link>
             </li>
           </ul>
-          <button className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
+          <button onClick={handleLogoutClick} className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
             <svg
               className="fill-current"
               width="22"

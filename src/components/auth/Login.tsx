@@ -157,7 +157,7 @@ const Login: React.FC<LoginProps> = ({ title, content }) => {
               //     loading ? 'opacity-50 cursor-not-allowed' : ''
               //   }`}
               className="w-full bg-[#266CA8] text-white py-4 px-4 mt-20 md:mt-24 font-semibold rounded-full hover:bg-[#005b97f0] transition duration-300"
-              //   disabled={loading}
+            //   disabled={loading}
             >
               Login
             </button>
