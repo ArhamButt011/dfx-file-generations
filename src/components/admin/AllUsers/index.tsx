@@ -137,7 +137,7 @@ const AllUsers = () => {
                 <td className="py-3 px-4 text-center text-lg font-medium rounded-r-xl text-blue-500">
                   <Link
                     href={`/admin/allusers/${user._id}`}
-                    className="border-b-blue-500 border-b font-semibold"
+                    className="border-b-blue-500 border-b font-semibold "
                   >
                     View Details
                   </Link>
