@@ -133,7 +133,9 @@ const AllUsers = () => {
                   {format(new Date(user.createdAt), 'MMM dd, yyyy')}
                 </td>
 
-                <td className="py-3 px-4 text-center text-lg font-medium">0</td>
+                <td className="py-3 px-4 text-center text-lg font-medium ">
+                  0
+                </td>
                 <td className="py-3 px-4 text-center text-lg font-medium rounded-r-xl text-blue-500">
                   <Link
                     href={`/admin/allusers/${user._id}`}
