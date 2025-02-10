@@ -5,14 +5,16 @@ import Title from '@/components/user/GenerateDXF/Title';
 import Input from '@/components/user/GenerateDXF/Input';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
+import Contour from '@/components/user/GenerateDXF/Contour'
 
 function Page() {  // Capitalized component name
   const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
-  const { userData } = useAuth();
+  const { userData,isAuthenticated } = useAuth();
+  
   const router = useRouter();
 
   useEffect(() => {
-    if (!token) {
+    if (!token || !isAuthenticated) {
       router.push('/user');
     }
   }, [token, router]);
@@ -23,6 +25,7 @@ function Page() {  // Capitalized component name
         <DefaultLayout>
           <Title />
           <Input />
+          <Contour />
         </DefaultLayout>
       ) : null}
     </>
