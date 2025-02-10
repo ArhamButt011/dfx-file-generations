@@ -1,4 +1,7 @@
 import React, { ReactNode } from 'react'
+import dynamic from 'next/dynamic'
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false })
+import { ApexOptions } from 'apexcharts'
 
 interface CardDataStatsProps {
   title: string
@@ -6,6 +9,8 @@ interface CardDataStatsProps {
   rate: string
   levelUp?: boolean
   levelDown?: boolean
+  duration: string
+  chartData: ApexOptions
   children: ReactNode
 }
 
@@ -15,6 +20,8 @@ const CardDataStats: React.FC<CardDataStatsProps> = ({
   rate,
   levelUp,
   levelDown,
+  duration,
+  chartData,
   children,
 }) => {
   return (
@@ -25,16 +32,17 @@ const CardDataStats: React.FC<CardDataStatsProps> = ({
 
       <div className="mt-4 flex items-end justify-between">
         <div>
+          <span className="text-sm font-medium text-[#000000B2]">{title}</span>
           <h4 className="text-title-md font-bold text-black dark:text-white">
             {total}
           </h4>
-          <span className="text-sm font-medium">{title}</span>
+          <span className="text-sm font-medium text-primary">{duration}</span>
         </div>
 
         <span
           className={`flex items-center gap-1 text-sm font-medium ${
-            levelUp && 'text-meta-3'
-          } ${levelDown && 'text-meta-5'} `}
+            levelUp && 'text-[#266CA8]'
+          } ${levelDown && 'text-[#D7890C]'} `}
         >
           {rate}
 
@@ -69,6 +77,15 @@ const CardDataStats: React.FC<CardDataStatsProps> = ({
             </svg>
           )}
         </span>
+      </div>
+      <div className="mt-6">
+        <Chart
+          options={chartData}
+          series={chartData.series}
+          type="area"
+          height="70px"
+          width="100%"
+        />
       </div>
     </div>
   )
