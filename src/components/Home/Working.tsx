@@ -45,7 +45,7 @@ const data: { left: DataItem[]; right: DataItem[] } = {
 
 function Working() {
     return (
-        <div className='max-w-[90%] mx-auto' id='working'>
+        <div className='max-w-[90%] mx-auto my-20' id='working'>
             <p className='font-bold text-[55px] text-center max-w-[80%] mx-auto'><span className='text-[#266CAB]'>How </span>It Works</p>
             <p className='text-center text-[#00000066] text-[29px] mx-auto font-medium max-w-[90%]'>Our DXF Generator simplifies the file creation process, offering an intuitive and user-friendly experience powered by advanced AI</p>
             <div className="flex gap-[10px] justify-center mx-auto">
