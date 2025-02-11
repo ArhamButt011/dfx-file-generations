@@ -12,6 +12,7 @@ import backarrow from '/public/images/admin/backarrow.svg'
 import image3 from '/public/images/user/AuthScreens/login.svg'
 import Swal from 'sweetalert2'
 import { ClipLoader } from 'react-spinners'
+import { useAuth } from '@/context/AuthContext'
 // Defining types for the props
 type included = {
   id: number
@@ -36,6 +37,7 @@ const UserLogin = () => {
     password: '',
     role: 'User',
   })
+  const { login } = useAuth()
   const [isNewOpen, setIsNewOpen] = useState<boolean>(false)
   const [isVerifyOpen, setIsVerifyOpen] = useState<boolean>(false)
   const [isForgetOpen, setIsForgetOpen] = useState<boolean>(false)
@@ -123,9 +125,8 @@ const UserLogin = () => {
         throw new Error(data.message)
       }
 
-      const { token, name } = await res.json()
-      localStorage.setItem('token', token)
-      localStorage.setItem('username', name)
+      const { token } = await res.json()
+      login(token)
 
       router.push('/Generate_DXF')
 

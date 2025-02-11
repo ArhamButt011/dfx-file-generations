@@ -14,9 +14,10 @@ function Hero() {
                 <Image src="/images/user/home/hero.svg" alt="" className='mx-auto w-full' width={100} height={100} />
 
 
-                {/* why choose */}
+                
 
             </div>
+            {/* why choose */}
             <div className='py-20 max-w-[90%] mx-auto' id='benefits'>
                 <p className='font-bold text-[55px] text-center '>Why <span className='text-[#266CAB]'>Choose</span> Our DXF Generator?</p>
                 <p className='text-center text-[#00000066] text-[29px] mx-auto font-medium max-w-[90%]'>
