@@ -5,7 +5,7 @@ function Footer() {
     return (
         <div>
             <div className='mt-20 bg-[#F7F7F7] py-14'>
-                <div className="flex max-w-[90%] mx-auto justify-between">
+                <div className="flex md:flex-row flex-col max-w-[90%] mx-auto justify-between">
                     {/* left */}
                     <div>
                         <Image
@@ -15,7 +15,7 @@ function Footer() {
                             width={387}
                             height={100}
                         />
-                        <p className='font-medium text-2xl text-[#22222280] max-w-[490px] mt-10'>Transform your designs into production-ready DXF files in seconds. Experience seamless uploads, instant previews, and accurate outputs – all powered by advanced AI technology. Start your free trial today and simplify your workflow!</p>
+                        <p className='font-medium text-2xl text-[#22222280] max-w-[490px] mt-10'>Effortlessly create precise DXF files for manufacturing custom tool drawer inserts with AI-powered automation. Simplify your workflow and take tool organization to the next level. Start your free trial today!</p>
                         <div className="flex justify-between max-w-[190px] items-center mt-10 border-b">
                             <Image
                                 className=" z-50"
@@ -24,7 +24,7 @@ function Footer() {
                                 width={30}
                                 height={20}
                             />
-                            <Image
+                            {/* <Image
                                 className=" z-50"
                                 src="/images/user/home/social media/instagram.svg"
                                 alt="Flowbite Logo"
@@ -44,7 +44,7 @@ function Footer() {
                                 alt="Flowbite Logo"
                                 width={40}
                                 height={20}
-                            />
+                            /> */}
 
                         </div>
                     </div>

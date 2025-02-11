@@ -4,7 +4,7 @@ interface ModalProps {
   isOpen: boolean
   onClose: () => void
   children: ReactNode
-  buttonContent: string
+  buttonContent: ReactNode
 }
 
 const Modal = ({ isOpen, onClose, children, buttonContent }: ModalProps) => {

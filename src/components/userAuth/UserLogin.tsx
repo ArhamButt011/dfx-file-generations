@@ -158,9 +158,10 @@ const UserLogin = () => {
   }
 
   const validateEmail = (email: string): boolean => {
-    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-    return regex.test(email)
-  }
+    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return regex.test(email);
+  };
+  
 
   const handleNewAccountSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -378,7 +379,7 @@ const UserLogin = () => {
       const res = await fetch('/api/auth/ResetPassword', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, ResetFormData }),
+        body: JSON.stringify({ email,ResetFormData }),
       })
 
       if (!res.ok) {
@@ -389,7 +390,7 @@ const UserLogin = () => {
 
       Swal.fire({
         title: 'Success',
-        text: 'Password Reset Successfully',
+        text: "Password Reset Successfully",
         icon: 'success',
         showConfirmButton: false,
         timer: 2000,
@@ -624,7 +625,7 @@ const UserLogin = () => {
       </div>
 
       {/* create account */}
-      <Modal isOpen={isNewOpen} onClose={onClose} buttonContent="✖">
+      <Modal isOpen={isNewOpen} onClose={onClose} buttonContent="">
         <div>
           <div className="text-center">
             <p className="font-semibold text-3xl">Create Account</p>
@@ -756,7 +757,7 @@ const UserLogin = () => {
         </div>
       </Modal>
       {/* verification */}
-      <Modal isOpen={isVerifyOpen} onClose={onClose} buttonContent="✖">
+      <Modal isOpen={isVerifyOpen} onClose={onClose} buttonContent="">
         <div>
           <div className="text-center">
             <p className="font-semibold text-3xl">Account Verification</p>
@@ -811,7 +812,7 @@ const UserLogin = () => {
       </Modal>
 
       {/* Forget Password */}
-      <Modal isOpen={isForgetOpen} onClose={onClose} buttonContent="✖">
+      <Modal isOpen={isForgetOpen} onClose={onClose} buttonContent="">
         <div>
           <div className="text-center">
             <p className="font-semibold text-3xl cursor-pointer">
@@ -876,12 +877,13 @@ const UserLogin = () => {
             >
               Verify
             </button>
+           
           </form>
         </div>
       </Modal>
 
       {/* Reset Password */}
-      <Modal isOpen={isResetOpen} onClose={onClose} buttonContent="✖">
+      <Modal isOpen={isResetOpen} onClose={onClose} buttonContent="">
         <div>
           <div className="text-center">
             <p className="font-semibold text-3xl cursor-pointer">

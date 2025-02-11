@@ -16,10 +16,10 @@ const MyProvider: React.FC<MyProviderProps> = ({ children }) => {
 
 
   return (
-    <div>
+    <>
       {/* Your global state or logic can go here */}
       {children}
-    </div>
+    </>
   );
 };
 
