@@ -62,8 +62,8 @@ const AllUsers = () => {
     <div>
       <Breadcrumb
         pageName="All Users"
-        leftContent="Role Requests"
         totalContent={totalUsers}
+        totalText="Total Users"
         rightContent={
           <input
             type="text"
@@ -81,9 +81,9 @@ const AllUsers = () => {
           <ClipLoader color="#007bff" size={50} />
         </div>
       ) : users && users.length > 0 ? (
-        <table className="min-w-full border-separate border-spacing-y-2">
+        <table className="min-w-full border-separate border-spacing-y-3">
           <thead>
-            <tr className="text-md text-gray-600">
+            <tr className="text-[18.45px] text-gray-600">
               <th className="pb-4 px-4 border-b text-start font-medium">
                 User Name
               </th>
@@ -103,7 +103,10 @@ const AllUsers = () => {
           </thead>
           <tbody>
             {users.map((user, index) => (
-              <tr key={user._id} className="text-primary bg-[#F5F5F5]">
+              <tr
+                key={user._id}
+                className="text-primary bg-[#F5F5F5] text-[16.45px]"
+              >
                 <td className="py-3 px-4 text-start text-lg font-medium rounded-l-xl">
                   <div className="flex justify-start align-center gap-3">
                     <div>
@@ -119,10 +122,12 @@ const AllUsers = () => {
                       </span>
                     </div>
                     <div className="flex flex-col gap-0">
-                      <span className="font-semibold text-gray-800">
+                      <span className="font-semibold text-gray-800 text-[22px]">
                         {user.name}
                       </span>
-                      <span className="text-gray-500">#{index + 1}</span>
+                      <span className="text-gray-500 text-[14.3px]">
+                        #{index + 1}
+                      </span>
                     </div>
                   </div>
                 </td>
@@ -136,7 +141,7 @@ const AllUsers = () => {
                 <td className="py-3 px-4 text-center text-lg font-medium ">
                   0
                 </td>
-                <td className="py-3 px-4 text-center text-lg font-medium rounded-r-xl text-blue-500">
+                <td className="py-3 px-4 text-center text-lg font-medium rounded-r-xl text-[#266CA8]">
                   <Link
                     href={`/admin/allusers/${user._id}`}
                     className="border-b-blue-500 border-b font-semibold "

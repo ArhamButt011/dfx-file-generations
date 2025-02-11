@@ -5,20 +5,222 @@ import ChartOne from '../Charts/ChartOne'
 import ChartTwo from '../Charts/ChartTwo'
 import CardDataStats from '../CardDataStats'
 import LastestUsersCard from '../LastestUsers/LatestUsersCard'
-
-// const MapOne = dynamic(() => import('@/components/Maps/MapOne'), {
-//   ssr: false,
-// })
+import contours from '/public/images/admin/dashboard/contours.svg'
+import subscriptions from '/public/images/admin/dashboard/subscriptions.svg'
+import downloads from '/public/images/admin/dashboard/Download.svg'
+import Image from 'next/image'
+import { ApexOptions } from 'apexcharts'
 
 const ChartThree = dynamic(() => import('../Charts/ChartThree'), {
   ssr: false,
 })
 
+// const MapOne = dynamic(() => import('@/components/Maps/MapOne'), {
+//   ssr: false,
+// })
+
+const chartData1: ApexOptions = {
+  series: [
+    {
+      name: 'total users',
+      color: '',
+      data: [25, 66, 20, 40, 12, 58, 20],
+    },
+  ],
+  chart: {
+    id: 'total-users-1',
+    type: 'area',
+    height: 70,
+    sparkline: {
+      enabled: true,
+    },
+    fontFamily: 'inherit',
+    foreColor: '#adb0bb',
+  },
+  stroke: {
+    curve: 'straight',
+    width: 2,
+  },
+  fill: {
+    type: 'gradient',
+    gradient: {
+      shadeIntensity: 0,
+      inverseColors: false,
+      opacityFrom: 0,
+      opacityTo: 0,
+      stops: [20, 180],
+    },
+  },
+  markers: {
+    size: 0,
+  },
+  tooltip: {
+    theme: 'dark',
+    fixed: {
+      enabled: true,
+      position: 'right',
+    },
+    x: {
+      show: false,
+    },
+  },
+}
+
+const chartData2: ApexOptions = {
+  series: [
+    {
+      name: 'total contours',
+      color: '',
+      data: [25, 66, 20, 40, 12, 58, 20],
+    },
+  ],
+  chart: {
+    id: 'total-contours-2', // Unique id for the second chart
+    type: 'area',
+    height: 70,
+    sparkline: {
+      enabled: true,
+    },
+
+    fontFamily: 'inherit',
+  },
+  stroke: {
+    curve: 'straight',
+    width: 2,
+  },
+  fill: {
+    type: 'gradient',
+    gradient: {
+      shadeIntensity: 0,
+      inverseColors: false,
+      opacityFrom: 0,
+      opacityTo: 0,
+      stops: [20, 180],
+    },
+  },
+
+  markers: {
+    size: 0,
+  },
+  tooltip: {
+    theme: 'dark',
+    fixed: {
+      enabled: true,
+      position: 'right',
+    },
+    x: {
+      show: false,
+    },
+  },
+}
+
+const chartData3: ApexOptions = {
+  series: [
+    {
+      name: 'total downloads',
+      color: '',
+      data: [25, 26, 100, 0, 12, 58, 20],
+    },
+  ],
+  chart: {
+    id: 'total-downloads-3', // Unique id for the third chart
+    type: 'area',
+    height: 70,
+    sparkline: {
+      enabled: true,
+    },
+    fontFamily: 'inherit',
+  },
+  stroke: {
+    curve: 'straight',
+    width: 2,
+  },
+  fill: {
+    type: 'gradient',
+    gradient: {
+      shadeIntensity: 0,
+      inverseColors: false,
+      opacityFrom: 0,
+      opacityTo: 0,
+      stops: [20, 180],
+    },
+  },
+
+  markers: {
+    size: 0,
+  },
+  tooltip: {
+    theme: 'dark',
+    fixed: {
+      enabled: true,
+      position: 'right',
+    },
+    x: {
+      show: false,
+    },
+  },
+}
+
+const chartData4: ApexOptions = {
+  series: [
+    {
+      name: 'total subscriptions',
+      color: '',
+      data: [25, 66, 20, 40, 12, 58, 20],
+    },
+  ],
+  chart: {
+    id: 'total-subscriptions-4',
+    type: 'area',
+    height: 70,
+    sparkline: {
+      enabled: true,
+    },
+    fontFamily: 'inherit',
+  },
+  stroke: {
+    curve: 'straight',
+    width: 2,
+  },
+  fill: {
+    type: 'gradient',
+    gradient: {
+      shadeIntensity: 0,
+      inverseColors: false,
+      opacityFrom: 0,
+      opacityTo: 0,
+      stops: [20, 180],
+    },
+  },
+
+  markers: {
+    size: 0,
+  },
+  tooltip: {
+    theme: 'dark',
+    fixed: {
+      enabled: true,
+      position: 'right',
+    },
+    x: {
+      show: false,
+    },
+  },
+}
+
 const Dashboard: React.FC = () => {
   return (
     <>
+      <h1 className="text-[35.45px] font-semibold mb-3">Dashboard</h1>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-        <CardDataStats title="Total Users" total="$3.456K" rate="0.43%" levelUp>
+        <CardDataStats
+          title="Total Users"
+          total="6025"
+          rate="0.43%"
+          duration="Since Last Month"
+          levelUp
+          chartData={chartData1}
+        >
           <svg
             width="40"
             height="40"
@@ -55,11 +257,16 @@ const Dashboard: React.FC = () => {
         </CardDataStats>
         <CardDataStats
           title="Total Contours"
-          total="$45,2K"
+          total="120"
           rate="4.35%"
+          duration="Since Last Month"
           levelUp
+          chartData={chartData2}
         >
-          <svg
+          <div className="bg-white rounded-full p-[6px]">
+            <Image src={contours} alt="contours" />
+          </div>
+          {/* <svg
             width="40"
             height="40"
             viewBox="0 0 40 40"
@@ -91,15 +298,20 @@ const Dashboard: React.FC = () => {
               d="M26.5526 26.986C28.4826 26.8538 29.9999 25.8044 29.9999 24.5294C29.9999 23.2662 28.5088 22.2245 26.6041 22.0767C27.1433 22.744 27.4999 23.5558 27.4999 24.5C27.4999 25.474 27.1205 26.3071 26.5526 26.986Z"
               fill="#266CA8"
             />
-          </svg>
+          </svg> */}
         </CardDataStats>
         <CardDataStats
           title="Total Downloads"
-          total="2.450"
+          total="112"
           rate="2.59%"
+          duration="Since Last Month"
           levelUp
+          chartData={chartData3}
         >
-          <svg
+          <div className="bg-white rounded-full p-[6px]">
+            <Image src={downloads} alt="download" />
+          </div>
+          {/* <svg
             width="40"
             height="40"
             viewBox="0 0 40 40"
@@ -131,15 +343,20 @@ const Dashboard: React.FC = () => {
               d="M26.5526 26.986C28.4826 26.8538 29.9999 25.8044 29.9999 24.5294C29.9999 23.2662 28.5088 22.2245 26.6041 22.0767C27.1433 22.744 27.4999 23.5558 27.4999 24.5C27.4999 25.474 27.1205 26.3071 26.5526 26.986Z"
               fill="#266CA8"
             />
-          </svg>
+          </svg> */}
         </CardDataStats>
         <CardDataStats
           title="Total Subscriptions"
-          total="3.456"
+          total="28"
           rate="0.95%"
+          duration="Since Last Month"
           levelDown
+          chartData={chartData4}
         >
-          <svg
+          <div className="bg-white rounded-full p-[6px]">
+            <Image src={subscriptions} alt="subscriptions" />
+          </div>
+          {/* <svg
             width="40"
             height="40"
             viewBox="0 0 40 40"
@@ -171,14 +388,12 @@ const Dashboard: React.FC = () => {
               d="M26.5526 26.986C28.4826 26.8538 29.9999 25.8044 29.9999 24.5294C29.9999 23.2662 28.5088 22.2245 26.6041 22.0767C27.1433 22.744 27.4999 23.5558 27.4999 24.5C27.4999 25.474 27.1205 26.3071 26.5526 26.986Z"
               fill="#266CA8"
             />
-          </svg>
+          </svg> */}
         </CardDataStats>
       </div>
-
       <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
         <ChartTwo />
         <ChartThree />
-
         <LastestUsersCard />
         <ChartOne />
       </div>

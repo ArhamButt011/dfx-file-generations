@@ -27,8 +27,8 @@ const menuGroups = [
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
+              // fill-rule="evenodd"
+              // clip-rule="evenodd"
               d="M1.18854 8.65208C0.460356 10.171 0.715975 11.9475 1.22721 15.5005L1.6028 18.1107C2.25952 22.6747 2.58787 24.9567 4.17108 26.32C5.75428 27.6832 8.07611 27.6832 12.7198 27.6832H15.7003C20.3439 27.6832 22.6658 27.6832 24.249 26.32C25.8322 24.9567 26.1605 22.6747 26.8172 18.1107L27.1928 15.5005C27.7041 11.9475 27.9597 10.171 27.2315 8.65208C26.5033 7.13317 24.9534 6.2099 21.8536 4.36334L19.9877 3.25187C17.1727 1.575 15.7653 0.736572 14.21 0.736572C12.6548 0.736572 11.2473 1.575 8.43232 3.25187L6.56648 4.36334C3.46664 6.2099 1.91672 7.13317 1.18854 8.65208ZM14.21 23.3044C13.6519 23.3044 13.1995 22.852 13.1995 22.2939V18.2519C13.1995 17.6938 13.6519 17.2414 14.21 17.2414C14.7681 17.2414 15.2205 17.6938 15.2205 18.2519V22.2939C15.2205 22.852 14.7681 23.3044 14.21 23.3044Z"
               fill="#266CA8"
             />
@@ -152,14 +152,14 @@ const menuGroups = [
               fill="#939393"
             />
             <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
+              // fill-rule="evenodd"
+              // clip-rule="evenodd"
               d="M5 16.2056C5 15.6533 5.44772 15.2056 6 15.2056H11.3333C11.8856 15.2056 12.3333 15.6533 12.3333 16.2056C12.3333 16.7579 11.8856 17.2056 11.3333 17.2056H6C5.44772 17.2056 5 16.7579 5 16.2056Z"
               fill="white"
             />
             <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
+              // fill-rule="evenodd"
+              // clip-rule="evenodd"
               d="M13.6667 16.2056C13.6667 15.6533 14.1144 15.2056 14.6667 15.2056H16.6667C17.219 15.2056 17.6667 15.6533 17.6667 16.2056C17.6667 16.7579 17.219 17.2056 16.6667 17.2056H14.6667C14.1144 17.2056 13.6667 16.7579 13.6667 16.2056Z"
               fill="white"
             />
@@ -179,7 +179,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   return (
     <ClickOutside onClick={() => setSidebarOpen(false)}>
       <aside
-        className={`fixed left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-bodydark duration-300 ease-linear dark:bg-boxdark lg:translate-x-0 ${
+        className={`fixed left-0 top-0 flex h-screen w-72.5 flex-col overflow-y-hidden bg-[#F5F5F5] duration-300 ease-linear lg:translate-x-0 ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
