@@ -1,15 +1,18 @@
 import { NextResponse } from 'next/server'
 import { ObjectId } from 'mongodb'
 import clientPromise from '@/lib/mongodb'
+import type { NextRequest } from 'next/server'
 
-export async function GET(
-  req: Request,
-  { params }: { params: { id: string } },
-) {
+// interface Params {
+//   id: string
+// }
+
+export async function GET(req: NextRequest) {
   try {
-    const userId = params.id
+    const url = new URL(req.url)
+    const id = url.pathname.split('/').pop()
 
-    if (!ObjectId.isValid(userId)) {
+    if (!id || !ObjectId.isValid(id)) {
       return NextResponse.json(
         { error: 'Invalid User ID format' },
         { status: 400 },
@@ -20,19 +23,14 @@ export async function GET(
     const db = client.db('DFXFileGeneration')
 
     // Fetch user details based on _id
-    const user = await db
-      .collection('users')
-      .findOne({ _id: new ObjectId(userId) })
+    const user = await db.collection('users').findOne({ _id: new ObjectId(id) })
 
     if (!user) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 })
     }
 
     // Fetch all card details for the user
-    const cards = await db
-      .collection('cards')
-      .find({ user_id: userId })
-      .toArray()
+    const cards = await db.collection('cards').find({ user_id: id }).toArray()
 
     // Return the merged data
     return NextResponse.json(
