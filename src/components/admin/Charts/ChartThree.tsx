@@ -2,7 +2,6 @@ import { ApexOptions } from 'apexcharts'
 import React from 'react'
 import ReactApexChart from 'react-apexcharts'
 
-
 const options: ApexOptions = {
   chart: {
     fontFamily: 'Satoshi, sans-serif',
@@ -124,7 +123,7 @@ const ChartThree: React.FC = () => {
       </div>
 
       <div className="-mx-8 flex flex-wrap items-center gap-y-3 sm:gap-y-0 sm:flex-row sm:justify-between">
-        <div className="w-full sm:w-auto flex items-center ml-5">
+        <div className="w-full sm:w-auto flex items-center ml-5 mt-2">
           <span className="mr-2 block h-5 w-5 rounded-md bg-secondary"></span>
           <p className="flex items-center text-sm font-medium text-black dark:text-white">
             <span> Basic: </span>
@@ -132,17 +131,17 @@ const ChartThree: React.FC = () => {
           </p>
         </div>
 
-        <div className="w-full sm:w-auto flex items-center ml-5 sm:ml-3">
+        <div className="w-full sm:w-auto flex items-center ml-5 sm:ml-3 mt-2">
           <span className="mr-2 block h-5 w-5 rounded-md bg-[#F5704B]"></span>
-          <p className="flex items-center text-sm font-medium text-black dark:text-white">
+          <p className="flex items-center text-sm font-medium text-black dark:text-white mr-2">
             <span> Free: </span>
             <span className="text-[#F5704B] ml-1"> 19% </span>
           </p>
         </div>
 
-        <div className="w-full sm:w-auto flex items-center ml-5 sm:mr-3">
+        <div className="w-full sm:w-auto flex items-center ml-5 sm:mr-3 mt-2 mr-2">
           <span className="mr-2 block h-5 w-5 rounded-md bg-[#E6E6E6]"></span>
-          <p className="flex items-center text-sm font-medium text-black dark:text-white">
+          <p className="flex items-center text-sm font-medium text-black">
             <span> Premium: </span>
             <span className="text-[#0000006E] ml-1"> 45% </span>
           </p>
