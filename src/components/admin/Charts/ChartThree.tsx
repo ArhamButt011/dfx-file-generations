@@ -2,9 +2,6 @@ import { ApexOptions } from 'apexcharts'
 import React from 'react'
 import ReactApexChart from 'react-apexcharts'
 
-// interface ChartThreeState {
-//   series: number[]
-// }
 
 const options: ApexOptions = {
   chart: {
@@ -21,28 +18,32 @@ const options: ApexOptions = {
   plotOptions: {
     pie: {
       donut: {
-        size: '65%',
-
+        size: '70%',
         background: 'white',
+
         labels: {
           show: true,
           total: {
             show: true,
-            label: 'Subscriptions Added',
+            label: 'Subscriptions\nAdded', // Add a newline character here
             fontSize: '16px',
             fontWeight: 600,
             color: '#000',
-
             formatter: function (w) {
-              return w.globals.seriesTotals
-                .reduce((a: number, b: number) => a + b, 0)
-                .toString()
+              return `
+               
+               ${w.globals.seriesTotals.reduce(
+                 (a: number, b: number) => a + b,
+                 0,
+               )}`
             },
           },
         },
       },
     },
   },
+
+  // Disable data labels for each slice in a donut chart
   dataLabels: {
     enabled: false,
   },
@@ -55,7 +56,6 @@ const options: ApexOptions = {
         },
       },
     },
-
     {
       breakpoint: 640,
       options: {
@@ -66,6 +66,8 @@ const options: ApexOptions = {
     },
   ],
 }
+
+// ... rest of the component
 
 const series = [65, 34, 19]
 const ChartThree: React.FC = () => {
@@ -134,7 +136,7 @@ const ChartThree: React.FC = () => {
           <span className="mr-2 block h-5 w-5 rounded-md bg-[#F5704B]"></span>
           <p className="flex items-center text-sm font-medium text-black dark:text-white">
             <span> Free: </span>
-            <span className="text-[#F5704B] ml-1"> 34% </span>
+            <span className="text-[#F5704B] ml-1"> 19% </span>
           </p>
         </div>
 

@@ -1,48 +1,59 @@
-import React, { useState } from 'react'
-// import { useParams } from 'next/navigation'
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'next/navigation'
+import Image from 'next/image'
 import userImage from '/public/images/admin/avatar.jpg'
 import email from '/public/images/admin/email.jpg'
-import Image from 'next/image'
 import cardImage from '/public/images/admin/card.jpg'
 import dltCircle from '/public/images/admin/allusers/dltCircle.svg'
-
 import DownloadsSubscriptions from './DownloadsSubscriptions'
 import Modal from '@/components/UI/Modal'
+import { format } from 'date-fns'
 
-// interface User {
-//   id: string
-//   name: string
-//   email: string
-//   addedOn: string
-//   downloads: number
-// }
-const UserDetails = () => {
+interface CardDetails {
+  holder_name: string
+  expiry_date: string
+}
+
+interface UserData {
+  name: string
+  email: string
+  createdAt: string
+  cards: CardDetails[]
+}
+
+const UserDetails: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [userData, setUserData] = useState<UserData | null>(null)
+  const { id } = useParams<{ id: string }>()
+
   const onClose = () => {
     setIsOpen(false)
   }
-  // const { id } = useParams()
-  // const users: User[] = [
-  //   {
-  //     id: '1',
-  //     name: 'john',
-  //     email: 'john@gmial.com',
-  //     addedOn: '12/2/2024',
-  //     downloads: 20,
-  //   },
-  //   {
-  //     id: '2',
-  //     name: 'john',
-  //     email: 'john@gmial.com',
-  //     addedOn: '12/2/2024',
-  //     downloads: 20,
-  //   },
-  // ]
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch(`/api/admin/get-card-details/${id}`)
+        if (response.ok) {
+          const data: UserData = await response.json() // Ensure to parse the response
+          setUserData(data)
+          console.log('Fetched user data:', data)
+        } else {
+          console.error('Failed to fetch user data')
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error)
+      }
+    }
+
+    if (id) fetchUserData()
+  }, [id])
 
   const handleDelete = (id: number) => {
     console.log(id)
     setIsOpen(true)
   }
+
   return (
     <>
       <div className="flex justify-between bg-[#F5F5F5] rounded-2xl p-5 flex-col md:flex-row">
@@ -51,18 +62,17 @@ const UserDetails = () => {
             <Image src={userImage} alt="useravatar" className="rounded-3xl" />
           </div>
           <div>
-            <h1 className="text-lg font-semibold">Emily Johnsons</h1>
+            <h1 className="text-lg font-semibold">{userData?.name}</h1>
             <div className="flex items-center gap-2">
               <span>
-                <Image src={email} alt="useravatar" />
+                <Image src={email} alt="email" />
               </span>
-              <span className="text-primary text-md">
-                emilyjohnsons123@gmail.com
-              </span>
+              <span className="text-primary text-md">{userData?.email}</span>
             </div>
             <p className="mt-5">
               <span className="text-primary text-md">Added On: </span>
-              <span className="text-md">Apr 10, 2024</span>
+              {userData &&
+                format(new Date(userData?.createdAt), 'MMM dd, yyyy')}
             </p>
             <div className="flex gap-2 bg-white rounded-lg px-2 py-2 mt-4">
               <div>
@@ -70,10 +80,18 @@ const UserDetails = () => {
               </div>
               <div>
                 <p className="text-md">021*************021</p>
-                <p className="text-md text-primary">Alex handai</p>
+                <p className="text-md text-primary">
+                  {userData?.cards?.[0]?.holder_name}
+                </p>
                 <p className="text-md">
                   <span className="text-md text-primary">Expiry Date: </span>
-                  <span>06/2025</span>
+                  <span>
+                    {userData?.cards?.[0]?.expiry_date &&
+                      format(
+                        new Date(userData.cards[0].expiry_date),
+                        'MMM dd, yyyy',
+                      )}
+                  </span>
                 </p>
               </div>
             </div>
