@@ -42,13 +42,18 @@ const data: { left: DataItem[]; right: DataItem[] } = {
     ],
 };
 
+const desiredOrder = [1, 2, 4, 3, 5, 6];
+
+const combinedArray = [...data.left, ...data.right].sort(
+  (a, b) => desiredOrder.indexOf(a.id) - desiredOrder.indexOf(b.id)
+);
 
 function Working() {
     return (
-        <div className='max-w-[90%] mx-auto my-20' id='working'>
-            <p className='font-bold text-[55px] text-center max-w-[80%] mx-auto'><span className='text-[#266CAB]'>How </span>It Works</p>
-            <p className='text-center text-[#00000066] text-[29px] mx-auto font-medium max-w-[90%]'>Our DXF Generator simplifies the file creation process, offering an intuitive and user-friendly experience powered by advanced AI</p>
-            <div className="flex gap-[10px] justify-center mx-auto">
+        <div className='max-w-[90%] mx-auto my-20 md:py-0 py-20 ' id='working'>
+            <p className='font-bold md:text-[55px] text-[40px] text-center max-w-[80%] mx-auto'><span className='text-[#266CAB]'>How </span>It Works</p>
+            <p className='text-center text-[#00000066] md:text-[29px] text-[23px] mx-auto font-medium max-w-[90%]'>Our DXF Generator simplifies the file creation process, offering an intuitive and user-friendly experience powered by advanced AI</p>
+            <div className="md:flex gap-[10px] justify-center mx-auto mt-10 hidden">
                 {/* left */}
                 <div>
                     {data.left.map((item, index) => (
@@ -141,6 +146,70 @@ function Working() {
                         </div>
                     ))}
                 </div>
+            </div>
+            <div className="flex gap-[10px] justify-center mx-auto mt-10 md:hidden">
+                {/* line */}
+                <div className="relative z-0 flex flex-col justify-center items-center">
+                    <Image
+                        className="z-10 h-full -mb-10"
+                        src="/images/user/home/one.svg"
+                        alt="one"
+                        width={120}
+                        height={100}
+                    />
+                    <Image
+                        className="z-0 h-fit opacity-60"
+                        src="/images/user/home/line.svg"
+                        alt="centerline"
+                        width={5}
+                        height={100}
+                    />
+                    <Image
+                        className="z-10 h-full -my-10"
+                        src="/images/user/home/two.svg"
+                        alt="two"
+                        width={120}
+                        height={100}
+                    />
+                    <Image
+                        className="z-0 h-full opacity-60"
+                        src="/images/user/home/line.svg"
+                        alt="centerline"
+                        width={5}
+                        height={100}
+                    />
+                    <Image
+                        className="z-10 h-full -mt-10"
+                        src="/images/user/home/three.svg"
+                        alt="three"
+                        width={120}
+                        height={100}
+                    />
+                </div>
+                {/* data */}
+                <div>
+                    {combinedArray.map((item,index) => (
+                        <div key={item.id}>
+                            {item.image && (
+                                <Image
+                                    src={item.image}
+                                    alt="image"
+                                    width={300}
+                                    height={100}
+                                    className={`${index > 1 ? "mt-16" : ""}`}
+                                />
+                            )}
+                            {item.title && (
+                                <div className='my-5'>
+                                    <p className='font-semibold text-xl'>{item.title}</p>
+                                    <p className='font-medium text-sm text-[#00000066] max-w-[500px]'>{item.description}</p>
+                                </div>
+                            )}
+                        </div>
+                    ))}
+                </div>
+
+               
             </div>
 
         </div>

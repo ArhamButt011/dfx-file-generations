@@ -8,9 +8,11 @@ function Input() {
   const [image, setImage] = useState<string | null>(null);
   const [contour, setContour] = useState<number>();
   const [dragging, setDragging] = useState<boolean>(false);
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isProcessingOpen, setisProcessingOpen] = useState<boolean>(false);
+  const [isOutputOpen, setisOutputOpen] = useState<boolean>(false);
   const onClose = () => {
-    setIsOpen(false);
+    setisProcessingOpen(false);
+    setisOutputOpen(false);
   }
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -64,11 +66,13 @@ function Input() {
       return;
     }
     //pass data to AI api
-    setIsOpen(true);
-    setInterval(()=>{
+    setisProcessingOpen(true);
+    setTimeout(() => {
       onClose();
-    },5000)
+      setisOutputOpen(true);
+    }, 5000);
 
+    // setisOutputOpen(true);
   }
 
   return (
@@ -196,7 +200,7 @@ function Input() {
         </form>
       </div >
       {/* processing */}
-      <Modal isOpen={isOpen} onClose={onClose} buttonContent=''>
+      <Modal isOpen={isProcessingOpen} onClose={onClose} buttonContent=''>
         <>
           <div className='flex flex-col justify-center items-center p-10'>
             <Image
@@ -213,9 +217,54 @@ function Input() {
       </Modal>
 
       {/* output */}
-      {/* <Modal isOpen={isOpen} onClose={onClose} buttonContent=''>
-        
-      </Modal> */}
+      <Modal isOpen={isOutputOpen} onClose={onClose} buttonContent={<Image src="/images/user/cross.svg" alt="cross" width={20} height={20} />}>
+        <div className='flex gap-6'>
+
+          <div className="relative w-1/2 h-64">
+            <p>Overlay Iage</p>
+            <Image
+              src="/images/user/home/sample/overlay.svg"
+              alt="Input Image"
+              fill
+              className='mt-5'
+            />
+          </div>
+
+          <div className="relative w-1/2 h-64">
+            <p>DXF Preview</p>
+            <Image
+              src="/images/user/home/sample/preview.svg"
+              alt="Input Image"
+              fill
+              className='mt-5'
+            />
+          </div>
+
+        </div>
+        <div className='flex gap-6 mt-5'>
+
+          <div className="relative w-1/2 h-64">
+            <p>Mask</p>
+            <Image
+              src="/images/user/home/sample/overlay.svg"
+              alt="Input Image"
+              fill
+              className='mt-5'
+            />
+          </div>
+
+          <div className="relative w-1/2 h-64">
+            <p>DXF File</p>
+            <Image
+              src="/images/user/home/sample/preview.svg"
+              alt="Input Image"
+              fill
+              className='mt-5'
+            />
+          </div>
+
+        </div>
+      </Modal>
     </>
   )
 }
