@@ -11,7 +11,7 @@ const Modal = ({ isOpen, onClose, children, buttonContent }: ModalProps) => {
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-white w-full max-w-lg rounded-2xl p-6 shadow-lg relative">
         {/* Close Button */}
         <button

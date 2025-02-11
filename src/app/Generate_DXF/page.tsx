@@ -5,18 +5,34 @@ import Title from '@/components/user/GenerateDXF/Title';
 import Input from '@/components/user/GenerateDXF/Input';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
-import Contour from '@/components/user/GenerateDXF/Contour'
+import axios from 'axios';
 
-function Page() {  // Capitalized component name
-  const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
-  const { userData,isAuthenticated } = useAuth();
-  
+function Page() {
+  const { userData, logout } = useAuth();
   const router = useRouter();
+  const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
 
   useEffect(() => {
-    if (!token || !isAuthenticated) {
-      router.push('/user');
-    }
+    const verifyToken = async () => {
+      if (!token) {
+        logout();
+        router.push('/user');
+        return;
+      }
+
+      try {
+        await axios.post('/api/auth/verifyToken', { token });
+      } catch (error: unknown) {
+        if (axios.isAxiosError(error) && error.response?.status === 401) {
+          console.log("Token expired or invalid. Logging out...");
+          logout();
+          router.push('/user');
+        }
+      }
+
+    };
+
+    verifyToken();
   }, [token, router]);
 
   return (
@@ -25,7 +41,6 @@ function Page() {  // Capitalized component name
         <DefaultLayout>
           <Title />
           <Input />
-          <Contour />
         </DefaultLayout>
       ) : null}
     </>
