@@ -7,6 +7,7 @@ interface SidebarChildItem {
   label: string
   children?: SidebarChildItem[]
   icon?: React.ReactNode
+  iconNotActive?: React.ReactNode
 }
 
 interface SidebarItemProps {
@@ -47,7 +48,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
           isItemActive ? 'text-secondary' : ''
         } group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-primary duration-300 ease-in-out dark:hover:bg-meta-4`}
       >
-        {item.icon}
+        {isItemActive ? item.iconNotActive : item.icon}
         {item.label}
       </Link>
     </li>

@@ -1,5 +1,4 @@
 'use client'
-
 import { useState, useEffect, useCallback } from 'react'
 import { format } from 'date-fns'
 import Breadcrumb from '../Breadcrumbs/Breadcrumb'

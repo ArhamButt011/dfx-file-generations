@@ -82,31 +82,37 @@ const UserDetails: React.FC = () => {
                   format(new Date(userData?.createdAt), 'MMM dd, yyyy')}
               </span>
             </p>
-            <div className="flex gap-2 bg-white rounded-lg px-2 py-2 mt-4">
-              <div>
-                <Image src={cardImage} alt="cardimage" />
+            {userData && userData?.cards.length > 0 ? (
+              <div className="flex gap-2 bg-white rounded-lg px-2 py-2 mt-4">
+                <div>
+                  <Image src={cardImage} alt="cardimage" />
+                </div>
+                <div>
+                  <p className="text-[18.11px] font-sembold text-[#000000]">
+                    021*************021
+                  </p>
+                  <p className="text-[15.88px] text-primary font-medium">
+                    {userData?.cards?.[0]?.holder_name}
+                  </p>
+                  <p className="text-md">
+                    <span className="text-[15.88px] text-primary font-medium">
+                      Expiry Date:{' '}
+                    </span>
+                    <span className="text-[15.88px] text-[#000000] font-medium">
+                      {userData?.cards?.[0]?.expiry_date &&
+                        format(
+                          new Date(userData.cards[0].expiry_date),
+                          'MMM dd, yyyy',
+                        )}
+                    </span>
+                  </p>
+                </div>
               </div>
-              <div>
-                <p className="text-[18.11px] font-sembold text-[#000000]">
-                  021*************021
-                </p>
-                <p className="text-[15.88px] text-primary font-medium">
-                  {userData?.cards?.[0]?.holder_name}
-                </p>
-                <p className="text-md">
-                  <span className="text-[15.88px] text-primary font-medium">
-                    Expiry Date:{' '}
-                  </span>
-                  <span className="text-[15.88px] text-[#000000] font-medium">
-                    {userData?.cards?.[0]?.expiry_date &&
-                      format(
-                        new Date(userData.cards[0].expiry_date),
-                        'MMM dd, yyyy',
-                      )}
-                  </span>
-                </p>
+            ) : (
+              <div className="flex bg-white rounded-lg justify-between items-center h-20 px-4 mt-4 text-primary">
+                No Payment Method Added!!
               </div>
-            </div>
+            )}
           </div>
         </div>
         <div>
@@ -118,6 +124,7 @@ const UserDetails: React.FC = () => {
           </button>
         </div>
       </div>
+
       <DownloadsSubscriptions />
       <Modal isOpen={isOpen} onClose={onClose} buttonContent="">
         <div className="flex items-center flex-col">

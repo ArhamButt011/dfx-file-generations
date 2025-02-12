@@ -15,8 +15,8 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
   return (
     <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       <div>
-        <h1 className="text-3xl font-semibold">{pageName}</h1>
-        <p className="mt-2 font-medium text-lg text-primary">
+        <h1 className="text-[32px] font-semibold">{pageName}</h1>
+        <p className="mt-1 font-medium text-[20px] text-primary">
           {totalText}: {totalContent}
         </p>
       </div>

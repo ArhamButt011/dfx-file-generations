@@ -1,7 +1,7 @@
 'use client'
 import { useState, FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
-import { FaEye, FaEyeSlash } from 'react-icons/fa'
+import { FaEye } from 'react-icons/fa'
 import Image from 'next/image'
 import logo from '/public/images/user/home/logo.svg'
 import Link from 'next/link'
@@ -9,6 +9,7 @@ import RightSection from './common'
 import Swal from 'sweetalert2'
 import { ClipLoader } from 'react-spinners'
 import { useAuth } from '@/context/AuthContext'
+import eye from '/public/images/admin/eye.svg'
 
 // Defining types for the props
 interface LoginProps {
@@ -88,12 +89,16 @@ const Login: React.FC<LoginProps> = ({ title, content }) => {
       )}
       {/* Left Form Section */}
       <div className="w-[100%] bg-white flex items-center justify-center md:w-[60%] p-6 md:p-0">
-        <div className="md:w-[70%] w-[100%]">
-          <div className="flex items-center md:mb-16 mb-10">
+        <div className="md:w-[70%] w-[100%] mt-[40px]">
+          <div className="flex items-center md:mb-12 mb-10">
             <Image src={logo} alt="logo" width={250} height={250} priority />
           </div>
-          <h1 className="text-[36px] font-bold mb-2 text-black">{title}</h1>
-          <p className="text-primary mb-10 text-lg">{content}</p>
+          <div>
+            <h1 className="text-[36px] font-bold mb-2 text-black">{title}</h1>
+          </div>
+          <div>
+            <p className="text-primary mb-10 text-lg">{content}</p>
+          </div>
           {/* {error && <p className="text-red-500 text-center mb-4">{error}</p>}
           {loading && (
             <p className="text-center text-blue-500 font-medium mb-4">
@@ -136,14 +141,14 @@ const Login: React.FC<LoginProps> = ({ title, content }) => {
                   style={{ transform: 'translateY(-77%)' }}
                 >
                   {showPassword ? (
-                    <FaEye size={20} className="text-[#005B97]" />
+                    <FaEye size={20} className="text-[#005B97] mr-3" />
                   ) : (
-                    <FaEyeSlash size={20} className="text-[#005B97]" />
+                    <Image alt="eye" src={eye} className="mr-3" />
                   )}
                 </button>
                 <p className="text-right mt-2">
                   <Link
-                    href="/forgot"
+                    href="/admin/forgot"
                     className="text-[#266CA8] underline text-sm font-semibold"
                   >
                     Forget Password?
@@ -157,7 +162,7 @@ const Login: React.FC<LoginProps> = ({ title, content }) => {
               //     loading ? 'opacity-50 cursor-not-allowed' : ''
               //   }`}
               className="w-full bg-[#266CA8] text-white py-4 px-4 mt-20 md:mt-24 font-semibold rounded-full hover:bg-[#005b97f0] transition duration-300"
-            //   disabled={loading}
+              //   disabled={loading}
             >
               Login
             </button>

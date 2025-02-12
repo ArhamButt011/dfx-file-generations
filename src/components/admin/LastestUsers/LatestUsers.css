@@ -1,5 +1,5 @@
 .modal-body-custom {
-    max-height: calc(60vh - 210px);
+    max-height: calc(75vh - 210px);
     overflow-y: auto;
 }
 
