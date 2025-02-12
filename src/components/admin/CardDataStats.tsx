@@ -2,6 +2,9 @@ import React, { ReactNode } from 'react'
 import dynamic from 'next/dynamic'
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false })
 import { ApexOptions } from 'apexcharts'
+import Image from 'next/image'
+import levelUpImage from '/public/images/admin/levelUp.svg'
+import levelDownImage from '/public/images/admin/levelDown.svg'
 
 interface CardDataStatsProps {
   title: string
@@ -25,67 +28,44 @@ const CardDataStats: React.FC<CardDataStatsProps> = ({
   children,
 }) => {
   return (
-    <div className=" border border-stroke bg-bodydark px-7.5 py-6 rounded-xl">
+    <div className="border border-stroke bg-bodydark px-3 py-2 rounded-xl">
       <div className="flex h-11.5 w-11.5 items-center justify-center rounded-full dark:bg-meta-4">
         {children}
       </div>
 
-      <div className="mt-4 flex items-end justify-between">
-        <div>
-          <span className="text-sm font-medium text-[#000000B2]">{title}</span>
+      <div className="flex items-end justify-between">
+        <div className="w-full">
+          <div className="flex items-center justify-between">
+            <div className="text-sm font-medium text-[#000000B2]">{title}</div>
+            <div className="">
+              <Chart
+                options={chartData}
+                series={chartData.series}
+                type="area"
+                height="30px"
+                width="25%"
+              />
+            </div>
+          </div>
           <h4 className="text-title-md font-bold text-black dark:text-white">
             {total}
           </h4>
-          <span className="text-sm font-medium text-primary">{duration}</span>
+          <div className="flex justify-between">
+            <span className="text-sm font-medium text-primary mt-2">
+              {duration}
+            </span>
+            <span
+              className={`flex items-center gap-1 text-sm font-medium ${
+                levelUp && 'text-[#266CA8]'
+              } ${levelDown && 'text-[#D7890C]'} `}
+            >
+              {rate}
+
+              {levelUp && <Image src={levelUpImage} alt="levelup" />}
+              {levelDown && <Image src={levelDownImage} alt="levelDown" />}
+            </span>
+          </div>
         </div>
-
-        <span
-          className={`flex items-center gap-1 text-sm font-medium ${
-            levelUp && 'text-[#266CA8]'
-          } ${levelDown && 'text-[#D7890C]'} `}
-        >
-          {rate}
-
-          {levelUp && (
-            <svg
-              className="fill-meta-3"
-              width="10"
-              height="11"
-              viewBox="0 0 10 11"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M4.35716 2.47737L0.908974 5.82987L5.0443e-07 4.94612L5 0.0848689L10 4.94612L9.09103 5.82987L5.64284 2.47737L5.64284 10.0849L4.35716 10.0849L4.35716 2.47737Z"
-                fill=""
-              />
-            </svg>
-          )}
-          {levelDown && (
-            <svg
-              className="fill-meta-5"
-              width="10"
-              height="11"
-              viewBox="0 0 10 11"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M5.64284 7.69237L9.09102 4.33987L10 5.22362L5 10.0849L-8.98488e-07 5.22362L0.908973 4.33987L4.35716 7.69237L4.35716 0.0848701L5.64284 0.0848704L5.64284 7.69237Z"
-                fill=""
-              />
-            </svg>
-          )}
-        </span>
-      </div>
-      <div className="mt-6">
-        <Chart
-          options={chartData}
-          series={chartData.series}
-          type="area"
-          height="70px"
-          width="100%"
-        />
       </div>
     </div>
   )

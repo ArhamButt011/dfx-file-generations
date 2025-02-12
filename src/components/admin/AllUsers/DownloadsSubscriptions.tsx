@@ -101,7 +101,9 @@ const DownloadsSubscriptions = () => {
         <div>
           <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h1 className="text-[27.42px] font-semibold">DXF Downloads</h1>
+              <h1 className="text-[27.42px] font-semibold text-[#000000]">
+                DXF Downloads
+              </h1>
               <p className="mt-2 font-medium text-[17.28px] text-primary">
                 Total DXF Downloads: {downloadsData.length}
               </p>
@@ -148,7 +150,7 @@ const DownloadsSubscriptions = () => {
                     <td className="py-5 px-4 border-b text-start font-medium text-[#00000066]">
                       #{data.order_id}
                     </td>
-                    <td className="py-3 px-4 border-b text-start font-medium">
+                    <td className="py-3 px-4 border-b text-start font-medium text-[#000000]">
                       {data.file_name}
                     </td>
                     <td className="py-3 px-4 border-b text-right text-[20px] font-medium text-[#00000066]">

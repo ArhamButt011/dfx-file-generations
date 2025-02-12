@@ -23,14 +23,16 @@ const chartData1: ApexOptions = {
   series: [
     {
       name: 'total users',
-      color: '',
-      data: [25, 66, 20, 40, 12, 58, 20],
+      color: '#266CA8',
+      data: [25, 66, 20, 40, 12, 58],
     },
   ],
   chart: {
     id: 'total-users-1',
     type: 'area',
     height: 70,
+    width: 40,
+
     sparkline: {
       enabled: true,
     },
@@ -70,8 +72,8 @@ const chartData2: ApexOptions = {
   series: [
     {
       name: 'total contours',
-      color: '',
-      data: [25, 66, 20, 40, 12, 58, 20],
+      color: '#266CA8',
+      data: [25, 66, 20, 40, 12, 58],
     },
   ],
   chart: {
@@ -118,8 +120,8 @@ const chartData3: ApexOptions = {
   series: [
     {
       name: 'total downloads',
-      color: '',
-      data: [25, 26, 100, 0, 12, 58, 20],
+      color: '#266CA8',
+      data: [25, 26, 100, 0, 12, 58],
     },
   ],
   chart: {
@@ -165,8 +167,8 @@ const chartData4: ApexOptions = {
   series: [
     {
       name: 'total subscriptions',
-      color: '',
-      data: [25, 66, 20, 40, 12, 58, 20],
+      color: '#D7890C',
+      data: [25, 66, 20, 40, 12, 58],
     },
   ],
   chart: {

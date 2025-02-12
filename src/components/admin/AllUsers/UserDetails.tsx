@@ -62,30 +62,42 @@ const UserDetails: React.FC = () => {
             <Image src={userImage} alt="useravatar" className="rounded-3xl" />
           </div>
           <div>
-            <h1 className="text-lg font-semibold">{userData?.name}</h1>
+            <h1 className="text-[28.42px] font-semibold text-[#000000]">
+              {userData?.name}
+            </h1>
             <div className="flex items-center gap-2">
               <span>
                 <Image src={email} alt="email" />
               </span>
-              <span className="text-primary text-md">{userData?.email}</span>
+              <span className="text-primary text-[16.42px] font-medium">
+                {userData?.email}
+              </span>
             </div>
             <p className="mt-5">
-              <span className="text-primary text-md">Added On: </span>
-              {userData &&
-                format(new Date(userData?.createdAt), 'MMM dd, yyyy')}
+              <span className="text-primary text-[18.27px] font-medium">
+                Added On:{' '}
+              </span>
+              <span className="text-[#000000] text-[18.27px] font-normal">
+                {userData &&
+                  format(new Date(userData?.createdAt), 'MMM dd, yyyy')}
+              </span>
             </p>
             <div className="flex gap-2 bg-white rounded-lg px-2 py-2 mt-4">
               <div>
                 <Image src={cardImage} alt="cardimage" />
               </div>
               <div>
-                <p className="text-md">021*************021</p>
-                <p className="text-md text-primary">
+                <p className="text-[18.11px] font-sembold text-[#000000]">
+                  021*************021
+                </p>
+                <p className="text-[15.88px] text-primary font-medium">
                   {userData?.cards?.[0]?.holder_name}
                 </p>
                 <p className="text-md">
-                  <span className="text-md text-primary">Expiry Date: </span>
-                  <span>
+                  <span className="text-[15.88px] text-primary font-medium">
+                    Expiry Date:{' '}
+                  </span>
+                  <span className="text-[15.88px] text-[#000000] font-medium">
                     {userData?.cards?.[0]?.expiry_date &&
                       format(
                         new Date(userData.cards[0].expiry_date),
