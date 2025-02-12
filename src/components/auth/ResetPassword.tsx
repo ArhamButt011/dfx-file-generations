@@ -2,12 +2,13 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { FaEye, FaEyeSlash } from 'react-icons/fa'
+import { FaEye } from 'react-icons/fa'
 import Image from 'next/image'
 import logo from '/public/images/user/home/logo.svg'
 import RightSection from './common'
 import Swal from 'sweetalert2'
 import { ClipLoader } from 'react-spinners'
+import eye from '/public/images/admin/eye.svg'
 
 interface ResetProps {
   title: string
@@ -97,7 +98,7 @@ const ResetPassword: React.FC<ResetProps> = ({ title, content }) => {
       )}
       {/* Left Form Section */}
       <div className="w-[100%] bg-white flex items-center justify-center md:w-[60%] p-6 md:p-0">
-        <div className="md:w-[70%] w-[100%]">
+        <div className="md:w-[70%] w-[100%] mt-[40px]">
           <div className="flex items-center md:mb-16 mb-10">
             <Image
               src={logo}
@@ -139,9 +140,9 @@ const ResetPassword: React.FC<ResetProps> = ({ title, content }) => {
                   style={{ transform: 'translateY(-42%)' }}
                 >
                   {showNewPassword ? (
-                    <FaEye size={20} className="text-[#005B97]" />
+                    <FaEye size={20} className="text-[#005B97] mr-3" />
                   ) : (
-                    <FaEyeSlash size={20} className="text-[#005B97]" />
+                    <Image alt="eye" src={eye} className="mr-3" />
                   )}
                 </button>
               </div>
@@ -170,9 +171,9 @@ const ResetPassword: React.FC<ResetProps> = ({ title, content }) => {
                   style={{ transform: 'translateY(-42%)' }}
                 >
                   {showConfirmNewPassword ? (
-                    <FaEye size={20} className="text-[#005B97]" />
+                    <FaEye size={20} className="text-[#005B97] mr-3" />
                   ) : (
-                    <FaEyeSlash size={20} className="text-[#005B97]" />
+                    <Image alt="eye" src={eye} className="mr-3" />
                   )}
                 </button>
               </div>
@@ -182,7 +183,7 @@ const ResetPassword: React.FC<ResetProps> = ({ title, content }) => {
               //   className={`w-full bg-[#005B97] text-white py-2 px-4 mt-20 font-bold rounded-full hover:bg-[#005b97f0] transition duration-300 ${
               //     loading ? 'opacity-50 cursor-not-allowed' : ''
               //   }`}
-              className="w-full bg-[#266CA8] text-white py-4 px-4 mt-20 md:mt-24 font-semibold rounded-full hover:bg-[#005b97f0] transition duration-300"
+              className="w-full bg-[#266CA8] text-white py-4 px-4 mt-20 md:mt-32 font-semibold rounded-full hover:bg-[#005b97f0] transition duration-300"
               //   disabled={loading}
             >
               Continue
