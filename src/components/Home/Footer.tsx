@@ -1,7 +1,11 @@
 import Image from 'next/image'
 import React from 'react'
-
+import { useTabContext } from '@/context/TabContsxt'
 function Footer() {
+    const { setActiveTab } = useTabContext()
+    const handleTabChange = (tab: string) => {
+        setActiveTab(tab);
+    }
     return (
         <div>
             <div className='mt-20 bg-[#F7F7F7] py-14'>
@@ -51,12 +55,71 @@ function Footer() {
                     {/* center */}
                     <div className='mt-24'>
                         <p className='font-semibold md:text-3xl text-2xl mb-4'>Quick Links</p>
-                        <div className='text-[#22222280] font-medium md:text-2xl text-xl space-y-4'>
-                            <p>Home</p>
-                            <p>Spaces Benefits</p>
-                            <p>How it works</p>
-                            <p>Subscription Plan</p>
-                            <p>FAQ’s</p>
+                        <div className='text-[#22222280] font-medium md:text-2xl text-xl space-y-4 flex flex-col'>
+                            <a href='#home'
+                                onClick={(e) => {
+                                    e.preventDefault()
+                                    handleTabChange('/home')
+                                    document.getElementById('home')?.scrollIntoView({
+                                        behavior: 'smooth',
+                                        block: 'start',
+                                    })
+                                }}>Home</a>
+                            <a
+                                href='#benefits'
+                                onClick={(e) => {
+                                    e.preventDefault()
+                                    handleTabChange('/benefits')
+                                    document.getElementById('benefits')?.scrollIntoView({
+                                        behavior: 'smooth',
+                                        block: 'start',
+                                    })
+                                }}
+                            >Benefits</a>
+                            <a
+                                href='#sample'
+                                onClick={(e) => {
+                                    e.preventDefault()
+                                    handleTabChange('/sample')
+                                    document.getElementById('sample')?.scrollIntoView({
+                                        behavior: 'smooth',
+                                        block: 'start',
+                                    })
+                                }}
+                            >Samples</a>
+                            <a
+                                href='#working'
+                                onClick={(e) => {
+                                    e.preventDefault()
+                                    handleTabChange('/working')
+                                    document.getElementById('working')?.scrollIntoView({
+                                        behavior: 'smooth',
+                                        block: 'start',
+                                    })
+                                }}
+                            >Working</a>
+                            <a
+                                href='#pricing'
+                                onClick={(e) => {
+                                    e.preventDefault()
+                                    handleTabChange('/pricing')
+                                    document.getElementById('pricing')?.scrollIntoView({
+                                        behavior: 'smooth',
+                                        block: 'start',
+                                    })
+                                }}
+                            >Pricing</a>
+                            <a
+                                href='#faqs'
+                                onClick={(e) => {
+                                    e.preventDefault()
+                                    handleTabChange('/faqs')
+                                    document.getElementById('faqs')?.scrollIntoView({
+                                        behavior: 'smooth',
+                                        block: 'start',
+                                    })
+                                }}
+                            >FAQ’s</a>
                         </div>
                     </div>
                     {/* right */}
