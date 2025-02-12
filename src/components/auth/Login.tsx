@@ -22,7 +22,7 @@ const Login: React.FC<LoginProps> = ({ title, content }) => {
   const router = useRouter()
   const [loading, setLoading] = useState<boolean>(false)
 
-  if (userData) {
+  if (userData?.role === 'admin') {
     router.push('/admin/dashboard')
   }
   const [showPassword, setShowPassword] = useState<boolean>(false)

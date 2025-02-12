@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { MongoClient } from 'mongodb'
+import { MongoClient, ObjectId } from 'mongodb'
 import clientPromise from '@/lib/mongodb'
 
 const uri = process.env.mongodbString as string
@@ -9,7 +9,6 @@ export async function POST(req: Request) {
   try {
     const body = await req.json()
     const { user_id, card_no, holder_name, expiry_date, cvv } = body
-    console.log('body-> ', body)
 
     // Validate input fields
     if (!user_id || !card_no || !holder_name || !expiry_date || !cvv) {
@@ -21,6 +20,9 @@ export async function POST(req: Request) {
         { status: 400 },
       )
     }
+
+    // Convert user_id to ObjectId
+    const userIdObject = new ObjectId(user_id)
 
     // Connect to the database
     const client = await clientPromise
@@ -37,9 +39,9 @@ export async function POST(req: Request) {
       )
     }
 
-    // Insert the new card along with the id
+    // Insert the new card with user_id as ObjectId
     await cardsCollection.insertOne({
-      user_id,
+      user_id: userIdObject,
       card_no,
       holder_name,
       expiry_date,
