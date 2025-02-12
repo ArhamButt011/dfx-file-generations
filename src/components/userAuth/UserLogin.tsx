@@ -2,14 +2,15 @@
 
 import React, { useState, FormEvent } from 'react'
 // import { useRouter } from 'next/navigation'
-import { FaEye, FaEyeSlash } from 'react-icons/fa'
+import { FaEye } from 'react-icons/fa'
+import { RiEyeCloseFill } from "react-icons/ri";
 import Image from 'next/image'
 import logo from '/public/images/user/home/logo.svg'
 import Modal from '../UI/Modal'
 import Subscribe from '@/components/user/Subscription/Subscribe'
 import { useRouter } from 'next/navigation'
-import backarrow from '/public/images/admin/backarrow.svg'
-import image3 from '/public/images/user/AuthScreens/login.svg'
+// import backarrow from '/public/images/admin/backarrow.svg'
+import image3 from '/public/images/user/AuthScreens/rightSection.svg'
 import Swal from 'sweetalert2'
 import { ClipLoader } from 'react-spinners'
 import { useAuth } from '@/context/AuthContext'
@@ -235,14 +236,13 @@ const UserLogin = () => {
         otp5: '',
       })
 
-      const { token, name } = await res?.json()
-      sessionStorage.setItem('token', token)
-      sessionStorage.setItem('username', name)
-
-      router.push('/Generate_DXF')
-
+      const { token } = await res?.json()
+      login(token)
 
       
+
+
+
 
     } catch (err) {
       Swal.fire({
@@ -411,14 +411,14 @@ const UserLogin = () => {
 
 
   return (
-    <div className="flex h-screen w-full mob:flex-col">
+    <div className="flex flex-col w-full md:flex-row">
       {loading && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[1000]">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[10000]">
           <ClipLoader color="#007bff" size={50} />
         </div>
       )}
       {/* Left Form Section */}
-      <div className="w-[55%] bg-white flex items-center justify-center p-6 mob:w-[100%] mob:p-0">
+      <div className="flex-1 bg-white flex items-center justify-center p-6 mob:w-full mob:p-0">
         <div className="w-[90%] p-6 mx-5 mob:mx-0 mob:w-[100%]">
           <div className="flex items-center mb-16 mob:mb-10">
             <Image
@@ -475,7 +475,7 @@ const UserLogin = () => {
                   {showPassword ? (
                     <FaEye size={20} className="text-[#005B97]" />
                   ) : (
-                    <FaEyeSlash size={20} className="text-[#005B97]" />
+                    <RiEyeCloseFill size={20} className="text-[#005B97]" />
                   )}
                 </button>
                 <p className="text-right mt-2">
@@ -500,7 +500,7 @@ const UserLogin = () => {
               Login
             </button>
             <p className="font-semibold text-xl text-center mt-5">
-              Don&apos;t have an account?
+              Don&apos;t have an account?{" "}
               <span
                 className=" underline text-[#266CAB] cursor-pointer"
                 onClick={() => {
@@ -519,34 +519,18 @@ const UserLogin = () => {
       </div>
 
       {/* Right Section */}
-      <div className="md:w-[45%] bg-[#266CA8] flex w-[100%]">
-        <div className="text-white text-right w-full">
-          <div className="mt-10 mob:mt-8 px-8 mob:px-4 flex justify-end">
-            <h1 className="font-semibold text-[40px] mob:text-[27.32px] max-w-[460px] text-right">
-              Transform your designs into production-ready DXF files
-            </h1>
-          </div>
-          <div>
-            <Image
-              src={backarrow}
-              alt="backarrow"
-              width={200}
-              height={200}
-              priority
-              className="ml-auto mt-5 md:pr-8 pr-4"
-            />
-          </div>
-          <div className="w-full max-h-[43rem] overflow-hidden mt-10 lg:max-h-[32rem] xl:aspect-auto xl:max-h-[32rem] 2xl:max-h-[35rem]">
-            {/* Ensures the image fits perfectly within the container */}
-            <Image
-              src={image3}
-              alt="image3"
-              priority
-              className="object-contain px-4 h-auto w-full mb-5 md:mb-0"
-            />
-          </div>
-        </div>
-      </div>
+      {/* <div className="flex-1  flex items-center justify-center relative"> */}
+      <div className="md:w-[40%] bg-[#266CA8] flex justify-end w-[100%]">
+      <Image
+        src={image3}
+        alt="image3"
+        priority
+        className="h-[100vh] object-fill"
+      />
+    </div>
+
+
+      {/* </div> */}
 
       {/* create account */}
       <Modal isOpen={isNewOpen} onClose={onClose} buttonContent="">
@@ -613,7 +597,7 @@ const UserLogin = () => {
                   {showPassword ? (
                     <FaEye size={20} className="text-[#005B97]" />
                   ) : (
-                    <FaEyeSlash size={20} className="text-[#005B97]" />
+                    <RiEyeCloseFill size={20} className="text-[#005B97]" />
                   )}
                 </button>
               </div>
@@ -642,7 +626,7 @@ const UserLogin = () => {
                   {showConfirmPassword ? (
                     <FaEye size={20} className="text-[#005B97]" />
                   ) : (
-                    <FaEyeSlash size={20} className="text-[#005B97]" />
+                    <RiEyeCloseFill size={20} className="text-[#005B97]" />
                   )}
                 </button>
               </div>
@@ -841,7 +825,7 @@ const UserLogin = () => {
                     {showPassword ? (
                       <FaEye size={20} className="text-[#005B97]" />
                     ) : (
-                      <FaEyeSlash size={20} className="text-[#005B97]" />
+                      <RiEyeCloseFill size={20} className="text-[#005B97]" />
                     )}
                   </button>
                 </div>
@@ -869,7 +853,7 @@ const UserLogin = () => {
                     {showConfirmPassword ? (
                       <FaEye size={20} className="text-[#005B97]" />
                     ) : (
-                      <FaEyeSlash size={20} className="text-[#005B97]" />
+                      <RiEyeCloseFill size={20} className="text-[#005B97]" />
                     )}
                   </button>
                 </div>

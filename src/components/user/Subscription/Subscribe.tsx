@@ -90,6 +90,11 @@ type SubscribeProps = {
     setIsBilingOpen: (open: boolean) => void;
 };
 
+// function handleSkiporFree()
+// {
+
+// }
+
 function Subscribe({ isBilingOpen, setIsBilingOpen }: SubscribeProps) {
     // const [isBilingOpen, setIsBilingOpen] = useState<boolean>(false);
     const onClose = () => {
