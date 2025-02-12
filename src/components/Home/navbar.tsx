@@ -8,7 +8,8 @@ import Drawer from '../UI/Drawer'
 function Navbar() {
   const { activeTab, setActiveTab } = useTabContext()
   const handleTabChange = (tab: string) => {
-    setActiveTab(tab) // Update context
+    setActiveTab(tab);// Update context
+    onClose();
   }
   const [isOpen, setIsOpen] = useState(false)
   const onClose = () => {
@@ -192,6 +193,7 @@ function Navbar() {
                         onClick={(e) => {
                           e.preventDefault()
                           handleTabChange('/home')
+
                         }}
                         className={` text-[16px] text-[#00000080] font-light leading-[25.5px] hover:text-[#266CA8] ${activeTab === '/home'
                           ? 'text-[#266CA8]'
