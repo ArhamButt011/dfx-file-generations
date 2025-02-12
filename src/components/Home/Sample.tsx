@@ -37,13 +37,13 @@ function Sample() {
                 </div>
             </div>
             {/* lower images */}
-            <div className="flex md:flex-row flex-col justify-center md:mt-10 mt-50 gap-50">
+            <div className="flex md:flex-row flex-col justify-center md:mt-10 mt-50  md:gap-50 gap-20">
                 {/* Left Image */}
                 <div className="relative md:w-1/3 aspect-[10/9]">
                     <div className="relative w-full h-full">
                         <Image
                             src="/images/user/home/sample/overlay.svg"
-                            alt="Input Image"
+                            alt="overlay Image"
                             fill
                         />
                     </div>
@@ -54,19 +54,16 @@ function Sample() {
 
 
                 {/* Right Image */}
-                
-                <div className="relative md:w-1/3 aspect-[10/9] my-10 md:mt-0">
+                <div className="relative md:w-1/3 aspect-[10/9] md:mt-0 mt-30">
                     <div className="relative w-full h-full">
                         <Image
                             src="/images/user/home/sample/preview.svg"
-                            alt="Input Image"
+                            alt="preview Image"
                             fill
                         />
                     </div>
                     <p className="text-start mt-5 ms-5 font-semibold text-4xl">DFX Preview</p>
                     <p className='font-medium text-xl text-[#00000080] ms-5'>DXF contours (in red) overlayed onto the input image with the optional offset parameter applied, allowing users to confirm accurate tool edge detection.</p>
-                    
-
                 </div>
             </div>
         </div>

@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { useCallback, useEffect } from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -8,7 +9,7 @@ import { twMerge } from "tailwind-merge";
 
 type DrawerProps = {
   isOpen: boolean;
-  // onClose?: () => void;
+  onClose?: () => void;
   className?: string;
   children: React.ReactNode;
   drawerTitle?: string;
@@ -16,7 +17,7 @@ type DrawerProps = {
 
 const Drawer: React.FC<DrawerProps> = ({
   isOpen,
-  // onClose,
+  onClose,
   className,
   // drawerTitle,
   children,
@@ -62,7 +63,7 @@ const Drawer: React.FC<DrawerProps> = ({
       )}
       <div
         className={twMerge(
-          `fixed right-0 top-0 z-[999] h-full   w-[705px] ] mob:w-full transform overflow-x-hidden text-white  drawerbg transition-transform duration-300 bg-black ease-in-out ${isOpen
+          `fixed right-0 top-0 z-[999] h-full w-full transform overflow-x-hidden text-white  drawerbg transition-transform duration-300 bg-white ease-in-out ${isOpen
             ? "transition-transform duration-700 ease-in-out translate-x-0"
             : "transition-transform duration-700 ease-in-out  translate-x-full"
           // isOpen ? "h-[100%] w-full translate-y-[10%]" : "translate-y-full"
@@ -74,7 +75,7 @@ const Drawer: React.FC<DrawerProps> = ({
         }}
       >
         {/* Drawer Close Button */}
-        {/* <div className="mt-[20px]  px-[60px] mob:px-[25px] flex justify-end items-center">
+        <div className="w-full   flex justify-end items-center">
           <button
             // onClick={toggleMenu}
             type="button"
@@ -83,18 +84,19 @@ const Drawer: React.FC<DrawerProps> = ({
             aria-expanded={isOpen ? "true" : "false"}
             onClick={onClose}
           >
-            <span
-              className={`block w-6 h-0.5 bg-white transition-transform duration-300 ease-in-out ${isOpen ? "rotate-45 translate-y-[4px]" : ""}`}
-            ></span>
-            <span
-              className={`block w-6 h-0.5 bg-white mt-1.5 transition-transform duration-300 ease-in-out ${isOpen ? "-rotate-45 -translate-y-[4px]" : ""}`}
-            ></span>
+            <Image
+              className="z-10 h-full mt-17 me-10"
+              src="/images/user/home/NavbarCross.svg"
+              alt="one"
+              width={20}
+              height={20}
+            />
           </button>
-        </div> */}
+        </div>
 
         {/* Drawer content */}
         {/* Conditionally render the children based on 'isOpen' */}
-        {isOpen && <div className="]">{children}</div>}
+        {isOpen && <div className="">{children}</div>}
       </div>
     </>
   );

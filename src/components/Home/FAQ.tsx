@@ -58,7 +58,7 @@ function FAQ() {
                             onClick={() => toggleAccordion(id)}
                             className="w-full flex justify-between items-center py-5 text-slate-800"
                         >
-                            <span className='font-semibold md:text-[40px] text-sm'>{question}</span>
+                            <span className='font-semibold md:text-[40px] text-sm text-left'>{question}</span>
                             <span
                                 className={`text-slate-800 transition-transform duration-300 ${openAccordionId === id ? "rotate-90" : "rotate-0"
                                     }`}
@@ -71,7 +71,7 @@ function FAQ() {
                             className={`overflow-hidden transition-all duration-300 ease-in-out ${openAccordionId === id ? "max-h-40" : "max-h-0"
                                 }`}
                         >
-                            <div className="pb-5 text-3xl text-[#0000004D]">{answer}</div>
+                            <div className="pb-5 md:text-3xl text-xs text-[#0000004D]">{answer}</div>
                         </div>
                     </div>
                 ))}
