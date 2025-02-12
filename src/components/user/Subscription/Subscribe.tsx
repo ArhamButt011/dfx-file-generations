@@ -1,6 +1,6 @@
 import BilingModal from '@/components/UI/BilingModal'
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React from 'react'
 
 type included = {
     id: number
@@ -85,8 +85,13 @@ const bilingPlans: DataItem[] = [
         buttonText: 'Get Started',
     },
 ]
-function Subscribe() {
-    const [isBilingOpen, setIsBilingOpen] = useState<boolean>(false);
+type SubscribeProps = {
+    isBilingOpen: boolean;
+    setIsBilingOpen: (open: boolean) => void;
+};
+
+function Subscribe({ isBilingOpen, setIsBilingOpen }: SubscribeProps) {
+    // const [isBilingOpen, setIsBilingOpen] = useState<boolean>(false);
     const onClose = () => {
         setIsBilingOpen(false);
     }

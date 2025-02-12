@@ -5,7 +5,7 @@ import React from 'react'
 function Hero() {
     return (
         <>
-            <div className='md:py-44 py-32 max-w-[90%] mx-auto'>
+            <div className='md:py-36 py-32 max-w-[90%] mx-auto' id='home'>
                 <p className='font-bold md:text-[55px] text-[40px] text-center md:max-w-[80%] mx-auto'>Effortless DXF File Creation with AI Precision</p>
                 <p className='text-center text-[#00000066] md:text-[29px] text-[23px] mx-auto font-medium md:max-w-[90%] mt-5'>Effortlessly create precise DXF files for manufacturing custom tool drawer inserts with AI-powered automation. Simplify your workflow and take tool organization to the next level. Start your free trial today!</p>
                 <div className='my-10 flex justify-center'>
@@ -18,7 +18,7 @@ function Hero() {
 
             </div>
             {/* why choose */}
-            <div className='md:py-20 md:max-w-[90%] mx-auto' id='benefits'>
+            <div className=' md:max-w-[90%] mx-auto' id='benefits'>
                 <p className='font-bold md:text-[55px] text-[40px] text-center '>Why <span className='text-[#266CAB]'>Choose</span> Our DXF Generator?</p>
                 <p className='text-center text-[#00000066] md:text-[29px] text-[23px] mx-auto font-medium max-w-[90%]'>
                     Simplify the creation of DXF files with precision and ease. Designed for both hobbyists and professionals, our software eliminates tedious manual design work, delivers accurate files ready for manufacturing custom tool drawer inserts, and saves you time and effort. Choose a fast, reliable, and cost-effective solution that streamlines your workflow and puts you in control.

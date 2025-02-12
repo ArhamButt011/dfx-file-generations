@@ -6,7 +6,7 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import Image from 'next/image'
 import logo from '/public/images/user/home/logo.svg'
 import Modal from '../UI/Modal'
-import BilingModal from '../UI/BilingModal'
+import Subscribe from '@/components/user/Subscription/Subscribe'
 import { useRouter } from 'next/navigation'
 import backarrow from '/public/images/admin/backarrow.svg'
 import image3 from '/public/images/user/AuthScreens/login.svg'
@@ -14,19 +14,7 @@ import Swal from 'sweetalert2'
 import { ClipLoader } from 'react-spinners'
 import { useAuth } from '@/context/AuthContext'
 // Defining types for the props
-type included = {
-  id: number
-  text: string
-}
 
-type DataItem = {
-  id: number
-  desc: string
-  title: string
-  price: string
-  include: included[]
-  buttonText: string
-}
 
 const UserLogin = () => {
   const router = useRouter()
@@ -42,7 +30,7 @@ const UserLogin = () => {
   const [isVerifyOpen, setIsVerifyOpen] = useState<boolean>(false)
   const [isForgetOpen, setIsForgetOpen] = useState<boolean>(false)
   const [isResetOpen, setIsResetOpen] = useState<boolean>(false)
-  const [isBilingOpen, setIsBilingOpen] = useState<boolean>(false)
+  const [isBilingOpen, setIsBilingOpen] = useState(false);
   const [isAccountVerified, setIsAccountVerified] = useState<boolean>(false)
   const [isAccountCreated, setIsAccountCreated] = useState<boolean>(false)
   const onClose = () => {
@@ -50,7 +38,6 @@ const UserLogin = () => {
     setIsVerifyOpen(false)
     setIsForgetOpen(false)
     setIsResetOpen(false)
-    setIsBilingOpen(false)
   }
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false)
@@ -161,7 +148,7 @@ const UserLogin = () => {
     const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return regex.test(email);
   };
-  
+
 
   const handleNewAccountSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -238,6 +225,7 @@ const UserLogin = () => {
       setIsVerifyOpen(false)
       setIsNewOpen(false)
       setEmail('')
+      setIsBilingOpen(true);
       // setIsBilingOpen(true);
       setVerifyFormData({
         otp1: '',
@@ -252,6 +240,10 @@ const UserLogin = () => {
       sessionStorage.setItem('username', name)
 
       router.push('/Generate_DXF')
+
+
+      
+
     } catch (err) {
       Swal.fire({
         title: 'Error!',
@@ -270,10 +262,10 @@ const UserLogin = () => {
     try {
       const otp = parseInt(
         verifyFormData.otp1 +
-          verifyFormData.otp2 +
-          verifyFormData.otp3 +
-          verifyFormData.otp4 +
-          verifyFormData.otp5,
+        verifyFormData.otp2 +
+        verifyFormData.otp3 +
+        verifyFormData.otp4 +
+        verifyFormData.otp5,
       )
 
       const res = await fetch('/api/auth/OTPVerification/verifyOTP', {
@@ -379,7 +371,7 @@ const UserLogin = () => {
       const res = await fetch('/api/auth/ResetPassword', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email,ResetFormData }),
+        body: JSON.stringify({ email, ResetFormData }),
       })
 
       if (!res.ok) {
@@ -416,75 +408,7 @@ const UserLogin = () => {
     setIsResetOpen(false)
   }
 
-  const bilingPlans: DataItem[] = [
-    {
-      id: 1,
-      desc: 'Free Plan',
-      title: 'Free Trial',
-      price: '$0.00/month',
-      include: [
-        {
-          id: 1,
-          text: 'Unlimited DXF file downloads for 7 days.',
-        },
-        {
-          id: 2,
-          text: 'No payment required',
-        },
-      ],
-      buttonText: 'Start Free Trial',
-    },
-    {
-      id: 2,
-      desc: 'Pay Per Download',
-      title: 'Basic',
-      price: '$10.00/File',
-      include: [
-        {
-          id: 1,
-          text: 'Free upload and preview',
-        },
-        {
-          id: 2,
-          text: 'Purchase DXF files individually for $10 per download.',
-        },
-        {
-          id: 3,
-          text: 'No commitment or subscription',
-        },
-        {
-          id: 4,
-          text: 'Secure payment processing',
-        },
-      ],
-      buttonText: 'Get Started',
-    },
-    {
-      id: 3,
-      desc: 'Unlimited Plan',
-      title: 'Premium',
-      price: '$100.00/Month',
-      include: [
-        {
-          id: 1,
-          text: 'Unlimited DXF downloads',
-        },
-        {
-          id: 2,
-          text: 'Exclusive customer support ',
-        },
-        {
-          id: 3,
-          text: 'Cancel or modify anytime',
-        },
-        {
-          id: 4,
-          text: 'Secure payment processing',
-        },
-      ],
-      buttonText: 'Get Started',
-    },
-  ]
+
 
   return (
     <div className="flex h-screen w-full mob:flex-col">
@@ -503,7 +427,7 @@ const UserLogin = () => {
               width={250}
               height={250}
               priority
-              //   style={{ width: 'auto', height: 'auto' }}
+            //   style={{ width: 'auto', height: 'auto' }}
             />
           </div>
           <h1 className="text-[45px] font-medium text-black -mb-5">
@@ -571,7 +495,7 @@ const UserLogin = () => {
               //     loading ? 'opacity-50 cursor-not-allowed' : ''
               //   }`}
               className="w-full bg-[#005B97] text-white py-2 px-4 xxxl:mt-20 xxl:mt-12 mob:mt-10 font-bold rounded-[94.17px] hover:bg-[#005b97f0] transition duration-300"
-              //   disabled={loading}
+            //   disabled={loading}
             >
               Login
             </button>
@@ -747,9 +671,8 @@ const UserLogin = () => {
             <button
               type="submit"
               disabled={!newAccountFormData.agree}
-              className={`w-full bg-[#005B97] text-white p-3 font-bold rounded-full hover:bg-[#005b97f0] transition duration-300 mt-10 ${
-                !newAccountFormData.agree ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
+              className={`w-full bg-[#005B97] text-white p-3 font-bold rounded-full hover:bg-[#005b97f0] transition duration-300 mt-10 ${!newAccountFormData.agree ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
             >
               Continue
             </button>
@@ -794,7 +717,7 @@ const UserLogin = () => {
               type="submit"
               className="w-full bg-[#005B97] text-white p-3 md:mt-10 mt-10 font-bold rounded-[94.17px] hover:bg-[#005b97f0] transition duration-300"
 
-              //   disabled={loading}
+            //   disabled={loading}
             >
               Verify
             </button>
@@ -873,11 +796,11 @@ const UserLogin = () => {
               type="submit"
               className="w-full bg-[#005B97] text-white p-3 md:mt-10 mt-10 font-bold rounded-[94.17px] hover:bg-[#005b97f0] transition duration-300"
 
-              //   disabled={loading}
+            //   disabled={loading}
             >
               Verify
             </button>
-           
+
           </form>
         </div>
       </Modal>
@@ -957,7 +880,7 @@ const UserLogin = () => {
               type="submit"
               className="w-full bg-[#005B97] text-white p-3 md:mt-10 mt-10 font-bold rounded-[94.17px] hover:bg-[#005b97f0] transition duration-300"
 
-              //   disabled={loading}
+            //   disabled={loading}
             >
               Verify
             </button>
@@ -974,62 +897,8 @@ const UserLogin = () => {
         </div>
       </Modal>
 
-      {/* biling */}
-      <BilingModal isOpen={isBilingOpen} onClose={onClose}>
-        <div>
-          <div className="text-center">
-            <p className="font-semibold text-3xl cursor-pointer">
-              Choose Your Subscription Plan
-            </p>
-            <p className="font-medium text-xl text-[#00000080]">
-              Choose a plan that fits your needs, and let&apos;s start designing
-              together.
-            </p>
-          </div>
+      <Subscribe isBilingOpen={isBilingOpen} setIsBilingOpen={setIsBilingOpen} />
 
-          <div className="flex justify-between mt-10">
-            {bilingPlans.map((item) => (
-              <div
-                key={item.id}
-                className="border p-4 flex-1 max-w-[30%] rounded-2xl flex flex-col justify-between"
-              >
-                <div>
-                  <p className="font-medium text-base text-[#22222280]">
-                    {item.desc}
-                  </p>
-                  <p className="font-semibold text-3xl">{item.title}</p>
-                  <p className="mt-10">
-                    <span className="text-4xl font-semibold text-[#266CA8]">
-                      {item.price.split('/')[0]}
-                    </span>
-                    <span className="text-base text-[#22222280] font-medium">
-                      /{item.price.split('/')[1]}
-                    </span>
-                  </p>
-                  <p className="font-semibold text-base mt-5">Whats Included</p>
-                  {item.include.map((inc) => (
-                    <div key={inc.id} className="flex items-center gap-2">
-                      <Image
-                        src="/images/user/AuthScreens/Check Circle.svg"
-                        alt=""
-                        width={24}
-                        height={24}
-                        className="flex-shrink-0"
-                      />
-                      <p className="font-medium text-base text-[#22222280]">
-                        {inc.text}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-                <button className="mt-4 bg-[#266CA8] text-white py-2 px-4 rounded-full">
-                  {item.buttonText}
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-      </BilingModal>
     </div>
   )
 }
