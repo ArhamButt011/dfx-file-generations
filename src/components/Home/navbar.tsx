@@ -15,12 +15,12 @@ function Navbar() {
   const onClose = () => {
     setIsOpen(false)
   }
-  useEffect(()=>{
+  useEffect(() => {
     setActiveTab("/home")
-  },[])
+  }, [])
   return (
     <>
-      <nav className="absolute z-50 w-full md:px-20 px-5 border-b-2 mt-5 ">
+      <nav className="absolute z-50 w-full md:px-20 px-5 border-b-2 border-[#0000001A] pb-5 md:pb-0 mt-5 ">
         <div className="flex justify-center items-center w-full">
           <div className=" w-full flex flex-wrap items-center justify-between mx-auto ">
             <div className="md:flex justify-between w-full pb-4 hidden ">
@@ -153,7 +153,7 @@ function Navbar() {
                 Login/Signup
               </Link>
             </div>
-            
+
             <div className="md:hidden w-full flex  justify-between">
               <div
                 className="relative cursor-pointer flex justify-between w-full items-center  pt-[5px]"
@@ -304,7 +304,15 @@ function Navbar() {
                           FAQs
                         </a>
                       </li>
+                      <Link
+                        href="/user"
+                        className="bg-[#266CA8] text-white rounded-full mt-2 flex h-[10%] px-3 py-1"
+                        onClick={()=>onClose()}
+                      >
+                        Login/Signup
+                      </Link>
                     </ul>
+
                   </div>
                 </Drawer>
               </div>
