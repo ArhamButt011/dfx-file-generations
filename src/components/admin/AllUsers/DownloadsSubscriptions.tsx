@@ -1,16 +1,10 @@
 import Image from 'next/image'
 import React, { useCallback, useEffect, useState } from 'react'
-import noDownloads from '/public/images/admin/allusers/nodownloads.svg'
 import noSubscriptions from '/public/images/admin/allusers/noSubscriptions.svg'
 import { format } from 'date-fns'
 import { useParams } from 'next/navigation'
 import { ClipLoader } from 'react-spinners'
-
-interface Downloads {
-  order_id: string
-  file_name: string
-  downloaded_on: string
-}
+import Downloads from './Downloads'
 
 interface Subscriptions {
   order_id: string
@@ -30,40 +24,13 @@ const DownloadsSubscriptions = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [totalSubscriptions, setTotalSubscriptions] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
+
   const { id } = useParams()
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage)
   }
 
-  const downloadsData: Downloads[] = [
-    {
-      order_id: '1',
-      file_name: 'project_dxf_01.dxf',
-      downloaded_on: '2024-02-01',
-    },
-    {
-      order_id: '2',
-      file_name: 'blueprint_2024.dxf',
-      downloaded_on: '2024-02-15',
-    },
-    {
-      order_id: '3',
-      file_name: 'site_plan_v2.dxf',
-      downloaded_on: '2024-03-05',
-    },
-    {
-      order_id: '4',
-      file_name: 'design_drawing.dxf',
-      downloaded_on: '2024-03-20',
-    },
-    {
-      order_id: '5',
-      file_name: 'construction_model.dxf',
-      downloaded_on: '2024-04-10',
-    },
-  ]
-
-  const fetchUsers = useCallback(async () => {
+  const fetchSubscriptions = useCallback(async () => {
     try {
       setLoadingTable(true)
 
@@ -73,8 +40,6 @@ const DownloadsSubscriptions = () => {
       const response = await fetch(
         `/api/admin/get-subscriptions/${id}?page=${currentPage}${searchParam}`,
       )
-
-      console.log(response)
 
       if (response.ok) {
         const data = await response.json()
@@ -92,10 +57,8 @@ const DownloadsSubscriptions = () => {
   }, [id, currentPage, searchQuery])
 
   useEffect(() => {
-    fetchUsers()
-  }, [fetchUsers])
-
-  console.log(subscriptions)
+    fetchSubscriptions()
+  }, [fetchSubscriptions])
 
   return (
     <>
@@ -124,79 +87,7 @@ const DownloadsSubscriptions = () => {
       </div>
       {activeTab == 'Downloads' ? (
         <div>
-          <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <h1 className="text-[27.42px] font-semibold text-[#000000]">
-                DXF Downloads
-              </h1>
-              <p className="mt-2 font-medium text-[17.28px] text-primary">
-                Total DXF Downloads: {downloadsData.length}
-              </p>
-            </div>
-            <div>
-              <input
-                type="text"
-                placeholder="Search..."
-                className="px-4 py-2 rounded-lg border border-gray-300"
-                // value={searchQuery}
-                // onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
-
-            {/* <nav>
-        <ol className="flex items-center gap-2">
-          <li>
-            <Link className="font-medium" href="/">
-              Dashboard /
-            </Link>
-          </li>
-          <li className="font-medium text-primary">{pageName}</li>
-        </ol>
-      </nav> */}
-          </div>
-          {downloadsData && downloadsData.length > 0 ? (
-            <table className="min-w-full bg-white border-gray-300 text-[20.45px]">
-              <thead>
-                <tr className="text-md text-gray-600">
-                  <th className="pb-4 border-b text-start font-medium">
-                    Order ID
-                  </th>
-                  <th className="pb-4 px-4 border-b text-start font-medium">
-                    File Name
-                  </th>
-                  <th className="pb-4 px-4 border-b text-right font-medium">
-                    Downloaded On
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {downloadsData.map((data: Downloads) => (
-                  <tr key={data.order_id} className="text-[22px]">
-                    <td className="py-5 px-4 border-b text-start font-medium text-[#00000066]">
-                      #{data.order_id}
-                    </td>
-                    <td className="py-3 px-4 border-b text-start font-medium text-[#000000]">
-                      {data.file_name}
-                    </td>
-                    <td className="py-3 px-4 border-b text-right text-[20px] font-medium text-[#00000066]">
-                      {format(new Date(data.downloaded_on), 'MMM dd, yyyy')}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          ) : (
-            <div className="flex flex-col items-center mt-20">
-              <Image
-                src={noDownloads}
-                alt="No jobs found"
-                width={200}
-                height={200}
-                priority
-                style={{ width: 'auto', height: 'auto' }}
-              />
-            </div>
-          )}
+          <Downloads />
         </div>
       ) : activeTab == 'Subscriptions' ? (
         <div>
@@ -214,7 +105,7 @@ const DownloadsSubscriptions = () => {
                 type="text"
                 placeholder="Search..."
                 className="px-4 py-2 rounded-lg border border-gray-300"
-                value={searchQuery}
+                value={searchQuery || ''}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
