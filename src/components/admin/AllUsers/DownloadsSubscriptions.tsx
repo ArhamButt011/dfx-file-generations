@@ -1,8 +1,10 @@
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import noDownloads from '/public/images/admin/allusers/nodownloads.svg'
 import noSubscriptions from '/public/images/admin/allusers/noSubscriptions.svg'
 import { format } from 'date-fns'
+import { useParams } from 'next/navigation'
+import { ClipLoader } from 'react-spinners'
 
 interface Downloads {
   order_id: string
@@ -15,14 +17,24 @@ interface Subscriptions {
   plan_name: string
   duration: string
   added_on: string
-  expiry_on: string
+  expiry_date: string
   charges: number
   status: string
 }
 
 const DownloadsSubscriptions = () => {
   const [activeTab, setActiveTab] = useState<string>('Downloads')
-  //   const[loadingTable,setLoadingTable]= useState<boolean>(false)
+  const [loadingTable, setLoadingTable] = useState<boolean>(false)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [subscriptions, setSubscriptions] = useState<Subscriptions[]>([])
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalSubscriptions, setTotalSubscriptions] = useState(1)
+  const [totalPages, setTotalPages] = useState(1)
+  const { id } = useParams()
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage)
+  }
+
   const downloadsData: Downloads[] = [
     {
       order_id: '1',
@@ -51,26 +63,39 @@ const DownloadsSubscriptions = () => {
     },
   ]
 
-  const subscriptions: Subscriptions[] = [
-    {
-      order_id: '1',
-      plan_name: 'Basic',
-      duration: 'Monthly',
-      added_on: 'Apr 10, 2024',
-      expiry_on: 'Apr 10, 2024',
-      charges: 100,
-      status: 'Current',
-    },
-    {
-      order_id: '2',
-      plan_name: 'Premium',
-      duration: 'Yearly',
-      added_on: 'Apr 10, 2024',
-      expiry_on: 'Apr 10, 2024',
-      charges: 100,
-      status: 'Past',
-    },
-  ]
+  const fetchUsers = useCallback(async () => {
+    try {
+      setLoadingTable(true)
+
+      const searchParam = searchQuery
+        ? `&search=${encodeURIComponent(searchQuery)}`
+        : ''
+      const response = await fetch(
+        `/api/admin/get-subscriptions/${id}?page=${currentPage}${searchParam}`,
+      )
+
+      console.log(response)
+
+      if (response.ok) {
+        const data = await response.json()
+        setSubscriptions(data.subscriptions)
+        setTotalPages(data.totalPages)
+        setTotalSubscriptions(data.totalSubscriptions)
+      } else {
+        console.log('Failed to fetch users')
+      }
+    } catch (error) {
+      console.log('Error fetching users:', error)
+    } finally {
+      setLoadingTable(false)
+    }
+  }, [id, currentPage, searchQuery])
+
+  useEffect(() => {
+    fetchUsers()
+  }, [fetchUsers])
+
+  console.log(subscriptions)
 
   return (
     <>
@@ -175,7 +200,41 @@ const DownloadsSubscriptions = () => {
         </div>
       ) : activeTab == 'Subscriptions' ? (
         <div>
-          {subscriptions && subscriptions.length > 0 ? (
+          <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h1 className="text-[27.42px] font-semibold text-[#000000]">
+                Subscriptions
+              </h1>
+              <p className="mt-2 font-medium text-[17.28px] text-primary">
+                Total subscriptions added: {totalSubscriptions}
+              </p>
+            </div>
+            <div>
+              <input
+                type="text"
+                placeholder="Search..."
+                className="px-4 py-2 rounded-lg border border-gray-300"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+
+            {/* <nav>
+        <ol className="flex items-center gap-2">
+          <li>
+            <Link className="font-medium" href="/">
+              Dashboard /
+            </Link>
+          </li>
+          <li className="font-medium text-primary">{pageName}</li>
+        </ol>
+      </nav> */}
+          </div>
+          {loadingTable ? (
+            <div className="flex items-center justify-center bg-opacity-50 z-[1000] mt-20 h-50">
+              <ClipLoader color="#007bff" size={50} />
+            </div>
+          ) : subscriptions && subscriptions.length > 0 ? (
             <table className="min-w-full border-separate border-spacing-y-3">
               <thead>
                 <tr className="text-md text-gray-600 text-[18.45px]">
@@ -209,23 +268,23 @@ const DownloadsSubscriptions = () => {
                     className="text-primary bg-[#F5F5F5] text-[16px]"
                   >
                     <td className="py-5 px-4 text-start font-medium rounded-l-xl">
-                      #{data.order_id}
+                      #{index + 1}
                     </td>
                     <td className="py-5 px-4 text-start font-medium text-black text-[19px]">
-                      {data.plan_name}
+                      {data?.plan_name}
                     </td>
                     <td className="py-5 px-4 text-start font-medium">
-                      {data.duration}
+                      {data?.duration}
                     </td>
                     <td className="py-5 px-4 text-start font-medium ">
-                      {format(new Date(data.expiry_on), 'MMM dd, yyyy')}
+                      {format(new Date(data?.expiry_date), 'MMM dd, yyyy')}
                     </td>
                     <td className="py-5 px-4 text-start font-medium ">
-                      {format(new Date(data.added_on), 'MMM dd, yyyy')}
+                      {format(new Date(data?.added_on), 'MMM dd, yyyy')}
                     </td>
 
                     <td className="py-5 px-4 text-start text-[19px] font-medium text-[#266CA8]">
-                      ${data.charges}
+                      ${data?.charges}
                     </td>
                     <td
                       className={`py-5 px-4 text-start font-medium rounded-r-xl`}
@@ -237,7 +296,7 @@ const DownloadsSubscriptions = () => {
                             : 'text-[#F9A000] bg-[#F5EDDD] px-8 py-2 rounded-full'
                         }`}
                       >
-                        {data.status}
+                        {data?.status}
                       </span>
                     </td>
                   </tr>
@@ -254,6 +313,37 @@ const DownloadsSubscriptions = () => {
                 priority
                 style={{ width: 'auto', height: 'auto' }}
               />
+            </div>
+          )}
+          {loadingTable ||
+          totalPages === 0 ||
+          subscriptions.length === 0 ? null : (
+            <div className="mt-4 flex justify-end items-center gap-4 text-gray-800">
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className={`px-4 py-2 rounded-md ${
+                  currentPage === 1
+                    ? 'bg-gray-300 cursor-not-allowed'
+                    : 'bg-blue-500 text-white hover:bg-blue-600'
+                }`}
+              >
+                Previous
+              </button>
+              <span>
+                Page {currentPage} of {totalPages}
+              </span>
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className={`px-4 py-2 rounded-md ${
+                  currentPage === totalPages
+                    ? 'bg-gray-300 cursor-not-allowed'
+                    : 'bg-blue-500 text-white hover:bg-blue-600'
+                }`}
+              >
+                Next
+              </button>
             </div>
           )}
         </div>

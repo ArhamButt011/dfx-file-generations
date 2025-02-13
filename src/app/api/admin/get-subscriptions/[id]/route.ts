@@ -1,7 +1,14 @@
 import { NextResponse } from 'next/server'
-import { ObjectId } from 'mongodb'
+import { ObjectId, Filter } from 'mongodb'
 import clientPromise from '@/lib/mongodb'
 import type { NextRequest } from 'next/server'
+
+interface Subscription {
+  _id: ObjectId
+  user_id: ObjectId
+  plan_name: string
+  status: string
+}
 
 export async function GET(req: NextRequest) {
   try {
@@ -18,31 +25,45 @@ export async function GET(req: NextRequest) {
     const client = await clientPromise
     const db = client.db('DFXFileGeneration')
 
-    // Convert id to ObjectId for cards collection query
     const userIdObject = new ObjectId(id)
 
-    // Fetch all card details for the user
-    const subscriptions = await db
-      .collection('subscriptions')
-      .find({ user_id: userIdObject })
-      .toArray()
+    const page = parseInt(url.searchParams.get('page') || '1', 10)
+    const limit = parseInt(url.searchParams.get('limit') || '10', 10)
+    const skip = (page - 1) * limit
 
-    if (!subscriptions) {
-      return NextResponse.json(
-        { error: 'Subscription not found' },
-        { status: 404 },
-      )
+    const searchQuery = url.searchParams.get('search') || ''
+    let filter: Filter<Subscription> = { user_id: userIdObject }
+
+    if (searchQuery) {
+      const searchRegex = { $regex: searchQuery, $options: 'i' }
+      filter = {
+        ...filter,
+        $or: [{ plan_name: searchRegex }, { status: searchRegex }],
+      }
     }
 
-    // Return the merged data
+    const subscriptions = await db
+      .collection<Subscription>('subscriptions')
+      .find(filter)
+      .skip(skip)
+      .limit(limit)
+      .toArray()
+
+    const totalSubscriptions = await db
+      .collection<Subscription>('subscriptions')
+      .countDocuments(filter)
+
     return NextResponse.json(
       {
         subscriptions,
+        totalSubscriptions,
+        page,
+        totalPages: Math.ceil(totalSubscriptions / limit),
       },
       { status: 200 },
     )
   } catch (error) {
-    console.error('Error fetching subscriptions details:', error)
+    console.error('Error fetching subscriptions:', error)
     return NextResponse.json(
       { error: 'An error occurred while processing the request' },
       { status: 500 },
