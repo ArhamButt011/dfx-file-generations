@@ -239,7 +239,7 @@ const UserLogin = () => {
       const { token } = await res?.json()
       login(token)
 
-      
+
 
 
 
@@ -411,16 +411,16 @@ const UserLogin = () => {
 
 
   return (
-    <div className="flex flex-col w-full md:flex-row">
+    <div className="flex flex-col w-full h-[100vh] md:h-full  md:flex-row">
       {loading && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[10000]">
           <ClipLoader color="#007bff" size={50} />
         </div>
       )}
       {/* Left Form Section */}
-      <div className="flex-1 bg-white flex items-center justify-center p-6 mob:w-full mob:p-0">
-        <div className="w-[90%] p-6 mx-5 mob:mx-0 mob:w-[100%]">
-          <div className="flex items-center mb-16 mob:mb-10">
+      <div className="flex-1 bg-white flex md:items-center justify-center md:p-6  md:mt-0 mt-10">
+        <div className="md:w-[90%] md:p-6 mx-5 ">
+          <div className="flex items-center  mb-16 mob:mb-10">
             <Image
               src={logo}
               alt="logo"
@@ -430,15 +430,15 @@ const UserLogin = () => {
             //   style={{ width: 'auto', height: 'auto' }}
             />
           </div>
-          <h1 className="text-[45px] font-medium text-black -mb-5">
+          <h1 className="md:text-[45px] text-[28px] font-medium text-black -mb-5">
             Effortless & Efficient{' '}
           </h1>
-          <p className="font-semibold text-[60px]">
+          <p className="font-semibold md:text-[60px] text-[39px] md:mt-0 mt-5">
             {' '}
             <span className="text-[#266CAB]">DXF</span> File Creation
           </p>
           <form onSubmit={handleLogin}>
-            <div className="mb-4">
+            <div className="md:mb-4 md:mt-0 my-10">
               <label className="block text-black font-semibold mb-1">
                 Email Address
               </label>
@@ -452,7 +452,7 @@ const UserLogin = () => {
                 required
               />
             </div>
-            <div className="mb-2 relative">
+            <div className="md:mb-2 mb-10 relative">
               <label className="block text-black font-semibold mb-1">
                 Password
               </label>
@@ -480,7 +480,7 @@ const UserLogin = () => {
                 </button>
                 <p className="text-right mt-2">
                   <span
-                    className=" underline text-[#266CAB] cursor-pointer"
+                    className=" underline text-[#266CAB] md:text-xl text-xs cursor-pointer"
                     onClick={() => setIsForgetOpen(true)}
                   >
                     {' '}
@@ -494,12 +494,12 @@ const UserLogin = () => {
               //   className={`w-full bg-[#005B97] text-white py-2 px-4 mt-20 font-bold rounded-[94.17px] hover:bg-[#005b97f0] transition duration-300 ${
               //     loading ? 'opacity-50 cursor-not-allowed' : ''
               //   }`}
-              className="w-full bg-[#005B97] text-white py-2 px-4 xxxl:mt-20 xxl:mt-12 mob:mt-10 font-bold rounded-[94.17px] hover:bg-[#005b97f0] transition duration-300"
+              className="w-full bg-[#005B97] text-white py-2 px-4  font-bold rounded-[94.17px] hover:bg-[#005b97f0] transition duration-300"
             //   disabled={loading}
             >
               Login
             </button>
-            <p className="font-semibold text-xl text-center mt-5">
+            <p className="font-semibold md:text-xl text-sm text-center mt-5">
               Don&apos;t have an account?{" "}
               <span
                 className=" underline text-[#266CAB] cursor-pointer"
@@ -519,25 +519,24 @@ const UserLogin = () => {
       </div>
 
       {/* Right Section */}
-      {/* <div className="flex-1  flex items-center justify-center relative"> */}
-      <div className="md:w-[40%] bg-[#266CA8] flex justify-end w-[100%]">
-      <Image
-        src={image3}
-        alt="image3"
-        priority
-        className="h-[100vh] object-fill"
-      />
-    </div>
+      <div className="md:w-[40%] bg-[#266CA8] flex justify-end w-[100%] md:mt-0 mt-10">
+        <Image
+          src={image3}
+          alt="image3"
+          priority
+          className="h-[100vh] object-fill"
+        />
+      </div>
 
 
       {/* </div> */}
 
       {/* create account */}
-      <Modal isOpen={isNewOpen} onClose={onClose} buttonContent="">
+      <Modal isOpen={isNewOpen} onClose={onClose} buttonContent={<Image src="/images/user/cross.svg" alt="cross" width={20} height={20} />}>
         <div>
           <div className="text-center">
-            <p className="font-semibold text-3xl">Create Account</p>
-            <p className="font-medium text-xl text-[#00000080]">
+            <p className="font-semibold md:text-3xl text-2xl">Create Account</p>
+            <p className="font-medium md:text-xl text-sm text-[#00000080]">
               Create Your account to Lumashape by adding and verifying your
               details
             </p>
@@ -642,14 +641,15 @@ const UserLogin = () => {
                 onChange={handleSignupChange}
               />
               <label htmlFor="agree" className="flex items-center space-x-1">
-                <span>I have read and agree to the</span>
-                <a href="#" className="underline text-[#266CAB]">
-                  Privacy Policy
-                </a>
-                <span>&</span>
-                <a href="#" className="underline text-[#266CAB]">
-                  User Agreement
-                </a>
+                <span>I have read and agree to the{" "}
+                  <a href="#" className="underline text-[#266CAB]">
+                    Privacy Policy
+                  </a>
+                  <span>{" "}&{" "}</span>
+                  <a href="#" className="underline text-[#266CAB]">
+                    User Agreement
+                  </a>
+                </span>
               </label>
             </div>
             <button
@@ -667,8 +667,8 @@ const UserLogin = () => {
       <Modal isOpen={isVerifyOpen} onClose={onClose} buttonContent="">
         <div>
           <div className="text-center">
-            <p className="font-semibold text-3xl">Account Verification</p>
-            <p className="font-medium text-xl text-[#00000080]">
+            <p className="font-semibold md:text-3xl text-2xl">Account Verification</p>
+            <p className="font-medium md:text-xl text-sm text-[#00000080]">
               Please enter the verification code sent to{' '}
               <span className="underline text-black">
                 <strong>{newAccountFormData.email}</strong>
@@ -676,7 +676,7 @@ const UserLogin = () => {
             </p>
           </div>
           <form onSubmit={(e) => SignupOTPVerification(e, email)}>
-            <div className="flex justify-center space-x-5 mb-2 mt-10">
+            <div className="flex justify-center md:space-x-5 space-x-3 mb-2 mt-10">
               {/* OTP Inputs */}
               {[
                 verifyFormData.otp1,
@@ -705,7 +705,7 @@ const UserLogin = () => {
             >
               Verify
             </button>
-            <p className="font-semibold text-xl text-center mt-5">
+            <p className="font-semibold md:text-xl text-base text-center mt-5">
               Didn’t receive the code?{' '}
               <span
                 className=" underline text-[#266CAB] cursor-pointer"
