@@ -13,6 +13,9 @@ const Page = () => {
   if (token == null) {
     router.push('/admin')
   }
+  if (userData?.role === 'user') {
+    router.push('/Generate_DXF')
+  }
 
   return (
     <>
