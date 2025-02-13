@@ -48,7 +48,7 @@ function FAQ() {
     return (
         <div className='max-w-[90%] mx-auto mt-20' id='faqs'>
             <p className='font-bold md:text-[55px] text-[40px] text-center md:max-w-[80%] mx-auto'><span className='text-[#266CAB]'>Frequently </span>Asked Questions</p>
-            <p className='text-center text-[#00000066] md:text-[29px] text-[23px] mx-auto font-medium max-w-[90%]'>Everything you need to know about DXF image generator with spaces and how it works? Here are all of your answers</p>
+            {/* <p className='text-center text-[#00000066] md:text-[29px] text-[23px] mx-auto font-medium max-w-[90%]'>Everything you need to know about DXF image generator with spaces and how it works? Here are all of your answers</p> */}
 
             {/* questions */}
             <div className="space-y-4 mt-20">

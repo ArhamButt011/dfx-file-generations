@@ -17,7 +17,7 @@ const data: { left: DataItem[]; right: DataItem[] } = {
         {
             id: 3,
             title: "Preview Your DXF File",
-            description: "Once uploaded, our AI processes your design and generates a high-quality DXF preview."
+            description: "Our AI will process your image, automatically scale the contours, and generate a high quality DXF preview for your review."
         },
         {
             id: 5,

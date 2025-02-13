@@ -722,10 +722,10 @@ const UserLogin = () => {
       <Modal isOpen={isForgetOpen} onClose={onClose} buttonContent="">
         <div>
           <div className="text-center">
-            <p className="font-semibold text-3xl cursor-pointer">
+            <p className="font-semibold md:text-3xl text-2xl cursor-pointer">
               Forgot Password
             </p>
-            <p className="font-medium text-xl text-[#00000080]">
+            <p className="font-medium md:text-xl text-sm text-[#00000080]">
               Please enter the email address so that we can verify your account
             </p>
           </div>
@@ -793,10 +793,10 @@ const UserLogin = () => {
       <Modal isOpen={isResetOpen} onClose={onClose} buttonContent="">
         <div>
           <div className="text-center">
-            <p className="font-semibold text-3xl cursor-pointer">
-              Forgot Password
+            <p className="font-semibold md:text-3xl text-2xl cursor-pointer">
+              Reset Password
             </p>
-            <p className="font-medium text-xl text-[#00000080]">
+            <p className="font-medium md:text-xl text-sm text-[#00000080]">
               Please enter the email address so that we can verify your account
             </p>
           </div>

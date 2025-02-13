@@ -141,7 +141,7 @@ function Navbar() {
                       : 'text-[#00000080]'
                       }`}
                   >
-                    FAQs
+                    FAQ&apos;s
                   </a>
                 </li>
               </ul>
@@ -301,7 +301,7 @@ function Navbar() {
                             : 'text-[#00000080]'
                             }`}
                         >
-                          FAQs
+                          FAQ&apos;s
                         </a>
                       </li>
                       <Link
