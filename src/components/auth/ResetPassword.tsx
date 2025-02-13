@@ -103,14 +103,14 @@ const ResetPassword: React.FC<ResetProps> = ({ title, content }) => {
             <Image
               src={logo}
               alt="logo"
-              width={220}
-              height={220}
+              width={385.72}
+              height={69.76}
               priority
               //   style={{ width: 'auto', height: 'auto' }}
             />
           </div>
-          <h1 className="text-[34px] font-bold mb-2 text-black">{title}</h1>
-          <p className="text-gray-500 mb-7 text-lg">{content}</p>
+          <h1 className="text-[50.04px] font-bold mb-2 text-black">{title}</h1>
+          <p className="text-primary mb-10 text-[21.56px]">{content}</p>
           {/* {error && <p className="text-red-500 text-center mb-4">{error}</p>} */}
           {/* {loading && (
             <p className="text-center text-blue-500 font-medium mb-4">
@@ -119,7 +119,7 @@ const ResetPassword: React.FC<ResetProps> = ({ title, content }) => {
           )} */}
           <form onSubmit={handleResetPasswordSubmit}>
             <div className="mb-8 relative">
-              <label className="block text-black font-semibold mb-1 text-lg">
+              <label className="block text-black font-semibold mb-1 text-[25.19px]">
                 New Password
               </label>
               <div className="relative">
@@ -148,7 +148,7 @@ const ResetPassword: React.FC<ResetProps> = ({ title, content }) => {
               </div>
             </div>
             <div className="mb-2 relative">
-              <label className="block text-black font-semibold mb-1 text-lg">
+              <label className="block text-black font-semibold mb-1 text-[25.19px]">
                 Confirm New Password
               </label>
               <div className="relative">
@@ -183,7 +183,7 @@ const ResetPassword: React.FC<ResetProps> = ({ title, content }) => {
               //   className={`w-full bg-[#005B97] text-white py-2 px-4 mt-20 font-bold rounded-full hover:bg-[#005b97f0] transition duration-300 ${
               //     loading ? 'opacity-50 cursor-not-allowed' : ''
               //   }`}
-              className="w-full bg-[#266CA8] text-white py-4 px-4 mt-20 md:mt-32 font-semibold rounded-full hover:bg-[#005b97f0] transition duration-300"
+              className="w-full bg-[#266CA8] text-[25.67px] text-white py-4 px-4 mt-20 md:mt-12 font-medium rounded-full hover:bg-[#005b97f0] transition duration-300"
               //   disabled={loading}
             >
               Continue
