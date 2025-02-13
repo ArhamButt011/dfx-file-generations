@@ -26,20 +26,20 @@ function Hero() {
                 <div className="flex md:flex-row flex-col pt-20 justify-between ">
                     {/* AI powered */}
                     <div className='flex flex-col items-center'>
-                        <Image src="/images/user/home/AI.svg" alt="" className='' width={100} height={100} />
-                        <p className='font-bold text-[30px] text-center md:w-[] w-[50%] mt-5'>AI-Powered Precision</p>
+                        <Image src="/images/user/home/AI.svg" alt="" className='' width={120} height={100} />
+                        <p className='font-bold text-[30px] text-center md:w-[70%] w-[50%] mt-5'>AI-Powered Precision</p>
                         <p className='text-center text-[#00000066] text-[21px] mx-auto font-medium max-w-[80%]'>Our advanced AI detects and processes tool layouts with extreme accuracy, instantly generating high-quality DXF files—no manual tracing required.</p>
                     </div>
                     {/* custom offset */}
                     <div className='flex flex-col items-center md:mt-0 mt-10'>
-                        <Image src="/images/user/home/fast.svg" alt="" className='' width={100} height={100} />
-                        <p className='font-bold text-[30px] text-center md:w-[] w-[80%] mt-5'>Custom Offset Parameter</p>
+                        <Image src="/images/user/home/fast.svg" alt="" className='' width={120} height={100} />
+                        <p className='font-bold text-[30px] text-center md:w-[70%] w-[80%] mt-5'>Custom Offset Parameter</p>
                         <p className='text-center text-[#00000066] text-[21px] mx-auto font-medium md:max-w-[70%] max-w-[80%]'>Fine-tune tool fitment with the custom offset parameter, allowing you to control how snug or loose each tool sits within the insert. Achieve the perfect balance of security and accessibility for your tools</p>
                     </div>
                     {/* access Anytime */}
                     <div className='flex flex-col items-center md:mt-0 mt-10'>
-                        <Image src="/images/user/home/access.svg" alt="" className='' width={100} height={100} />
-                        <p className='font-bold text-[30px] text-center md:w-[] w-[80%] mt-5'>Production-Ready Outputs</p>
+                        <Image src="/images/user/home/access.svg" alt="" className='' width={120} height={100} />
+                        <p className='font-bold text-[30px] text-center md:w-[70%] w-[80%] mt-5'>Production-Ready Outputs</p>
                         <p className='text-center text-[#00000066] text-[21px] mx-auto font-medium max-w-[80%]'>Generate DXF files ready for cutting, with an optional bounding box that auto-centers tool contours and scales to your specified width and length—no extra adjustments needed.</p>
                     </div>
                 </div>
