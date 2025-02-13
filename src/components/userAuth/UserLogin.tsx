@@ -664,7 +664,7 @@ const UserLogin = () => {
         </div>
       </Modal>
       {/* verification */}
-      <Modal isOpen={isVerifyOpen} onClose={onClose} buttonContent="">
+      <Modal isOpen={isVerifyOpen} onClose={onClose} buttonContent={<Image src="/images/user/cross.svg" alt="cross" width={20} height={20} />}>
         <div>
           <div className="text-center">
             <p className="font-semibold md:text-3xl text-2xl">Account Verification</p>
@@ -719,7 +719,7 @@ const UserLogin = () => {
       </Modal>
 
       {/* Forget Password */}
-      <Modal isOpen={isForgetOpen} onClose={onClose} buttonContent="">
+      <Modal isOpen={isForgetOpen} onClose={onClose} buttonContent={<Image src="/images/user/cross.svg" alt="cross" width={20} height={20} />}>
         <div>
           <div className="text-center">
             <p className="font-semibold md:text-3xl text-2xl cursor-pointer">
@@ -790,7 +790,7 @@ const UserLogin = () => {
       </Modal>
 
       {/* Reset Password */}
-      <Modal isOpen={isResetOpen} onClose={onClose} buttonContent="">
+      <Modal isOpen={isResetOpen} onClose={onClose} buttonContent={<Image src="/images/user/cross.svg" alt="cross" width={20} height={20} />}>
         <div>
           <div className="text-center">
             <p className="font-semibold md:text-3xl text-2xl cursor-pointer">
