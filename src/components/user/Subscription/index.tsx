@@ -1,6 +1,7 @@
 import React from 'react'
 
 function index() {
+    
     return (
         <div>
             <p className='font-semibold text-3xl'>Subscription Plan</p>
