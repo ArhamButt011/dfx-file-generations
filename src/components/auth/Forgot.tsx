@@ -156,24 +156,19 @@ const Forgot: React.FC<ForgotProps> = ({ title, content }) => {
       )}
       {/* Left Form Section */}
       <div className="w-[100%] bg-white flex items-center justify-center md:w-[60%] p-6 md:p-0">
-        <div className="md:w-[70%] w-[100%] mt-[40px]">
-          <div className="flex items-center md:mb-16 mb-10">
+        <div className="md:w-[70%] w-[100%]">
+          <div className="flex items-center md:mb-10 mb-10">
             <Image
               src={logo}
               alt="logo"
-              width={385.72}
-              height={69.76}
-              className="object-contain"
+              width={220}
+              height={220}
               priority
               //   style={{ width: 'auto', height: 'auto' }}
             />
           </div>
-          <h1 className="text-[34px] font-bold mb-2 text-black text-[50.04px]">
-            {title}
-          </h1>
-          <p className="text-gray-500 mb-7 text-[21.56px] font-medium">
-            {content}
-          </p>
+          <h1 className="text-[34px] font-bold mb-2 text-black">{title}</h1>
+          <p className="text-gray-500 mb-7 text-lg">{content}</p>
           {/* {error && <p className="text-red-500 text-center mb-4">{error}</p>}
           {loading && (
             <p className="text-center text-blue-500 font-medium mb-4">
@@ -182,7 +177,7 @@ const Forgot: React.FC<ForgotProps> = ({ title, content }) => {
           )} */}
           <form action="" onSubmit={sendOTP}>
             <div className="mb-4">
-              <label className="block text-black font-semibold mb-1 text-[23.78px]">
+              <label className="block text-black font-semibold mb-1">
                 Email Address
               </label>
               <input
@@ -201,7 +196,7 @@ const Forgot: React.FC<ForgotProps> = ({ title, content }) => {
                 ) : (
                   <button
                     type="submit"
-                    className="text-right mt-3 text-[#266CA8] underline text-[20.78px] font-semibold cursor-pointer"
+                    className="text-right mt-2 text-[#266CA8] underline text-sm font-semibold cursor-pointer"
                   >
                     Send OTP
                   </button>
@@ -210,7 +205,7 @@ const Forgot: React.FC<ForgotProps> = ({ title, content }) => {
             </div>
           </form>
           <form onSubmit={(e) => verifyOTP(e, email)}>
-            <div className="flex justify-center space-x-5 mb-2 mt-12">
+            <div className="flex justify-center space-x-5 mb-2 mt-10">
               {/* OTP Inputs */}
               {[
                 verifyFormData.otp1,
@@ -253,7 +248,7 @@ const Forgot: React.FC<ForgotProps> = ({ title, content }) => {
 
             <button
               type="submit"
-              className="w-full bg-[#266CA8] text-[25.67px] text-white py-4 px-4 mt-20 md:mt-12 font-medium rounded-full hover:bg-[#005b97f0] transition duration-300"
+              className="w-full bg-[#266CA8] text-white py-4 px-4 mt-20 md:mt-16 font-semibold rounded-full hover:bg-[#005b97f0] transition duration-300"
 
               //   disabled={loading}
             >

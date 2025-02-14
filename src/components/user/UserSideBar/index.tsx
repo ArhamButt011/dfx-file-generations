@@ -8,13 +8,12 @@ import useLocalStorage from '@/components/admin/hooks/useLocalStorage'
 import SidebarItem from './SidebarItem'
 import ClickOutside from '@/components/admin/ClickOutside'
 import logo from '/public/images/user/home/logo.svg'
-import WhiteGenerateIcon from '/public/images/user/sidebar/whiteGenerateIcon.svg';
-import GrayGenerateIcon from '/public/images/user/sidebar/grayGenerateIcon.svg';
-import WhiteDownloadIcon from '/public/images/user/sidebar/whiteDownloadIcon.svg';
-import GrayDownloadIcon from '/public/images/user/sidebar/GrayDownloadIcon.svg';
-import WhiteSubscriptionIcon from '/public/images/user/sidebar/whiteSubscriptionIcon.svg';
-import GraySubscriptionIcon from '/public/images/user/sidebar/GraySubcriptionIcon.svg';
-
+import WhiteGenerateIcon from '/public/images/user/sidebar/whiteGenerateIcon.svg'
+import GrayGenerateIcon from '/public/images/user/sidebar/grayGenerateIcon.svg'
+import WhiteDownloadIcon from '/public/images/user/sidebar/whiteDownloadIcon.svg'
+import GrayDownloadIcon from '/public/images/user/sidebar/GrayDownloadIcon.svg'
+import WhiteSubscriptionIcon from '/public/images/user/sidebar/whiteSubscriptionIcon.svg'
+import GraySubscriptionIcon from '/public/images/user/sidebar/GraySubcriptionIcon.svg'
 
 interface SidebarProps {
   sidebarOpen: boolean
@@ -22,30 +21,29 @@ interface SidebarProps {
 }
 
 const menuGroups = [
-    {
-      menuItems: [
-        {
-          Whiteicon: WhiteGenerateIcon,
-          Grayicon: GrayGenerateIcon,
-          label: 'Generate DXF',
-          route: '/Generate_DXF',
-        },
-        {
-          Whiteicon: WhiteDownloadIcon,
-          Grayicon: GrayDownloadIcon,
-          label: 'Downloaded Files',
-          route: '/users',
-        },
-        {
-          Whiteicon: WhiteSubscriptionIcon,
-          Grayicon: GraySubscriptionIcon,
-          label: 'Manage Subscription ',
-          route: '/payment',
-        },
-      ],
-    },
-  ];
-  
+  {
+    menuItems: [
+      {
+        Whiteicon: WhiteGenerateIcon,
+        Grayicon: GrayGenerateIcon,
+        label: 'Generate DXF',
+        route: '/Generate_DXF',
+      },
+      {
+        Whiteicon: WhiteDownloadIcon,
+        Grayicon: GrayDownloadIcon,
+        label: 'Downloaded Files',
+        route: '/users',
+      },
+      {
+        Whiteicon: WhiteSubscriptionIcon,
+        Grayicon: GraySubscriptionIcon,
+        label: 'Manage Subscription ',
+        route: '/payment',
+      },
+    ],
+  },
+]
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   // const pathname = usePathname()

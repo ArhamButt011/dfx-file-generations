@@ -18,23 +18,19 @@ export async function GET(req: NextRequest) {
     const client = await clientPromise
     const db = client.db('DFXFileGeneration')
 
-    // Fetch user details based on _id
     const user = await db.collection('users').findOne({ _id: new ObjectId(id) })
 
     if (!user) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 })
     }
 
-    // Convert id to ObjectId for cards collection query
     const userIdObject = new ObjectId(id)
 
-    // Fetch all card details for the user
     const cards = await db
       .collection('cards')
       .find({ user_id: userIdObject })
       .toArray()
 
-    // Return the merged data
     return NextResponse.json(
       {
         ...user,
