@@ -8,7 +8,7 @@ import Image from 'next/image'
 import logo from '/public/images/user/home/logo.svg'
 import Modal from '../UI/Modal'
 import Subscribe from '@/components/user/Subscription/Subscribe'
-import { useRouter } from 'next/navigation'
+// import { useRouter } from 'next/navigation'
 // import backarrow from '/public/images/admin/backarrow.svg'
 import image3 from '/public/images/user/AuthScreens/rightSection.svg'
 import Swal from 'sweetalert2'
@@ -19,7 +19,7 @@ import { useAuth } from '@/context/AuthContext'
 
 const UserLogin = () => {
   const [Timer, setTimer] = useState(0);
-  const router = useRouter()
+  // const router = useRouter()
   const [email, setEmail] = useState<string>('')
   // const [password, setPassword] = useState<string>('')
   const [loginForm, setLoginForm] = useState({
@@ -130,7 +130,7 @@ const UserLogin = () => {
       const { token } = await res.json()
       login(token)
 
-      router.push('/Generate_DXF')
+      // router.push('/Generate_DXF')
 
       setLoginForm({
         email: '',
@@ -266,7 +266,7 @@ const UserLogin = () => {
       login(token)
 
 
-
+      console.log("verified");
 
 
 
@@ -588,8 +588,8 @@ const UserLogin = () => {
       <Modal isOpen={isNewOpen} onClose={onClose} buttonContent={<Image src="/images/user/cross.svg" alt="cross" width={20} height={20} />}>
         <div>
           <div className="text-center">
-            <p className="font-semibold md:text-3xl text-2xl">Create Account</p>
-            <p className="font-medium md:text-xl text-sm text-[#00000080]">
+            <p className="font-semibold md:text-xl text-2xl">Create Account</p>
+            <p className="font-medium md:text-lg text-sm text-[#00000080]">
               Create Your account to Lumashape by adding and verifying your
               details
             </p>
@@ -606,7 +606,7 @@ const UserLogin = () => {
                 required
                 value={newAccountFormData.name}
                 placeholder="Enter User Name"
-                className="border w-full p-3 rounded-full mt-2 focus:outline-none focus:ring-2 focus:ring-[#005B97]"
+                className="border w-full p-2 rounded-full mt-2 focus:outline-none focus:ring-2 focus:ring-[#005B97]"
                 onChange={handleSignupChange}
               />
             </div>

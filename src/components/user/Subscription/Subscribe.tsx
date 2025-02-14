@@ -1,6 +1,7 @@
 import BilingModal from '@/components/UI/BilingModal'
 import Image from 'next/image'
 import React from 'react'
+// import {useAuth} from "@/context/AuthContext"
 
 type included = {
     id: number
@@ -90,10 +91,23 @@ type SubscribeProps = {
     setIsBilingOpen: (open: boolean) => void;
 };
 
-// function handleSkiporFree()
-// {
+// function handleSkiporFree(item: DataItem) {
+//     const { userData } = useAuth();
+//     const bilingDate= new Date();
 
+//     const subscriptionData = {
+//         userid: userData?._id,
+//         plan: item.title,
+//         charges:  item.price.split("/")[0],
+//         duration: item.price.split("/")[1],
+//         bilingDate,
+//         ExpiryDate: bilingDate.getDate() + 7,
+       
+//     };
+
+//     console.log(subscriptionData);
 // }
+
 
 function Subscribe({ isBilingOpen, setIsBilingOpen }: SubscribeProps) {
     // const [isBilingOpen, setIsBilingOpen] = useState<boolean>(false);
