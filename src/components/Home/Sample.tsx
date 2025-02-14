@@ -7,9 +7,9 @@ function Sample() {
             <p className='font-bold md:text-[55px] text-[40px] text-center md:max-w-[80%] mx-auto'><span className='text-[#266CAB]'>Sample </span>Images</p>
             <p className='text-center text-[#00000066] md:text-[29px] text-[23px] mx-auto font-medium max-w-[90%]'>See how our software transforms the input image into precise, production-ready DXF files for your custom tool drawer inserts.</p>
             {/* upper images */}
-            <div className="flex md:flex-row flex-col justify-center mt-5 mx-32">
+            <div className="flex md:flex-row flex-col justify-center mt-5 md:mx-32 w-full md:gap-0 gap-20">
                 {/* Left Image */}
-                <div className="relative md:w-1/3 lg:w-2/3 aspect-[10/9]">
+                <div className="relative md:w-1/3 lg:w-2/3 aspect-[10/9] ">
                     <div className="relative w-full h-full">
                         <Image
                             src="/images/user/home/sample/input.svg"
@@ -37,7 +37,7 @@ function Sample() {
                 </div>
             </div>
             {/* lower images */}
-            <div className="flex md:flex-row flex-col justify-center md:mt-10 mt-50 mx-32  ">
+            <div className="flex md:flex-row flex-col justify-center md:mt-10 mt-50 md:mx-32 w-full md:gap-0 gap-22">
                 {/* Left Image */}
                 <div className="relative md:w-1/3 lg:w-2/3 aspect-[10/9] ">
                     <div className="relative w-full h-full">
