@@ -553,7 +553,7 @@ const UserLogin = () => {
                 required
                 value={newAccountFormData.name}
                 placeholder="Enter User Name"
-                className="border w-full p-3 rounded-full mt-2"
+                className="border w-full p-3 rounded-full mt-2 focus:outline-none focus:ring-2 focus:ring-[#005B97]"
                 onChange={handleSignupChange}
               />
             </div>
@@ -568,7 +568,7 @@ const UserLogin = () => {
                 required
                 value={newAccountFormData.email}
                 placeholder="Enter Email Address"
-                className="border w-full p-3 rounded-full"
+                className="border w-full p-3 rounded-full focus:outline-none focus:ring-2 focus:ring-[#005B97]"
                 onChange={handleSignupChange}
               />
             </div>
