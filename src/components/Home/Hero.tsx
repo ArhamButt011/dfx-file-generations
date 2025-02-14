@@ -21,7 +21,7 @@ function Hero() {
             <div className=' md:max-w-[90%] mx-auto' id='benefits'>
                 <p className='font-bold md:text-[55px] text-[40px] text-center '>Why <span className='text-[#266CAB]'>Choose</span> Our DXF Generator?</p>
                 <p className='text-center text-[#00000066] md:text-[29px] text-[23px] mx-auto font-medium max-w-[90%]'>
-                    Simplify the creation of DXF files with precision and ease. Designed for both hobbyists and professionals, our software eliminates tedious manual design work, delivers accurate files ready for manufacturing custom tool drawer inserts, and saves you time and effort. Choose a fast, reliable, and cost-effective solution that streamlines your workflow and puts you in control.
+                Our advanced AI detects and processes tool layouts with extreme accuracy, instantly generating high-quality DXF files—no manual tracing required.
                 </p>
                 <div className="flex md:flex-row flex-col pt-20 justify-between ">
                     {/* AI powered */}
@@ -33,14 +33,14 @@ function Hero() {
                     {/* custom offset */}
                     <div className='flex flex-col items-center md:mt-0 mt-10'>
                         <Image src="/images/user/home/fast.svg" alt="" className='' width={120} height={100} />
-                        <p className='font-bold text-[30px] text-center md:w-[70%] w-[80%] mt-5'>Custom Offset Parameter</p>
-                        <p className='text-center text-[#00000066] text-[21px] mx-auto font-medium md:max-w-[70%] max-w-[80%]'>Fine-tune tool fitment with the custom offset parameter, allowing you to control how snug or loose each tool sits within the insert. Achieve the perfect balance of security and accessibility for your tools</p>
+                        <p className='font-bold text-[30px] text-center  w-[80%] mt-5'>Custom Offset Parameter</p>
+                        <p className='text-center text-[#00000066] text-[21px] mx-auto font-medium max-w-[80%]'>Save time with our intuitive interface. Upload your design files, preview the results, and download your DXF file in just a few clicks.</p>
                     </div>
                     {/* access Anytime */}
                     <div className='flex flex-col items-center md:mt-0 mt-10'>
                         <Image src="/images/user/home/access.svg" alt="" className='' width={120} height={100} />
                         <p className='font-bold text-[30px] text-center md:w-[70%] w-[80%] mt-5'>Production-Ready Outputs</p>
-                        <p className='text-center text-[#00000066] text-[21px] mx-auto font-medium max-w-[80%]'>Generate DXF files ready for cutting, with an optional bounding box that auto-centers tool contours and scales to your specified width and length—no extra adjustments needed.</p>
+                        <p className='text-center text-[#00000066] text-[21px] mx-auto font-medium  max-w-[80%]'>Generate DXF files ready for cutting, with an optional bounding box that auto-centers tool contours and scales to your specified width and length—no extra adjustments needed.</p>
                     </div>
                 </div>
 

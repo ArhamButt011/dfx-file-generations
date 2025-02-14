@@ -18,6 +18,7 @@ import { useAuth } from '@/context/AuthContext'
 
 
 const UserLogin = () => {
+  const [Timer, setTimer] = useState(0);
   const router = useRouter()
   const [email, setEmail] = useState<string>('')
   // const [password, setPassword] = useState<string>('')
@@ -64,20 +65,23 @@ const UserLogin = () => {
     otp5: '',
   })
 
-  const handleOTPChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    index: number,
-  ) => {
-    const value = e.target.value
+  const handleOTPChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    const value = e.target.value;
 
-    // Only allow digits
+    // Only allow digits and ensure only one digit is entered
     if (/^\d?$/.test(value)) {
       setVerifyFormData((prevData) => ({
         ...prevData,
         [`otp${index + 1}`]: value,
-      }))
+      }));
+
+      // Move focus to the next input field
+      if (value && index < 4) {
+        const nextInput = document.getElementById(`otp-${index + 1}`);
+        nextInput?.focus();
+      }
     }
-  }
+  };
 
   const handleLoginChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -101,6 +105,16 @@ const UserLogin = () => {
     e.preventDefault()
     setLoading(true)
     try {
+      if (/\s/.test(loginForm.password)) {
+        Swal.fire({
+          title: 'Error!',
+          text: 'Password should not contain spaces',
+          icon: 'error',
+          showConfirmButton: false,
+          timer: 2000,
+        });
+        return;
+      }
       const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -162,7 +176,18 @@ const UserLogin = () => {
         timer: 2000,
       })
       return
-    } else if (validateEmail(email)) {
+    }
+    else if (/\s/.test(newAccountFormData.password)) {
+      Swal.fire({
+        title: 'Error!',
+        text: 'Password should not contain spaces',
+        icon: 'error',
+        showConfirmButton: false,
+        timer: 2000,
+      });
+      return;
+    }
+    else if (validateEmail(email)) {
       Swal.fire({
         title: 'Error!',
         text: 'Please Enter valid Email',
@@ -172,6 +197,7 @@ const UserLogin = () => {
       })
       return
     }
+
     setLoading(true)
     try {
       const res = await fetch('/api/auth/signup', {
@@ -226,7 +252,7 @@ const UserLogin = () => {
       setIsVerifyOpen(false)
       setIsNewOpen(false)
       setEmail('')
-      setIsBilingOpen(true);
+      // setIsBilingOpen(true);
       // setIsBilingOpen(true);
       setVerifyFormData({
         otp1: '',
@@ -327,31 +353,48 @@ const UserLogin = () => {
   }
 
   const sendOTP = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
+
+    if (Timer > 0) return; // Prevent resending while timer is active
+
     try {
-      const res = await fetch('/api/auth/OTPVerification/sendOTP', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      setLoading(true)
+      const res = await fetch("/api/auth/OTPVerification/sendOTP", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
-      })
+      });
 
       if (!res.ok) {
-        const data = await res.json()
-
-        throw new Error(data.message)
+        const data = await res.json();
+        throw new Error(data.message);
       }
 
-      // router.push("/Generate_DXF");
+      // Start Timer (e.g., 30 seconds)
+      let timeLeft = 60;
+      setTimer(timeLeft);
+
+      const timerInterval = setInterval(() => {
+        timeLeft -= 1;
+        setTimer(timeLeft);
+
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+        }
+      }, 1000);
     } catch (err) {
       Swal.fire({
-        title: 'Error!',
+        title: "Error!",
         text: err instanceof Error ? err.message : String(err),
-        icon: 'error',
+        icon: "error",
         showConfirmButton: false,
         timer: 2000,
-      })
+      });
     }
-  }
+    finally {
+      setLoading(false);
+    }
+  };
 
   const handleResetPasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -364,6 +407,16 @@ const UserLogin = () => {
         timer: 2000,
       })
       return
+    }
+    else if (/\s/.test(ResetFormData.password)) {
+      Swal.fire({
+        title: 'Error!',
+        text: 'Password should not contain spaces',
+        icon: 'error',
+        showConfirmButton: false,
+        timer: 2000,
+      });
+      return;
     }
 
     setLoading(true)
@@ -706,13 +759,17 @@ const UserLogin = () => {
               Verify
             </button>
             <p className="font-semibold md:text-xl text-base text-center mt-5">
-              Didn’t receive the code?{' '}
-              <span
-                className=" underline text-[#266CAB] cursor-pointer"
-                onClick={(e) => sendOTP(e)}
-              >
-                Resend Code
-              </span>
+              Didn’t receive the code?{" "}
+              {Timer > 0 ? (
+                <span className="text-gray-500">Resend in {Timer}s</span>
+              ) : (
+                <span
+                  className="underline text-[#266CAB] cursor-pointer"
+                  onClick={(e) => sendOTP(e)}
+                >
+                  Resend Code
+                </span>
+              )}
             </p>
           </form>
         </div>
