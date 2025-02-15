@@ -22,7 +22,6 @@ const Downloads = () => {
     setCurrentPage(newPage)
   }
 
-  console.log(downloads)
   const fetchDownloads = useCallback(async () => {
     try {
       setLoadingTable(true)

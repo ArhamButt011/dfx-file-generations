@@ -22,7 +22,7 @@ const Login: React.FC<LoginProps> = ({ title, content }) => {
   const router = useRouter()
   const [loading, setLoading] = useState<boolean>(false)
 
-  if (userData?.role === 'admin') {
+  if (userData) {
     router.push('/admin/dashboard')
   }
   const [showPassword, setShowPassword] = useState<boolean>(false)
@@ -89,24 +89,12 @@ const Login: React.FC<LoginProps> = ({ title, content }) => {
       )}
       {/* Left Form Section */}
       <div className="w-[100%] bg-white flex items-center justify-center md:w-[60%] p-6 md:p-0">
-        <div className="md:w-[70%] w-[100%] mt-[40px]">
-          <div className="flex items-center md:mb-12 mb-10">
-            <Image
-              src={logo}
-              alt="logo"
-              width={385.72}
-              height={69.76}
-              priority
-            />
+        <div className="md:w-[70%] w-[100%]">
+          <div className="flex items-center md:mb-10 mb-10">
+            <Image src={logo} alt="logo" width={250} height={250} priority />
           </div>
-          <div>
-            <h1 className="text-[50.04px] font-bold mb-2 text-black">
-              {title}
-            </h1>
-          </div>
-          <div>
-            <p className="text-primary mb-10 text-[21.56px]">{content}</p>
-          </div>
+          <h1 className="text-[36px] font-bold mb-2 text-black">{title}</h1>
+          <p className="text-primary mb-6 text-lg">{content}</p>
           {/* {error && <p className="text-red-500 text-center mb-4">{error}</p>}
           {loading && (
             <p className="text-center text-blue-500 font-medium mb-4">
@@ -114,68 +102,66 @@ const Login: React.FC<LoginProps> = ({ title, content }) => {
             </p>
           )} */}
           <form onSubmit={handleLogin}>
-            <div className="flex flex-col gap-10">
-              <div className="">
-                <label className="block text-black font-bold mb-1 text-[23.8px]">
-                  Email Address
-                </label>
+            <div className="mb-5">
+              <label className="block text-black font-semibold mb-1 text-lg">
+                Email Address
+              </label>
+              <input
+                type="email"
+                placeholder="Enter Your Email Address"
+                name="email" // Ensure this matches the state property name
+                value={loginForm.email}
+                onChange={handleLoginChange}
+                className="w-full px-4 py-4 mt-1 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
+                required
+              />
+            </div>
+            <div className="mb-2 relative">
+              <label className="block text-black font-semibold mb-1 text-lg">
+                Password
+              </label>
+              <div className="relative">
                 <input
-                  type="email"
-                  placeholder="Enter Your Email Address"
-                  name="email" // Ensure this matches the state property name
-                  value={loginForm.email}
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="Enter Password"
+                  name="password" // Ensure this matches the state property name
+                  value={loginForm.password}
                   onChange={handleLoginChange}
-                  className="w-full px-4 py-4 mt-1 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
+                  className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
                   required
                 />
-              </div>
-              <div>
-                <label className="block text-black font-bold mb-1 text-[23.8px]">
-                  Password
-                </label>
-                <div className="relative">
-                  <input
-                    type={showPassword ? 'text' : 'password'}
-                    placeholder="Enter Password"
-                    name="password" // Ensure this matches the state property name
-                    value={loginForm.password}
-                    onChange={handleLoginChange}
-                    className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
-                    required
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-3 top-1/2 transform text-gray-500"
-                    style={{ transform: 'translateY(-77%)' }}
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-3 top-1/2 transform text-gray-500"
+                  style={{ transform: 'translateY(-77%)' }}
+                >
+                  {showPassword ? (
+                    <FaEye size={20} className="text-[#005B97] mr-3" />
+                  ) : (
+                    <Image alt="eye" src={eye} className="mr-3" />
+                  )}
+                </button>
+                <p className="text-right mt-2">
+                  <Link
+                    href="/admin/forgot"
+                    className="text-[#266CA8] underline text-sm font-semibold"
                   >
-                    {showPassword ? (
-                      <FaEye size={20} className="text-[#005B97] mr-3" />
-                    ) : (
-                      <Image alt="eye" src={eye} className="mr-3" />
-                    )}
-                  </button>
-                  <p className="text-right mt-2">
-                    <Link
-                      href="/admin/forgot"
-                      className="text-[#266CA8] underline text-[20.78px] font-semibold"
-                    >
-                      Forget Password?
-                    </Link>
-                  </p>
-                </div>
+                    Forget Password?
+                  </Link>
+                </p>
               </div>
-              <button
-                type="submit"
-                //   className={`w-full bg-[#005B97] text-white py-2 px-4 mt-20 font-bold rounded-full hover:bg-[#005b97f0] transition duration-300 ${
-                //     loading ? 'opacity-50 cursor-not-allowed' : ''
-                //   }`}
-                className="w-full bg-[#266CA8] text-[25.67px] text-white py-4 px-4 font-medium rounded-full hover:bg-[#005b97f0] transition duration-300 mt-7"
-                //   disabled={loading}
-              >
-                Login
-              </button>
             </div>
+            <button
+              type="submit"
+              //   className={`w-full bg-[#005B97] text-white py-2 px-4 mt-20 font-bold rounded-full hover:bg-[#005b97f0] transition duration-300 ${
+              //     loading ? 'opacity-50 cursor-not-allowed' : ''
+              //   }`}
+              className="w-full bg-[#266CA8] text-white py-4 px-4 mt-20 md:mt-16 font-semibold rounded-full hover:bg-[#005b97f0] transition duration-300"
+              //   disabled={loading}
+            >
+              Login
+            </button>
           </form>
         </div>
       </div>

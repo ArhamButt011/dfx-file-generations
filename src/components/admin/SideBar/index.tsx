@@ -303,12 +303,12 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   return (
     <ClickOutside onClick={() => setSidebarOpen(false)}>
       <aside
-        className={`fixed left-0 top-0 flex h-screen w-72.5 flex-col overflow-y-hidden bg-[#F5F5F5] duration-300 ease-linear lg:translate-x-0 ${
+        className={`fixed left-0 top-0 flex z-9999 md:z-999 h-screen w-72.5 flex-col overflow-y-hidden bg-[#F8F8F8] duration-300 ease-linear lg:translate-x-0 ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         {/* <!-- SIDEBAR HEADER --> */}
-        <div className="flex items-center justify-between gap-2 px-6 pt-5.5 lg:pt-6.5">
+        <div className="flex items-center justify-between z-999 gap-2 px-6 pt-5.5 lg:pt-6.5">
           <Link href="/">
             <Image width={176} height={32} src={logo} alt="Logo" priority />
           </Link>

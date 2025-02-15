@@ -1,11 +1,15 @@
-import React from 'react'
+'use client'
+import React, { useCallback, useEffect, useState } from 'react'
 import Breadcrumb from '../Breadcrumbs/Breadcrumb'
 import Image from 'next/image'
 import noSubscriptions from '/public/images/admin/allusers/noSubscriptions.svg'
+import { ObjectId } from 'mongodb'
 
 import { format } from 'date-fns'
+import { ClipLoader } from 'react-spinners'
 interface Subscriptions {
-  _id: string
+  _id: ObjectId
+  user_id: ObjectId
   plan_name: string
   email: string
   user_name: string
@@ -16,56 +20,70 @@ interface Subscriptions {
 }
 
 const Subscriptions = () => {
-  const subscriptions: Subscriptions[] = [
-    {
-      _id: '1',
-      plan_name: 'Basic',
-      email: 'test@example.com',
-      user_name: 'test123',
-      duration: 'Monthly',
-      expiry_date: '02-12-2025',
-      added_on: '02-12-2025',
-      charges: '100',
-    },
-    {
-      _id: '2',
-      plan_name: 'Basic',
-      email: 'test@example.com',
-      user_name: 'test123',
-      duration: 'Yearly',
-      expiry_date: '02-12-2025',
-      added_on: '02-12-2025',
-      charges: '100',
-    },
-    {
-      _id: '3',
-      plan_name: 'Basic',
-      email: 'test@example.com',
-      user_name: 'test123',
-      duration: 'Monthly',
-      expiry_date: '02-12-2025',
-      added_on: '02-12-2025',
-      charges: '100',
-    },
-  ]
+  const [loadingTable, setLoadingTable] = useState<boolean>(false)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [subscriptions, setSubscriptions] = useState<Subscriptions[]>([])
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalSubscription, setTotalSubscription] = useState(1)
+  const [totalPages, setTotalPages] = useState(1)
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage)
+  }
+
+  const fetchDownloads = useCallback(async () => {
+    try {
+      setLoadingTable(true)
+
+      const searchParam = searchQuery
+        ? `&search=${encodeURIComponent(searchQuery)}`
+        : ''
+      const response = await fetch(
+        `/api/admin/get-all-subscriptions/?page=${currentPage}${searchParam}`,
+      )
+
+      if (response.ok) {
+        const data = await response.json()
+        console.log('subscriptions-> ', data)
+        setSubscriptions(data.allSubscriptions)
+        setTotalPages(data.totalPages)
+        setTotalSubscription(data.totalSubscriptions)
+      } else {
+        console.log('Failed to fetch downloads')
+      }
+    } catch (error) {
+      console.log('Error fetching downloads:', error)
+    } finally {
+      setLoadingTable(false)
+    }
+  }, [currentPage, searchQuery])
+
+  useEffect(() => {
+    fetchDownloads()
+  }, [fetchDownloads])
+
   return (
     <div>
       <Breadcrumb
         pageName="Subscriptions"
-        totalContent={subscriptions.length}
+        totalContent={totalSubscription}
         totalText="Total subscriptions added"
         rightContent={
           <input
             type="text"
-            placeholder="Search user..."
+            placeholder="Search..."
             className="px-4 py-2 rounded-lg border border-gray-300"
-            // value={searchQuery}
-            // onChange={(e) => setSearchQuery(e.target.value)}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         }
         buttonContent={''}
       />
-      {subscriptions && subscriptions.length > 0 ? (
+      {loadingTable ? (
+        <div className="flex items-center justify-center bg-opacity-50 z-[1000] mt-20 h-50">
+          <ClipLoader color="#007bff" size={50} />
+        </div>
+      ) : subscriptions && subscriptions.length > 0 ? (
         <table className="min-w-full border-separate border-spacing-y-3">
           <thead>
             <tr className="text-[18.45px] text-gray-600">
@@ -78,7 +96,7 @@ const Subscriptions = () => {
               <th className="pb-6 px-4 border-b text-start font-medium">
                 Duration
               </th>
-              <th className="pb-6 px-4 border-b text-start font-medium">
+              <th className="pb-6 pl-20 border-b text-start font-medium">
                 Added By
               </th>
               <th className="pb-6 px-4 border-b text-start font-medium">
@@ -93,13 +111,13 @@ const Subscriptions = () => {
             </tr>
           </thead>
           <tbody>
-            {subscriptions.map((user) => (
+            {subscriptions.map((user, index) => (
               <tr
-                key={user._id}
+                key={index}
                 className="text-primary bg-[#F5F5F5] text-[16.45px]"
               >
                 <td className="py-3 px-4 text-start font-medium rounded-l-xl">
-                  #{user._id}
+                  #{(currentPage - 1) * 10 + (index + 1)}
                 </td>
                 <td className="py-3 px-4 text-start text-[19px] font-medium text-[#000000]">
                   {user.plan_name}
@@ -132,10 +150,10 @@ const Subscriptions = () => {
                   </div>
                 </td>
                 <td className="py-3 px-4 text-start font-medium">
-                  {format(new Date(user.added_on), 'MMM dd, yyyy')}
+                  {format(new Date(user?.added_on), 'MMM dd, yyyy')}
                 </td>
                 <td className="py-3 px-4 text-start font-medium">
-                  {format(new Date(user.expiry_date), 'MMM dd, yyyy')}
+                  {format(new Date(user?.expiry_date), 'MMM dd, yyyy')}
                 </td>
                 <td className="py-3 px-4 text-start text-[21px] font-medium rounded-r-xl text-[#266CA8]">
                   ${user.charges}
@@ -154,6 +172,35 @@ const Subscriptions = () => {
             priority
             style={{ width: 'auto', height: 'auto' }}
           />
+        </div>
+      )}
+      {loadingTable || totalPages === 0 || subscriptions.length === 0 ? null : (
+        <div className="mt-4 flex justify-end items-center gap-4 text-gray-800">
+          <button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className={`px-4 py-2 rounded-md ${
+              currentPage === 1
+                ? 'bg-gray-300 cursor-not-allowed'
+                : 'bg-blue-500 text-white hover:bg-blue-600'
+            }`}
+          >
+            Previous
+          </button>
+          <span>
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className={`px-4 py-2 rounded-md ${
+              currentPage === totalPages
+                ? 'bg-gray-300 cursor-not-allowed'
+                : 'bg-blue-500 text-white hover:bg-blue-600'
+            }`}
+          >
+            Next
+          </button>
         </div>
       )}
     </div>
