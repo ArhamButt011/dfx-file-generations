@@ -43,12 +43,7 @@ const menuGroups = [
       },
     ],
   },
-<<<<<<< Updated upstream
 ]
-=======
-];
-
->>>>>>> Stashed changes
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   // const pathname = usePathname()
