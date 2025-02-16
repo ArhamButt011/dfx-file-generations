@@ -466,7 +466,7 @@ const UserLogin = () => {
   return (
     <div className="flex flex-col w-full h-[100vh] md:h-full  md:flex-row">
       {loading && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[10000]">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[100000]">
           <ClipLoader color="#007bff" size={50} />
         </div>
       )}
@@ -581,15 +581,12 @@ const UserLogin = () => {
         />
       </div>
 
-
-      {/* </div> */}
-
       {/* create account */}
       <Modal isOpen={isNewOpen} onClose={onClose} buttonContent={<Image src="/images/user/cross.svg" alt="cross" width={20} height={20} />}>
         <div>
           <div className="text-center">
-            <p className="font-semibold md:text-xl text-2xl">Create Account</p>
-            <p className="font-medium md:text-lg text-sm text-[#00000080]">
+            <p className="font-semibold md:text-3xl text-2xl">Create Account</p>
+            <p className="font-medium md:text-xl text-sm text-[#00000080]">
               Create Your account to Lumashape by adding and verifying your
               details
             </p>
@@ -925,15 +922,7 @@ const UserLogin = () => {
             >
               Verify
             </button>
-            <p className="font-semibold text-xl text-center mt-5">
-              Didn’t receive the code?{' '}
-              <span
-                className=" underline text-[#266CAB] cursor-pointer"
-                onClick={() => setIsNewOpen(true)}
-              >
-                Resend Code
-              </span>
-            </p>
+            
           </form>
         </div>
       </Modal>
