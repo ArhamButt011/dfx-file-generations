@@ -116,7 +116,7 @@ function Subscribe({ isBilingOpen, setIsBilingOpen }: SubscribeProps) {
     }
     return (
         <div>
-            <BilingModal isOpen={isBilingOpen} onClose={onClose}>
+            <BilingModal isOpen={isBilingOpen} onClose={onClose} buttonContent={<p className='text-[#266CA8] font-semibold text-2xl'>Skip</p>}>
                 <div>
                     <div className="text-center">
                         <p className="font-semibold text-3xl cursor-pointer">
