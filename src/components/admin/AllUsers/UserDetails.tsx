@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import Image from 'next/image'
 import userImage from '/public/images/admin/avatar.jpg'
 import email from '/public/images/admin/email.jpg'
@@ -8,6 +8,8 @@ import dltCircle from '/public/images/admin/allusers/dltCircle.svg'
 import DownloadsSubscriptions from './DownloadsSubscriptions'
 import Modal from '@/components/UI/Modal'
 import { format } from 'date-fns'
+import { ObjectId } from 'mongodb'
+import Swal from 'sweetalert2'
 
 interface CardDetails {
   holder_name: string
@@ -15,6 +17,7 @@ interface CardDetails {
 }
 
 interface UserData {
+  _id: ObjectId
   name: string
   email: string
   createdAt: string
@@ -25,9 +28,48 @@ const UserDetails: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [userData, setUserData] = useState<UserData | null>(null)
   const { id } = useParams<{ id: string }>()
+  const router = useRouter()
 
   const onClose = () => {
     setIsOpen(false)
+  }
+
+  const onDelete = async (id: string) => {
+    try {
+      const response = await fetch(`/api/admin/delete-user/${id}`, {
+        method: 'DELETE',
+      })
+
+      if (response.ok) {
+        Swal.fire({
+          icon: 'success',
+          title: 'User Deleted',
+          text: 'The user has been deleted successfully.',
+          timer: 2000,
+          showConfirmButton: false,
+        })
+        router.push('/admin/allusers')
+      } else {
+        const data = await response.json()
+        Swal.fire({
+          icon: 'error',
+          title: 'Delete Failed',
+          text: data.error || 'Something went wrong while deleting the user.',
+        })
+      }
+    } catch (error) {
+      console.error('Error deleting user:', error)
+      Swal.fire({
+        icon: 'error',
+        title: 'Unexpected Error',
+        text: 'An error occurred while deleting the user. Please try again.',
+      })
+    }
+  }
+
+  const handleDelete = (id: string) => {
+    console.log(id)
+    setIsOpen(true)
   }
 
   useEffect(() => {
@@ -48,11 +90,6 @@ const UserDetails: React.FC = () => {
 
     if (id) fetchUserData()
   }, [id])
-
-  const handleDelete = (id: number) => {
-    console.log(id)
-    setIsOpen(true)
-  }
 
   return (
     <>
@@ -118,7 +155,7 @@ const UserDetails: React.FC = () => {
         <div>
           <button
             className="bg-[#FA3D43] text-white py-2 px-4 rounded-md mt-5 md:mt-0"
-            onClick={() => handleDelete(1)}
+            onClick={() => handleDelete(id)}
           >
             Delete User
           </button>
@@ -140,7 +177,15 @@ const UserDetails: React.FC = () => {
             >
               Cancel
             </button>
-            <button className="font-normal text-white text-[22.48px] bg-[#266CA8] rounded-full px-16 py-3">
+            <button
+              className="font-normal text-white text-[22.48px] bg-[#266CA8] rounded-full px-16 py-3"
+              onClick={() => {
+                if (id) {
+                  onDelete(id)
+                }
+                onClose()
+              }}
+            >
               Yes, I am
             </button>
           </div>

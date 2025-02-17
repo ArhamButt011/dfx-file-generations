@@ -130,7 +130,7 @@ const DownloadsSubscriptions = () => {
               <thead>
                 <tr className="text-md text-gray-600 text-[18.45px]">
                   <th className="pb-4 px-4 border-b text-start font-medium">
-                    Order ID
+                    Sr No
                   </th>
                   <th className="pb-4 px-4 border-b text-start font-medium">
                     Plan name

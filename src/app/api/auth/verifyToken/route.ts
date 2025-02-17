@@ -4,7 +4,7 @@ import jwt, { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken'
 const SECRET_KEY = process.env.NEXT_JWT_SECRET as string
 
 if (!SECRET_KEY) {
-  throw new Error("Missing NEXT_JWT_SECRET in environment variables")
+  throw new Error('Missing NEXT_JWT_SECRET in environment variables')
 }
 
 export async function POST(req: Request) {
@@ -19,29 +19,25 @@ export async function POST(req: Request) {
     }
 
     const user = jwt.verify(token, SECRET_KEY)
-
     return NextResponse.json(user, { status: 200 })
-
-  } catch (error: unknown) {
+  } catch (error) {
     console.error('Token verification error:', error)
 
     if (error instanceof TokenExpiredError) {
+      console.error('Token expired at:', error.expiredAt)
       return NextResponse.json(
         { message: 'Token expired. Please log in again.' },
-        { status: 401 }
+        { status: 401 },
       )
     }
 
     if (error instanceof JsonWebTokenError) {
-      return NextResponse.json(
-        { message: 'Invalid token' },
-        { status: 401 }
-      )
+      return NextResponse.json({ message: 'Invalid token' }, { status: 401 })
     }
 
     return NextResponse.json(
       { message: 'An unknown error occurred' },
-      { status: 500 }
+      { status: 500 },
     )
   }
 }
