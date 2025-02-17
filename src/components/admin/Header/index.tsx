@@ -1,7 +1,5 @@
-import Link from 'next/link'
 import DropdownNotification from './DropdownNotification'
 import DropdownUser from './DropdownUser'
-import Image from 'next/image'
 
 const Header = (props: {
   sidebarOpen: string | boolean | undefined
@@ -54,14 +52,14 @@ const Header = (props: {
           </button>
           {/* <!-- Hamburger Toggle BTN --> */}
 
-          <Link className="block flex-shrink-0 lg:hidden" href="/">
+          {/* <Link className="block flex-shrink-0 lg:hidden" href="/">
             <Image
               width={32}
               height={32}
               src={'/images/logo/logo-icon.svg'}
               alt="Logo"
             />
-          </Link>
+          </Link> */}
         </div>
 
         <div className="hidden sm:block">

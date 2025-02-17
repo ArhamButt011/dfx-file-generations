@@ -81,7 +81,7 @@ const Downloads = () => {
         <table className="min-w-full bg-white border-gray-300 text-[20.45px]">
           <thead>
             <tr className="text-md text-gray-600">
-              <th className="pb-4 border-b text-start font-medium">Order ID</th>
+              <th className="pb-4 border-b text-start font-medium">Sr No</th>
               <th className="pb-4 px-4 border-b text-start font-medium">
                 File Name
               </th>

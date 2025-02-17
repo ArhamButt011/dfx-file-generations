@@ -85,7 +85,7 @@ const DXFDownloads = () => {
         <table className="min-w-full border-separate border-spacing-y-3">
           <thead>
             <tr className="text-[18.45px] text-gray-600">
-              <th className="pb-6 border-b text-start font-medium">Order ID</th>
+              <th className="pb-6 border-b text-start font-medium">Sr No</th>
               <th className="pb-6 px-4 border-b text-start font-medium">
                 File Name
               </th>

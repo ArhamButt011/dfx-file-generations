@@ -1,5 +1,5 @@
 'use client'
-import { useState, FormEvent } from 'react'
+import { useState, FormEvent, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { FaEye } from 'react-icons/fa'
 import Image from 'next/image'
@@ -22,9 +22,12 @@ const Login: React.FC<LoginProps> = ({ title, content }) => {
   const router = useRouter()
   const [loading, setLoading] = useState<boolean>(false)
 
-  if (userData) {
-    router.push('/admin/dashboard')
-  }
+  useEffect(() => {
+    if (userData) {
+      router.push('/admin/dashboard')
+    }
+  }, [userData])
+
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [loginForm, setLoginForm] = useState({
     email: '',

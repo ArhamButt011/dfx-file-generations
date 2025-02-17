@@ -88,7 +88,7 @@ const Subscriptions = () => {
           <thead>
             <tr className="text-[18.45px] text-gray-600">
               <th className="pb-6 px-4 border-b text-start font-medium">
-                Order ID
+                Sr No
               </th>
               <th className="pb-6 px-4 border-b text-start font-medium">
                 Plan name
@@ -150,10 +150,14 @@ const Subscriptions = () => {
                   </div>
                 </td>
                 <td className="py-3 px-4 text-start font-medium">
-                  {format(new Date(user?.added_on), 'MMM dd, yyyy')}
+                  {user?.added_on
+                    ? format(new Date(user.added_on), 'MMM dd, yyyy')
+                    : 'N/A'}
                 </td>
                 <td className="py-3 px-4 text-start font-medium">
-                  {format(new Date(user?.expiry_date), 'MMM dd, yyyy')}
+                  {user?.expiry_date
+                    ? format(new Date(user.expiry_date), 'MMM dd, yyyy')
+                    : 'N/A'}
                 </td>
                 <td className="py-3 px-4 text-start text-[21px] font-medium rounded-r-xl text-[#266CA8]">
                   ${user.charges}

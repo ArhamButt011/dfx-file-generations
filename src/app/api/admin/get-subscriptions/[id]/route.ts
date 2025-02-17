@@ -43,14 +43,14 @@ export async function GET(req: NextRequest) {
     }
 
     const subscriptions = await db
-      .collection<Subscription>('subscriptions')
+      .collection<Subscription>('all-subscriptions')
       .find(filter)
       .skip(skip)
       .limit(limit)
       .toArray()
 
     const totalSubscriptions = await db
-      .collection<Subscription>('subscriptions')
+      .collection<Subscription>('all-subscriptions')
       .countDocuments(filter)
 
     return NextResponse.json(

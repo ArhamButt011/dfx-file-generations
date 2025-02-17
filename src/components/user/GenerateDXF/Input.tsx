@@ -1,6 +1,7 @@
+import BilingModal from '@/components/UI/BilingModal';
 import Modal from '@/components/UI/Modal';
 import Image from 'next/image'
-import React, { useState, FormEvent } from 'react'
+import React, { useState, FormEvent, useEffect } from 'react'
 import Swal from 'sweetalert2';
 
 
@@ -10,6 +11,13 @@ function Input() {
   const [dragging, setDragging] = useState<boolean>(false);
   const [isProcessingOpen, setisProcessingOpen] = useState<boolean>(false);
   const [isOutputOpen, setisOutputOpen] = useState<boolean>(false);
+  const [base64, setBase64] = useState<string>("");
+  const [overlay, setOverlay] = useState<string>("");
+  const [mask, setMask] = useState<string>("");
+  const [preview, setPreview] = useState<string>("");
+  const [dfxFile, setDfxFile] = useState<string>("");
+  const [fileSize, setFileSize] = useState<number | null>(null);
+
   const onClose = () => {
     setisProcessingOpen(false);
     setisOutputOpen(false);
@@ -24,8 +32,12 @@ function Input() {
       // Validate file type
       if (file.type.startsWith("image/")) {
         const reader = new FileReader();
+        reader.readAsDataURL(file);
         reader.onload = (event) => {
           setImage(event.target?.result as string);
+          if (typeof reader.result === "string") {
+            setBase64(reader.result);
+          }
         };
         reader.readAsDataURL(file);
       } else {
@@ -48,12 +60,19 @@ function Input() {
     const file = e.target.files?.[0];
     if (file && file.type.startsWith("image/")) {
       const reader = new FileReader();
-      reader.onload = (event) => setImage(event.target?.result as string);
+
       reader.readAsDataURL(file);
+      reader.onload = (event) => {
+        setImage(event.target?.result as string);
+        if (typeof reader.result === "string") {
+          const base64Data = reader.result.split(",")[1];
+          setBase64(base64Data);
+        }
+      }
     }
   };
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!image || !contour) {
       Swal.fire({
@@ -66,14 +85,86 @@ function Input() {
       return;
     }
     //pass data to AI api
+
     setisProcessingOpen(true);
-    setTimeout(() => {
-      onClose();
+    try {
+      const res = await fetch('https://53fb-192-241-155-184.ngrok-free.app/predict', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image_path_or_base64: base64, offset_inches: contour }),
+      });
+
+      if (!res.ok) {
+        // If the response is not OK, throw an error with the message from the server response
+
+        const data = await res.json();
+        throw new Error(data.message || 'An error occurred');
+      }
+
+      // If the response is OK, parse the JSON data
+      // , scaling_factor
+      const { output_image_url, outlines_url, dxf_file, mask_url } = await res.json();
+      setMask(mask_url);
+      setDfxFile(dxf_file);
+      setPreview(outlines_url);
+      setOverlay(output_image_url);
+    } catch (err) {
+      // Catch any error in the try block and log it
+      console.error(err);
+    }
+    finally {
+      setisProcessingOpen(false);
       setisOutputOpen(true);
-    }, 5000);
+    }
+
+
+    // setisProcessingOpen(true);
+    // setTimeout(() => {
+    //   onClose();
+    //   setisOutputOpen(true);
+    // }, 5000);
 
     // setisOutputOpen(true);
   }
+
+
+  const handleDownload = (url: string) => {
+    if (!url) {
+      console.error("No image URL provided for download.");
+      return;
+    }
+
+    fetch(url)
+      .then(response => response.blob()) // Convert image URL to a blob
+      .then(blob => {
+        const blobUrl = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = blobUrl;
+        link.download = url.split("/").pop() || "downloaded_image"; // Extract filename or fallback
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(blobUrl); // Clean up memory
+      })
+      .catch(error => console.error("Error downloading the image:", error));
+  };
+
+  const getFileSize = async (url: string) => {
+    try {
+      const response = await fetch(url, { method: "HEAD" }); // Fetch only headers
+      const size = response.headers.get("Content-Length"); // Get file size in bytes
+      return size ? parseInt(size, 10) / 1024 : 0; // Convert bytes to KB
+    } catch (error) {
+      console.error("Error fetching file size:", error);
+      return 0;
+    }
+  };
+
+  useEffect(() => {
+    if (dfxFile) {
+      getFileSize(dfxFile).then(size => setFileSize(Number(size.toFixed(2))));
+    }
+  }, [dfxFile]);
 
   return (
     <>
@@ -89,15 +180,17 @@ function Input() {
               className={`bg-[#F2F2F2] p-5 rounded-t-3xl relative flex flex-col justify-center items-center 
     ${dragging ? "border-blue-500" : "border-gray-300"} 
     border-dashed rounded-2xl p-10 text-center`}
-              style={{ minHeight: image ? "auto" : "400px", padding: image ? "0" : "10px", minWidth: image ? "auto" : "" }}
+              style={{ minHeight: image ? "100px" : "400px", padding: image ? "0" : "10px", minWidth: image ? "100px" : "" }}
 
             >
               {image ? (
-                <div className="relative w-full flex justify-center items-center">
-                  <img
+                <div className="relative  flex justify-center items-center">
+                  <Image
                     src={image}
                     alt="Uploaded Preview"
-                    className="w-full object-cover rounded-md"
+                    className=" w-full h-100 rounded-3xl"
+                    width={100}
+                    height={100}
                   />
                   <div
                     className="absolute top-0 right-0 bg-white text-white w-20 h-10 flex items-center justify-around text-sm cursor-pointer"
@@ -217,54 +310,162 @@ function Input() {
       </Modal>
 
       {/* output */}
-      <Modal isOpen={isOutputOpen} onClose={onClose} buttonContent={<Image src="/images/user/cross.svg" alt="cross" width={20} height={20} />}>
-        <div className='flex gap-6'>
+      <BilingModal isOpen={isOutputOpen} onClose={onClose} buttonContent={<Image src="/images/user/cross.svg" alt="cross" width={20} height={20} />}>
+        <div className=''>
+          <p className='font-semibold text-3xl'>Output Data</p>
+          <div className='flex gap-6 mt-5'>
 
-          <div className="relative w-1/2 h-64">
-            <p>Overlay Iage</p>
-            <Image
-              src="/images/user/home/sample/overlay.svg"
-              alt="Input Image"
-              fill
-              className='mt-5'
-            />
+            <div className="relative w-1/2">
+              <p className="font-semibold text-xl mb-5">Overlay Image</p>
+              <div className='relative  flex justify-center items-center'>
+                <Image
+                  src={overlay}
+                  alt="overlay Image"
+                  className="w-full rounded-3xl border"
+                  width={350}
+                  height={100}
+                />
+                <div
+                  className="absolute top-0 right-0 bg-white border-r border-t rounded-tr-3xl text-white w-25 h-10 flex items-center justify-around text-sm cursor-pointer"
+                >
+                  <div
+
+                    className="cursor-pointer"
+                  >
+                    <Image
+                      src="/images/user/GenerateDFX/Full Screen.svg"
+                      alt="fullscreen"
+                      width={24}
+                      height={24}
+                    />
+                  </div>
+
+                  <Image
+                    src="/images/user/GenerateDFX/Share.svg"
+                    alt="cross"
+                    width={24}
+                    height={24}
+                  />
+                  <Image
+                    src="/images/user/GenerateDFX/download.svg"
+                    alt="cross"
+                    width={24}
+                    height={24}
+                    onClick={() => handleDownload(overlay)}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="relative w-1/2 ">
+              <p className='font-semibold text-xl mb-5'>DXF Preview</p>
+              <div className='relative  flex justify-center items-center'>
+                <Image
+                  src={preview}
+                  alt="preview Image"
+                  width={350}
+                  height={100}
+                  className='w-full  border  rounded-3xl'
+                />
+                <div
+                  className="absolute shadow-card top-0 right-0 bg-white border-r border-t rounded-tr-3xl text-white w-25 h-10 flex items-center justify-around text-sm cursor-pointer"
+                >
+                  <div
+                    className="cursor-pointer "
+                  >
+                    <Image
+                      src="/images/user/GenerateDFX/Full Screen.svg"
+                      alt="fullscreen"
+                      width={24}
+                      height={24}
+                    />
+                  </div>
+
+                  <Image
+                    src="/images/user/GenerateDFX/Share.svg"
+                    alt="cross"
+                    width={24}
+                    height={24}
+                  />
+                  <Image
+                    src="/images/user/GenerateDFX/download.svg"
+                    alt="cross"
+                    width={24}
+                    height={24}
+                    onClick={() => handleDownload(preview)}
+                  />
+                </div>
+              </div>
+            </div>
+
           </div>
+          <div className='flex gap-6 mt-10'>
 
-          <div className="relative w-1/2 h-64">
-            <p>DXF Preview</p>
-            <Image
-              src="/images/user/home/sample/preview.svg"
-              alt="Input Image"
-              fill
-              className='mt-5'
-            />
+            <div className="relative w-1/2">
+              <p className='font-semibold text-xl mb-5'>Mask</p>
+              <div className='relative  flex justify-center items-center rounded-3xl'>
+                <Image
+                  src={mask}
+                  alt="mask Image"
+                  width={350}
+                  height={100}
+                  className='w-full rounded-3xl border'
+                />
+                <div
+                  className="absolute top-0 right-0 bg-white border-r border-t rounded-tr-3xl text-white w-25 h-10 flex items-center justify-around text-sm cursor-pointer"
+                >
+                  <div
+
+                    className="cursor-pointer"
+                  >
+                    <Image
+                      src="/images/user/GenerateDFX/Full Screen.svg"
+                      alt="fullscreen"
+                      width={24}
+                      height={24}
+                    />
+                  </div>
+
+                  <Image
+                    src="/images/user/GenerateDFX/Share.svg"
+                    alt="cross"
+                    width={24}
+                    height={24}
+                  />
+                  <Image
+                    src="/images/user/GenerateDFX/download.svg"
+                    alt="cross"
+                    width={24}
+                    height={24}
+                    onClick={() => handleDownload(mask)}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="relative w-1/2 h-64">
+              <p className='font-semibold text-xl mb-5'>DXF File</p>
+              <p className='bg-[#F2F2F2] p-3 rounded-full flex justify-between'>
+                <span>{dfxFile.split("/").pop()}</span>
+                <span className='flex'>
+                  {fileSize}kb
+                  <Image
+                    src="/images/user/GenerateDFX/download.svg"
+                    alt="cross"
+                    width={24}
+                    height={24}
+                    onClick={() => handleDownload(mask)}
+                  />
+                </span>
+
+              </p>
+              <p></p>
+            </div>
+
           </div>
-
         </div>
-        <div className='flex gap-6 mt-5'>
+      </BilingModal>
 
-          <div className="relative w-1/2 h-64">
-            <p>Mask</p>
-            <Image
-              src="/images/user/home/sample/overlay.svg"
-              alt="Input Image"
-              fill
-              className='mt-5'
-            />
-          </div>
-
-          <div className="relative w-1/2 h-64">
-            <p>DXF File</p>
-            <Image
-              src="/images/user/home/sample/preview.svg"
-              alt="Input Image"
-              fill
-              className='mt-5'
-            />
-          </div>
-
-        </div>
-      </Modal>
     </>
   )
 }
