@@ -59,21 +59,34 @@ const Biling: biling[] = [
         bilingDate: new Date().toLocaleDateString(),
         expiryDate: new Date().toLocaleDateString(),
     },
+    {
+        _id: '3',
+        plan: 'Basic',
+        paymentwith: {
+            card: "021***********021",
+            name: "Alex Handai",
+            date: "06/2025"
+
+        },
+        charges: 100,
+        bilingDate: new Date().toLocaleDateString(),
+        expiryDate: new Date().toLocaleDateString(),
+    },
 ]
 function SubscriptionTable() {
     return (
         <div className='mt-14'>
             <p className='font-semibold text-3xl mb-10'>Subscription History</p>
             {Biling && Biling.length > 0 ? (
-                <table className=" min-w-full border rounded-3xl">
+                <table className=" min-w-full rounded-3xl">
                     <thead className='bg-[#266CA8] rounded-3xl'>
                         <tr className="text-[18.45px] text-white">
-                            <th className="p-3 border-b text-start font-medium">Sr No</th>
+                            <th className="p-3 border-b text-start font-medium rounded-tl-3xl">Sr No</th>
                             <th className="p3 border-b text-center font-medium">
                                 Plan
                             </th>
                             <th className="p3 border-b text-center font-medium">
-                                Payment With
+                                Duration
                             </th>
                             <th className="p3 border-b text-center font-medium">
                                 Charges
@@ -81,7 +94,7 @@ function SubscriptionTable() {
                             <th className="p3 border-b text-center font-medium">
                                 Biling Date
                             </th>
-                            <th className="p3 border-b text-center font-medium">
+                            <th className="p3 border-b text-center font-medium rounded-tr-3xl">
                                 Expiry Date
                             </th>
                         </tr>
@@ -92,31 +105,22 @@ function SubscriptionTable() {
                                 key={index}
                                 className={`text-primary text-[16.45px] ${index % 2 != 0 ? 'bg-[#F2F2F2]' : 'bg-white'}`}
                             >
-                                <td className="py-3 px-4 text-start font-medium ">
+                                <td className={`py-4 px-4 text-start font-medium ${index === Biling.length - 1 ? 'rounded-bl-3xl border-0' : 'border-l'}`}>
                                     #{data._id}
                                 </td>
-                                <td className="py-3 px-4   text-center font-medium text-[19px] text-[#000000]">
+                                <td className="py-4 px-4   text-center font-medium text-[19px] text-[#000000]">
                                     {data.plan}
                                 </td>
-                                <td className="py-3 px-4 text-start font-medium">
-                                    <div className="flex justify-center align-center gap-3">
-                                        <div>
-                                            <p className='text-lg text-black-2 font-medium'>{data.paymentwith.card}</p>
-                                            <div className='text-base font-medium text-[#00000080]'>
-                                                <p>{data.paymentwith.name}</p>
-                                                <p>Expiray Date: <span className='text-black'>{data.paymentwith.date}</span></p>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <td className="py-4 px-4 text-center text-lg font-medium ">
+                                    Monthly
                                 </td>
-
-                                <td className="py-3 px-4 text-center text-lg font-medium  text-[#266CA8]">
+                                <td className="py-4 px-4 text-center text-lg font-medium  text-[#266CA8]">
                                     ${data.charges}
                                 </td>
-                                <td className="py-3 px-4 text-center text-lg font-medium ">
+                                <td className="py-4 px-4 text-center text-lg font-medium ">
                                     {format(new Date(data.bilingDate), 'MMM dd, yyyy')}
                                 </td>
-                                <td className="py-3 px-4 text-center text-lg font-medium ">
+                                <td className={`py-4 px-4 text-center text-lg font-medium ${index === Biling.length - 1 ? 'rounded-br-3xl border-0' : 'border-r'}`}>
                                     {format(new Date(data.expiryDate), 'MMM dd, yyyy')}
                                 </td>
                             </tr>
