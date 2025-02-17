@@ -28,3 +28,8 @@ body {
   font-family: 'Raleway', Arial, Helvetica, sans-serif;
 
 }
+
+.swal-high-zindex
+{
+  z-index: 10001 !important;
+}

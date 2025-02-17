@@ -21,7 +21,7 @@ function Hero() {
             <div className=' md:max-w-[90%] mx-auto' id='benefits'>
                 <p className='font-bold md:text-[55px] text-[40px] text-center '>Why <span className='text-[#266CAB]'>Choose</span> Our DXF Generator?</p>
                 <p className='text-center text-[#00000066] md:text-[29px] text-[23px] mx-auto font-medium max-w-[90%]'>
-                Our advanced AI detects and processes tool layouts with extreme accuracy, instantly generating high-quality DXF files—no manual tracing required.
+                Simplify the creation of DXF files with precision and ease. Designed for both hobbyists and professionals, our software eliminates tedious manual design work, delivers accurate files ready for manufacturing custom tool drawer inserts, and saves you time and effort. Choose a fast, reliable, and cost-effective solution that streamlines your workflow and puts you in control.
                 </p>
                 <div className="flex md:flex-row flex-col pt-20 justify-between ">
                     {/* AI powered */}

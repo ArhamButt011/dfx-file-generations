@@ -112,6 +112,12 @@ const UserLogin = () => {
           icon: 'error',
           showConfirmButton: false,
           timer: 2000,
+          didOpen: () => {
+            const swalContainer = document.querySelector('.swal2-container') as HTMLElement;
+            if (swalContainer) {
+              swalContainer.style.setProperty('z-index', '100000', 'important');
+            }
+          }
         });
         return;
       }
@@ -144,6 +150,12 @@ const UserLogin = () => {
         icon: 'error',
         showConfirmButton: false,
         timer: 2000,
+        didOpen: () => {
+          const swalContainer = document.querySelector('.swal2-container') as HTMLElement;
+          if (swalContainer) {
+            swalContainer.style.setProperty('z-index', '100000', 'important');
+          }
+        }
       })
     } finally {
       setLoading(false)
@@ -174,6 +186,13 @@ const UserLogin = () => {
         icon: 'error',
         showConfirmButton: false,
         timer: 2000,
+        didOpen: () => {
+          const swalContainer = document.querySelector('.swal2-container') as HTMLElement;
+          if (swalContainer) {
+            swalContainer.style.setProperty('z-index', '100000', 'important');
+          }
+        }
+
       })
       return
     }
@@ -184,6 +203,13 @@ const UserLogin = () => {
         icon: 'error',
         showConfirmButton: false,
         timer: 2000,
+        didOpen: () => {
+          const swalContainer = document.querySelector('.swal2-container') as HTMLElement;
+          if (swalContainer) {
+            swalContainer.style.setProperty('z-index', '100000', 'important');
+          }
+        }
+
       });
       return;
     }
@@ -194,6 +220,12 @@ const UserLogin = () => {
         icon: 'error',
         showConfirmButton: false,
         timer: 2000,
+        didOpen: () => {
+          const swalContainer = document.querySelector('.swal2-container') as HTMLElement;
+          if (swalContainer) {
+            swalContainer.style.setProperty('z-index', '100000', 'important');
+          }
+        }
       })
       return
     }
@@ -231,6 +263,12 @@ const UserLogin = () => {
         icon: 'error',
         showConfirmButton: false,
         timer: 2000,
+        didOpen: () => {
+          const swalContainer = document.querySelector('.swal2-container') as HTMLElement;
+          if (swalContainer) {
+            swalContainer.style.setProperty('z-index', '100000', 'important');
+          }
+        }
       })
       // if (err instanceof Error) {
       //     setError(err.message);
@@ -277,6 +315,12 @@ const UserLogin = () => {
         icon: 'error',
         showConfirmButton: false,
         timer: 2000,
+        didOpen: () => {
+          const swalContainer = document.querySelector('.swal2-container') as HTMLElement;
+          if (swalContainer) {
+            swalContainer.style.setProperty('z-index', '100000', 'important');
+          }
+        }
       })
     } finally {
       setLoading(false)
@@ -314,6 +358,12 @@ const UserLogin = () => {
         icon: 'error',
         showConfirmButton: false,
         timer: 2000,
+        didOpen: () => {
+          const swalContainer = document.querySelector('.swal2-container') as HTMLElement;
+          if (swalContainer) {
+            swalContainer.style.setProperty('z-index', '100000', 'important');
+          }
+        }
       })
     }
   }
@@ -346,6 +396,12 @@ const UserLogin = () => {
         icon: 'error',
         showConfirmButton: false,
         timer: 2000,
+        didOpen: () => {
+          const swalContainer = document.querySelector('.swal2-container') as HTMLElement;
+          if (swalContainer) {
+            swalContainer.style.setProperty('z-index', '100000', 'important');
+          }
+        }
       })
     } finally {
       setLoading(false)
@@ -389,6 +445,12 @@ const UserLogin = () => {
         icon: "error",
         showConfirmButton: false,
         timer: 2000,
+        didOpen: () => {
+          const swalContainer = document.querySelector('.swal2-container') as HTMLElement;
+          if (swalContainer) {
+            swalContainer.style.setProperty('z-index', '100000', 'important');
+          }
+        }
       });
     }
     finally {
@@ -405,6 +467,12 @@ const UserLogin = () => {
         icon: 'error',
         showConfirmButton: false,
         timer: 2000,
+        didOpen: () => {
+          const swalContainer = document.querySelector('.swal2-container') as HTMLElement;
+          if (swalContainer) {
+            swalContainer.style.setProperty('z-index', '100000', 'important');
+          }
+        }
       })
       return
     }
@@ -415,6 +483,12 @@ const UserLogin = () => {
         icon: 'error',
         showConfirmButton: false,
         timer: 2000,
+        didOpen: () => {
+          const swalContainer = document.querySelector('.swal2-container') as HTMLElement;
+          if (swalContainer) {
+            swalContainer.style.setProperty('z-index', '100000', 'important');
+          }
+        }
       });
       return;
     }
@@ -439,6 +513,12 @@ const UserLogin = () => {
         icon: 'success',
         showConfirmButton: false,
         timer: 2000,
+        didOpen: () => {
+          const swalContainer = document.querySelector('.swal2-container') as HTMLElement;
+          if (swalContainer) {
+            swalContainer.style.setProperty('z-index', '100000', 'important');
+          }
+        }
       })
       setResetFormData({
         password: '',
@@ -451,6 +531,9 @@ const UserLogin = () => {
         icon: 'error',
         showConfirmButton: false,
         timer: 2000,
+        customClass: {
+          popup: 'swal-high-zindex'  // Custom class
+        }
       })
     } finally {
       setLoading(false)
@@ -472,8 +555,8 @@ const UserLogin = () => {
       )}
       {/* Left Form Section */}
       <div className="flex-1 bg-white flex md:items-center justify-center md:p-6  md:mt-0 mt-10">
-        <div className="md:w-[90%] md:p-6 mx-5 ">
-          <div className="flex items-center  mb-16 mob:mb-10">
+        <div className="md:w-[90%] md:p-6 md:pb-0 mx-5 ">
+          <div className="flex items-center  mb-5 ">
             <Image
               src={logo}
               alt="logo"
@@ -483,10 +566,10 @@ const UserLogin = () => {
             //   style={{ width: 'auto', height: 'auto' }}
             />
           </div>
-          <h1 className="md:text-[45px] text-[28px] font-medium text-black -mb-5">
+          <h1 className="md:text-[40px] text-[28px] font-medium text-black -mb-5">
             Effortless & Efficient{' '}
           </h1>
-          <p className="font-semibold md:text-[60px] text-[39px] md:mt-0 mt-5">
+          <p className="font-semibold md:text-[55px] text-[39px] md:mt-0 mt-5">
             {' '}
             <span className="text-[#266CAB]">DXF</span> File Creation
           </p>
@@ -547,7 +630,7 @@ const UserLogin = () => {
               //   className={`w-full bg-[#005B97] text-white py-2 px-4 mt-20 font-bold rounded-[94.17px] hover:bg-[#005b97f0] transition duration-300 ${
               //     loading ? 'opacity-50 cursor-not-allowed' : ''
               //   }`}
-              className="w-full bg-[#005B97] text-white py-2 px-4  font-bold rounded-[94.17px] hover:bg-[#005b97f0] transition duration-300"
+              className="w-full bg-[#005B97] text-white py-2 px-4 lg:mt-6 xl:mt-20  font-bold rounded-[94.17px] hover:bg-[#005b97f0] transition duration-300"
             //   disabled={loading}
             >
               Login
@@ -572,12 +655,12 @@ const UserLogin = () => {
       </div>
 
       {/* Right Section */}
-      <div className="md:w-[40%] bg-[#266CA8] flex justify-end w-[100%] md:mt-0 mt-10">
+      <div className="md:w-[40%] w-[100%] md:bg-[#266CA8] bg-[#266CA8] flex justify-center">
         <Image
           src={image3}
           alt="image3"
           priority
-          className="h-[100vh] object-fill"
+          className="xxl:object-cover md:h-[100vh]"
         />
       </div>
 
@@ -802,7 +885,13 @@ const UserLogin = () => {
                   type="submit"
                   className="text-right mt-2 text-[#266CA8] underline text-sm font-semibold cursor-pointer"
                 >
-                  Send OTP
+                  {Timer > 0 ? (
+                    <span className="text-gray-500">Resend in {Timer}s</span>
+                  ) : (
+                    <>
+                      Send OTP
+                    </>
+                  )}
                 </button>
               </div>
             </div>
@@ -823,6 +912,25 @@ const UserLogin = () => {
                     type="text"
                     value={otp}
                     onChange={(e) => handleOTPChange(e, index)}
+                    id={`otp-${index + 1}`}
+                    onKeyUp={(e) => {
+                      const input = e.target as HTMLInputElement
+                      if (e.key === 'Backspace' && input.value.length === 0) {
+                        const prevInput = document.getElementById(
+                          `otp-${index}`,
+                        )
+                        if (prevInput) {
+                          prevInput.focus()
+                        }
+                      } else if (input.value.length === 1) {
+                        const nextInput = document.getElementById(
+                          `otp-${index + 2}`,
+                        )
+                        if (nextInput) {
+                          nextInput.focus()
+                        }
+                      }
+                    }}
                     className="w-[50px] h-[50px] text-center px-4 py-2 mt-1 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
                     required
                   />
@@ -922,7 +1030,7 @@ const UserLogin = () => {
             >
               Verify
             </button>
-            
+
           </form>
         </div>
       </Modal>
