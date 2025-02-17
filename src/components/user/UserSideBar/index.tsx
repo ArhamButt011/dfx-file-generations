@@ -75,7 +75,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, setIsBilingOpen }: SidebarProps)
   return (
     <ClickOutside onClick={() => setSidebarOpen(false)}>
       <aside
-        className={`fixed left-0 top-0 z-9999 flex h-screen md:w-72.5 w-full flex-col overflow-y-hidden bg-[#F8F8F8] duration-300 ease-linear dark:bg-boxdark lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        className={`fixed left-0 top-0 z-9999 flex h-screen md:w-72.5 w-full flex-col overflow-y-scroll bg-[#F8F8F8] duration-300 ease-linear dark:bg-boxdark lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
       >
         {/* <!-- SIDEBAR HEADER --> */}
@@ -94,7 +94,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, setIsBilingOpen }: SidebarProps)
         </div>
         {/* <!-- SIDEBAR HEADER --> */}
 
-        <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear h-screen pb-10">
+        <div className="no-scrollbar flex flex-col overflow-y-scroll duration-300 ease-linear h-screen pb-10">
           {/* <!-- Sidebar Menu --> */}
           <nav className="mt-5 px-4 py-4 lg:mt-9 lg:px-6">
             {menuGroups.map((group, groupIndex) => (
