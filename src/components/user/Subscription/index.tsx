@@ -6,10 +6,10 @@ function index() {
     return (
         <div>
             <p className='font-semibold text-4xl'>Subscription Plan</p>
-            <p className='font-medium text-lg text-[#00000080]'>Manage your subscription and payment details </p>
+            <p className='font-medium text-lg text-[#00000080] mt-1'>Manage your subscription and payment details </p>
             <div className="flex mt-5 w-full justify-between gap-10">
                 {/* left */}
-                <div className='border rounded-2xl p-5 w-1/2 '>
+                <div className='border rounded-2xl p-5 w-full'>
                     <div className="flex justify-between">
                         <div>
                             <p className='font-semibold text-xl'>Basic plan <span className='font-medium text-xs bg-[#266CA81A] text-[#266CA8] px-2 py-1 rounded-full'>Monthly</span></p>
@@ -21,8 +21,8 @@ function index() {
                     </div>
                     <p className='font-medium text-base text-[#00000080] mt-10'>Next Renewal Date: <span className='text-black'>Apr 10, 2025</span></p>
                     <div className="-mx-5 border-t border-[#0000001A] my-5"></div>
-                    <div className='flex justify-end mt-5'>
-                        <p className='font-semibold text-base text-[#266CA8] underline'>Upgrade Plan</p>
+                    <div className='flex justify-center mt-5'>
+                        <p className='font-semibold text-base text-[#266CA8] underline text-center'>Upgrade Plan</p>
                         <Image
                             src="/images/user/subscription/diagonalArrow.svg"
                             alt='arrow'
@@ -33,7 +33,7 @@ function index() {
 
                 </div>
                 {/* right */}
-                <div className='border rounded-2xl p-5 w-1/2'>
+                {/* <div className='border rounded-2xl p-5 w-1/2'>
                     <div className="flex justify-between">
                         <div>
                             <p className='font-semibold text-xl'>Payment Method </p>
@@ -76,7 +76,7 @@ function index() {
                         </div>
                     </div>
 
-                </div>
+                </div> */}
             </div>
         </div>
     )

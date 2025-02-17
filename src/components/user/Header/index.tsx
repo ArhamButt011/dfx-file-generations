@@ -52,10 +52,6 @@ const Header = (props: {
 
 
         <div className="lg:flex items-center gap-3 2xsm:gap-7 hidden ">
-          {/* <ul className="flex items-center gap-2 2xsm:gap-4">
-            <DropdownNotification />
-          </ul> */}
-
           <DropdownUser />
         </div>
       </div>
