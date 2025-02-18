@@ -24,7 +24,7 @@ const Subscriptions = () => {
   const [searchQuery, setSearchQuery] = useState('')
   const [subscriptions, setSubscriptions] = useState<Subscriptions[]>([])
   const [currentPage, setCurrentPage] = useState(1)
-  const [totalSubscription, setTotalSubscription] = useState(1)
+  const [totalSubscription, setTotalSubscription] = useState(0)
   const [totalPages, setTotalPages] = useState(1)
 
   const handlePageChange = (newPage: number) => {

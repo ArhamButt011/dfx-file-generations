@@ -22,7 +22,7 @@ const DXFDownloads = () => {
   const [searchQuery, setSearchQuery] = useState('')
   const [downloads, setDownloads] = useState<Download[]>([])
   const [currentPage, setCurrentPage] = useState(1)
-  const [totalDXFDownloads, setTotalDownloads] = useState(1)
+  const [totalDXFDownloads, setTotalDownloads] = useState(0)
   const [totalPages, setTotalPages] = useState(1)
 
   const handlePageChange = (newPage: number) => {
@@ -69,7 +69,7 @@ const DXFDownloads = () => {
         rightContent={
           <input
             type="text"
-            placeholder="Search user..."
+            placeholder="Search..."
             className="px-4 py-2 rounded-lg border border-gray-300"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}

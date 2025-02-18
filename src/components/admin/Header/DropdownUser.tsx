@@ -30,24 +30,15 @@ const DropdownUser = () => {
   const [oldPassword, setOldPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [userImage, setUserImage] = useState(userImages) // Set initial image
+  const [name, setName] = useState('')
+  const [profileImage, setProfileImage] = useState(userImages) // Set initial image
+  const [file, setFile] = useState<File | undefined>(undefined)
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const { logout } = useAuth()
   const { userData } = useAuth()
 
   const handleImageClick = () => {
-    fileInputRef.current?.click() // Optional chaining to ensure fileInputRef is not null
-  }
-
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (file) {
-      const reader = new FileReader()
-      reader.onloadend = () => {
-        setUserImage(reader.result as string)
-      }
-      reader.readAsDataURL(file)
-    }
+    fileInputRef.current?.click()
   }
 
   const handleLogoutClick = () => {
@@ -62,6 +53,7 @@ const DropdownUser = () => {
   const onClose = () => {
     setIsOpen(false)
   }
+
   const onEditClose = () => {
     setIsEditOpen(false)
   }
@@ -69,6 +61,7 @@ const DropdownUser = () => {
   const handleChangePassword = () => {
     setPasswordOpen(true)
   }
+
   const onPasswordClose = () => {
     setPasswordOpen(false)
   }
@@ -131,6 +124,76 @@ const DropdownUser = () => {
           timer: 2000,
         })
       }
+    }
+  }
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const profileImage = e.target.files?.[0]
+    if (profileImage) {
+      setFile(profileImage)
+      const imageUrl = URL.createObjectURL(profileImage)
+      setProfileImage(imageUrl)
+    }
+  }
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    if (!file) {
+      Swal.fire({
+        title: 'Error!',
+        text: 'Please select a file first.',
+        icon: 'error',
+        showConfirmButton: false,
+        timer: 2000,
+      })
+      return
+    }
+    if (!userData) {
+      Swal.fire({
+        title: 'Error!',
+        text: 'User id not found',
+        icon: 'error',
+        showConfirmButton: false,
+        timer: 2000,
+      })
+      return
+    }
+    const id = userData.id
+
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('name', name)
+    formData.append('id', id)
+
+    try {
+      const response = await fetch('/api/admin/edit-profile', {
+        method: 'PUT',
+        body: formData,
+      })
+
+      const data = await response.json()
+      console.log(data)
+
+      if (data.status === 'success') {
+        const newToken = data?.token
+        console.log(newToken)
+        if (newToken) {
+          localStorage.setItem('token', newToken)
+        }
+        Swal.fire({
+          title: 'Success',
+          text: 'Data Update Successfully',
+          icon: 'success',
+          showConfirmButton: false,
+          timer: 2000,
+        })
+      } else {
+        alert('File upload failed!')
+      }
+    } catch (error) {
+      console.error('Error:', error)
+      alert('An error occurred during file upload.')
     }
   }
 
@@ -380,64 +443,66 @@ const DropdownUser = () => {
       {/* Edit Profile Modal */}
 
       <Modal isOpen={isEditOpen} onClose={onEditClose} buttonContent="">
-        <div className="flex items-center flex-col gap-10">
-          <div className="flex justify-between items-center w-full mb-7">
-            <div className="text-[#000000] text-[34px] font-semibold text-center flex-grow">
-              Edit Profile
+        <form onSubmit={handleSubmit}>
+          <div className="flex items-center flex-col gap-10">
+            <div className="flex justify-between items-center w-full mb-7">
+              <div className="text-[#000000] text-[34px] font-semibold text-center flex-grow">
+                Edit Profile
+              </div>
+              <div>
+                <Image
+                  className="cursor-pointer"
+                  src={blackCross}
+                  alt="cross"
+                  onClick={onEditClose}
+                />
+              </div>
             </div>
-            <div>
+            <div className="relative inline-block">
               <Image
-                className="cursor-pointer"
-                src={blackCross}
-                alt="cross"
-                onClick={onEditClose}
+                src={profileImage}
+                alt="userImage"
+                className="rounded-full w-36 h-36"
+                onClick={handleImageClick}
+                width={200}
+                height={200}
               />
-            </div>
-          </div>
-          <div className="relative inline-block">
-            <Image
-              src={userImage}
-              alt="userImage"
-              className="rounded-full w-36 h-36"
-              onClick={handleImageClick}
-              width={200}
-              height={200}
-            />
-            <Image
-              src={EditIcon}
-              alt="editImage"
-              className="absolute top-0 right-0 transform"
-            />
-            <input
-              type="file"
-              ref={fileInputRef}
-              accept="image/*"
-              className="hidden"
-              onChange={handleImageChange}
-            />
-          </div>
-          <div className="mb-2 w-full">
-            <label className="text-[#000000] font-semibold mb-2 text-[21.37px]">
-              User Name
-            </label>
-            <div>
+              <Image
+                src={EditIcon}
+                alt="editImage"
+                className="absolute top-0 right-0 transform"
+              />
               <input
-                type="text"
-                placeholder="Enter User Name"
-                name="username" // Ensure this matches the state property name
-                // value={loginForm.password}
-                // onChange={handleLoginChange}
-                className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
-                required
+                type="file"
+                ref={fileInputRef}
+                accept=".jpg, .jpeg, .png"
+                className="hidden"
+                onChange={handleFileChange}
               />
             </div>
+            <div className="mb-2 w-full">
+              <label className="text-[#000000] font-semibold mb-2 text-[21.37px]">
+                User Name
+              </label>
+              <div>
+                <input
+                  type="text"
+                  placeholder="Enter User Name"
+                  // Ensure this matches the state property name
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
+                  required
+                />
+              </div>
+            </div>
+            <div className="w-full mt-24">
+              <button className="font-normal text-white text-[24.56px] bg-[#266CA8] rounded-full px-16 py-3 w-full">
+                Continue
+              </button>
+            </div>
           </div>
-          <div className="w-full mt-24">
-            <button className="font-normal text-white text-[24.56px] bg-[#266CA8] rounded-full px-16 py-3 w-full">
-              Continue
-            </button>
-          </div>
-        </div>
+        </form>
       </Modal>
     </>
   )
