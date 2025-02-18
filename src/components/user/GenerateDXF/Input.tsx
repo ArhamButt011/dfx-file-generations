@@ -243,338 +243,195 @@ function Input() {
   return (
     <>
       <div className='mt-5'>
-        <p className='font-semibold text-2xl mb-5'>Input Image</p>
-        <div className="flex">
-          {/* left */}
-          <div className='bg-[#F2F2F2] w-1/2'>
-            <form action="" onSubmit={handleSubmit} >
-              <div className='border border-dashed border-[#0000004D] rounded-3xl m-5'>
 
-                <div
-                  onDrop={handleDrop}
-                  onDragOver={handleDragOver}
-                  onDragLeave={handleDragLeave}
-                  className={`bg-[#F2F2F2]  rounded-t-3xl relative flex flex-col justify-center items-center 
+        <div className="flex gap-10">
+          {/* left */}
+          <div className='bg-[#F2F2F2] w-1/2 rounded-b-2xl'>
+            <div className='bg-[#266CA8] py-3 rounded-t-2xl'>
+              <p className='text-white text-center font-medium text-2xl'>Input Data</p>
+            </div>
+            <div className='p-5'>
+
+              <p className='font-semibold text-2xl mb-5'>Input Image</p>
+              <form action="" onSubmit={handleSubmit} >
+                <div className='border border-dashed border-[#0000004D] rounded-3xl'>
+
+                  <div
+                    onDrop={handleDrop}
+                    onDragOver={handleDragOver}
+                    onDragLeave={handleDragLeave}
+                    className={`bg-[#F2F2F2]  rounded-t-3xl relative flex flex-col justify-center items-center 
     ${dragging ? "border-blue-500" : "border-gray-300"} 
     border-dashed rounded-2xl  text-center`}
-                style={{ minHeight: image ? "100px" : "400px", padding: image ? "0" : "10px", minWidth: image ? "100px" : "" }}
+                    style={{ minHeight: image ? "100px" : "400px", padding: image ? "0" : "10px", minWidth: image ? "100px" : "" }}
 
-                >
-                  {image ? (
-                    <div
-                      className="relative  flex justify-center items-center w-full h-[500px]"
-                      onMouseMove={handleMouseMove}
-                      onMouseLeave={() => setLensPos({ ...lensPos, visible: false })}>
-                      <Image
-                        src={image}
-                        alt="Uploaded Preview"
-                        className="rounded-t-3xl object-contain"
-                        fill  
-                        ref={imgRef}
-                      />
-                      {lensPos.visible && isMagnifierActive && imgRef.current && (
-                        <div
-                          className="absolute w-[100px] h-[100px] border-2 border-gray-400 rounded-full overflow-hidden pointer-events-none"
-                          style={{
-                            left: lensPos.x - 100 / 2,
-                            top: lensPos.y - 100 / 2,
-                            backgroundImage: `url(${image})`,
-                            backgroundSize: `${7 * 100}%`, // Scale up the image
-                            backgroundRepeat: "no-repeat", // Prevents image repetition
-                            backgroundPosition: `-${Math.max(
-                              0,
-                              Math.min(
-                                (lensPos.x / imgRef.current.width) * (imgRef.current.width * 7) - 100 / 2,
-                                imgRef.current.width * 7 - 100
-                              )
-                            )}px 
-              -${Math.max(
-                              0,
-                              Math.min(
-                                (lensPos.y / imgRef.current.height) * (imgRef.current.height * 7) - 100 / 2,
-                                imgRef.current.height * 7 - 100
-                              )
-                            )}px`,
-                          }}
-                        />
-                      )}
+                  >
+                    {image ? (
                       <div
-                        className="absolute top-0 right-0 bg-white text-white w-20 h-10 flex items-center justify-around text-sm cursor-pointer rounded-tr-3xl"
-                      >
+                        className="relative  flex justify-center items-center w-full h-[500px]"
+                        onMouseMove={handleMouseMove}
+                        onMouseLeave={() => setLensPos({ ...lensPos, visible: false })}>
+                        <Image
+                          src={image}
+                          alt="Uploaded Preview"
+                          className="rounded-t-3xl "
+                          fill
+                          ref={imgRef}
+                        />
+                        {lensPos.visible && isMagnifierActive && imgRef.current && (
+                          <div
+                            className="absolute w-[100px] h-[100px] border-2 border-gray-400 rounded-full overflow-hidden pointer-events-none"
+                            style={{
+                              left: lensPos.x - 100 / 2,
+                              top: lensPos.y - 100 / 2,
+                              backgroundImage: `url(${image})`,
+                              backgroundSize: `${7 * 100}%`, // Scale up the image
+                              backgroundRepeat: "no-repeat", // Prevents image repetition
+                              backgroundPosition: `-${Math.max(
+                                0,
+                                Math.min(
+                                  (lensPos.x / imgRef.current.width) * (imgRef.current.width * 7) - 100 / 2,
+                                  imgRef.current.width * 7 - 100
+                                )
+                              )}px 
+              -${Math.max(
+                                0,
+                                Math.min(
+                                  (lensPos.y / imgRef.current.height) * (imgRef.current.height * 7) - 100 / 2,
+                                  imgRef.current.height * 7 - 100
+                                )
+                              )}px`,
+                            }}
+                          />
+                        )}
                         <div
-                          onClick={() => handleFullScreen(image)}
-                          className="cursor-pointer"
+                          className="absolute top-0 right-0 bg-white text-white w-20 h-10 flex items-center justify-around text-sm cursor-pointer rounded-tr-3xl"
                         >
+                          <div
+                            onClick={() => handleFullScreen(image)}
+                            className="cursor-pointer"
+                          >
+                            <Image
+                              src="/images/user/GenerateDFX/Full Screen.svg"
+                              alt="fullscreen"
+                              width={24}
+                              height={24}
+                            />
+                          </div>
+
                           <Image
-                            src="/images/user/GenerateDFX/Full Screen.svg"
-                            alt="fullscreen"
-                            width={24}
-                            height={24}
+                            src="/images/user/GenerateDFX/cross.svg"
+                            alt="cross"
+                            width={14}
+                            height={14}
+                            onClick={() => setImage(null)}
                           />
                         </div>
-
-                        <Image
-                          src="/images/user/GenerateDFX/cross.svg"
-                          alt="cross"
-                          width={14}
-                          height={14}
-                          onClick={() => setImage(null)}
-                        />
                       </div>
-                    </div>
 
-                  ) : (
-                    <>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleFileInputChange}
-                        className="hidden"
-                        id="fileInput"
-                        ref={fileInputRef}
-                      />
-                      <label htmlFor="fileInput" className="flex flex-col items-center cursor-pointer">
-                        <Image
-                          src="/images/user/GenerateDFX/Upload.svg"
-                          alt="upload"
-                          width={44}
-                          height={44}
+                    ) : (
+                      <>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleFileInputChange}
+                          className="hidden"
+                          id="fileInput"
+                          ref={fileInputRef}
                         />
-                        <p className="font-semibold text-xl text-center">
-                          Drag & drop the image or{" "}
-                          <span className="text-[#266CA8] underline cursor-pointer">
-                            click
-                          </span>{" "}
-                          to upload
-                        </p>
-                      </label>
-                    </>
-                  )}
-                </div>
+                        <label htmlFor="fileInput" className="flex flex-col items-center cursor-pointer">
+                          <Image
+                            src="/images/user/GenerateDFX/Upload.svg"
+                            alt="upload"
+                            width={44}
+                            height={44}
+                          />
+                          <p className="font-semibold text-xl text-center">
+                            Drag & drop the image or{" "}
+                            <span className="text-[#266CA8] underline cursor-pointer">
+                              click
+                            </span>{" "}
+                            to upload
+                          </p>
+                        </label>
+                      </>
+                    )}
+                  </div>
 
-                <div className="flex justify-center rounded-b-3xl bg-white">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleFileInputChange}
-                    className="hidden"
-                    id="fileInput"
-                  />
-                  <label htmlFor="fileInput" className="flex flex-col items-center cursor-pointer">
-                    <Image
-                      src="/images/user/GenerateDFX/Upload.svg"
-                      alt="upload"
-                      width={44}
-                      height={44}
+                  <div className="flex justify-center rounded-b-3xl bg-white">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleFileInputChange}
+                      className="hidden"
+                      id="fileInput"
                     />
-                  </label>
-                  <Image
-                    src="/images/user/GenerateDFX/GPS.svg"
-                    alt="upload"
-                    width={40}
-                    height={40}
-                    className='cursor-pointer'
-                    onClick={() => setIsMagnifierActive(!isMagnifierActive)}
-                  />
-                  <Image
-                    src="/images/user/GenerateDFX/Clipboard.svg"
-                    alt="upload"
-                    width={40}
-                    height={40}
-                    className='cursor-pointer'
-                    onClick={handlePasteImage}
-                  />
+                    <label htmlFor="fileInput" className="flex flex-col items-center cursor-pointer">
+                      <Image
+                        src="/images/user/GenerateDFX/Upload.svg"
+                        alt="upload"
+                        width={44}
+                        height={44}
+                      />
+                    </label>
+                    <Image
+                      src="/images/user/GenerateDFX/GPS.svg"
+                      alt="upload"
+                      width={40}
+                      height={40}
+                      className='cursor-pointer'
+                      onClick={() => setIsMagnifierActive(!isMagnifierActive)}
+                    />
+                    <Image
+                      src="/images/user/GenerateDFX/Clipboard.svg"
+                      alt="upload"
+                      width={40}
+                      height={40}
+                      className='cursor-pointer'
+                      onClick={handlePasteImage}
+                    />
+                  </div>
                 </div>
-              </div>
-              {/* contour */}
-              <div className='mt-10 m-5'>
-                <p className='font-semibold text-2xl'>Contour Offset Parameter <span className='font-medium text-xl text-[#00000080]'>(inches)</span></p>
+                {/* contour */}
+                <div className='mt-10 '>
+                  <p className='font-semibold text-2xl'>Contour Offset Parameter <span className='font-medium text-xl text-[#00000080]'>(inches)</span></p>
 
-                <input
-                  type="number"
-                  className="border rounded-full w-full p-3 my-5 bg-[#F2F2F2]"
-                  placeholder='0.075'
-                  value={contour ?? ""}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    setContour(value !== "" ? parseFloat(value) : undefined);
-                  }}
-                />
+                  <input
+                    type="number"
+                    className="border rounded-full w-full p-3 my-5 bg-[#F2F2F2]"
+                    placeholder='0.075'
+                    value={contour ?? ""}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setContour(value !== "" ? parseFloat(value) : undefined);
+                    }}
+                  />
 
 
-                <div className="flex justify-between gap-4">
-                  <button type='reset' className='w-1/2 bg-white p-3 rounded-full text-[#00000080] font-medium text-2xl'>Clear</button>
-                  <button type="submit" className='w-1/2 bg-[#266CA8] p-3 rounded-full text-white font-medium text-2xl'>Submit</button>
+                  <div className="flex justify-between gap-4 my-8">
+                    <button type='reset' className='w-1/2 bg-white p-3 rounded-full text-[#00000080] font-medium text-2xl'>Clear</button>
+                    <button type="submit" className='w-1/2 bg-[#266CA8] p-3 rounded-full text-white font-medium text-2xl'>Submit</button>
+                  </div>
+
                 </div>
-
-              </div>
-            </form>
+              </form>
+            </div>
           </div>
           {/* right */}
-          <div className='bg-[#F2F2F2] invisible w-1/2'>
-            <form action="" onSubmit={handleSubmit} >
-              <div className='border border-dashed border-[#0000004D] rounded-3xl m-5'>
-
-                <div
-                  onDrop={handleDrop}
-                  onDragOver={handleDragOver}
-                  onDragLeave={handleDragLeave}
-                  className={`bg-[#F2F2F2] p-5 rounded-t-3xl relative flex flex-col justify-center items-center 
-    ${dragging ? "border-blue-500" : "border-gray-300"} 
-    border-dashed rounded-2xl p-10 text-center`}
-                  style={{ minHeight: image ? "100px" : "400px", padding: image ? "0" : "10px", minWidth: image ? "100px" : "" }}
-
-                >
-                  {image ? (
-                    <div
-                      className="relative  flex justify-center items-center"
-                      onMouseMove={handleMouseMove}
-                      onMouseLeave={() => setLensPos({ ...lensPos, visible: false })}>
-                      <Image
-                        src={image}
-                        alt="Uploaded Preview"
-                        className=" w-full  rounded-3xl"
-                        width={100}
-                        height={100}
-                        ref={imgRef}
-                      />
-                      {lensPos.visible && isMagnifierActive && imgRef.current && (
-                        <div
-                          className="absolute w-[100px] h-[100px] border-2 border-gray-400 rounded-full overflow-hidden pointer-events-none"
-                          style={{
-                            left: lensPos.x - 100 / 2,
-                            top: lensPos.y - 100 / 2,
-                            backgroundImage: `url(${image})`,
-                            backgroundSize: `${7 * 100}%`, // Scale up the image
-                            backgroundRepeat: "no-repeat", // Prevents image repetition
-                            backgroundPosition: `-${Math.max(
-                              0,
-                              Math.min(
-                                (lensPos.x / imgRef.current.width) * (imgRef.current.width * 7) - 100 / 2,
-                                imgRef.current.width * 7 - 100
-                              )
-                            )}px 
-              -${Math.max(
-                              0,
-                              Math.min(
-                                (lensPos.y / imgRef.current.height) * (imgRef.current.height * 7) - 100 / 2,
-                                imgRef.current.height * 7 - 100
-                              )
-                            )}px`,
-                          }}
-                        />
-                      )}
-                      <div
-                        className="absolute top-0 right-0 bg-white text-white w-20 h-10 flex items-center justify-around text-sm cursor-pointer"
-                      >
-                        <div
-                          onClick={() => handleFullScreen(image)}
-                          className="cursor-pointer"
-                        >
-                          <Image
-                            src="/images/user/GenerateDFX/Full Screen.svg"
-                            alt="fullscreen"
-                            width={24}
-                            height={24}
-                          />
-                        </div>
-
-                        <Image
-                          src="/images/user/GenerateDFX/cross.svg"
-                          alt="cross"
-                          width={14}
-                          height={14}
-                          onClick={() => setImage(null)}
-                        />
-                      </div>
-                    </div>
-
-                  ) : (
-                    <>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleFileInputChange}
-                        className="hidden"
-                        id="fileInput"
-                        ref={fileInputRef}
-                      />
-                      <label htmlFor="fileInput" className="flex flex-col items-center cursor-pointer">
-                        <Image
-                          src="/images/user/GenerateDFX/Upload.svg"
-                          alt="upload"
-                          width={44}
-                          height={44}
-                        />
-                        <p className="font-semibold text-xl text-center">
-                          Drag & drop the image or{" "}
-                          <span className="text-[#266CA8] underline cursor-pointer">
-                            click
-                          </span>{" "}
-                          to upload
-                        </p>
-                      </label>
-                    </>
-                  )}
-                </div>
-
-                <div className="flex justify-center rounded-b-3xl bg-white">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleFileInputChange}
-                    className="hidden"
-                    id="fileInput"
-                  />
-                  <label htmlFor="fileInput" className="flex flex-col items-center cursor-pointer">
-                    <Image
-                      src="/images/user/GenerateDFX/Upload.svg"
-                      alt="upload"
-                      width={44}
-                      height={44}
-                    />
-                  </label>
-                  <Image
-                    src="/images/user/GenerateDFX/GPS.svg"
-                    alt="upload"
-                    width={40}
-                    height={40}
-                    className='cursor-pointer'
-                    onClick={() => setIsMagnifierActive(!isMagnifierActive)}
-                  />
-                  <Image
-                    src="/images/user/GenerateDFX/Clipboard.svg"
-                    alt="upload"
-                    width={40}
-                    height={40}
-                    className='cursor-pointer'
-                    onClick={handlePasteImage}
-                  />
-                </div>
-              </div>
-              {/* contour */}
-              <div className='mt-10 m-5'>
-                <p className='font-semibold text-2xl'>Contour Offset Parameter <span className='font-medium text-xl text-[#00000080]'>(inches)</span></p>
-
-                <input
-                  type="number"
-                  className="border rounded-full w-full p-3 my-5 bg-[#F2F2F2]"
-                  placeholder='0.075'
-                  value={contour ?? ""}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    setContour(value !== "" ? parseFloat(value) : undefined);
-                  }}
-                />
-
-
-                <div className="flex justify-between gap-4">
-                  <button type='reset' className='w-1/2 bg-white p-3 rounded-full text-[#00000080] font-medium text-2xl'>Clear</button>
-                  <button type="submit" className='w-1/2 bg-[#266CA8] p-3 rounded-full text-white font-medium text-2xl'>Submit</button>
-                </div>
-
-              </div>
-            </form>
+          <div className='bg-[#F2F2F2] w-1/2 rounded-b-2xl'>
+            <div className='bg-[#266CA8] py-3 rounded-t-2xl'>
+              <p className='text-white text-center font-medium text-2xl'>Output Data</p>
+            </div>
+            <div className='p-5 flex justify-center items-center h-full'>
+              <Image
+                src="/images/user/GenerateDFX/noOutput.svg"
+                alt="Uploaded Preview"
+                className="rounded-t-3xl "
+                width={400}
+                height={200}
+                ref={imgRef}
+              />
+            </div>
           </div>
         </div>
       </div >
