@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: '5abd-192-241-155-184.ngrok-free.app',
+        hostname: '046f-192-241-155-184.ngrok-free.app',
         pathname: '/outputs/**', // Adjust based on your URL pattern
       },
     ],

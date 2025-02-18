@@ -75,10 +75,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, setIsBilingOpen }: SidebarProps)
   return (
     <ClickOutside onClick={() => setSidebarOpen(false)}>
       <aside
-        className={`fixed left-0 top-0 z-9999 flex h-screen md:w-72.5 w-full flex-col overflow-y-scroll bg-[#F8F8F8] duration-300 ease-linear dark:bg-boxdark lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        className={`fixed left-0 top-0 z-9999 flex min-h-screen max-h-auto md:w-72.5 w-full flex-col overflow-y-auto bg-[#F8F8F8] duration-300 ease-linear dark:bg-boxdark lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
       >
-        {/* <!-- SIDEBAR HEADER --> */}
         <div className="flex items-center justify-between gap-2 px-6 pt-5.5 lg:pt-6.5">
           <Link href="/">
             <Image width={176} height={32} src={logo} alt="Logo" priority />
@@ -92,17 +91,12 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, setIsBilingOpen }: SidebarProps)
             <Image src="/images/user/home/NavbarCross.svg" alt="cross" width={20} height={20} />
           </button>
         </div>
-        {/* <!-- SIDEBAR HEADER --> */}
 
-        <div className="no-scrollbar flex flex-col overflow-y-scroll duration-300 ease-linear h-screen pb-10">
-          {/* <!-- Sidebar Menu --> */}
+        <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear min-h-screen max-h-auto pb-10">
+
           <nav className="mt-5 px-4 py-4 lg:mt-9 lg:px-6">
             {menuGroups.map((group, groupIndex) => (
               <div key={groupIndex}>
-                {/* <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
-                  {group.name}
-                </h3> */}
-
                 <ul className="mb-6 flex flex-col gap-1.5">
                   {group.menuItems.map((menuItem, menuIndex) => (
                     <SidebarItem
@@ -116,7 +110,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, setIsBilingOpen }: SidebarProps)
               </div>
             ))}
           </nav>
-          {/* <!-- Sidebar Menu --> */}
 
           <div className='bg-[#FFFFFF] flex flex-col justify-center rounded-2xl mx-5 p-5 mb-5'>
             <div>
@@ -185,13 +178,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, setIsBilingOpen }: SidebarProps)
                   />
                 </svg>
               </Link>
-              {/* <!-- Dropdown Start --> */}
               <AnimatePresence>
 
                 {dropdownOpen && (
-                  // <div
-                  //   className={`absolute  mt-4 flex w-62.5 flex-col rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark`}
-                  // >
                   <motion.div
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -271,19 +260,12 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, setIsBilingOpen }: SidebarProps)
                         </Link>
                       </li>
                     </ul>
-
-                    {/* </div> */}
                   </motion.div>
                 )}
               </AnimatePresence>
-
-              {/* <!-- Dropdown End --> */}
             </div>
           </div>
-
         </div>
-
-
       </aside>
     </ClickOutside >
   )
