@@ -638,8 +638,8 @@ const UserLogin = () => {
       {/* Left Form Section */}
       <div className="flex-1 bg-white flex md:items-center justify-center md:p-6  md:mt-0 mt-10">
         {/* <div className="w-[60%] sm:w-[90%] md:p-6 md:pb-0 mx-5"> */}
-        <div className="w-[90%] sm:w-[95%] md:w-[90%]  lg:w-[90%]  xl:w-[90%] 2xl:w-[60%] md:p-6 md:pb-0 mx-5">
-          <div className="flex items-center  mb-10">
+        <div className="w-[90%] sm:w-[95%] md:w-[90%]  lg:w-[90%] xl:w-[90%] 2xl:w-[60%] md:p-6 md:pb-0 mx-5">
+          <div className="flex items-center 2xl:mb-10 md:mb-5">
             <Image
               src={logo}
               alt="logo"
@@ -655,7 +655,7 @@ const UserLogin = () => {
             <span className="text-[#266CAB]">DXF</span> File Creation
           </p>
           <form onSubmit={handleLogin}>
-            <div className="md:mb-4 md:mt-5 my-10">
+            <div className="2xl:mb-4 md:mb-2 md:mt-5 my-10">
               <label className="block text-black font-[550] mb-1">
                 Email Address
               </label>
@@ -669,7 +669,7 @@ const UserLogin = () => {
                 required
               />
             </div>
-            <div className="md:mb-2 mb-10 relative">
+            <div className="2xl:mb-4 md:mb-1 relative">
               <label className="block text-black font-[550] mb-1">
                 Password
               </label>
@@ -706,9 +706,10 @@ const UserLogin = () => {
                 </p>
               </div>
             </div>
+
             <button
               type="submit"
-              className="w-full text-xl bg-[#005B97] text-white py-3 px-4 lg:mt-6 xl:mt-18  font-bold rounded-3xl hover:bg-[#005b97f0] transition duration-300"
+              className="w-full text-xl bg-[#005B97] text-white py-3 px-4 2xl:mt-18 md:mt-11 font-bold rounded-3xl hover:bg-[#005b97f0] transition duration-300"
             >
               Login
             </button>
