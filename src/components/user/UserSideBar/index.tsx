@@ -164,7 +164,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, setIsBilingOpen }: SidebarProps)
                 </span>
                 <span className="lg:hidden text-left">
                   <span className="block text-lg font-semibold text-black dark:text-white">
-                  {userData?.username}
+                    {userData?.username}
                   </span>
                   <span className="block text-xs font-normal text-[#00000066]">{userData?.email}</span>
                 </span>
@@ -215,9 +215,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, setIsBilingOpen }: SidebarProps)
                       </span>
                       <span className="text-center lg:block">
                         <span className="block text-lg font-semibold text-black dark:text-white">
-                          Thomas Anree
+                          {userData?.username}
                         </span>
-                        <span className="block  text-center text-xs font-normal text-[#00000066]">alexhavaidai123@gmail.com</span>
+                        <span className="block  text-center text-xs font-normal text-[#00000066]">{userData?.email}</span>
                       </span>
                     </div>
                     <ul className="flex flex-col border-t border-gray-300 gap-3 px-6 py-5">
