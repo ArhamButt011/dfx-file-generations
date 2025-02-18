@@ -99,13 +99,8 @@ const ResetPassword: React.FC<ResetProps> = ({ title, content }) => {
       {/* Left Form Section */}
       <div className="w-[100%] bg-white flex items-center justify-center md:w-[60%] p-6 md:p-0">
         <div className="md:w-[70%] w-[100%]">
-          <div className="flex items-center md:mb-16 mb-10">
-            <Image
-              src={logo}
-              alt="logo"
-              className="object-contain xl:w-[385.72px] xl:h-[69.76px] w-[270px] h-[270px]"
-              priority
-            />
+          <div className="flex items-center md:mb-6 mb-10">
+            <Image src={logo} alt="logo" width={360} height={55} priority />
           </div>
           <h1 className="text-[36px] font-bold mb-2 text-black xl:text-[50.04px]">
             {title}
