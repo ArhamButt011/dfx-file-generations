@@ -3,7 +3,7 @@
 import React, { useState, FormEvent } from 'react'
 // import { useRouter } from 'next/navigation'
 import { FaEye } from 'react-icons/fa'
-import { RiEyeCloseFill } from "react-icons/ri";
+import { LuEyeClosed } from "react-icons/lu";
 import Image from 'next/image'
 import logo from '/public/images/user/home/user_login.svg'
 import Modal from '../UI/Modal'
@@ -42,7 +42,10 @@ const UserLogin = () => {
     setIsResetOpen(false)
   }
   const [showPassword, setShowPassword] = useState<boolean>(false)
+  const [showPassword1, setShowPassword1] = useState<boolean>(false)
+  const [showPassword2, setShowPassword2] = useState<boolean>(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false)
+  const [showConfirmPassword1, setShowConfirmPassword1] = useState<boolean>(false)
   const [newAccountFormData, setNewAccountFormData] = useState({
     name: '',
     lastName: '',
@@ -692,7 +695,7 @@ const UserLogin = () => {
                   {showPassword ? (
                     <FaEye size={20} className="text-[#005B97]" />
                   ) : (
-                    <RiEyeCloseFill size={20} className="text-[#005B97]" />
+                    <LuEyeClosed size={20} className="text-[#005B97]" />
                   )}
                 </button>
                 <p className="text-right mt-2">
@@ -721,6 +724,15 @@ const UserLogin = () => {
                   if (isAccountCreated && !isAccountVerified) {
                     setIsVerifyOpen(true)
                   } else if (!isAccountCreated) {
+                    setNewAccountFormData({
+                      name: '',
+                      lastName: '',
+                      email: '',
+                      password: '',
+                      confirm: '',
+                      agree: false,
+                      role: 'User',
+                    });
                     setIsNewOpen(true)
                   }
                 }}
@@ -804,7 +816,7 @@ const UserLogin = () => {
               </label>
               <div className="relative">
                 <input
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword1 ? 'text' : 'password'}
                   name="password"
                   placeholder="Enter Password"
                   value={newAccountFormData.password}
@@ -815,13 +827,13 @@ const UserLogin = () => {
                 />
                 <button
                   type="button"
-                  onClick={() => setShowPassword(!showPassword)}
+                  onClick={() => setShowPassword1(!showPassword1)}
                   className="absolute inset-y-0 right-3 top-2 flex items-center text-gray-500"
                 >
-                  {showPassword ? (
+                  {showPassword1 ? (
                     <FaEye size={20} className="text-[#005B97]" />
                   ) : (
-                    <RiEyeCloseFill size={20} className="text-[#005B97]" />
+                    <LuEyeClosed size={20} className="text-[#005B97]" />
                   )}
                 </button>
               </div>
@@ -850,7 +862,7 @@ const UserLogin = () => {
                   {showConfirmPassword ? (
                     <FaEye size={20} className="text-[#005B97]" />
                   ) : (
-                    <RiEyeCloseFill size={20} className="text-[#005B97]" />
+                    <LuEyeClosed size={20} className="text-[#005B97]" />
                   )}
                 </button>
               </div>
@@ -1135,7 +1147,7 @@ const UserLogin = () => {
                 </label>
                 <div className="relative">
                   <input
-                    type={showPassword ? 'text' : 'password'}
+                    type={showPassword2 ? 'text' : 'password'}
                     name="password"
                     placeholder="Enter Password"
                     value={ResetFormData.password}
@@ -1145,13 +1157,13 @@ const UserLogin = () => {
                   />
                   <button
                     type="button"
-                    onClick={() => setShowPassword(!showPassword)}
+                    onClick={() => setShowPassword2(!showPassword2)}
                     className="absolute inset-y-0 right-3 flex items-center text-gray-500"
                   >
-                    {showPassword ? (
+                    {showPassword2 ? (
                       <FaEye size={20} className="text-[#005B97]" />
                     ) : (
-                      <RiEyeCloseFill size={20} className="text-[#005B97]" />
+                      <LuEyeClosed size={20} className="text-[#005B97]" />
                     )}
                   </button>
                 </div>
@@ -1163,7 +1175,7 @@ const UserLogin = () => {
                 </label>
                 <div className="relative">
                   <input
-                    type={showConfirmPassword ? 'text' : 'password'}
+                    type={showConfirmPassword1 ? 'text' : 'password'}
                     name="confirm"
                     placeholder="Confirm Password"
                     value={ResetFormData.confirm}
@@ -1173,13 +1185,13 @@ const UserLogin = () => {
                   />
                   <button
                     type="button"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    onClick={() => setShowConfirmPassword1(!showConfirmPassword1)}
                     className="absolute inset-y-0 right-3 flex items-center text-gray-500"
                   >
-                    {showConfirmPassword ? (
+                    {showConfirmPassword1 ? (
                       <FaEye size={20} className="text-[#005B97]" />
                     ) : (
-                      <RiEyeCloseFill size={20} className="text-[#005B97]" />
+                      <LuEyeClosed size={20} className="text-[#005B97]" />
                     )}
                   </button>
                 </div>
@@ -1189,8 +1201,7 @@ const UserLogin = () => {
             <button
               type="submit"
               className="w-full bg-[#005B97] text-white p-3 md:mt-10 mt-10 font-bold rounded-[94.17px] hover:bg-[#005b97f0] transition duration-300"
-
-            //   disabled={loading}
+         //   disabled={loading}
             >
               Verify
             </button>
