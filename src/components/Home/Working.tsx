@@ -37,7 +37,7 @@ const data: { left: DataItem[]; right: DataItem[] } = {
         {
             id: 6, // Changed to 6 to avoid duplicate IDs
             title: "Download and Save",
-            description: "Click “Download” to save your DXF file to your device. Your file is instantly accessible and ready to be used for CNC machining, laser cutting, or other applications."
+            description: `Click "Download" to save your DXF file to your device. Your file is instantly accessible and ready for use.`
         },
     ],
 };

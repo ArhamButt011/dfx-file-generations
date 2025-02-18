@@ -38,7 +38,7 @@ function Hero() {
                     </div>
                     {/* access Anytime */}
                     <div className='flex flex-col items-center md:mt-0 mt-10 w-1/3'>
-                        <Image src="/images/user/home/fast.svg" alt="" className='' width={120} height={100} />
+                        <Image src="/images/user/home/access.svg" alt="" className='' width={120} height={100} />
                         <p className='font-bold text-[30px] text-center w-[80%] mt-5'>Production-Ready Outputs</p>
                         <p className='text-center text-[#00000066] text-[21px] mx-auto font-medium max-w-[80%]'>Generate DXF files ready for cutting, with an optional bounding box that auto-centers tool contours and scales to your specified width and length—no extra adjustments needed.</p>
                     </div>
