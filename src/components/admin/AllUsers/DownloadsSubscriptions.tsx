@@ -22,7 +22,7 @@ const DownloadsSubscriptions = () => {
   const [searchQuery, setSearchQuery] = useState('')
   const [subscriptions, setSubscriptions] = useState<Subscriptions[]>([])
   const [currentPage, setCurrentPage] = useState(1)
-  const [totalSubscriptions, setTotalSubscriptions] = useState(1)
+  const [totalSubscriptions, setTotalSubscriptions] = useState(0)
   const [totalPages, setTotalPages] = useState(1)
 
   const { id } = useParams()

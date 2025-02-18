@@ -35,7 +35,7 @@ const DropdownUser = () => {
   const [file, setFile] = useState<File | undefined>(undefined)
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const { logout } = useAuth()
-  const { userData } = useAuth()
+  const { userData, setUserData } = useAuth()
 
   const handleImageClick = () => {
     fileInputRef.current?.click()
@@ -177,23 +177,47 @@ const DropdownUser = () => {
 
       if (data.status === 'success') {
         const newToken = data?.token
-        console.log(newToken)
         if (newToken) {
           localStorage.setItem('token', newToken)
         }
+
+        setUserData((prevData) => ({
+          ...prevData,
+          id: prevData?.id || '',
+          name: prevData?.name || '',
+          email: prevData?.email || '',
+          role: prevData?.role || '',
+          username: data.data.name,
+          image: data.data.image,
+        }))
+
         Swal.fire({
           title: 'Success',
-          text: 'Data Update Successfully',
+          text: 'Data Updated Successfully',
           icon: 'success',
           showConfirmButton: false,
           timer: 2000,
         })
+        setName('')
+        setProfileImage(userImages)
       } else {
-        alert('File upload failed!')
+        Swal.fire({
+          title: 'Error!',
+          text: 'File upload failed!',
+          icon: 'error',
+          showConfirmButton: false,
+          timer: 2000,
+        })
       }
     } catch (error) {
       console.error('Error:', error)
-      alert('An error occurred during file upload.')
+      Swal.fire({
+        title: 'Error!',
+        text: 'An error occurred during file upload.',
+        icon: 'error',
+        showConfirmButton: false,
+        timer: 2000,
+      })
     }
   }
 
@@ -216,7 +240,7 @@ const DropdownUser = () => {
             <Image
               width={112}
               height={112}
-              src={user}
+              src={userData?.image ? userData.image : user}
               style={{
                 width: 'auto',
                 height: 'auto',
@@ -471,6 +495,7 @@ const DropdownUser = () => {
                 src={EditIcon}
                 alt="editImage"
                 className="absolute top-0 right-0 transform"
+                onClick={handleImageClick}
               />
               <input
                 type="file"

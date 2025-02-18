@@ -20,6 +20,7 @@ interface UserData {
 interface AuthContextType {
   userData: UserData | null
   login: (token: string) => void
+  setUserData: React.Dispatch<React.SetStateAction<UserData | null>>
   logout: () => void
   isAuthenticated: () => boolean
 }
@@ -92,7 +93,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ userData, login, logout, isAuthenticated }}>
+    <AuthContext.Provider
+      value={{ userData, login, logout, isAuthenticated, setUserData }}
+    >
       {children}
     </AuthContext.Provider>
   )

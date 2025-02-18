@@ -15,7 +15,7 @@ const Downloads = () => {
   const [searchQuery, setSearchQuery] = useState('')
   const [downloads, setDownloads] = useState<Downloads[]>([])
   const [currentPage, setCurrentPage] = useState(1)
-  const [totalDownloads, setTotalDownloads] = useState(1)
+  const [totalDownloads, setTotalDownloads] = useState(0)
   const [totalPages, setTotalPages] = useState(1)
   const { id } = useParams()
   const handlePageChange = (newPage: number) => {
