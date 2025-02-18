@@ -669,7 +669,7 @@ const UserLogin = () => {
                 required
               />
             </div>
-            <div className="2xl:mb-4 md:mb-1 relative">
+            <div className="2xl:mb-4 md:mb-0 relative">
               <label className="block text-black font-[550] mb-1">
                 Password
               </label>
@@ -709,11 +709,11 @@ const UserLogin = () => {
 
             <button
               type="submit"
-              className="w-full text-xl bg-[#005B97] text-white py-3 px-4 2xl:mt-18 md:mt-11 font-bold rounded-3xl hover:bg-[#005b97f0] transition duration-300"
+              className="w-full text-xl bg-[#005B97] text-white py-3 px-4 2xl:mt-18 md:mt-11 2xl:mb-6 md:mb-3 font-bold rounded-3xl hover:bg-[#005b97f0] transition duration-300"
             >
               Login
             </button>
-            <p className="font-[550] md:text-xl text-sm text-center mt-5 mb-2 text-black">
+            <p className="font-[550] md:text-xl text-sm text-center text-black">
               Don&apos;t have an account?{" "}
               <span
                 className=" underline text-[#266CAB] cursor-pointer"
