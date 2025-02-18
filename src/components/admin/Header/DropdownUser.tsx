@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import ClickOutside from '../ClickOutside'
@@ -13,16 +13,42 @@ import Modal from '@/components/UI/Modal'
 import dltCircle from '/public/images/admin/allusers/dltCircle.svg'
 import { FaEye } from 'react-icons/fa'
 import eye from '/public/images/admin/eye.svg'
+import blackCross from '/public/images/blackCross.svg'
+import EditIcon from '/public/images/editIcon.svg'
+import userImages from '/public/images/userImage.svg'
+import axios, { AxiosError } from 'axios'
+import Swal from 'sweetalert2'
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [isEditOpen, setIsEditOpen] = useState<boolean>(false)
-
-  const [showPassword, setShowPassword] = useState<boolean>(false)
-
+  const [showOldPassword, setShowOldPassword] = useState<boolean>(false)
+  const [showNewPassword, setShowNewPassword] = useState<boolean>(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false)
+  const [passwordOpen, setPasswordOpen] = useState<boolean>(false)
+  const [oldPassword, setOldPassword] = useState('')
+  const [newPassword, setNewPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [userImage, setUserImage] = useState(userImages) // Set initial image
+  const fileInputRef = useRef<HTMLInputElement | null>(null)
   const { logout } = useAuth()
   const { userData } = useAuth()
+
+  const handleImageClick = () => {
+    fileInputRef.current?.click() // Optional chaining to ensure fileInputRef is not null
+  }
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setUserImage(reader.result as string)
+      }
+      reader.readAsDataURL(file)
+    }
+  }
 
   const handleLogoutClick = () => {
     setIsOpen(true)
@@ -40,8 +66,72 @@ const DropdownUser = () => {
     setIsEditOpen(false)
   }
 
+  const handleChangePassword = () => {
+    setPasswordOpen(true)
+  }
+  const onPasswordClose = () => {
+    setPasswordOpen(false)
+  }
+
   const handleEditClick = () => {
     setIsEditOpen(true)
+  }
+
+  const handleUpdatePassword = async () => {
+    try {
+      if (newPassword !== confirmPassword) {
+        Swal.fire({
+          title: 'Error!',
+          text: 'The Passwords are not same',
+          icon: 'error',
+          showConfirmButton: false,
+          timer: 2000,
+        })
+        return
+      }
+      if (!userData) {
+        alert('User id not found')
+        return
+      }
+      const id = userData.id
+
+      const response = await axios.put('/api/admin/change-password', {
+        id,
+        oldPassword,
+        newPassword,
+      })
+
+      if (response.data.error) {
+        alert(response.data.error)
+      } else {
+        Swal.fire({
+          title: 'Success',
+          text: 'Password Update Successfully',
+          icon: 'success',
+          showConfirmButton: false,
+          timer: 2000,
+        })
+        onPasswordClose()
+        setOldPassword('')
+        setNewPassword('')
+        setConfirmPassword('')
+        setShowConfirmPassword(false)
+        setShowNewPassword(false)
+        setShowOldPassword(false)
+      }
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        console.log('api error', error.response?.data?.error)
+
+        Swal.fire({
+          title: 'Error!',
+          text: error.response?.data?.error ?? 'An unknown error occurred',
+          icon: 'error',
+          showConfirmButton: false,
+          timer: 2000,
+        })
+      }
+    }
   }
 
   return (
@@ -105,16 +195,16 @@ const DropdownUser = () => {
                 </p>
               </li>
               <li>
-                <Link
-                  href="#"
-                  className="flex items-center gap-8 text-sm font-medium duration-300 ease-in-out lg:text-base"
+                <div
+                  className="flex items-center gap-8 text-sm font-medium duration-300 ease-in-out lg:text-base cursor-pointer"
+                  onClick={handleChangePassword}
                 >
                   <div className="flex items-center gap-1">
                     <Image width={24} height={25} src={Lock} alt="lock" />
                     Change Password
                   </div>
                   <Image width={30} height={31} src={arrow} alt="arrow" />
-                </Link>
+                </div>
               </li>
               <li>
                 <div className="flex items-center gap-2 text-sm font-medium duration-300 ease-in-out lg:text-base">
@@ -176,34 +266,44 @@ const DropdownUser = () => {
         </div>
       </Modal>
 
-      {/* Edit Profile Dropdown */}
+      {/* Change Password Modal */}
 
-      <Modal isOpen={isEditOpen} onClose={onEditClose} buttonContent="">
-        <div className="flex  flex-col">
-          <p className="text-[#000000] text-[29px] font-medium text-center">
-            Chnage Password
-          </p>
+      <Modal isOpen={passwordOpen} onClose={onPasswordClose} buttonContent="">
+        <div className="flex flex-col gap-4">
+          <div className="flex justify-between items-center w-full mb-7">
+            <p className="text-[#000000] text-[30px] font-medium text-center flex-grow">
+              Change Password
+            </p>
+            <div>
+              <Image
+                className="cursor-pointer"
+                src={blackCross}
+                alt="cross"
+                onClick={onPasswordClose}
+              />
+            </div>
+          </div>
+
           <div className="mb-2 relative">
-            <label className="block text-black font-semibold mb-1 text-lg">
+            <label className="text-[#000000] font-medium mb-2 text-[20px]">
               Old Password
             </label>
             <div className="relative">
               <input
-                type={showPassword ? 'text' : 'password'}
-                placeholder="Enter Password"
-                name="password" // Ensure this matches the state property name
-                // value={loginForm.password}
-                // onChange={handleLoginChange}
+                type={showOldPassword ? 'text' : 'password'}
+                placeholder="Enter Old Password"
+                value={oldPassword}
+                onChange={(e) => setOldPassword(e.target.value)}
                 className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
                 required
               />
               <button
                 type="button"
-                onClick={() => setShowPassword(!showPassword)}
+                onClick={() => setShowOldPassword(!showOldPassword)}
                 className="absolute inset-y-0 right-3 top-1/2 transform text-gray-500"
-                style={{ transform: 'translateY(-77%)' }}
+                style={{ transform: 'translateY(-40%)' }}
               >
-                {showPassword ? (
+                {showOldPassword ? (
                   <FaEye size={20} className="text-[#005B97] mr-3" />
                 ) : (
                   <Image alt="eye" src={eye} className="mr-3" />
@@ -212,26 +312,25 @@ const DropdownUser = () => {
             </div>
           </div>
           <div className="mb-2 relative">
-            <label className="block text-black font-semibold mb-1 text-lg">
+            <label className="text-[#000000] font-medium text-[20px]">
               New Password
             </label>
             <div className="relative">
               <input
-                type={showPassword ? 'text' : 'password'}
-                placeholder="Enter Password"
-                name="password" // Ensure this matches the state property name
-                // value={loginForm.password}
-                // onChange={handleLoginChange}
+                type={showNewPassword ? 'text' : 'password'}
+                placeholder="Enter new Password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
                 className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
                 required
               />
               <button
                 type="button"
-                onClick={() => setShowPassword(!showPassword)}
+                onClick={() => setShowNewPassword(!showNewPassword)}
                 className="absolute inset-y-0 right-3 top-1/2 transform text-gray-500"
-                style={{ transform: 'translateY(-77%)' }}
+                style={{ transform: 'translateY(-40%)' }}
               >
-                {showPassword ? (
+                {showNewPassword ? (
                   <FaEye size={20} className="text-[#005B97] mr-3" />
                 ) : (
                   <Image alt="eye" src={eye} className="mr-3" />
@@ -240,26 +339,26 @@ const DropdownUser = () => {
             </div>
           </div>
           <div className="mb-2 relative">
-            <label className="block text-black font-semibold mb-1 text-lg">
+            <label className="text-[#000000] font-medium mb-1 text-[20px]">
               Confirm New Password
             </label>
             <div className="relative">
               <input
-                type={showPassword ? 'text' : 'password'}
-                placeholder="Enter Password"
-                name="password" // Ensure this matches the state property name
-                // value={loginForm.password}
-                // onChange={handleLoginChange}
+                type={showConfirmPassword ? 'text' : 'password'}
+                placeholder="Enter new Password"
+                name="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
                 required
               />
               <button
                 type="button"
-                onClick={() => setShowPassword(!showPassword)}
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 className="absolute inset-y-0 right-3 top-1/2 transform text-gray-500"
-                style={{ transform: 'translateY(-77%)' }}
+                style={{ transform: 'translateY(-40%)' }}
               >
-                {showPassword ? (
+                {showConfirmPassword ? (
                   <FaEye size={20} className="text-[#005B97] mr-3" />
                 ) : (
                   <Image alt="eye" src={eye} className="mr-3" />
@@ -269,10 +368,73 @@ const DropdownUser = () => {
           </div>
           <div>
             <button
-              onClick={handleLogout}
-              className="font-normal text-white text-[22.48px] bg-[#266CA8] rounded-full px-16 py-3"
+              onClick={handleUpdatePassword}
+              className="font-normal text-white text-[23px] bg-[#266CA8] rounded-full px-16 py-3 w-full mt-5"
             >
               Update
+            </button>
+          </div>
+        </div>
+      </Modal>
+
+      {/* Edit Profile Modal */}
+
+      <Modal isOpen={isEditOpen} onClose={onEditClose} buttonContent="">
+        <div className="flex items-center flex-col gap-10">
+          <div className="flex justify-between items-center w-full mb-7">
+            <div className="text-[#000000] text-[34px] font-semibold text-center flex-grow">
+              Edit Profile
+            </div>
+            <div>
+              <Image
+                className="cursor-pointer"
+                src={blackCross}
+                alt="cross"
+                onClick={onEditClose}
+              />
+            </div>
+          </div>
+          <div className="relative inline-block">
+            <Image
+              src={userImage}
+              alt="userImage"
+              className="rounded-full w-36 h-36"
+              onClick={handleImageClick}
+              width={200}
+              height={200}
+            />
+            <Image
+              src={EditIcon}
+              alt="editImage"
+              className="absolute top-0 right-0 transform"
+            />
+            <input
+              type="file"
+              ref={fileInputRef}
+              accept="image/*"
+              className="hidden"
+              onChange={handleImageChange}
+            />
+          </div>
+          <div className="mb-2 w-full">
+            <label className="text-[#000000] font-semibold mb-2 text-[21.37px]">
+              User Name
+            </label>
+            <div>
+              <input
+                type="text"
+                placeholder="Enter User Name"
+                name="username" // Ensure this matches the state property name
+                // value={loginForm.password}
+                // onChange={handleLoginChange}
+                className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
+                required
+              />
+            </div>
+          </div>
+          <div className="w-full mt-24">
+            <button className="font-normal text-white text-[24.56px] bg-[#266CA8] rounded-full px-16 py-3 w-full">
+              Continue
             </button>
           </div>
         </div>

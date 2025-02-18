@@ -7,12 +7,13 @@ import React, {
   useEffect,
   ReactNode,
 } from 'react'
+import { useRouter } from 'next/navigation' // Import useRouter for navigation
 
 interface UserData {
   id: string
   name: string
   email: string
-  role: string // Add this line
+  role: string
   [key: string]: string
 }
 
@@ -40,6 +41,7 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [userData, setUserData] = useState<UserData | null>(null)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const router = useRouter() // Initialize useRouter
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token')
@@ -56,16 +58,23 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           '/api/auth/verifyToken',
           formData,
         )
-
         console.log('Data from API:', response.data)
         setUserData(response.data)
       } catch (error) {
         console.error('API Error:', error)
+
+        if (axios.isAxiosError(error) && error.response?.status === 401) {
+          logout()
+          setTimeout(() => {
+            router.push('/admin')
+          }, 0)
+        }
       }
     }
 
     fetchUserData()
-  }, [isLoggedIn])
+  }, [isLoggedIn, router])
+
   const login = (token: string) => {
     localStorage.setItem('token', token)
     setIsLoggedIn(true)

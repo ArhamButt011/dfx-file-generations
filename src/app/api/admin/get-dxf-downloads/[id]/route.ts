@@ -41,14 +41,14 @@ export async function GET(req: NextRequest) {
     }
 
     const downloads = await db
-      .collection<Downloads>('dxf-downloads')
+      .collection<Downloads>('all-downloads')
       .find(filter)
       .skip(skip)
       .limit(limit)
       .toArray()
 
     const totalDxfDownloads = await db
-      .collection<Downloads>('dxf-downloads')
+      .collection<Downloads>('all-downloads')
       .countDocuments(filter)
 
     return NextResponse.json(
