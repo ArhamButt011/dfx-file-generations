@@ -9,7 +9,7 @@ function Hero() {
                 <p className='font-bold md:text-[55px] text-[40px] text-center md:max-w-[80%] mx-auto'>Effortless DXF File Creation with AI Precision</p>
                 <p className='text-center text-[#00000066] md:text-[29px] text-[23px] mx-auto font-medium md:max-w-[90%] mt-5'>Effortlessly create precise DXF files for manufacturing custom tool drawer inserts with AI-powered automation. Simplify your workflow and take tool organization to the next level. Start your free trial today!</p>
                 <div className='my-10 flex justify-center'>
-                    <Link href="#" className='bg-[#266CA8] text-white rounded-full mt-2 flex justify-center h-[10%] px-3 py-4 text-center p-5 font-medium md:text-2xl text-xl'>Try LumaShape Now</Link>
+                    <Link href="/user" className='bg-[#266CA8] text-white rounded-full mt-2 flex justify-center h-[10%] px-3 py-4 text-center p-5 font-medium md:text-2xl text-xl'>Try LumaShape Now</Link>
                 </div>
                 <Image src="/images/user/home/hero.svg" alt="" className='mx-auto w-full' width={100} height={100} />
 

@@ -103,7 +103,7 @@ function Working() {
                             height={100}
                         />
                         <Image
-                            className="z-10 h-full w-2/3 mx-auto 2xl:-mt-5 xl:-mt-28"
+                            className="z-10 h-full w-2/3 mx-auto 2xl:-mt-5 xl:-mt-28 lg:-mt-32"
                             src="/images/user/home/two.svg"
                             alt="two"
                             width={35}
@@ -133,7 +133,7 @@ function Working() {
                     {data.right.map((item, index) => (
                         <div
                             key={item.id}
-                            className={`relative ${index === 1 ? 'xl:mt-40 2xl:mt-65' : index === 2 ? '2xl:mt-28 xl:mt-44' : ''}`}
+                            className={`relative ${index === 1 ? 'xl:mt-40 2xl:mt-65 lg:mt-28' : index === 2 ? '2xl:mt-28 xl:mt-44 lg:mt-50' : ''}`}
 
 
                         >
