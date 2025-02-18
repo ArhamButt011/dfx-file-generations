@@ -670,6 +670,8 @@ const UserLogin = () => {
                 onChange={handleLoginChange}
                 className="w-full px-4 py-3 mt-1 border text-black focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-[94.17px]"
                 required
+                readOnly
+                onFocus={(e) => e.target.removeAttribute('readonly')}
               />
             </div>
             <div className="2xl:mb-4 md:mb-0 relative">
@@ -685,6 +687,8 @@ const UserLogin = () => {
                   onChange={handleLoginChange}
                   className="w-full px-4 py-3 mt-1 pr-10 border text-black focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-[94.17px]"
                   required
+                  readOnly
+                  onFocus={(e) => e.target.removeAttribute('readonly')}
                 />
                 <button
                   type="button"
@@ -807,6 +811,8 @@ const UserLogin = () => {
                 placeholder="Enter Email Address"
                 className="border text-black border-[#0000001A] w-full mt-1 p-3 rounded-full focus:outline-none focus:ring-2 focus:ring-[#005B97]"
                 onChange={handleSignupChange}
+                readOnly
+                onFocus={(e) => e.target.removeAttribute('readonly')}
               />
             </div>
             {/* password */}
@@ -824,6 +830,8 @@ const UserLogin = () => {
                   className="w-full border-[#0000001A] mt-1 p-3 pr-10 border text-black focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
                   required
                   minLength={8}
+                  readOnly
+                  onFocus={(e) => e.target.removeAttribute('readonly')}
                 />
                 <button
                   type="button"
