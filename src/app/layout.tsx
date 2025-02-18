@@ -15,11 +15,8 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'DXF file generation',
+  title: 'DXF File Generation',
   description: 'Efficiently generate DXF files with ease using our powerful tool for precise image processing and seamless integration. Perfect for designers and engineers looking for high-quality CAD outputs.',
-  // icons: {
-  //   icon: logo, // Update this reference
-  // },
 }
 
 export default function RootLayout({

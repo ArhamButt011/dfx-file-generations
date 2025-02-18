@@ -9,7 +9,7 @@ import Image from 'next/image'
 import useLocalStorage from '@/components/admin/hooks/useLocalStorage'
 import SidebarItem from './SidebarItem'
 import ClickOutside from '@/components/admin/ClickOutside'
-import logo from '/public/images/user/home/logo.svg'
+import logo from '/public/images/user/home/sidebarLogo.svg'
 import WhiteGenerateIcon from '/public/images/user/sidebar/whiteGenerateIcon.svg'
 import GrayGenerateIcon from '/public/images/user/sidebar/grayGenerateIcon.svg'
 import WhiteDownloadIcon from '/public/images/user/sidebar/whiteDownloadIcon.svg'
@@ -55,7 +55,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, setIsBilingOpen }: SidebarProps)
   // const pathname = usePathname()
   const [pageName, setPageName] = useLocalStorage('selectedMenu', 'dashboard');
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const { logout } = useAuth();
+  const { logout, userData } = useAuth();
   const handleLogoutClick = () => {
     logout()
     window.location.href = '/user'
@@ -164,9 +164,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, setIsBilingOpen }: SidebarProps)
                 </span>
                 <span className="lg:hidden text-left">
                   <span className="block text-lg font-semibold text-black dark:text-white">
-                    Thomas Anree
+                  {userData?.username}
                   </span>
-                  <span className="block text-xs font-normal text-[#00000066]">alexhavaidai123@gmail.com</span>
+                  <span className="block text-xs font-normal text-[#00000066]">{userData?.email}</span>
                 </span>
 
                 <svg

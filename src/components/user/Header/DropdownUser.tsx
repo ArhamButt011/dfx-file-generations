@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const { logout } = useAuth()
+  const { logout, userData } = useAuth();
   const handleLogoutClick = () => {
     logout()
     window.location.href = '/user'
@@ -36,11 +36,12 @@ const DropdownUser = () => {
         </span>
         <span className="hidden text-left lg:block">
           <span className="block text-lg font-semibold text-black dark:text-white">
-            Thomas Anree
+            {userData?.username}
           </span>
-          <span className="block text-xs font-normal text-[#00000066]">alexhavaidai123@gmail.com</span>
+          <span className="block text-xs font-normal text-[#00000066]">
+            {userData?.email}
+          </span>
         </span>
-
         <svg
           className="hidden fill-current sm:block"
           width="12"
@@ -85,9 +86,9 @@ const DropdownUser = () => {
               </span>
               <span className="hidden text-center lg:block">
                 <span className="block text-lg font-semibold text-black dark:text-white">
-                  Thomas Anree
+                {userData?.username}
                 </span>
-                <span className="block  text-center text-xs font-normal text-[#00000066]">alexhavaidai123@gmail.com</span>
+                <span className="block  text-center text-xs font-normal text-[#00000066]">{userData?.email}</span>
               </span>
             </div>
             <ul className="flex flex-col border-t border-gray-300 gap-4 px-6 py-6">
