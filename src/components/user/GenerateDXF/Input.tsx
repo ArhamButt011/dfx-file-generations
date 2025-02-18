@@ -1,7 +1,7 @@
 import BilingModal from '@/components/UI/BilingModal';
 import Modal from '@/components/UI/Modal';
 import Image from 'next/image'
-import React, { useState, FormEvent, useEffect } from 'react'
+import React, { useState, FormEvent, useEffect, useRef } from 'react'
 import Swal from 'sweetalert2';
 
 
@@ -17,6 +17,7 @@ function Input() {
   const [preview, setPreview] = useState<string>("");
   const [dfxFile, setDfxFile] = useState<string>("");
   const [fileSize, setFileSize] = useState<number | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const onClose = () => {
     setisProcessingOpen(false);
@@ -160,11 +161,57 @@ function Input() {
     }
   };
 
+  const handleFullScreen = (url: string) => {
+    if (!url) {
+      console.error("No image URL provided.");
+      return;
+    }
+
+    const newTab = window.open();
+    if (newTab) {
+      newTab.document.body.innerHTML = `<img src="${url}" style="width:100%; height:auto;" />`;
+    } else {
+      console.error("Popup blocked! Please allow popups for this site.");
+    }
+  }
+
   useEffect(() => {
     if (dfxFile) {
       getFileSize(dfxFile).then(size => setFileSize(Number(size.toFixed(2))));
     }
   }, [dfxFile]);
+
+  const handlePasteImage = async () => {
+    try {
+      const clipboardItems = await navigator.clipboard.read();
+      const firstItem = clipboardItems[0]; // Get only the first item
+
+      if (firstItem && firstItem.types[0].startsWith("image")) {
+        const blob = await firstItem.getType(firstItem.types[0]);
+        const file = new File([blob], "pasted-image.png", { type: blob.type });
+
+        // Convert to preview URL
+        const reader = new FileReader();
+        reader.onload = (e) => setImage(e.target?.result as string);
+        reader.readAsDataURL(file);
+
+        // Mimic file input behavior
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(file);
+        if (fileInputRef.current) {
+          fileInputRef.current.files = dataTransfer.files;
+          const event = new Event("change", { bubbles: true });
+          fileInputRef.current.dispatchEvent(event);
+        }
+      } else {
+        alert("No image found in clipboard. Copy an image first!");
+      }
+    } catch (error) {
+      console.error("Failed to paste image:", error);
+      alert("Clipboard access failed. Make sure you have copied an image.");
+    }
+  };
+
 
   return (
     <>
@@ -196,10 +243,7 @@ function Input() {
                     className="absolute top-0 right-0 bg-white text-white w-20 h-10 flex items-center justify-around text-sm cursor-pointer"
                   >
                     <div
-                      onClick={() => {
-
-                        window.open(image, '_blank');
-                      }}
+                      onClick={() => handleFullScreen(image)}
                       className="cursor-pointer"
                     >
                       <Image
@@ -228,6 +272,7 @@ function Input() {
                     onChange={handleFileInputChange}
                     className="hidden"
                     id="fileInput"
+                    ref={fileInputRef}
                   />
                   <label htmlFor="fileInput" className="flex flex-col items-center cursor-pointer">
                     <Image
@@ -249,12 +294,21 @@ function Input() {
             </div>
 
             <div className="flex justify-center my-3">
-              <Image
-                src="/images/user/GenerateDFX/Upload.svg"
-                alt="upload"
-                width={40}
-                height={40}
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleFileInputChange}
+                className="hidden"
+                id="fileInput"
               />
+              <label htmlFor="fileInput" className="flex flex-col items-center cursor-pointer">
+                <Image
+                  src="/images/user/GenerateDFX/Upload.svg"
+                  alt="upload"
+                  width={44}
+                  height={44}
+                />
+              </label>
               <Image
                 src="/images/user/GenerateDFX/GPS.svg"
                 alt="upload"
@@ -266,6 +320,8 @@ function Input() {
                 alt="upload"
                 width={40}
                 height={40}
+                className='cursor-pointer'
+                onClick={handlePasteImage}
               />
             </div>
           </div>

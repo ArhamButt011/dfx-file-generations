@@ -58,7 +58,7 @@ function Sample() {
                             fill
                         />
                     </div>
-                    <p className="text-start mt-5 ms-5 font-semibold text-4xl">DFX Preview</p>
+                    <p className="text-start mt-5 ms-5 font-semibold text-4xl">DXF Preview</p>
                     <p className='font-medium md:text-xl text-lg text-[#00000080] ms-5'>DXF contours (in red) overlayed onto the input image with the optional offset parameter applied, allowing users to confirm accurate tool edge detection.</p>
                 </div>
             </div>
