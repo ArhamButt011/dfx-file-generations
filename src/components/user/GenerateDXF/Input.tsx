@@ -18,6 +18,23 @@ function Input() {
   const [dfxFile, setDfxFile] = useState<string>("");
   const [fileSize, setFileSize] = useState<number | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
+  const [lensPos, setLensPos] = useState({ x: 0, y: 0, visible: false });
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!imgRef.current) return;
+
+    const { left, top, width, height } = imgRef.current.getBoundingClientRect();
+    const x = e.clientX - left;
+    const y = e.clientY - top;
+
+    if (x < 0 || y < 0 || x > width || y > height) {
+      setLensPos({ ...lensPos, visible: false });
+      return;
+    }
+
+    setLensPos({ x, y, visible: true });
+  };
 
   const onClose = () => {
     setisProcessingOpen(false);
@@ -109,13 +126,20 @@ function Input() {
       setDfxFile(dxf_file);
       setPreview(outlines_url);
       setOverlay(output_image_url);
+      setisOutputOpen(true);
     } catch (err) {
       // Catch any error in the try block and log it
-      console.error(err);
+      Swal.fire({
+        title: "Error",
+        text: err instanceof Error ? err.message : String(err),
+        icon: "error",
+        showConfirmButton: false,
+        timer: 2000
+      })
     }
     finally {
       setisProcessingOpen(false);
-      setisOutputOpen(true);
+
     }
 
 
@@ -216,7 +240,7 @@ function Input() {
   return (
     <>
       <div className='mt-5'>
-        <p className='font-semibold text-2xl'>Input Image</p>
+        <p className='font-semibold text-2xl mb-5'>Input Image</p>
         <form action="" onSubmit={handleSubmit} >
           <div className='border border-dashed rounded-3xl'>
 
@@ -231,14 +255,31 @@ function Input() {
 
             >
               {image ? (
-                <div className="relative  flex justify-center items-center">
+                <div
+                  className="relative  flex justify-center items-center"
+                  onMouseMove={handleMouseMove}
+                  onMouseLeave={() => setLensPos({ ...lensPos, visible: false })}>
                   <Image
                     src={image}
                     alt="Uploaded Preview"
                     className=" w-full h-100 rounded-3xl"
                     width={100}
                     height={100}
+                    ref={imgRef}
                   />
+                  {lensPos.visible && (
+                    <div
+                      className="absolute w-24 h-24 border-2 border-gray-400 rounded-full overflow-hidden pointer-events-none"
+                      style={{
+                        left: lensPos.x - 48,
+                        top: lensPos.y - 48,
+                        backgroundImage: `url(${image})`,
+                        backgroundSize: `${7 * 100}%`,
+                        backgroundPosition: `-${lensPos.x * 7- 48}px -${lensPos.y * 7 - 48}px`,
+                      }}
+                    />
+                  )}
+
                   <div
                     className="absolute top-0 right-0 bg-white text-white w-20 h-10 flex items-center justify-around text-sm cursor-pointer"
                   >
@@ -510,7 +551,7 @@ function Input() {
                     alt="cross"
                     width={24}
                     height={24}
-                    onClick={() => handleDownload(mask)}
+                    onClick={() => handleDownload(dfxFile)}
                   />
                 </span>
 
