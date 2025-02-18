@@ -17,6 +17,7 @@ const Forgot: React.FC<ForgotProps> = ({ title, content }) => {
   const [email, setEmail] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
   const [isOTPSent, setIsOTPSent] = useState(false)
+  const [OTPSent, setOTPSent] = useState(false)
   const [timer, setTimer] = useState(60) // 1 minute
   const [verifyFormData, setVerifyFormData] = useState({
     otp1: '',
@@ -61,6 +62,7 @@ const Forgot: React.FC<ForgotProps> = ({ title, content }) => {
         throw new Error(data.message)
       }
       setIsOTPSent(true)
+      setOTPSent(true)
     } catch (err) {
       Swal.fire({
         title: 'Error!',
@@ -161,14 +163,16 @@ const Forgot: React.FC<ForgotProps> = ({ title, content }) => {
             <Image
               src={logo}
               alt="logo"
-              width={220}
-              height={220}
+              className="object-contain xl:w-[385.72px] xl:h-[69.76px] "
               priority
-              //   style={{ width: 'auto', height: 'auto' }}
             />
           </div>
-          <h1 className="text-[34px] font-bold mb-2 text-black">{title}</h1>
-          <p className="text-gray-500 mb-7 text-lg">{content}</p>
+          <h1 className="text-[36px] font-bold mb-2 text-black xl:text-[50.04px]">
+            {title}
+          </h1>
+          <p className="text-primary mb-6 text-lg xl:text-[21.56px]">
+            {content}
+          </p>
           {/* {error && <p className="text-red-500 text-center mb-4">{error}</p>}
           {loading && (
             <p className="text-center text-blue-500 font-medium mb-4">
@@ -177,7 +181,7 @@ const Forgot: React.FC<ForgotProps> = ({ title, content }) => {
           )} */}
           <form action="" onSubmit={sendOTP}>
             <div className="mb-4">
-              <label className="block text-black font-semibold mb-1">
+              <label className="block text-black font-semibold mb-1 text-lg xl:text-[23.8px]">
                 Email Address
               </label>
               <input
@@ -188,17 +192,17 @@ const Forgot: React.FC<ForgotProps> = ({ title, content }) => {
                 className="w-full px-4 py-4 mt-1 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
                 required
               />
-              <div className="flex justify-end">
+              <div className="flex justify-end mt-2 xl:mt-3">
                 {isOTPSent ? (
                   <p className="text-right mt-2 text-secondary font-semibold">
-                    OTP sent! Wait {timer} seconds to resend
+                    00:{timer}
                   </p>
                 ) : (
                   <button
                     type="submit"
-                    className="text-right mt-2 text-[#266CA8] underline text-sm font-semibold cursor-pointer"
+                    className="text-right mt-2 text-[#266CA8] underline text-[18px] xl:text-[20.78px] font-semibold cursor-pointer"
                   >
-                    Send OTP
+                    {OTPSent ? 'Resend OTP' : 'Send OTP'}
                   </button>
                 )}
               </div>
@@ -248,7 +252,7 @@ const Forgot: React.FC<ForgotProps> = ({ title, content }) => {
 
             <button
               type="submit"
-              className="w-full bg-[#266CA8] text-white py-4 px-4 mt-20 md:mt-16 font-semibold rounded-full hover:bg-[#005b97f0] transition duration-300"
+              className="w-full bg-[#266CA8] text-white py-4 px-4 mt-12 xl:mt-16 font-semibold rounded-full hover:bg-[#005b97f0] transition duration-300 xl:text-[20px] text-[18px]"
 
               //   disabled={loading}
             >

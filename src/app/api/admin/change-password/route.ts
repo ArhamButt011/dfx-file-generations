@@ -22,7 +22,7 @@ export async function PUT(req: NextRequest) {
     const user = await usersCollection.findOne({ _id: new ObjectId(id) })
 
     if (!user) {
-      return NextResponse.json({ error: 'user not found' }, { status: 404 })
+      return NextResponse.json({ error: 'User not found' }, { status: 404 })
     }
 
     const isValidPassword = await bcrypt.compare(oldPassword, user.password)
@@ -31,6 +31,14 @@ export async function PUT(req: NextRequest) {
       return NextResponse.json(
         { error: 'Invalid old password' },
         { status: 401 },
+      )
+    }
+
+    const isSamePassword = await bcrypt.compare(newPassword, user.password)
+    if (isSamePassword) {
+      return NextResponse.json(
+        { error: 'New password cannot be the same as the old password' },
+        { status: 400 },
       )
     }
 
