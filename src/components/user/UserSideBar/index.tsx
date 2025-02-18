@@ -1,8 +1,7 @@
 'use client'
 
 import React from 'react'
-// import { useState } from 'react'
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 // import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -60,18 +59,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, setIsBilingOpen }: SidebarProps)
     logout()
     window.location.href = '/user'
   }
-
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (dropdownOpen && dropdownRef.current) {
-      dropdownRef.current.scrollTo({
-        top: dropdownRef.current.scrollHeight,
-        behavior: 'smooth',
-      });
-    }
-  }, [dropdownOpen]);
-
   return (
     <ClickOutside onClick={() => setSidebarOpen(false)}>
       <aside
@@ -135,7 +122,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, setIsBilingOpen }: SidebarProps)
             </div>
           </div>
 
-          <div className='lg:hidden flex justify-center mb-15'>
+          <div className='lg:hidden flex justify-center'>
             <div onClick={() => setDropdownOpen(!dropdownOpen)} className="relative">
               <Link
                 onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -161,11 +148,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, setIsBilingOpen }: SidebarProps)
                   </span>
                   <span className="block text-xs font-normal text-[#00000066]">{userData?.email}</span>
                 </span>
-
                 <svg
-                  className="fill-current sm:block"
-                  width="12"
-                  height="8"
+                  style={{ transform: dropdownOpen ? 'rotate(180deg)' : 'rotate(270deg)' }}
+                  className="fill-current sm:block transition-transform duration-300"
+                  width="15"
+                  height="14"
                   viewBox="0 0 12 8"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -174,21 +161,19 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, setIsBilingOpen }: SidebarProps)
                     fillRule="evenodd"
                     clipRule="evenodd"
                     d="M0.410765 0.910734C0.736202 0.585297 1.26384 0.585297 1.58928 0.910734L6.00002 5.32148L10.4108 0.910734C10.7362 0.585297 11.2638 0.585297 11.5893 0.910734C11.9147 1.23617 11.9147 1.76381 11.5893 2.08924L6.58928 7.08924C6.26384 7.41468 5.7362 7.41468 5.41077 7.08924L0.410765 2.08924C0.0853277 1.76381 0.0853277 1.23617 0.410765 0.910734Z"
-                    fill=""
+                    fill="#266CA8"
                   />
                 </svg>
               </Link>
               <AnimatePresence>
-
                 {dropdownOpen && (
                   <motion.div
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.2 }}
-                    className="absolute right-0 mt-4 flex w-62.5 flex-col rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark"
+                    className="absolute bottom-15 right-0 mt-4 flex w-50 flex-col rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark"
                   >
-
                     <div className=' flex justify-center flex-col items-center py-3'>
                       <span className="h-18 w-18 text-center rounded-full">
                         <Image
