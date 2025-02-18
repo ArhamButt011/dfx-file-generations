@@ -7,11 +7,11 @@ import EmailService from "@/app/api/emailService"
 export async function POST(req: Request) {
     try {
         const { newAccountFormData } = await req.json();
-        const name = newAccountFormData.name, email = newAccountFormData.email, password = newAccountFormData.password, role = newAccountFormData.role;
+        const name = newAccountFormData.name, lastName = newAccountFormData.lastName, email = newAccountFormData.email, password = newAccountFormData.password, role = newAccountFormData.role;
 
-        if (!name || !email || !password) {
+        if (!name || !lastName || !email || !password) {
             return NextResponse.json(
-                { message: "Name, email, and password are required" },
+                { message: "First name, Last name,email, and password are required" },
                 { status: 400 }
             );
         }
@@ -23,9 +23,9 @@ export async function POST(req: Request) {
             );
         }
 
-        if (name.trim() === "") {
+        if (name.trim() === "" || lastName.trim() === "") {
             return NextResponse.json(
-                { message: "Name cannot be empty or contain only spaces" },
+                { message: "First name and Last Name cannot be empty or contain only spaces" },
                 { status: 400 }
             );
         }
@@ -34,7 +34,7 @@ export async function POST(req: Request) {
         const formattedRole = role.replace(/\s+/g, '').toLowerCase();
 
         const client = await clientPromise;
-        
+
         const db = client.db("DFXFileGeneration");
 
         const existingUser = await db.collection("users").findOne({ email: normalizedEmail });
@@ -50,6 +50,7 @@ export async function POST(req: Request) {
 
         await db.collection("users").insertOne({
             name: name.trim(),
+            lastName: lastName.trim(),
             email: normalizedEmail,
             role: formattedRole,
             image: "",

@@ -94,7 +94,7 @@ const DropdownUser = () => {
             <ul className="flex flex-col border-t border-gray-300 gap-4 px-6 py-6">
               <li>
                 <Link
-                  href="/profile"
+                  href="#"
                   className="flex items-center gap-2 text-sm font-medium duration-300 ease-in-out hover:text-[#266CA8] lg:text-base"
                 >
                   <svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -118,7 +118,7 @@ const DropdownUser = () => {
               </li>
               <li>
                 <Link
-                  href="/settings"
+                  href="#"
                   className="flex items-center gap-2 text-sm font-medium duration-300 ease-in-out hover:text-[#266CA8] lg:text-base"
                 >
                   <svg width="27" height="28" viewBox="0 0 27 28" fill="none" xmlns="http://www.w3.org/2000/svg">

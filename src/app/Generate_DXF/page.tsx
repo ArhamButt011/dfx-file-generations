@@ -19,7 +19,6 @@ function Page() {
         router.push('/user');
         return;
       }
-
       try {
         await axios.post('/api/auth/verifyToken', { token });
       } catch (error: unknown) {
@@ -29,9 +28,7 @@ function Page() {
           router.push('/user');
         }
       }
-
     };
-
     verifyToken();
   }, [token, router]);
 

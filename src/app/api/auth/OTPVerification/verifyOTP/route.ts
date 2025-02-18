@@ -5,7 +5,7 @@ const SECRET_KEY = process.env.NEXT_JWT_SECRET as string
 export async function POST(req: Request) {
   try {
     const { email, otp } = await req.json()
-
+    
     if (!otp || !email) {
       return NextResponse.json({ message: 'OTP is required' }, { status: 400 })
     }
