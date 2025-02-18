@@ -88,7 +88,7 @@ function Input() {
 
     setisProcessingOpen(true);
     try {
-      const res = await fetch('https://53fb-192-241-155-184.ngrok-free.app/predict', {
+      const res = await fetch('https://5abd-192-241-155-184.ngrok-free.app/predict', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ image_path_or_base64: base64, offset_inches: contour }),
