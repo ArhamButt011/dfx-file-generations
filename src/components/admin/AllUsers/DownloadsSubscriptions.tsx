@@ -29,6 +29,17 @@ const DownloadsSubscriptions = () => {
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage)
   }
+  const getStatus = (addedOn: string, expiryDate: string): string => {
+    const addedOnDate = new Date(addedOn)
+    const expiryDateObj = new Date(expiryDate)
+
+    // Compare the dates to set the status
+    return addedOnDate < expiryDateObj ? 'Current' : 'Past'
+  }
+  const status = getStatus(
+    subscriptions[0]?.added_on,
+    subscriptions[0]?.expiry_date,
+  )
 
   const fetchSubscriptions = useCallback(async () => {
     try {
@@ -43,6 +54,7 @@ const DownloadsSubscriptions = () => {
 
       if (response.ok) {
         const data = await response.json()
+        console.log(data)
         setSubscriptions(data.subscriptions)
         setTotalPages(data.totalPages)
         setTotalSubscriptions(data.totalSubscriptions)
@@ -168,10 +180,10 @@ const DownloadsSubscriptions = () => {
                       {data?.duration}
                     </td>
                     <td className="py-5 px-4 text-start font-medium ">
-                      {format(new Date(data?.expiry_date), 'MMM dd, yyyy')}
+                      {format(new Date(data?.added_on), 'MMM dd, yyyy')}
                     </td>
                     <td className="py-5 px-4 text-start font-medium ">
-                      {format(new Date(data?.added_on), 'MMM dd, yyyy')}
+                      {format(new Date(data?.expiry_date), 'MMM dd, yyyy')}
                     </td>
 
                     <td className="py-5 px-4 text-start text-[19px] font-medium text-[#266CA8]">
@@ -182,12 +194,12 @@ const DownloadsSubscriptions = () => {
                     >
                       <span
                         className={`${
-                          data.status === 'Current'
+                          status === 'Current'
                             ? 'text-[#266CA8] bg-[#E0E7ED] rounded-full px-4 py-2'
                             : 'text-[#F9A000] bg-[#F5EDDD] px-8 py-2 rounded-full'
                         }`}
                       >
-                        {data?.status}
+                        {status}
                       </span>
                     </td>
                   </tr>
