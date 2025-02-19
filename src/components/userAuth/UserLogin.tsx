@@ -14,6 +14,7 @@ import image3 from '/public/images/user/AuthScreens/rightSection.svg'
 import Swal from 'sweetalert2'
 import { ClipLoader } from 'react-spinners'
 import { useAuth } from '@/context/AuthContext'
+// import { console } from 'inspector';
 // Defining types for the props
 
 
@@ -21,7 +22,7 @@ const UserLogin = () => {
   const [Timer, setTimer] = useState(0);
   // const router = useRouter()
   const [email, setEmail] = useState<string>('')
-  // const [password, setPassword] = useState<string>('')
+  const [emailSend, setEmailSend] = useState<string>('')
   const [loginForm, setLoginForm] = useState({
     email: '',
     password: '',
@@ -105,9 +106,69 @@ const UserLogin = () => {
     }))
   }
 
+  // const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault()
+  //   setLoading(true)
+  //   try {
+  //     if (/\s/.test(loginForm.password)) {
+  //       Swal.fire({
+  //         title: 'Error!',
+  //         text: 'Password should not contain spaces',
+  //         icon: 'error',
+  //         showConfirmButton: false,
+  //         timer: 2000,
+  //         didOpen: () => {
+  //           const swalContainer = document.querySelector('.swal2-container') as HTMLElement;
+  //           if (swalContainer) {
+  //             swalContainer.style.setProperty('z-index', '100000', 'important');
+  //           }
+  //         }
+  //       });
+  //       return;
+  //     }
+  //     const res = await fetch('/api/auth/login', {
+  //       method: 'POST',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify({ loginForm }),
+  //     })
+
+  //     if (!res.ok) {
+  //       const data = await res.json()
+
+  //       throw new Error(data.message)
+  //     }
+
+  //     const { token } = await res.json()
+  //     login(token)
+  //     // router.push('/Generate_DXF')
+  //     setLoginForm({
+  //       email: '',
+  //       password: '',
+  //       role: 'User',
+  //     })
+  //   } catch (err) {
+  //     Swal.fire({
+  //       title: 'Error!',
+  //       text: err instanceof Error ? err.message : String(err),
+  //       icon: 'error',
+  //       showConfirmButton: false,
+  //       timer: 2000,
+  //       didOpen: () => {
+  //         const swalContainer = document.querySelector('.swal2-container') as HTMLElement;
+  //         if (swalContainer) {
+  //           swalContainer.style.setProperty('z-index', '100000', 'important');
+  //         }
+  //       }
+  //     })
+  //   } finally {
+  //     setLoading(false)
+  //   }
+  // }
+
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setLoading(true)
+
     try {
       if (/\s/.test(loginForm.password)) {
         Swal.fire({
@@ -116,15 +177,10 @@ const UserLogin = () => {
           icon: 'error',
           showConfirmButton: false,
           timer: 2000,
-          didOpen: () => {
-            const swalContainer = document.querySelector('.swal2-container') as HTMLElement;
-            if (swalContainer) {
-              swalContainer.style.setProperty('z-index', '100000', 'important');
-            }
-          }
-        });
-        return;
+        })
+        return
       }
+
       const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -133,15 +189,21 @@ const UserLogin = () => {
 
       if (!res.ok) {
         const data = await res.json()
-
         throw new Error(data.message)
       }
 
-      const { token } = await res.json()
+      const { token, is_verified, email } = await res.json()
+
+      
+      if (!is_verified) {
+        setEmailSend(email)
+        setIsVerifyOpen(true)
+        sendOTP(undefined, email);
+        return
+      }
+
       login(token)
-
       // router.push('/Generate_DXF')
-
       setLoginForm({
         email: '',
         password: '',
@@ -154,17 +216,12 @@ const UserLogin = () => {
         icon: 'error',
         showConfirmButton: false,
         timer: 2000,
-        didOpen: () => {
-          const swalContainer = document.querySelector('.swal2-container') as HTMLElement;
-          if (swalContainer) {
-            swalContainer.style.setProperty('z-index', '100000', 'important');
-          }
-        }
       })
     } finally {
       setLoading(false)
     }
   }
+
 
   const handleResetPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -179,7 +236,6 @@ const UserLogin = () => {
     const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return regex.test(email);
   };
-
 
   const handleNewAccountSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -252,6 +308,7 @@ const UserLogin = () => {
       setIsVerifyOpen(true)
       setIsNewOpen(false)
       setEmail(newAccountFormData.email)
+      setEmailSend(newAccountFormData.email)
       setNewAccountFormData({
         name: '',
         lastName: '',
@@ -299,7 +356,6 @@ const UserLogin = () => {
 
   //     if (!res.ok) {
   //       const data = await res.json();
-  //       // console.log(data);
   //       throw new Error(data)
   //     }
 
@@ -321,35 +377,7 @@ const UserLogin = () => {
   //   }
   // }
 
-  const verifyOTP = async (e: React.FormEvent, email: string) => {
-    e.preventDefault();
-    try {
-      const otp = parseInt(
-        verifyFormData.otp1 +
-        verifyFormData.otp2 +
-        verifyFormData.otp3 +
-        verifyFormData.otp4 +
-        verifyFormData.otp5,
-        10
-      );
 
-      const res = await fetch('/api/auth/OTPVerification/verifyOTP', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, otp }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        return { success: false, error: data };
-      }
-
-      return { success: true, data };
-    } catch (err) {
-      return { success: false, error: err instanceof Error ? err.message : String(err) };
-    }
-  };
 
   // const SignupOTPVerification = async (e: React.FormEvent, email: string) => {
   //   e.preventDefault()
@@ -373,7 +401,6 @@ const UserLogin = () => {
   //     const { token } = await res?.json()
 
   //     login(token)
-  //     // console.log("verified");
   //   } catch (err) {
   //     Swal.fire({
   //       title: 'Error!',
@@ -398,6 +425,7 @@ const UserLogin = () => {
     setLoading(true);
 
     try {
+      
       const res = await verifyOTP(e, email);
 
       if (!res.success) {
@@ -420,9 +448,9 @@ const UserLogin = () => {
       const { token } = res.data;
 
       login(token);
-      // console.log("verified");
+      setEmailSend('');
+
     } catch (err: unknown) {
-      console.log("Error:", err);
 
       Swal.fire({
         title: 'Error!',
@@ -446,14 +474,12 @@ const UserLogin = () => {
     }
   };
 
-
   const ForgetOTPVerification = async (e: React.FormEvent, email: string) => {
     e.preventDefault();
     setLoading(true);
 
     try {
       const res = await verifyOTP(e, email);
-      console.log(res);
 
       if (!res.success) {
         throw res.error;
@@ -493,33 +519,114 @@ const UserLogin = () => {
     }
   };
 
-
-  const sendOTP = async (e: React.FormEvent) => {
+  const verifyOTP = async (e: React.FormEvent, email: string) => {
     e.preventDefault();
-
-    if (Timer > 0) return;
-
     try {
-      setLoading(true)
+      const otp = parseInt(
+        verifyFormData.otp1 +
+        verifyFormData.otp2 +
+        verifyFormData.otp3 +
+        verifyFormData.otp4 +
+        verifyFormData.otp5,
+        10
+      );
+
+
+      const res = await fetch('/api/auth/OTPVerification/verifyOTP', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, otp }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        return { success: false, error: data };
+      }
+
+      return { success: true, data };
+    } catch (err) {
+      return { success: false, error: err instanceof Error ? err.message : String(err) };
+    }
+  };
+
+  // const sendOTP = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+
+  //   if (Timer > 0) return;
+
+  //   try {
+  //     setLoading(true)
+  //     const res = await fetch("/api/auth/OTPVerification/sendOTP", {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify({ email }),
+  //     });
+
+  //     if (!res.ok) {
+  //       const data = await res.json();
+  //       throw new Error(data.message);
+  //     }
+
+  //     // Start Timer (e.g., 30 seconds)
+  //     let timeLeft = 60;
+  //     setTimer(timeLeft);
+
+  //     const timerInterval = setInterval(() => {
+  //       timeLeft -= 1;
+  //       setTimer(timeLeft);
+
+  //       if (timeLeft <= 0) {
+  //         clearInterval(timerInterval);
+  //       }
+  //     }, 1000);
+  //   } catch (err) {
+  //     Swal.fire({
+  //       title: "Error!",
+  //       text: err instanceof Error ? err.message : String(err),
+  //       icon: "error",
+  //       showConfirmButton: false,
+  //       timer: 2000,
+  //       didOpen: () => {
+  //         const swalContainer = document.querySelector('.swal2-container') as HTMLElement;
+  //         if (swalContainer) {
+  //           swalContainer.style.setProperty('z-index', '100000', 'important');
+  //         }
+  //       }
+  //     });
+  //   }
+  //   finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  const sendOTP = async (e?: React.FormEvent, userEmail?: string) => {
+    if (e) e.preventDefault();
+    if (Timer > 0) return;
+  
+    const targetEmail = userEmail || email;
+  
+    try {
+      setLoading(true);
       const res = await fetch("/api/auth/OTPVerification/sendOTP", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email: targetEmail }),
       });
-
+  
       if (!res.ok) {
         const data = await res.json();
         throw new Error(data.message);
       }
-
-      // Start Timer (e.g., 30 seconds)
+  
+      // Start Timer (e.g., 60 seconds)
       let timeLeft = 60;
       setTimer(timeLeft);
-
+  
       const timerInterval = setInterval(() => {
         timeLeft -= 1;
         setTimer(timeLeft);
-
+  
         if (timeLeft <= 0) {
           clearInterval(timerInterval);
         }
@@ -538,11 +645,11 @@ const UserLogin = () => {
           }
         }
       });
-    }
-    finally {
+    } finally {
       setLoading(false);
     }
   };
+  
 
   const handleResetPasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -630,7 +737,6 @@ const UserLogin = () => {
     setIsResetOpen(false)
   }
 
-
   return (
     <div className="flex flex-col w-full h-[100vh] md:h-full md:flex-row">
       {loading && (
@@ -642,7 +748,7 @@ const UserLogin = () => {
       <div className="flex-1 bg-white flex md:items-center justify-center md:p-6  md:mt-0 mt-10">
         {/* <div className="w-[60%] sm:w-[90%] md:p-6 md:pb-0 mx-5"> */}
         <div className="w-[90%] sm:w-[95%] md:w-[90%]  lg:w-[90%] xl:w-[90%] 2xl:w-[60%] md:p-6 md:pb-0 mx-5">
-          <div className="flex items-center 2xl:mb-10 md:mb-5">
+          <div className="flex items-center 2xl:mb-10 md:mb-5 sm:mb-5 mb-10">
             <Image
               src={logo}
               alt="logo"
@@ -654,11 +760,11 @@ const UserLogin = () => {
           <h1 className="md:text-[40px] text-[28px] font-medium text-black -mb-5">
             Effortless & Efficient
           </h1>
-          <p className="font-[550] md:text-[55px] text-[39px] md:mt-0  2xl:mb-15 mt-5 text-black">
+          <p className="font-[550] md:text-[55px] text-[39px] md:mt-0  2xl:mb-15 mt-5 sm:mb-2 mb-5 text-black">
             <span className="text-[#266CAB]">DXF</span> File Creation
           </p>
           <form onSubmit={handleLogin}>
-            <div className="2xl:mb-4 md:mb-2 md:mt-5 my-10">
+            <div className="2xl:mb-4 md:mb-2 md:mt-5 sm:mb-2 mb-5">
               <label className="block text-black font-[550] mb-1">
                 Email Address
               </label>
@@ -716,11 +822,11 @@ const UserLogin = () => {
 
             <button
               type="submit"
-              className="w-full text-xl bg-[#005B97] text-white py-3 px-4 2xl:mt-18 md:mt-11 2xl:mb-6 md:mb-3 font-bold rounded-3xl hover:bg-[#005b97f0] transition duration-300"
+              className="w-full text-xl bg-[#005B97] text-white py-3 px-4 2xl:mt-18 md:mt-11 2xl:mb-6 md:mb-3 mb-3 mt-10 font-bold rounded-3xl hover:bg-[#005b97f0] transition duration-300"
             >
               Login
             </button>
-            <p className="font-[550] md:text-xl text-sm text-center text-black">
+            <p className="font-[550] md:text-xl text-sm text-center text-black mb-5">
               Don&apos;t have an account?{" "}
               <span
                 className=" underline text-[#266CAB] cursor-pointer"
@@ -764,8 +870,7 @@ const UserLogin = () => {
           <div className="text-center">
             <p className="font-[550] md:text-3xl text-2xl text-black">Create Account</p>
             <p className="font-medium md:text-xl text-sm text-[#00000080]">
-              Create Your account to Lumashape by adding and verifying your
-              details
+              Create your account with Lumashape by providing the following information
             </p>
           </div>
           <form action="" onSubmit={handleNewAccountSubmit}>
@@ -914,35 +1019,14 @@ const UserLogin = () => {
           <div className="text-center">
             <p className="font-[550] md:text-3xl text-2xl">Account Verification</p>
             <p className="font-medium md:text-xl text-sm text-[#00000080]">
-              Please enter the verification code sent to{' '}
-              <span className="underline text-black">
-                <strong>{newAccountFormData.email}</strong>
+              Please enter the verification code sent to
+              <span className="underline text-black block">
+                <strong>{emailSend}</strong>
               </span>
             </p>
           </div>
-          <form onSubmit={(e) => SignupOTPVerification(e, email)}>
-            {/* <div className="flex justify-center md:space-x-5 space-x-3 mb-2 mt-10">
-              {[
-                verifyFormData.otp1,
-                verifyFormData.otp2,
-                verifyFormData.otp3,
-                verifyFormData.otp4,
-                verifyFormData.otp5,
-              ].map((otp, index) => (
-                <div key={index} className="relative">
-                  <input
-                    type="text"
-                    value={otp}
-                    onChange={(e) => handleOTPChange(e, index)}
-                    className="w-[50px] h-[50px] text-center px-4 py-2 mt-1 border text-black focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
-                    required
-                  />
-                </div>
-              ))}
-            </div> */}
-
+          <form onSubmit={(e) => SignupOTPVerification(e, email || emailSend)}>
             <div className="flex justify-center md:space-x-5 space-x-3 mb-2 mt-10">
-              {/* OTP Inputs */}
               {[
                 verifyFormData.otp1,
                 verifyFormData.otp2,
@@ -958,13 +1042,11 @@ const UserLogin = () => {
                     onKeyUp={(e) => {
                       const input = e.target as HTMLInputElement;
                       if (e.key === "Backspace" && input.value.length === 0) {
-                        // Move focus to the previous input on Backspace
                         const prevInput = document.getElementById(`otp-${index}`);
                         if (prevInput) {
                           prevInput.focus();
                         }
                       } else if (e.key === "Enter" || input.value.length === 1) {
-                        // Move focus to the next input on Enter or when the OTP field has a value
                         const nextInput = document.getElementById(`otp-${index + 2}`);
                         if (nextInput) {
                           nextInput.focus();
@@ -983,7 +1065,6 @@ const UserLogin = () => {
             <button
               type="submit"
               className="w-full bg-[#005B97] text-white p-3 md:mt-10 mt-10 font-bold rounded-[94.17px] hover:bg-[#005b97f0] transition duration-300"
-
             //   disabled={loading}
             >
               Verify
@@ -1142,22 +1223,19 @@ const UserLogin = () => {
             <p className="font-[550] md:text-3xl text-2xl cursor-pointer">
               Reset Password
             </p>
-            <p className="font-medium md:text-xl text-sm text-[#00000080]">
-              Please enter the email address so that we can verify your account
-            </p>
           </div>
 
           <form onSubmit={handleResetPasswordSubmit}>
             <div className="">
               <div className="mb-5 relative">
                 <label className="block text-black font-[550] mb-1">
-                  Password
+                  New Password
                 </label>
                 <div className="relative">
                   <input
                     type={showPassword2 ? 'text' : 'password'}
                     name="password"
-                    placeholder="Enter Password"
+                    placeholder="Enter New Password"
                     value={ResetFormData.password}
                     onChange={handleResetPassword}
                     className="w-full p-3 pr-10 border text-black focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
@@ -1179,13 +1257,13 @@ const UserLogin = () => {
               {/* confirm password */}
               <div className="mb-5 relative">
                 <label className="block text-black font-[550] mb-1">
-                  Confirm Password
+                  Confirm New Password
                 </label>
                 <div className="relative">
                   <input
                     type={showConfirmPassword1 ? 'text' : 'password'}
                     name="confirm"
-                    placeholder="Confirm Password"
+                    placeholder="Confirm New Password"
                     value={ResetFormData.confirm}
                     onChange={handleResetPassword}
                     className="w-full p-3 mt-1 pr-10 border text-black focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
@@ -1209,9 +1287,9 @@ const UserLogin = () => {
             <button
               type="submit"
               className="w-full bg-[#005B97] text-white p-3 md:mt-10 mt-10 font-bold rounded-[94.17px] hover:bg-[#005b97f0] transition duration-300"
-         //   disabled={loading}
+            //   disabled={loading}
             >
-              Verify
+              Continue
             </button>
 
           </form>

@@ -56,9 +56,9 @@ export async function POST(req: Request) {
             image: "",
             password: hashedPassword,
             otp: randomOTP,
+            is_verified: false,
             createdAt: new Date(),
             updatedAt: new Date(),
-
         });
 
         await EmailService(email, randomOTP.toString());
