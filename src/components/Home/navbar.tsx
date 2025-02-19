@@ -32,7 +32,7 @@ function Navbar() {
                 height={100}
               />
 
-              <ul className="font-light mob:absolute mob:top-[100px] items-center mob:px-4 mob:left-0 mob:w-full z-50 flex flex-col py-4 md:p-0 mt-4 gap-[24px] md:flex-row  rtl:space-x-reverse md:mt-0  tab:bg-black">
+              <ul className="font-light  items-center mob:px-4  z-50 flex flex-col py-4 md:p-0 mt-4 gap-[24px] md:flex-row  rtl:space-x-reverse md:mt-0 ">
                 <li>
                   <Link
                     href="#"
@@ -40,7 +40,7 @@ function Navbar() {
                       e.preventDefault()
                       handleTabChange('/home')
                     }}
-                    className={`block text-[16px] font-inter text-[#00000080] font-light leading-[25.5px] hover:text-[#266CA8] ${activeTab === '/home'
+                    className={`block text-xl font-inter text-[#00000080] font-light leading-[25.5px] hover:text-[#266CA8] ${activeTab === '/home'
                       ? 'text-[#266CA8]'
                       : 'text-[#00000080]'
                       }`}
@@ -59,7 +59,7 @@ function Navbar() {
                         block: 'start',
                       })
                     }}
-                    className={`block text-[16px] font-inter text-[#00000080] font-light leading-[25.5px] hover:text-[#266CA8] ${activeTab === '/benefits'
+                    className={`block text-xl font-inter text-[#00000080] font-light leading-[25.5px] hover:text-[#266CA8] ${activeTab === '/benefits'
                       ? 'text-[#266CA8]'
                       : 'text-[#00000080]'
                       }`}
@@ -78,7 +78,7 @@ function Navbar() {
                         block: 'start',
                       })
                     }}
-                    className={`block text-[16px] font-inter text-[#00000080] font-light leading-[25.5px] hover:text-[#266CA8] ${activeTab === '/sample'
+                    className={`block text-xl font-inter text-[#00000080] font-light leading-[25.5px] hover:text-[#266CA8] ${activeTab === '/sample'
                       ? 'text-[#266CA8]'
                       : 'text-[#00000080]'
                       }`}
@@ -98,7 +98,7 @@ function Navbar() {
                         block: 'start',
                       })
                     }}
-                    className={`block text-[16px] font-inter font-light text-[#00000080] leading-[25.5px] hover:text-[#266CA8] ${activeTab === '/working'
+                    className={`block text-xl font-inter font-light text-[#00000080] leading-[25.5px] hover:text-[#266CA8] ${activeTab === '/working'
                       ? 'text-[#266CA8]'
                       : 'text-[#00000080]'
                       }`}
@@ -117,7 +117,7 @@ function Navbar() {
                         block: 'start',
                       })
                     }}
-                    className={`block text-[16px] font-inter font-light text-[#00000080] leading-[25.5px] hover:text-[#266CA8] ${activeTab === '/pricing'
+                    className={`block text-xl font-inter font-light text-[#00000080] leading-[25.5px] hover:text-[#266CA8] ${activeTab === '/pricing'
                       ? 'text-[#266CA8]'
                       : 'text-[#00000080]'
                       }`}
@@ -136,7 +136,7 @@ function Navbar() {
                         block: 'start',
                       })
                     }}
-                    className={`block text-[16px] font-inter font-light text-[#00000080] leading-[25.5px] hover:text-[#266CA8] ${activeTab === '/faqs'
+                    className={`block text-xl font-inter font-light text-[#00000080] leading-[25.5px] hover:text-[#266CA8] ${activeTab === '/faqs'
                       ? 'text-[#266CA8]'
                       : 'text-[#00000080]'
                       }`}
@@ -148,7 +148,7 @@ function Navbar() {
 
               <Link
                 href="/user"
-                className="bg-[#266CA8] text-white rounded-full mt-2 flex h-[10%] px-3 py-1"
+                className="bg-[#266CA8] text-white rounded-full mt-2 flex h-[10%] px-3 py-2 font-medium text-xl"
               >
                 Login/Signup
               </Link>
@@ -200,7 +200,7 @@ function Navbar() {
                             handleTabChange('/home')
 
                           }}
-                          className={` text-[16px] text-[#00000080] font-light leading-[25.5px] hover:text-[#266CA8] ${activeTab === '/home'
+                          className={` text-xl text-[#00000080] font-light leading-[25.5px] hover:text-[#266CA8] ${activeTab === '/home'
                             ? 'text-[#266CA8]'
                             : 'text-[#00000080]'
                             }`}
@@ -219,7 +219,7 @@ function Navbar() {
                               block: 'start',
                             })
                           }}
-                          className={`block text-[16px] font-inter text-[#00000080] font-light leading-[25.5px] hover:text-[#266CA8] ${activeTab === '/benefits'
+                          className={`block text-xl font-inter text-[#00000080] font-light leading-[25.5px] hover:text-[#266CA8] ${activeTab === '/benefits'
                             ? 'text-[#266CA8]'
                             : 'text-[#00000080]'
                             }`}
@@ -238,7 +238,7 @@ function Navbar() {
                               block: 'start',
                             })
                           }}
-                          className={`block text-[16px] font-inter text-[#00000080] font-light leading-[25.5px] hover:text-[#266CA8] ${activeTab === '/sample'
+                          className={`block text-xl font-inter text-[#00000080] font-light leading-[25.5px] hover:text-[#266CA8] ${activeTab === '/sample'
                             ? 'text-[#266CA8]'
                             : 'text-[#00000080]'
                             }`}
@@ -258,7 +258,7 @@ function Navbar() {
                               block: 'start',
                             })
                           }}
-                          className={`block text-[16px] font-inter font-light text-[#00000080] leading-[25.5px] hover:text-[#266CA8] ${activeTab === '/working'
+                          className={`block text-xl font-inter font-light text-[#00000080] leading-[25.5px] hover:text-[#266CA8] ${activeTab === '/working'
                             ? 'text-[#266CA8]'
                             : 'text-[#00000080]'
                             }`}
@@ -277,7 +277,7 @@ function Navbar() {
                               block: 'start',
                             })
                           }}
-                          className={`block text-[16px] font-inter font-light text-[#00000080] leading-[25.5px] hover:text-[#266CA8] ${activeTab === '/pricing'
+                          className={`block text-xl font-inter font-light text-[#00000080] leading-[25.5px] hover:text-[#266CA8] ${activeTab === '/pricing'
                             ? 'text-[#266CA8]'
                             : 'text-[#00000080]'
                             }`}
@@ -296,7 +296,7 @@ function Navbar() {
                               block: 'start',
                             })
                           }}
-                          className={`block text-[16px] font-inter font-light text-[#00000080] leading-[25.5px] hover:text-[#266CA8] ${activeTab === '/faqs'
+                          className={`block text-xl font-inter font-light text-[#00000080] leading-[25.5px] hover:text-[#266CA8] ${activeTab === '/faqs'
                             ? 'text-[#266CA8]'
                             : 'text-[#00000080]'
                             }`}
@@ -306,7 +306,7 @@ function Navbar() {
                       </li>
                       <Link
                         href="/user"
-                        className="bg-[#266CA8] text-white rounded-full mt-2 flex h-[10%] px-3 py-1"
+                        className="bg-[#266CA8] text-white rounded-full mt-2 flex h-[10%] px-3 py-2"
                         onClick={()=>onClose()}
                       >
                         Login/Signup
