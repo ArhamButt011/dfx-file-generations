@@ -88,7 +88,7 @@ export async function POST(req: NextRequest) {
   >
     Message:
   </p>
-  <p style="font-size: 22px; font-weight: 100;">${data.phone}
+  <p style="font-size: 22px; font-weight: 100;">${data.message}
   </p>
 </div>
 
@@ -104,7 +104,7 @@ export async function POST(req: NextRequest) {
         >
           Project Address:
         </p>
-        <p style="font-size: 22px; font-weight: 100;">${data.projectAddress}</p>
+        <p style="font-size: 22px; font-weight: 100;">${data.message}</p>
       </div>
   
       <div style=" ">
@@ -118,7 +118,7 @@ export async function POST(req: NextRequest) {
         >
           Project Type:
         </p>
-        <p style="font-size: 22px; font-weight: 100;">${data.projectType}</p>
+        <p style="font-size: 22px; font-weight: 100;">${data.message}</p>
       </div>
   
       <div style="">
