@@ -4,7 +4,7 @@ import { useParams, useRouter } from 'next/navigation'
 import Image from 'next/image'
 import userImage from '/public/images/admin/avatar.jpg'
 import email from '/public/images/admin/email.jpg'
-import cardImage from '/public/images/admin/card.jpg'
+// import cardImage from '/public/images/admin/card.jpg'
 import dltCircle from '/public/images/admin/allusers/dltCircle.svg'
 import DownloadsSubscriptions from './DownloadsSubscriptions'
 import Modal from '@/components/UI/Modal'
@@ -96,22 +96,28 @@ const UserDetails: React.FC = () => {
     <>
       <div className="flex justify-between bg-[#F5F5F5] rounded-2xl p-5 flex-col md:flex-row">
         <div className="flex flex-col md:flex-row gap-4">
-          <div>
-            <Image src={userImage} alt="useravatar" className="rounded-3xl" />
+          <div className="">
+            <Image
+              src={userImage}
+              alt="useravatar"
+              height={175}
+              width={178}
+              className="rounded-3xl"
+            />
           </div>
-          <div>
-            <h1 className="text-[28.42px] font-semibold text-[#000000]">
+          <div className="flex justify-center flex-col">
+            <h1 className="text-[32.6px] font-semibold text-[#000000]">
               {userData?.name}
             </h1>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 mt-2">
               <span>
-                <Image src={email} alt="email" />
+                <Image src={email} alt="email" width={23} height={18} />
               </span>
-              <span className="text-primary text-[16.42px] font-medium">
+              <span className="text-primary text-[18.84px] font-medium">
                 {userData?.email}
               </span>
             </div>
-            <p className="mt-5">
+            <p className="mt-2">
               <span className="text-primary text-[18.27px] font-medium">
                 Added On:{' '}
               </span>
@@ -120,7 +126,7 @@ const UserDetails: React.FC = () => {
                   format(new Date(userData?.createdAt), 'MMM dd, yyyy')}
               </span>
             </p>
-            {userData && userData?.cards.length > 0 ? (
+            {/* {userData && userData?.cards.length > 0 ? (
               <div className="flex gap-2 bg-white rounded-lg px-2 py-2 mt-4">
                 <div>
                   <Image src={cardImage} alt="cardimage" />
@@ -150,7 +156,7 @@ const UserDetails: React.FC = () => {
               <div className="flex bg-white rounded-lg justify-between items-center h-20 px-4 mt-4 text-primary">
                 No Payment Method Added!!
               </div>
-            )}
+            )} */}
           </div>
         </div>
         <div>

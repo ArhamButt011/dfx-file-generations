@@ -36,13 +36,14 @@ export async function GET(req: NextRequest) {
       const searchRegex = { $regex: searchQuery, $options: 'i' }
       filter = {
         ...filter,
-        $or: [{ file_name: searchRegex }],
+        $or: [{ file_name: searchRegex }, { downloaded_on: searchRegex }],
       }
     }
 
     const downloads = await db
       .collection<Downloads>('all-downloads')
       .find(filter)
+      .sort({ downloaded_on: -1 })
       .skip(skip)
       .limit(limit)
       .toArray()

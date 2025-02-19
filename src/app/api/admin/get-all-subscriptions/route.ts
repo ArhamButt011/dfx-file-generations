@@ -34,15 +34,23 @@ export async function GET(req: NextRequest) {
 
       if (searchQuery) {
         const searchRegex = { $regex: searchQuery, $options: 'i' }
-        console.log('searchRegex-> ', searchRegex)
-        console.log('filter->  ', filter)
+        const searchNumber = parseFloat(searchQuery) // Convert to number if possible
 
         filter = {
           ...filter,
-          $or: [{ plan_name: searchRegex }, { added_on: searchRegex }],
+          $or: [
+            { plan_name: searchRegex },
+            { added_on: searchRegex },
+            { expiry_on: searchRegex },
+            { duration: searchRegex },
+            ...(isNaN(searchNumber) ? [] : [{ charges: searchNumber }]), // Numeric search
+          ],
         }
 
-        if (user.name.toLowerCase().includes(searchQuery.toLowerCase())) {
+        if (
+          user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          user.email.toLowerCase().includes(searchQuery.toLowerCase())
+        ) {
           filter = { user_id: user._id }
         }
       }
@@ -50,6 +58,7 @@ export async function GET(req: NextRequest) {
       const subscription = await db
         .collection('all-subscriptions')
         .find(filter)
+        .sort({ added_on: -1 })
         .toArray()
 
       if (subscription.length > 0) {
@@ -62,6 +71,7 @@ export async function GET(req: NextRequest) {
             plan_name: subscription.plan_name,
             duration: subscription.duration,
             added_on: subscription.added_on,
+            expiry_on: subscription.expiry_on,
             expiry_date: subscription.expiry_date,
             charges: subscription.charges,
           })),

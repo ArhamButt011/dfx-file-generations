@@ -6,6 +6,7 @@ import Working from '@/components/Home/Working'
 import Pricing from '@/components/Home/Pricing'
 import FAQ from '@/components/Home/FAQ'
 import Footer from '@/components/Home/Footer'
+import ContactUS from '@/components/Home/ContactUS'
 // import { useAuth } from '@/context/AuthContext'
 
 export default function Home() {
@@ -19,6 +20,7 @@ export default function Home() {
       <Working />
       <Pricing />
       <FAQ />
+      <ContactUS />
       <Footer />
     </>
   )

@@ -5,6 +5,7 @@ import { format } from 'date-fns'
 import { useParams } from 'next/navigation'
 import { ClipLoader } from 'react-spinners'
 import Downloads from './Downloads'
+import searchIcon from '/public/images/searchIcon.svg'
 
 interface Subscriptions {
   order_id: string
@@ -12,6 +13,7 @@ interface Subscriptions {
   duration: string
   added_on: string
   expiry_date: string
+  expiry_on: string
   charges: number
   status: string
 }
@@ -29,17 +31,14 @@ const DownloadsSubscriptions = () => {
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage)
   }
-  const getStatus = (addedOn: string, expiryDate: string): string => {
-    const addedOnDate = new Date(addedOn)
+  const getStatus = (expiryDate: string): string => {
+    const currentDate = new Date()
     const expiryDateObj = new Date(expiryDate)
 
-    // Compare the dates to set the status
-    return addedOnDate < expiryDateObj ? 'Current' : 'Past'
+    return currentDate < expiryDateObj ? 'Current' : 'Past'
   }
-  const status = getStatus(
-    subscriptions[0]?.added_on,
-    subscriptions[0]?.expiry_date,
-  )
+
+  const status = getStatus(subscriptions[0]?.expiry_date)
 
   const fetchSubscriptions = useCallback(async () => {
     try {
@@ -113,13 +112,20 @@ const DownloadsSubscriptions = () => {
               </p>
             </div>
             <div>
-              <input
-                type="text"
-                placeholder="Search..."
-                className="px-4 py-2 rounded-lg border border-gray-300"
-                value={searchQuery || ''}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
+              <div className="relative">
+                <Image
+                  src={searchIcon}
+                  alt="searchIcon"
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                />
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  className="pl-10 pr-10 py-2 rounded-xl border text-gray-800 text-[18px] focus:outline-none focus:ring-2 focus:ring-[#005B97]"
+                  value={searchQuery || ''}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
             </div>
 
             {/* <nav>
@@ -183,7 +189,7 @@ const DownloadsSubscriptions = () => {
                       {format(new Date(data?.added_on), 'MMM dd, yyyy')}
                     </td>
                     <td className="py-5 px-4 text-start font-medium ">
-                      {format(new Date(data?.expiry_date), 'MMM dd, yyyy')}
+                      {format(new Date(data?.expiry_on), 'MMM dd, yyyy')}
                     </td>
 
                     <td className="py-5 px-4 text-start text-[19px] font-medium text-[#266CA8]">

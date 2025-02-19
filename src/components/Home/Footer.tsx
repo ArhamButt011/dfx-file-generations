@@ -8,8 +8,8 @@ function Footer() {
     }
     return (
         <div>
-            <div className='mt-20 bg-[#F7F7F7] py-14'>
-                <div className="flex md:flex-row flex-col max-w-[90%] mx-auto justify-between">
+            <div className='mt-20 bg-[#F7F7F7] py-5'>
+                <div className="flex md:flex-row flex-col max-w-[90%] mx-auto md:justify-center lg:gap-60 md:gap-40 xl:gap-100 2xl:gap-180 justify-between">
                     {/* left */}
                     <div>
                         <Image
@@ -53,7 +53,7 @@ function Footer() {
                         </div>
                     </div>
                     {/* center */}
-                    <div className='mt-24'>
+                    <div className='md:mt-0 mt-20'>
                         <p className='font-semibold md:text-3xl text-2xl mb-4'>Quick Links</p>
                         <div className='text-[#22222280] font-medium md:text-2xl text-xl space-y-4 flex flex-col'>
                             <a href='#home'
@@ -123,13 +123,11 @@ function Footer() {
                         </div>
                     </div>
                     {/* right */}
-                    <div className='mt-24'>
-                        <p className='font-semibold md:text-3xl text-2xl mb-4'>Contact Information</p>
-                        <div className='text-[#22222280] font-medium md:text-2xl text-xl space-y-4'>
-                            <p>support@example.com</p>
-                            <p>+1-800-123-4567</p>
-                        </div>
-                    </div>
+                    
+                </div>
+                <hr className='my-5'/>
+                <div className='flex justify-center md:justify-start md:items-start items-center h-full w-full text-center md:text-start md:ps-14'>
+                    <p className=' text-center md:text-start font-normal text-base text-[#22222280]'>Lumashape LLC | © 2025 | All Rights Reserved</p>
                 </div>
             </div>
         </div>

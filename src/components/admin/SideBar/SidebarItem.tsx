@@ -30,15 +30,15 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
   const pathname = usePathname()
 
   const isActive = (item: SidebarChildItem): boolean => {
-    if (item.route === pathname) {
-      return false
+    if (pathname.startsWith(item.route)) {
+      return true
     }
 
     if (item.children) {
       return item.children.some(isActive)
     }
 
-    return true
+    return false
   }
 
   const isItemActive = isActive(item)
@@ -49,10 +49,10 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
         href={item.route}
         onClick={handleClick}
         className={`${
-          isItemActive ? '' : 'text-secondary'
+          isItemActive ? 'text-secondary' : ''
         } group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-primary duration-300 ease-in-out dark:hover:bg-meta-4`}
       >
-        {isItemActive ? item.icon : item.iconNotActive}
+        {isItemActive ? item.iconNotActive : item.icon}
         {item.label}
       </Link>
     </li>

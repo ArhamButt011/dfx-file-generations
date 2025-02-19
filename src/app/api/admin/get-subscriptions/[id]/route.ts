@@ -36,15 +36,24 @@ export async function GET(req: NextRequest) {
 
     if (searchQuery) {
       const searchRegex = { $regex: searchQuery, $options: 'i' }
+      const searchNumber = parseFloat(searchQuery)
+
       filter = {
         ...filter,
-        $or: [{ plan_name: searchRegex }, { status: searchRegex }],
+        $or: [
+          { plan_name: searchRegex },
+          { added_on: searchRegex },
+          { expiry_date: searchRegex },
+          { duration: searchRegex },
+          ...(isNaN(searchNumber) ? [] : [{ charges: searchNumber }]),
+        ],
       }
     }
 
     const subscriptions = await db
       .collection<Subscription>('all-subscriptions')
       .find(filter)
+      .sort({ added_on: -1 })
       .skip(skip)
       .limit(limit)
       .toArray()

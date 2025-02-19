@@ -7,6 +7,7 @@ import { format } from 'date-fns'
 import userImage from '/public/images/admin/emptyUser.svg'
 import { ObjectId } from 'mongodb'
 import { ClipLoader } from 'react-spinners'
+import searchIcon from '/public/images/searchIcon.svg'
 
 interface Download {
   _id: ObjectId
@@ -67,13 +68,20 @@ const DXFDownloads = () => {
         totalContent={totalDXFDownloads}
         totalText="Total DXF Downloads"
         rightContent={
-          <input
-            type="text"
-            placeholder="Search..."
-            className="px-4 py-2 rounded-lg border border-gray-300"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
+          <div className="relative">
+            <Image
+              src={searchIcon}
+              alt="searchIcon"
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+            />
+            <input
+              type="text"
+              placeholder="Search..."
+              className="pl-10 pr-10 py-3 rounded-xl border text-gray-800 text-[18px] focus:outline-none focus:ring-2 focus:ring-[#005B97]"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
         }
         buttonContent={''}
       />
@@ -89,7 +97,7 @@ const DXFDownloads = () => {
               <th className="pb-6 px-4 border-b text-start font-medium">
                 File Name
               </th>
-              <th className="pb-6 px-4 border-b text-center font-medium">
+              <th className="pb-6 pl-12 border-b text-center font-medium">
                 Downloaded By
               </th>
               <th className="pb-6 px-4 border-b text-center font-medium">

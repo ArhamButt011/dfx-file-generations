@@ -33,7 +33,10 @@ export async function GET(req: NextRequest) {
           $or: [{ file_name: searchRegex }, { downloaded_on: searchRegex }],
         }
 
-        if (user.name.toLowerCase().includes(searchQuery.toLowerCase())) {
+        if (
+          user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          user.email.toLowerCase().includes(searchQuery.toLowerCase())
+        ) {
           filter = { user_id: user._id }
         }
       }
@@ -41,6 +44,7 @@ export async function GET(req: NextRequest) {
       const downloads = await db
         .collection('all-downloads')
         .find(filter)
+        .sort({ downloaded_on: -1 })
         .toArray()
 
       if (downloads.length > 0) {

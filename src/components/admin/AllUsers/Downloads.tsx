@@ -4,6 +4,7 @@ import noDownloads from '/public/images/admin/allusers/nodownloads.svg'
 import { format } from 'date-fns'
 import { useParams } from 'next/navigation'
 import { ClipLoader } from 'react-spinners'
+import searchIcon from '/public/images/searchIcon.svg'
 
 interface Downloads {
   order_id: string
@@ -64,13 +65,20 @@ const Downloads = () => {
           </p>
         </div>
         <div>
-          <input
-            type="text"
-            placeholder="Search..."
-            className="px-4 py-2 rounded-lg border border-gray-300"
-            value={searchQuery || ''}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
+          <div className="relative">
+            <Image
+              src={searchIcon}
+              alt="searchIcon"
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+            />
+            <input
+              type="text"
+              placeholder="Search..."
+              className="pl-10 pr-10 py-2 rounded-xl border text-gray-800 text-[18px] focus:outline-none focus:ring-2 focus:ring-[#005B97]"
+              value={searchQuery || ''}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
         </div>
       </div>
       {loadingTable ? (

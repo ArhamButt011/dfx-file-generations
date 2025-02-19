@@ -11,7 +11,7 @@ import { useRouter } from 'next/navigation' // Import useRouter for navigation
 
 interface UserData {
   id: string
-  name: string
+  username: string
   email: string
   role: string
   [key: string]: string
