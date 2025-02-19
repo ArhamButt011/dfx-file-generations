@@ -58,6 +58,7 @@ export async function GET(req: NextRequest) {
       const subscription = await db
         .collection('all-subscriptions')
         .find(filter)
+        .sort({ added_on: -1 })
         .toArray()
 
       if (subscription.length > 0) {

@@ -92,7 +92,7 @@ const AllUsers = () => {
               <th className="pb-4 px-4 border-b text-start font-medium">
                 User Name
               </th>
-              <th className="pb-4 px-4 border-b text-start font-medium">
+              <th className="pb-4 px-4 border-b text-center font-medium">
                 Email Address
               </th>
               <th className="pb-4 px-4 border-b text-center font-medium">
@@ -136,7 +136,7 @@ const AllUsers = () => {
                     </div>
                   </div>
                 </td>
-                <td className="py-3 px-4 text-start text-lg font-medium">
+                <td className="py-3 px-4 text-center text-lg font-medium">
                   {user.email}
                 </td>
                 <td className="py-3 pr-4 pl-8 text-center text-lg font-medium">

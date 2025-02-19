@@ -97,7 +97,7 @@ const DXFDownloads = () => {
               <th className="pb-6 px-4 border-b text-start font-medium">
                 File Name
               </th>
-              <th className="pb-6 px-4 border-b text-center font-medium">
+              <th className="pb-6 pl-12 border-b text-center font-medium">
                 Downloaded By
               </th>
               <th className="pb-6 px-4 border-b text-center font-medium">

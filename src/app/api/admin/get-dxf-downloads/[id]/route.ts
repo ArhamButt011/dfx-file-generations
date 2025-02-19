@@ -43,6 +43,7 @@ export async function GET(req: NextRequest) {
     const downloads = await db
       .collection<Downloads>('all-downloads')
       .find(filter)
+      .sort({ downloaded_on: -1 })
       .skip(skip)
       .limit(limit)
       .toArray()

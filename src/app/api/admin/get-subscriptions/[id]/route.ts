@@ -53,6 +53,7 @@ export async function GET(req: NextRequest) {
     const subscriptions = await db
       .collection<Subscription>('all-subscriptions')
       .find(filter)
+      .sort({ added_on: -1 })
       .skip(skip)
       .limit(limit)
       .toArray()
