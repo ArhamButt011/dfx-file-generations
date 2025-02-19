@@ -3,10 +3,24 @@ import Modal from '@/components/UI/Modal';
 import Image from 'next/image'
 import React, { useState, FormEvent, useEffect, useRef } from 'react'
 import Swal from 'sweetalert2';
+import { useAuth } from '@/context/AuthContext';
+import Subscribe from '../Subscription/Subscribe';
+
+interface UserPlan {
+  plan_name: string;
+  duration: number;
+  user_id: string;
+  added_on: string;
+  expiry_on: string;
+  charges: number;
+  added_date: string;
+  expiry_date: string;
+}
 
 
 function Input() {
   const [image, setImage] = useState<string | null>(null);
+  const { userData } = useAuth();
   const [contour, setContour] = useState<number>();
   const [dragging, setDragging] = useState<boolean>(false);
   const [isProcessingOpen, setisProcessingOpen] = useState<boolean>(false);
@@ -21,21 +35,46 @@ function Input() {
   const imgRef = useRef<HTMLImageElement>(null);
   const [lensPos, setLensPos] = useState({ x: 0, y: 0, visible: false });
   const [isMagnifierActive, setIsMagnifierActive] = useState(false);
+  const [isBilingOpen, setIsBilingOpen] = useState(false); // New state for Subscribe modal
+  const [userPlan, setUserPlan] = useState<UserPlan | null>(null);
+  const userId = userData?.id;
+
+  useEffect(() => {
+    async function fetchUserPlan() {
+      try {
+        const response = await fetch('/api/user/get-user-plan', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ user_id: userId }),
+        });
+
+        const data = await response.json();
+        if (data?.subscription) {
+          setUserPlan(data.subscription);
+        }
+      } catch (error) {
+        console.error('Error fetching user plan:', error);
+      }
+    }
+
+    if (userId) {
+      fetchUserPlan();
+    }
+  }, [userId]);
+
 
   const handleMouseMove = (e: React.MouseEvent) => {
+
     if (!isMagnifierActive || !imgRef.current) return;
 
     const img = imgRef.current.getBoundingClientRect();
     const width = img.width;
     const height = img.height;
-
     let x = e.clientX - img.left;
     let y = e.clientY - img.top;
-
     // Ensure the lens stays inside the image
     x = Math.max(100 / 2, Math.min(x, width - 100 / 2));
     y = Math.max(100 / 2, Math.min(y, height - 100 / 2));
-
     setLensPos({ x, y, visible: true });
   };
 
@@ -95,6 +134,30 @@ function Input() {
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
+    const data = {
+      plan_name: 'Free',
+      duration: '7 Days',
+      user_id: userData?.id,
+      added_on: new Date().toISOString(),
+      expiry_on: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+      charges: 0,
+      added_date: Date.now(),
+      expiry_date: Date.now() + 7 * 24 * 60 * 60 * 1000,
+    };
+
+    const res = await fetch('/api/user/subscription', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!res.ok) {
+      throw new Error('Failed to create subscription');
+    }
+
     if (!image || !contour) {
       Swal.fire({
         title: 'Error!',
@@ -105,8 +168,8 @@ function Input() {
       })
       return;
     }
-    //pass data to AI api
 
+    //pass data to AI api
     setisProcessingOpen(true);
     try {
       const res = await fetch('https://046f-192-241-155-184.ngrok-free.app/predict', {
@@ -142,16 +205,13 @@ function Input() {
     }
     finally {
       setisProcessingOpen(false);
-
     }
-
 
     // setisProcessingOpen(true);
     // setTimeout(() => {
     //   onClose();
     //   setisOutputOpen(true);
     // }, 5000);
-
     // setisOutputOpen(true);
   }
 
@@ -161,6 +221,12 @@ function Input() {
       console.error("No image URL provided for download.");
       return;
     }
+
+    if (userPlan && new Date(userPlan.expiry_date) < new Date()) {
+      setIsBilingOpen(true);
+      return;
+    }
+
 
     fetch(url)
       .then(response => response.blob()) // Convert image URL to a blob
@@ -255,7 +321,6 @@ function Input() {
               <p className='font-semibold text-2xl mb-5'>Input Image</p>
               <form action="" onSubmit={handleSubmit} >
                 <div className='border border-dashed border-[#0000004D] rounded-3xl'>
-
                   <div
                     onDrop={handleDrop}
                     onDragOver={handleDragOver}
@@ -357,7 +422,6 @@ function Input() {
                       </>
                     )}
                   </div>
-
                   <div className="flex justify-center rounded-b-3xl bg-white">
                     <input
                       type="file"
@@ -395,7 +459,6 @@ function Input() {
                 {/* contour */}
                 <div className='mt-10 '>
                   <p className='font-semibold text-2xl'>Contour Offset Parameter <span className='font-medium text-xl text-[#00000080]'>(inches)</span></p>
-
                   <input
                     type="number"
                     className="border rounded-full w-full p-3 my-5 bg-[#F2F2F2]"
@@ -406,7 +469,6 @@ function Input() {
                       setContour(value !== "" ? parseFloat(value) : undefined);
                     }}
                   />
-
 
                   <div className="flex justify-between gap-4 my-8">
                     <button type='reset' className='w-1/2 bg-white p-3 rounded-full text-[#00000080] font-medium text-2xl'>Clear</button>
@@ -608,6 +670,9 @@ function Input() {
           </div>
         </div>
       </BilingModal>
+
+      {isBilingOpen && <Subscribe isBilingOpen={isBilingOpen} setIsBilingOpen={setIsBilingOpen} />}
+
 
     </>
   )

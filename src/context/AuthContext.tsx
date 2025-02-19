@@ -42,7 +42,7 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [userData, setUserData] = useState<UserData | null>(null)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const router = useRouter() // Initialize useRouter
+  const router = useRouter()
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token')

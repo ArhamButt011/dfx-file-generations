@@ -84,7 +84,6 @@ export async function POST(req: Request) {
       )
     }
 
-    // Update is_verified to true and remove OTP
     await db.collection('users').updateOne(
       { email: normalizedEmail },
       { 

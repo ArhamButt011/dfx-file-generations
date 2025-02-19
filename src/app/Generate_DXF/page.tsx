@@ -11,7 +11,6 @@ function Page() {
   const { userData, logout } = useAuth();
   const router = useRouter();
   const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
-
   useEffect(() => {
     const verifyToken = async () => {
       if (!token) {
