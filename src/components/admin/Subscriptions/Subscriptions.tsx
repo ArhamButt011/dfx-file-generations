@@ -30,7 +30,6 @@ const Subscriptions = () => {
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage)
   }
-  console.log('dat-> ', subscriptions)
 
   const fetchSubscriptions = useCallback(async () => {
     try {
@@ -113,7 +112,7 @@ const Subscriptions = () => {
               <th className="pb-6 px-4 border-b text-start font-medium">
                 Expiry Date
               </th>
-              <th className="pb-6 px-4 border-b text-start font-medium">
+              <th className="pb-6 px-4 border-b text-center font-medium">
                 Charges
               </th>
             </tr>
@@ -167,7 +166,7 @@ const Subscriptions = () => {
                     ? format(new Date(user.expiry_on), 'MMM dd, yyyy')
                     : 'N/A'}
                 </td>
-                <td className="py-3 px-4 text-start text-[21px] font-medium rounded-r-xl text-[#266CA8]">
+                <td className="py-3 px-4 text-center text-[21px] font-medium rounded-r-xl text-[#266CA8]">
                   ${user.charges}
                 </td>
               </tr>
