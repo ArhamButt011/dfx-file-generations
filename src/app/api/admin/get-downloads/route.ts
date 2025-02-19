@@ -33,7 +33,10 @@ export async function GET(req: NextRequest) {
           $or: [{ file_name: searchRegex }, { downloaded_on: searchRegex }],
         }
 
-        if (user.name.toLowerCase().includes(searchQuery.toLowerCase())) {
+        if (
+          user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          user.email.toLowerCase().includes(searchQuery.toLowerCase())
+        ) {
           filter = { user_id: user._id }
         }
       }

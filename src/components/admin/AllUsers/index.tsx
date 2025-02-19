@@ -5,12 +5,13 @@ import Breadcrumb from '../Breadcrumbs/Breadcrumb'
 import { ClipLoader } from 'react-spinners'
 import Image from 'next/image'
 import Link from 'next/link'
+import searchIcon from '/public/images/searchIcon.svg'
 interface User {
   _id: string
   name: string
   email: string
   createdAt: string
-  downloads: number
+  downloadsCount: number
 }
 
 const AllUsers = () => {
@@ -35,8 +36,6 @@ const AllUsers = () => {
       const response = await fetch(
         `/api/admin/get-users/?page=${currentPage}${searchParam}`,
       )
-
-      console.log(response)
 
       if (response.ok) {
         const data = await response.json()
@@ -64,13 +63,20 @@ const AllUsers = () => {
         totalContent={totalUsers}
         totalText="Total Users"
         rightContent={
-          <input
-            type="text"
-            placeholder="Search user..."
-            className="px-4 py-2 rounded-lg border border-gray-300"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
+          <div className="relative">
+            <Image
+              src={searchIcon}
+              alt="searchIcon"
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+            />
+            <input
+              type="text"
+              placeholder="Search user..."
+              className="pl-10 pr-10 py-3 rounded-xl border text-gray-800 text-[18px] focus:outline-none focus:ring-2 focus:ring-[#005B97]"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
         }
         buttonContent={''}
       />
@@ -101,13 +107,13 @@ const AllUsers = () => {
             </tr>
           </thead>
           <tbody>
-            {users.map((user, index) => (
+            {users.map((user) => (
               <tr
                 key={user._id}
                 className="text-primary bg-[#F5F5F5] text-[16.45px]"
               >
                 <td className="py-3 px-4 text-start text-lg font-medium rounded-l-xl">
-                  <div className="flex justify-start align-center gap-3">
+                  <div className="flex justify-start items-center gap-3">
                     <div>
                       <span>
                         <Image
@@ -120,25 +126,25 @@ const AllUsers = () => {
                         />
                       </span>
                     </div>
-                    <div className="flex flex-col gap-0">
+                    <div>
                       <span className="font-semibold text-gray-800 text-[22px]">
                         {user.name}
                       </span>
-                      <span className="text-gray-500 text-[14.3px]">
+                      {/* <span className="text-gray-500 text-[14.3px]">
                         #{index + 1}
-                      </span>
+                      </span> */}
                     </div>
                   </div>
                 </td>
                 <td className="py-3 px-4 text-start text-lg font-medium">
                   {user.email}
                 </td>
-                <td className="py-3 px-4 text-center text-lg font-medium">
+                <td className="py-3 pr-4 pl-8 text-center text-lg font-medium">
                   {format(new Date(user.createdAt), 'MMM dd, yyyy')}
                 </td>
 
                 <td className="py-3 px-4 text-center text-lg font-medium ">
-                  0
+                  {user.downloadsCount}
                 </td>
                 <td className="py-3 px-4 text-center text-lg font-medium rounded-r-xl text-[#266CA8]">
                   <Link
