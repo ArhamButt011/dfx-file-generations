@@ -146,16 +146,16 @@ const DropdownUser = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    if (!file) {
-      Swal.fire({
-        title: 'Error!',
-        text: 'Please select a file first.',
-        icon: 'error',
-        showConfirmButton: false,
-        timer: 2000,
-      })
-      return
-    }
+    // if (!file) {
+    //   Swal.fire({
+    //     title: 'Error!',
+    //     text: 'Please select a file first.',
+    //     icon: 'error',
+    //     showConfirmButton: false,
+    //     timer: 2000,
+    //   })
+    //   return
+    // }
     if (!userData) {
       Swal.fire({
         title: 'Error!',
@@ -169,7 +169,9 @@ const DropdownUser = () => {
     const id = userData.id
 
     const formData = new FormData()
-    formData.append('file', file)
+    if (file) {
+      formData.append('file', file) // Only append if file exists
+    }
     formData.append('name', name)
     formData.append('id', id)
 
@@ -248,7 +250,7 @@ const DropdownUser = () => {
               width={112}
               height={112}
               src={userData?.image ? userData.image : user}
-              className="rounded-full"
+              className="rounded-full object-cover"
               style={{
                 width: 'auto',
                 height: 'auto',
@@ -494,7 +496,7 @@ const DropdownUser = () => {
               <Image
                 src={profileImage}
                 alt="userImage"
-                className="rounded-full w-36 h-36"
+                className="rounded-full w-36 h-36 object-cover"
                 onClick={handleImageClick}
                 width={200}
                 height={200}
