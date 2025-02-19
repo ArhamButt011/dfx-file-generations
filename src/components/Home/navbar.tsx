@@ -26,8 +26,8 @@ function Navbar() {
             <div className="md:flex justify-between w-full pb-4 hidden ">
               <Image
                 className="w-[259.2px] h-[56px] mob:w-[175.89px] mob:h-[38px] z-50"
-                src="/images/user/home/logo.svg"
-                alt="Flowbite Logo"
+                src="/images/user/home/user_login.svg"
+                alt=" Logo"
                 width={100}
                 height={100}
               />
@@ -167,8 +167,8 @@ function Navbar() {
               >
                 <Image
                   className="z-50"
-                  src="/images/user/home/logo.svg"
-                  alt="Flowbite Logo"
+                  src="/images/user/home/user_login.svg"
+                  alt="Logo"
                   width={180}
                   height={180}
                 />
