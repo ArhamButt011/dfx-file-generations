@@ -159,13 +159,8 @@ const Forgot: React.FC<ForgotProps> = ({ title, content }) => {
       {/* Left Form Section */}
       <div className="w-[100%] bg-white flex items-center justify-center md:w-[60%] p-6 md:p-0">
         <div className="md:w-[70%] w-[100%]">
-          <div className="flex items-center md:mb-10 mb-10">
-            <Image
-              src={logo}
-              alt="logo"
-              className="object-contain xl:w-[385.72px] xl:h-[69.76px] "
-              priority
-            />
+          <div className="flex items-center md:mb-6 mb-10">
+            <Image src={logo} alt="logo" width={360} height={55} priority />
           </div>
           <h1 className="text-[36px] font-bold mb-2 text-black xl:text-[50.04px]">
             {title}
@@ -173,12 +168,7 @@ const Forgot: React.FC<ForgotProps> = ({ title, content }) => {
           <p className="text-primary mb-6 text-lg xl:text-[21.56px]">
             {content}
           </p>
-          {/* {error && <p className="text-red-500 text-center mb-4">{error}</p>}
-          {loading && (
-            <p className="text-center text-blue-500 font-medium mb-4">
-              Processing your login, please wait...
-            </p>
-          )} */}
+
           <form action="" onSubmit={sendOTP}>
             <div className="mb-4">
               <label className="block text-black font-semibold mb-1 text-lg xl:text-[23.8px]">

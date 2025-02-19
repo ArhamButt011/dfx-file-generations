@@ -93,13 +93,8 @@ const Login: React.FC<LoginProps> = ({ title, content }) => {
       {/* Left Form Section */}
       <div className="w-[100%] bg-white flex items-center justify-center md:w-[60%] p-6 md:p-0">
         <div className="md:w-[70%] w-[100%]">
-          <div className="flex items-center md:mb-10 mb-10">
-            <Image
-              src={logo}
-              alt="logo"
-              className="object-contain xl:w-[385.72px] xl:h-[69.76px] w-[270px] h-[270px]"
-              priority
-            />
+          <div className="flex items-center md:mb-6 mb-10 justify-start w-full">
+            <Image src={logo} alt="logo" width={360} height={55} priority />
           </div>
           <h1 className="text-[36px] font-bold mb-2 text-black xl:text-[50.04px]">
             {title}
@@ -169,7 +164,7 @@ const Login: React.FC<LoginProps> = ({ title, content }) => {
               //   className={`w-full bg-[#005B97] text-white py-2 px-4 mt-20 font-bold rounded-full hover:bg-[#005b97f0] transition duration-300 ${
               //     loading ? 'opacity-50 cursor-not-allowed' : ''
               //   }`}
-              className="w-full bg-[#266CA8] text-white py-4 px-4 mt-12 xl:mt-20 font-semibold rounded-full hover:bg-[#005b97f0] transition duration-300 xl:text-[20px] text-[18px]"
+              className="w-full bg-[#266CA8] text-white py-4 px-4 mt-5 xl:mt-5 font-semibold rounded-full hover:bg-[#005b97f0] transition duration-300 xl:text-[20px] text-[18px]"
               //   disabled={loading}
             >
               Login
