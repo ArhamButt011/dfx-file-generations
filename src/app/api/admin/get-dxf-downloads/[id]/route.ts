@@ -36,7 +36,7 @@ export async function GET(req: NextRequest) {
       const searchRegex = { $regex: searchQuery, $options: 'i' }
       filter = {
         ...filter,
-        $or: [{ file_name: searchRegex }],
+        $or: [{ file_name: searchRegex }, { downloaded_on: searchRegex }],
       }
     }
 

@@ -4,7 +4,7 @@ import { useParams, useRouter } from 'next/navigation'
 import Image from 'next/image'
 import userImage from '/public/images/admin/avatar.jpg'
 import email from '/public/images/admin/email.jpg'
-import cardImage from '/public/images/admin/card.jpg'
+// import cardImage from '/public/images/admin/card.jpg'
 import dltCircle from '/public/images/admin/allusers/dltCircle.svg'
 import DownloadsSubscriptions from './DownloadsSubscriptions'
 import Modal from '@/components/UI/Modal'
@@ -120,7 +120,7 @@ const UserDetails: React.FC = () => {
                   format(new Date(userData?.createdAt), 'MMM dd, yyyy')}
               </span>
             </p>
-            {userData && userData?.cards.length > 0 ? (
+            {/* {userData && userData?.cards.length > 0 ? (
               <div className="flex gap-2 bg-white rounded-lg px-2 py-2 mt-4">
                 <div>
                   <Image src={cardImage} alt="cardimage" />
@@ -150,7 +150,7 @@ const UserDetails: React.FC = () => {
               <div className="flex bg-white rounded-lg justify-between items-center h-20 px-4 mt-4 text-primary">
                 No Payment Method Added!!
               </div>
-            )}
+            )} */}
           </div>
         </div>
         <div>
