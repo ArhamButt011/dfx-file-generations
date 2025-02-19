@@ -29,8 +29,9 @@ export async function PUT(req: Request) {
     if (file) {
       const arrayBuffer = await file.arrayBuffer()
       const buffer = new Uint8Array(arrayBuffer)
-      await fs.writeFile(`./public/uploads/${file.name}`, buffer)
-      updateData.image = `${file.name}`
+      const filePath = `/uploads/${file.name}`
+      await fs.writeFile(`./public${filePath}`, buffer)
+      updateData.image = filePath
     }
 
     const client = await clientPromise
@@ -46,7 +47,6 @@ export async function PUT(req: Request) {
       return NextResponse.json({ status: 'fail', error: 'No document updated' })
     }
 
-    // Create a new token after the user data is updated
     const updatedUser = await usersCollection.findOne({ _id: new ObjectId(id) })
     if (!updatedUser) {
       return NextResponse.json({ status: 'fail', error: 'User not found' })

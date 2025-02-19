@@ -9,7 +9,7 @@ interface Subscriptions {
   added_on?: string
   duration?: string
   user_id?: ObjectId
-  expiry_date?: Date
+  expiry_date?: string
   charges?: number
 }
 
@@ -28,10 +28,15 @@ export async function GET(req: NextRequest) {
     const allDownloads = []
 
     for (const user of users) {
-      let filter: Filter<Subscriptions> = { user_id: user._id }
+      let filter: Filter<Subscriptions> = {
+        user_id: user._id,
+      }
 
       if (searchQuery) {
         const searchRegex = { $regex: searchQuery, $options: 'i' }
+        console.log('searchRegex-> ', searchRegex)
+        console.log('filter->  ', filter)
+
         filter = {
           ...filter,
           $or: [{ plan_name: searchRegex }, { added_on: searchRegex }],

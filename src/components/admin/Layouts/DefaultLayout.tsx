@@ -26,7 +26,7 @@ export default function DefaultLayout({
 
           {/* <!-- ===== Main Content Start ===== --> */}
           <main>
-            <div className="mx-auto max-w-screen-2xl p-3 md:p-3 2xl:p-6 bg-[#FFFFFF]">
+            <div className="mx-auto max-w-screen-2xl p-6 bg-[#FFFFFF]">
               {children}
             </div>
           </main>
