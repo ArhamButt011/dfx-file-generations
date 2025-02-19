@@ -66,7 +66,7 @@ function ContactUS() {
                     <ClipLoader color="#007bff" size={50} />
                 </div>
             )}
-            <div className='flex md:flex-row flex-col my-10 max-w-[90%] mx-auto md:gap-10'>
+            <div className='flex md:flex-row flex-col my-10 max-w-[90%] mx-auto md:gap-10' id='contact'>
                 {/* left */}
                 <div className="md:w-1/2">
                     <div>

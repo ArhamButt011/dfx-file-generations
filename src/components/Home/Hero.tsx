@@ -23,7 +23,7 @@ function Hero() {
                 <p className='text-center text-[#00000066] md:text-[29px] text-[23px] mx-auto font-medium max-w-[90%]'>
                     Simplify the creation of DXF files with precision and ease. Designed for both hobbyists and professionals, our software eliminates tedious manual design work, delivers accurate files ready for manufacturing custom tool drawer inserts, and saves you time and effort. Choose a fast, reliable, and cost-effective solution that streamlines your workflow and puts you in control.
                 </p>
-                <div className="flex md:flex-row flex-col pt-20 justify-between items-center ">
+                <div className="flex md:flex-row flex-col pt-20 justify-between items-start ">
                     {/* AI powered */}
                     <div className='flex flex-col items-center md:w-1/3'>
                         <Image src="/images/user/home/AI.svg" alt="" className='' width={120} height={100} />

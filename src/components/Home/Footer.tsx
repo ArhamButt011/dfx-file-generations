@@ -14,7 +14,7 @@ function Footer() {
                     <div>
                         <Image
                             className="md:w-90 w-70 z-50"
-                            src="/images/user/home/logo.svg"
+                            src="/images/user/home/user_login.svg"
                             alt="Flowbite Logo"
                             width={387}
                             height={100}
@@ -119,13 +119,24 @@ function Footer() {
                                         block: 'start',
                                     })
                                 }}
-                            >FAQ’s</a>
+                            >FAQ&apos;s</a>
+                            <a
+                                href='#contact'
+                                onClick={(e) => {
+                                    e.preventDefault()
+                                    handleTabChange('/contact')
+                                    document.getElementById('contact')?.scrollIntoView({
+                                        behavior: 'smooth',
+                                        block: 'start',
+                                    })
+                                }}
+                            >Contact US</a>
                         </div>
                     </div>
                     {/* right */}
-                    
+
                 </div>
-                <hr className='my-5'/>
+                <hr className='my-5' />
                 <div className='flex justify-center md:justify-start md:items-start items-center h-full w-full text-center md:text-start md:ps-14'>
                     <p className=' text-center md:text-start font-normal text-base text-[#22222280]'>Lumashape LLC | © 2025 | All Rights Reserved</p>
                 </div>

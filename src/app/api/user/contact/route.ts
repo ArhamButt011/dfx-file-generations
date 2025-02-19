@@ -9,14 +9,13 @@ export async function POST(req: NextRequest) {
 
     // Configure the email transport using SMTP (for example, using Gmail)
     const transporter = nodemailer.createTransport({
-      host: "smtp.titan.email",
-      port: 465,
-      secure: true,
-      auth: {
-        user: "info@innate-nw.com",
-        pass: "Innate@123",
-      },
-    });
+        service: 'gmail', // Or any other SMTP service
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS,
+        },
+      });
+    
 
     // Create a dynamic HTML email template
     const emailTemplate = `
@@ -40,7 +39,7 @@ export async function POST(req: NextRequest) {
           style="
             font-size: 22px;
             min-width: 300px;
-            font-weight: 500;
+            font-weight: 700;
             color: black;
           "
         >
@@ -54,13 +53,13 @@ export async function POST(req: NextRequest) {
           style="
             font-size: 22px;
             min-width: 300px;
-            font-weight: 500;
+            font-weight: 700;
             color: black;
           "
         >
           Name:
         </p>
-        <p style="font-size: 22px; font-weight: 100;">${data.first}${" "}${data.last}</p>
+        <p style="font-size: 22px; font-weight: 100;">${data.formData.first}${" "}${data.formData.last}</p>
       </div>
   
       <div style=" ">
@@ -68,13 +67,13 @@ export async function POST(req: NextRequest) {
           style="
             font-size: 22px;
             min-width: 300px;
-            font-weight: 500;
+            font-weight: 700;
             color: black;
           "
         >
           Email Address:
         </p>
-        <p style="font-size: 22px; font-weight: 100;">${data.email}</p>
+        <p style="font-size: 22px; font-weight: 100;">${data.formData.email}</p>
       </div>
   
       <div style=" ">
@@ -82,59 +81,16 @@ export async function POST(req: NextRequest) {
     style="
       font-size: 22px;
       min-width: 300px;
-      font-weight: 500;
+      font-weight: 700;
       color: black;
     "
   >
     Message:
   </p>
-  <p style="font-size: 22px; font-weight: 100;">${data.message}
+  <p style="font-size: 22px; font-weight: 100;">${data.formData.message}
   </p>
 </div>
-
-  
-     <div style=" ">
-        <p
-          style="
-            font-size: 22px;
-            min-width: 300px;
-            font-weight: 500;
-            color: black;
-          "
-        >
-          Project Address:
-        </p>
-        <p style="font-size: 22px; font-weight: 100;">${data.message}</p>
-      </div>
-  
-      <div style=" ">
-        <p
-          style="
-            font-size: 22px;
-            min-width: 300px;
-            font-weight: 500;
-            color: black;
-          "
-        >
-          Project Type:
-        </p>
-        <p style="font-size: 22px; font-weight: 100;">${data.message}</p>
-      </div>
-  
-      <div style="">
-        <p
-          style="
-            font-size: 22px;
-            min-width: 300px;
-            font-weight: 500;
-            color: black;
-          "
-        >
-         Message:
-        </p>
-        <p style="font-size: 22px; font-weight: 100;">${data.message}</p>
-      </div>
-      
+    
   
       
 </div>
@@ -145,10 +101,10 @@ export async function POST(req: NextRequest) {
 
     // Set up email options
     const mailOptions = {
-      from: "info@innate-nw.com", // Sender's email (from form submission)
-      to: "info@innate-nw.com",
-      subject: "New Form Submission",
-      html: emailTemplate,
+        from: process.env.EMAIL_USER,
+        to: process.env.EMAIL_USER,
+        subject: "Contact",
+        html: emailTemplate,
     };
 
     // Send the email
