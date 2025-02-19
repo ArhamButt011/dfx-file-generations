@@ -94,16 +94,22 @@ const UserDetails: React.FC = () => {
 
   return (
     <>
-      <div className="flex justify-between bg-[#F5F5F5] rounded-2xl p-5 flex-col md:flex-row">
+      <div className="flex justify-between bg-[#F5F5F5] rounded-2xl p-5 flex-col md:flex-row h-[218px]">
         <div className="flex flex-col md:flex-row gap-4">
-          <div>
-            <Image src={userImage} alt="useravatar" className="rounded-3xl" />
+          <div className="">
+            <Image
+              src={userImage}
+              alt="useravatar"
+              height={175}
+              width={178}
+              className="rounded-3xl"
+            />
           </div>
-          <div>
+          <div className="mt-2">
             <h1 className="text-[28.42px] font-semibold text-[#000000]">
               {userData?.name}
             </h1>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 mt-2">
               <span>
                 <Image src={email} alt="email" />
               </span>
@@ -111,7 +117,7 @@ const UserDetails: React.FC = () => {
                 {userData?.email}
               </span>
             </div>
-            <p className="mt-5">
+            <p className="mt-13">
               <span className="text-primary text-[18.27px] font-medium">
                 Added On:{' '}
               </span>
