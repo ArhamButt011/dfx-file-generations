@@ -1,4 +1,4 @@
-import BilingModal from '@/components/UI/BilingModal';
+// import BilingModal from '@/components/UI/BilingModal';
 import Modal from '@/components/UI/Modal';
 import Image from 'next/image'
 import React, { useState, FormEvent, useEffect, useRef } from 'react'
@@ -24,7 +24,7 @@ function Input() {
   const [contour, setContour] = useState<number>();
   const [dragging, setDragging] = useState<boolean>(false);
   const [isProcessingOpen, setisProcessingOpen] = useState<boolean>(false);
-  const [isOutputOpen, setisOutputOpen] = useState<boolean>(false);
+  const [isProcessed, setIsProcessed] = useState<boolean>(false);
   const [base64, setBase64] = useState<string>("");
   const [overlay, setOverlay] = useState<string>("");
   const [mask, setMask] = useState<string>("");
@@ -80,7 +80,7 @@ function Input() {
 
   const onClose = () => {
     setisProcessingOpen(false);
-    setisOutputOpen(false);
+    setIsProcessed(false);
   }
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -192,7 +192,7 @@ function Input() {
       setDfxFile(dxf_file);
       setPreview(outlines_url);
       setOverlay(output_image_url);
-      setisOutputOpen(true);
+      setIsProcessed(true);
     } catch (err) {
       // Catch any error in the try block and log it
       Swal.fire({
@@ -210,9 +210,9 @@ function Input() {
     // setisProcessingOpen(true);
     // setTimeout(() => {
     //   onClose();
-    //   setisOutputOpen(true);
+    //   setIsProcessed(true);
     // }, 5000);
-    // setisOutputOpen(true);
+    // setIsProcessed(true);
   }
 
 
@@ -310,9 +310,9 @@ function Input() {
     <>
       <div className='mt-5'>
 
-        <div className="flex gap-10">
+        <div className="flex md:flex-row flex-col gap-10">
           {/* left */}
-          <div className='bg-[#F2F2F2] w-1/2 rounded-b-2xl'>
+          <div className='bg-[#F2F2F2] md:w-1/2 rounded-b-2xl'>
             <div className='bg-[#266CA8] py-3 rounded-t-2xl'>
               <p className='text-white text-center font-medium text-2xl'>Input Data</p>
             </div>
@@ -480,20 +480,100 @@ function Input() {
             </div>
           </div>
           {/* right */}
-          <div className='bg-[#F2F2F2] w-1/2 rounded-b-2xl'>
+          <div className='bg-[#F2F2F2] md:w-1/2 rounded-b-2xl'>
             <div className='bg-[#266CA8] py-3 rounded-t-2xl'>
               <p className='text-white text-center font-medium text-2xl'>Output Data</p>
             </div>
-            <div className='p-5 flex justify-center items-center h-full'>
-              <Image
-                src="/images/user/GenerateDFX/noOutput.svg"
-                alt="Uploaded Preview"
-                className="rounded-t-3xl "
-                width={400}
-                height={200}
-                ref={imgRef}
-              />
-            </div>
+            {!isProcessed ? (
+              <div className='p-5 flex justify-center items-center h-full'>
+                <Image
+                  src="/images/user/GenerateDFX/noOutput.svg"
+                  alt="Uploaded Preview"
+                  className="rounded-t-3xl "
+                  width={400}
+                  height={200}
+                  ref={imgRef}
+                />
+              </div>
+            ) : (
+              <div className="p-5 h-[900px] overflow-y-auto">
+                <div className="flex flex-col gap-6">
+                  <div className="relative">
+                    <p className="font-semibold text-2xl mb-5">Overlay Image</p>
+                    <div className="relative flex justify-center items-center">
+                      <Image
+                        src={overlay}
+                        alt="overlay Image"
+                        className="w-full rounded-3xl border"
+                        width={350}
+                        height={100}
+                      />
+                      <div className="absolute top-0 right-0 bg-white border-r border-t rounded-tr-3xl text-white w-25 h-10 flex items-center justify-around text-sm cursor-pointer">
+                        <div className="cursor-pointer" onClick={() => handleFullScreen(overlay)}>
+                          <Image src="/images/user/GenerateDFX/Full Screen.svg" alt="fullscreen" width={24} height={24} />
+                        </div>
+                        <Image src="/images/user/GenerateDFX/Share.svg" alt="share" width={24} height={24} />
+                        <Image src="/images/user/GenerateDFX/download.svg" alt="download" width={24} height={24} onClick={() => handleDownload(overlay)} />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="relative">
+                    <p className="font-semibold text-2xl mb-5">DXF Preview</p>
+                    <div className="relative flex justify-center items-center">
+                      <Image
+                        src={preview}
+                        alt="preview Image"
+                        width={350}
+                        height={100}
+                        className="w-full border rounded-3xl"
+                      />
+                      <div className="absolute shadow-card top-0 right-0 bg-white border-r border-t rounded-tr-3xl text-white w-25 h-10 flex items-center justify-around text-sm cursor-pointer">
+                        <div className="cursor-pointer">
+                          <Image src="/images/user/GenerateDFX/Full Screen.svg" alt="fullscreen" width={24} height={24} onClick={() => handleFullScreen(preview)} />
+                        </div>
+                        <Image src="/images/user/GenerateDFX/Share.svg" alt="share" width={24} height={24} />
+                        <Image src="/images/user/GenerateDFX/download.svg" alt="download" width={24} height={24} onClick={() => handleDownload(preview)} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-6 mt-10">
+                  <div className="relative">
+                    <p className="font-semibold text-2xl mb-5">Mask</p>
+                    <div className="relative flex justify-center items-center rounded-3xl">
+                      <Image
+                        src={mask}
+                        alt="mask Image"
+                        width={350}
+                        height={100}
+                        className="w-full rounded-3xl border"
+                      />
+                      <div className="absolute top-0 right-0 bg-white border-r border-t rounded-tr-3xl text-white w-25 h-10 flex items-center justify-around text-sm cursor-pointer">
+                        <div className="cursor-pointer" onClick={() => handleFullScreen(mask)}>
+                          <Image src="/images/user/GenerateDFX/Full Screen.svg" alt="fullscreen" width={24} height={24} />
+                        </div>
+                        <Image src="/images/user/GenerateDFX/Share.svg" alt="share" width={24} height={24} />
+                        <Image src="/images/user/GenerateDFX/download.svg" alt="download" width={24} height={24} onClick={() => handleDownload(mask)} />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="relative h-64">
+                    <p className="font-semibold text-2xl mb-5">DXF File</p>
+                    <p className="bg-white p-3 rounded-full flex justify-between">
+                      <span>{dfxFile.split("/").pop()}</span>
+                      <span className="flex">
+                        <p className='font-medium text-lg'> {fileSize}kb</p>
+                        <Image className='cursor-pointer' src="/images/user/GenerateDFX/download.svg" alt="download" width={30} height={30} onClick={() => handleDownload(dfxFile)} />
+                      </span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+            )}
           </div>
         </div>
       </div >
@@ -515,7 +595,7 @@ function Input() {
       </Modal>
 
       {/* output */}
-      <BilingModal isOpen={isOutputOpen} onClose={onClose} buttonContent={<Image src="/images/user/cross.svg" alt="cross" width={20} height={20} />}>
+      {/* <BilingModal isOpen={isProcessed} onClose={onClose} buttonContent={<Image src="/images/user/cross.svg" alt="cross" width={20} height={20} />}>
         <div className=''>
           <p className='font-semibold text-3xl'>Output Data</p>
           <div className='flex gap-6 mt-5'>
@@ -669,7 +749,7 @@ function Input() {
 
           </div>
         </div>
-      </BilingModal>
+      </BilingModal> */}
 
       {isBilingOpen && <Subscribe isBilingOpen={isBilingOpen} setIsBilingOpen={setIsBilingOpen} />}
 

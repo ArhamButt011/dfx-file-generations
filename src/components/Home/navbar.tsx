@@ -23,7 +23,7 @@ function Navbar() {
       <nav className="absolute z-50 w-full md:px-20 px-5 border-b-2 border-[#0000001A] pb-5 md:pb-0 mt-5 ">
         <div className="flex justify-center items-center w-full">
           <div className=" w-full flex flex-wrap items-center justify-between mx-auto ">
-            <div className="md:flex justify-between w-full pb-4 hidden ">
+            <div className="lg:flex justify-between w-full pb-4 hidden ">
               <Image
                 className="w-[259.2px] h-[56px] mob:w-[175.89px] mob:h-[38px] z-50"
                 src="/images/user/home/user_login.svg"
@@ -144,6 +144,25 @@ function Navbar() {
                     FAQ&apos;s
                   </a>
                 </li>
+                <li>
+                  <a
+                    href='#contact'
+                    onClick={(e) => {
+                      e.preventDefault()
+                      handleTabChange('/contact')
+                      document.getElementById('contact')?.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start',
+                      })
+                    }}
+                    className={`block text-xl font-inter font-light text-[#00000080] leading-[25.5px] hover:text-[#266CA8] ${activeTab === '/contact'
+                      ? 'text-[#266CA8]'
+                      : 'text-[#00000080]'
+                      }`}
+                  >
+                    Contact Us
+                  </a>
+                </li>
               </ul>
 
               <Link
@@ -154,7 +173,7 @@ function Navbar() {
               </Link>
             </div>
 
-            <div className="md:hidden w-full flex  justify-between">
+            <div className="lg:hidden w-full flex  justify-between">
               <div
                 className="relative cursor-pointer flex justify-between w-full items-center  pt-[5px]"
                 onClick={() => {
@@ -304,10 +323,29 @@ function Navbar() {
                           FAQ&apos;s
                         </a>
                       </li>
+                      <li>
+                        <a
+                          href='#contact'
+                          onClick={(e) => {
+                            e.preventDefault()
+                            handleTabChange('/contact')
+                            document.getElementById('contact')?.scrollIntoView({
+                              behavior: 'smooth',
+                              block: 'start',
+                            })
+                          }}
+                          className={`block text-xl font-inter font-light text-[#00000080] leading-[25.5px] hover:text-[#266CA8] ${activeTab === '/contact'
+                            ? 'text-[#266CA8]'
+                            : 'text-[#00000080]'
+                            }`}
+                        >
+                          Contact Us
+                        </a>
+                      </li>
                       <Link
                         href="/user"
                         className="bg-[#266CA8] text-white rounded-full mt-2 flex h-[10%] px-3 py-2"
-                        onClick={()=>onClose()}
+                        onClick={() => onClose()}
                       >
                         Login/Signup
                       </Link>
