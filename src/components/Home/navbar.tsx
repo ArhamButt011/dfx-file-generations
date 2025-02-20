@@ -20,11 +20,11 @@ function Navbar() {
   }, [])
   return (
     <>
-      <nav className="fixed lg:absolute z-50 w-full md:px-20 px-5 border-b-2 border-[#0000001A] pb-5 md:pb-0 top-0 bg-white items-center">
+      <nav className="fixed xl:absolute z-50 w-full md:px-20  px-5 border-b-2 border-[#0000001A]  md:pb-0 top-0 bg-white items-center">
 
         <div className="flex justify-center items-center w-full">
           <div className=" w-full flex flex-wrap items-center justify-between mx-auto ">
-            <div className="lg:flex justify-between w-full py-4 hidden ">
+            <div className="xl:flex justify-between w-full py-4 hidden ">
               <Image
                 className="w-[259.2px] h-[56px] mob:w-[175.89px] mob:h-[38px] z-50"
                 src="/images/user/home/user_login.svg"
@@ -33,7 +33,7 @@ function Navbar() {
                 height={100}
               />
 
-              <ul className="font-light  items-center mob:px-4  z-50 flex flex-col py-4 md:p-0 mt-4 gap-[24px] md:flex-row  rtl:space-x-reverse md:mt-0 ">
+              <ul className="font-light  items-center mob:px-4  z-50 flex flex-col py-4 md:p-0 mt-4 gap-[24px] md:flex-row  md:mt-0 ">
                 <li>
                   <Link
                     href="#"
@@ -174,7 +174,7 @@ function Navbar() {
               </Link>
             </div>
 
-            <div className="lg:hidden w-full flex  justify-between">
+            <div className="xl:hidden w-full flex  justify-between py-2">
               <div
                 className="relative cursor-pointer flex justify-between w-full items-center  pt-[5px]"
                 onClick={() => {
