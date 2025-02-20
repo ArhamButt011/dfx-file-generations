@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 // import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -23,6 +23,17 @@ interface SidebarProps {
   sidebarOpen: boolean
   setSidebarOpen: (arg: boolean) => void
   setIsBilingOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+interface UserPlan {
+  plan_name: string;
+  duration: number;
+  user_id: string;
+  added_on: string;
+  expiry_on: string;
+  charges: number;
+  added_date: string;
+  expiry_date: string;
 }
 
 const menuGroups = [
@@ -55,10 +66,37 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, setIsBilingOpen }: SidebarProps)
   const [pageName, setPageName] = useLocalStorage('selectedMenu', 'dashboard');
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const { logout, userData } = useAuth();
+  const [userPlan, setUserPlan] = useState<UserPlan | null>(null);
   const handleLogoutClick = () => {
     logout()
     window.location.href = '/user'
   }
+
+  const userId = userData?.id;
+
+  useEffect(() => {
+    async function fetchUserPlan() {
+      try {
+        const response = await fetch('/api/user/get-user-plan', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ user_id: userId }),
+        });
+
+        const data = await response.json();
+        if (data?.subscription) {
+          setUserPlan(data.subscription);
+        }
+      } catch (error) {
+        console.error('Error fetching user plan:', error);
+      }
+    }
+
+    if (userId) {
+      fetchUserPlan();
+    }
+  }, [userId]);
+
   return (
     <ClickOutside onClick={() => setSidebarOpen(false)}>
       <aside
@@ -98,7 +136,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, setIsBilingOpen }: SidebarProps)
             ))}
           </nav>
 
-          <div className='bg-[#FFFFFF] flex flex-col justify-center rounded-2xl mx-5 p-5 mb-5'>
+          {/* <div className='bg-[#FFFFFF] flex flex-col justify-center rounded-2xl mx-5 p-5 mb-5'>
             <div>
               <h1 className='font-medium text-xl mb-2'>New Update</h1>
             </div>
@@ -120,7 +158,34 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, setIsBilingOpen }: SidebarProps)
                 Upgrade
               </div>
             </div>
-          </div>
+          </div> */}
+
+          {userPlan && userPlan.plan_name !== "Free" && userPlan.plan_name !== "Premium" && (
+            <div className='bg-[#FFFFFF] flex flex-col justify-center rounded-2xl mx-5 p-5 mb-5'>
+              <div>
+                <h1 className='font-medium text-xl mb-2'>New Update</h1>
+              </div>
+              <div className='flex justify-between items-center mx-2'>
+                <span className='text-[#00000066] text-sm'>
+                  Upgrade to Premium to unlock unlimited downloads and exclusive customer support
+                </span>
+                <span>
+                  <svg width="59" height="50" viewBox="0 0 59 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M57.0244 1.4129C56.9412 1.10105 56.621 0.915666 56.3091 0.998826L51.2273 2.35399C50.9154 2.43715 50.73 2.75736 50.8132 3.06921C50.8964 3.38106 51.2166 3.56645 51.5284 3.48329L56.0456 2.2787L57.2502 6.79591C57.3334 7.10776 57.6536 7.29314 57.9654 7.20999C58.2773 7.12683 58.4627 6.80661 58.3795 6.49476L57.0244 1.4129ZM1.44873 49.7763L18.2502 20.8404L17.2395 20.2535L0.437992 49.1894L1.44873 49.7763ZM23.5995 21.5516L27.9956 37.9639L29.1246 37.6615L24.7284 21.2492L23.5995 21.5516ZM35.4872 38.9551L56.9654 1.85627L55.954 1.27068L34.4757 38.3695L35.4872 38.9551ZM27.9956 37.9639C28.938 41.4821 33.6623 42.1071 35.4872 38.9551L34.4757 38.3695C33.1722 40.6209 29.7977 40.1745 29.1246 37.6615L27.9956 37.9639ZM18.2502 20.8404C19.5557 18.5921 22.9268 19.0403 23.5995 21.5516L24.7284 21.2492C23.7867 17.7334 19.0671 17.1059 17.2395 20.2535L18.2502 20.8404Z" fill="#266CA8" />
+                  </svg>
+                </span>
+              </div>
+              <div className='text-center mt-3 cursor-pointer'>
+                <div
+                  className="bg-[#266CA8] text-white rounded-2xl py-1 font-semibold"
+                  onClick={() => setIsBilingOpen(true)}
+                >
+                  Upgrade
+                </div>
+              </div>
+            </div>
+          )}
+
 
           <div className='lg:hidden flex justify-center'>
             <div onClick={() => setDropdownOpen(!dropdownOpen)} className="relative">

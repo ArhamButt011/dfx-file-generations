@@ -168,7 +168,6 @@ const UserLogin = () => {
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setLoading(true)
-
     try {
       if (/\s/.test(loginForm.password)) {
         Swal.fire({
@@ -234,7 +233,7 @@ const UserLogin = () => {
 
   const validateEmail = (email: string): boolean => {
     const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    return regex.test(email);
+    return regex.test(email.trim());
   };
 
   const handleNewAccountSubmit = async (e: React.FormEvent) => {
@@ -1021,7 +1020,7 @@ const UserLogin = () => {
             <p className="font-medium md:text-xl text-sm text-[#00000080]">
               Please enter the verification code sent to
               <span className="underline text-black block">
-                <strong>{emailSend}</strong>
+                <span className='font-[550]'>{emailSend}</span>
               </span>
             </p>
           </div>

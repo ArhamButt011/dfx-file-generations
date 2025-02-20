@@ -23,7 +23,7 @@ export async function POST(req: Request) {
     const user = await db.collection('users').findOneAndUpdate(
       { email: normalizedEmail },
       { $set: { otp: randomOTP } },
-      { returnDocument: 'after' }, // Optionally, specify to return the document after the update
+      { returnDocument: 'after' },
     )
 
     await EmailService(email, randomOTP.toString())

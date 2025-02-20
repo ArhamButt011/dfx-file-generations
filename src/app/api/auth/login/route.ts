@@ -2,9 +2,7 @@
 // import bcrypt from 'bcryptjs'
 // import jwt from 'jsonwebtoken'
 // import clientPromise from '@/lib/mongodb'
-
 // const SECRET_KEY = process.env.NEXT_JWT_SECRET as string
-
 // export async function POST(req: Request) {
 //   try {
 //     const { loginForm } = await req.json()

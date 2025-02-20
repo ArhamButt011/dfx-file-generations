@@ -34,7 +34,7 @@ function Hero() {
                     <div className='flex flex-col items-center md:mt-0 mt-10 md:w-1/3'>
                         <Image src="/images/user/home/fast.svg" alt="" className='' width={120} height={100} />
                         <p className='font-bold text-[30px] text-center w-[80%] mt-5'>Custom Offset Parameter</p>
-                        <p className='text-center text-[#00000066] text-[21px] mx-auto font-medium max-w-[80%]'>Save time with our intuitive interface. Upload your design files, preview the results, and download your DXF file in just a few clicks.</p>
+                        <p className='text-center text-[#00000066] text-[21px] mx-auto font-medium max-w-[70%]'>Save time with our intuitive interface. Upload your design files, preview the results, and download your DXF file in just a few clicks.</p>
                     </div>
                     {/* access Anytime */}
                     <div className='flex flex-col items-center md:mt-0 mt-10 md:w-1/3'>
