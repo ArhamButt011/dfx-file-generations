@@ -94,7 +94,7 @@ const UserDetails: React.FC = () => {
 
   return (
     <>
-      <div className="flex justify-between bg-[#F5F5F5] rounded-2xl p-5 flex-col md:flex-row h-[218px]">
+      <div className="flex justify-between bg-[#F5F5F5] rounded-2xl p-5 flex-col md:flex-row">
         <div className="flex flex-col md:flex-row gap-4">
           <div className="">
             <Image
@@ -105,19 +105,19 @@ const UserDetails: React.FC = () => {
               className="rounded-3xl"
             />
           </div>
-          <div className="mt-2">
-            <h1 className="text-[28.42px] font-semibold text-[#000000]">
+          <div className="flex justify-center flex-col">
+            <h1 className="text-[32.6px] font-semibold text-[#000000]">
               {userData?.name}
             </h1>
             <div className="flex items-center gap-2 mt-2">
               <span>
-                <Image src={email} alt="email" />
+                <Image src={email} alt="email" width={23} height={18} />
               </span>
-              <span className="text-primary text-[16.42px] font-medium">
+              <span className="text-primary text-[18.84px] font-medium">
                 {userData?.email}
               </span>
             </div>
-            <p className="mt-13">
+            <p className="mt-2">
               <span className="text-primary text-[18.27px] font-medium">
                 Added On:{' '}
               </span>

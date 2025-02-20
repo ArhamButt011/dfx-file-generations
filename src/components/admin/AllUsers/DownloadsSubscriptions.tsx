@@ -35,7 +35,6 @@ const DownloadsSubscriptions = () => {
     const currentDate = new Date()
     const expiryDateObj = new Date(expiryDate)
 
-    // Compare current date with expiry date
     return currentDate < expiryDateObj ? 'Current' : 'Past'
   }
 
