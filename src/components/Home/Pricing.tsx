@@ -130,7 +130,7 @@ function Pricing() {
                         <div
                             key={item.id}
                             className={clsx(
-                                "border p-4 w-full rounded-3xl flex flex-col justify-between md:w-1/3 xl:w-1/4 2xl:w-1/5",
+                                "border p-4 w-4/5 rounded-3xl flex flex-col justify-between md:w-1/3 xl:w-1/4 2xl:w-1/5",
                                 item.id === 1 && "h-[490px] lg:h-[540px] xl:h-[540px]",
                                 item.id === 2 && "h-[550px] lg:h-[600px] xl:h-[600px]",
                                 item.id === 3 && "h-[490px] lg:h-[540px] xl:h-[540px]"

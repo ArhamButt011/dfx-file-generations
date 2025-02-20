@@ -9,7 +9,7 @@ function Sample() {
             {/* upper images */}
             <div className="flex md:flex-row flex-col justify-center md:mt-10 mt-5 lg:mx-14 2xl:mx-24 md:gap-10 gap-22 items-start">
                 {/* Left Image */}
-                <div className="relative md:w-1/3 lg:w-full aspect-square">
+                <div className="relative md:w-2/3  aspect-square">
                     <div className="relative w-full h-full">
                         <Image src="/images/user/home/sample/input.svg" alt="overlay Image" fill />
                     </div>
@@ -20,7 +20,7 @@ function Sample() {
                 </div>
 
                 {/* Right Image */}
-                <div className="relative md:w-1/3 lg:w-full aspect-square mt-0">
+                <div className="relative md:w-2/3  aspect-square mt-0">
                     <div className="relative w-full h-full">
                         <Image src="/images/user/home/sample/mask.svg" alt="preview Image" fill />
                     </div>
@@ -35,7 +35,7 @@ function Sample() {
             {/* lower images */}
             <div className="flex md:flex-row flex-col justify-center md:mt-10 mt-50 lg:mx-14 2xl:mx-24   md:gap-10 gap-22 items-start">
                 {/* Left Image */}
-                <div className="relative md:w-1/3 lg:w-2/3 aspect-square ">
+                <div className="relative md:w-2/3 aspect-square ">
                     <div className="relative w-full h-full">
                         <Image
                             src="/images/user/home/sample/overlay.svg"
@@ -50,7 +50,7 @@ function Sample() {
 
 
                 {/* Right Image */}
-                <div className="relative md:w-1/3 lg:w-2/3 aspect-square md:mt-0 mt-30">
+                <div className="relative md:w-2/3  aspect-square md:mt-0 mt-30">
                     <div className="relative w-full h-full">
                         <Image
                             src="/images/user/home/sample/preview.svg"
