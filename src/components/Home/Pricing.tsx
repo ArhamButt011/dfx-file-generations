@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
-
+import clsx from "clsx";
 type included = {
     id: number
     text: string
@@ -124,14 +124,22 @@ function Pricing() {
             <p className='font-bold md:text-[55px] text-[40px] text-center md:max-w-[80%] mx-auto'><span className='text-[#266CAB]'>Our </span> Pricing Plans</p>
             <p className='text-center text-[#00000066] md:text-[29px] text-[23px] mx-auto font-medium md:max-w-[90%]'>Choose a plan that fits your needs, and let&apos;s start designing together.</p>
             <div>
-                
+
                 <div className="flex md:flex-row flex-col justify-center md:justify-between xl:justify-center gap-4 mt-10 items-center">
                     {bilingPlans.map((item) => (
                         <div
                             key={item.id}
-                            className="border p-4 w-full rounded-3xl flex flex-col justify-between  md:w-1/3 xl:w-1/4 2xl:w-1/5"
-                            style={{ height: `${item.height}vh`, background: `${item.backgroundColor}`, color: `${item.textColor}` }}
+                            className={clsx(
+                                "border p-4 w-full rounded-3xl flex flex-col justify-between md:w-1/3 xl:w-1/4 2xl:w-1/5",
+                                item.id === 1 && "h-[490px] lg:h-[540px] xl:h-[540px]",
+                                item.id === 2 && "h-[550px] lg:h-[600px] xl:h-[600px]",
+                                item.id === 3 && "h-[490px] lg:h-[540px] xl:h-[540px]"
+                            )}
+                            style={{ background: item.backgroundColor, color: item.textColor }}
                         >
+
+
+
                             <div>
                                 <p className="font-medium text-base " style={{ color: `${item.smallTextColor}` }}>
                                     {item.desc}

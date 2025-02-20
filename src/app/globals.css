@@ -34,3 +34,14 @@ body {
   z-index: 10001 !important;
 }
 
+@media (min-width: 1024px) { /* lg */
+  .pricing-box:nth-child(1) { height: 50vh !important; }
+  .pricing-box:nth-child(2) { height: 60vh !important; }
+  .pricing-box:nth-child(3) { height: 50vh !important; }
+}
+
+@media (min-width: 1280px) { /* xl */
+  .pricing-box:nth-child(1) { height: 40vh !important; }
+  .pricing-box:nth-child(2) { height: 50vh !important; }
+  .pricing-box:nth-child(3) { height: 40vh !important; }
+}

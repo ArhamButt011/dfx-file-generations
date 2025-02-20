@@ -53,9 +53,9 @@ function Working() {
         <div className='max-w-[90%] mx-auto  md:py-0 pt-30 pb-20' id='working'>
             <p className='font-bold md:text-[55px] text-[40px] text-center max-w-[80%] mx-auto'><span className='text-[#266CAB]'>How </span>It Works</p>
             <p className='text-center text-[#00000066] md:text-[29px] text-[23px] mx-auto font-medium md:max-w-[90%]'>Our DXF Generator simplifies the file creation process, offering an intuitive and user-friendly experience powered by advanced AI</p>
-            <div className="md:flex gap-50 justify-between   mt-10 hidden relative">
+            <div className="md:flex gap-30 justify-between   mt-10 hidden relative">
                 {/* Left Section */}
-                <div className="w-1/2 ">
+                <div className="w-full ">
                     {data.left.map((item, index) => (
                         <div
                             key={item.id}
@@ -64,7 +64,7 @@ function Working() {
                             {item.image ? (
                                 <div className="flex justify-end">
                                     <Image
-                                        className="w-10/12"
+                                        className="w-full"
                                         src={item.image}
                                         alt={index + ""}
                                         width={300}
@@ -73,7 +73,7 @@ function Working() {
                                 </div>
                             ) : (
                                 <div className="flex justify-end">
-                                    <div className="text-left w-10/12">
+                                    <div className="text-left w-full">
                                         <p className="font-semibold text-4xl">{item.title}</p>
                                         <p className="font-medium text-2xl text-[#00000066]">{item.description}</p>
                                     </div>
@@ -129,7 +129,7 @@ function Working() {
 
 
                 {/* right */}
-                <div className='w-1/2'>
+                <div className='w-full'>
                     {data.right.map((item, index) => (
                         <div
                             key={item.id}
@@ -139,7 +139,7 @@ function Working() {
                         >
                             {item.image ? (
                                 <Image
-                                    className="w-10/12"
+                                    className="w-full"
                                     src={item.image}
                                     alt={index + ""}
                                     width={300}
@@ -148,7 +148,7 @@ function Working() {
                             ) : (
                                 <>
                                     <div className="flex justify-start">
-                                        <div className="text-left w-10/12">
+                                        <div className="text-left w-full">
                                             <p className="font-semibold text-4xl">{item.title}</p>
                                             <p className="font-medium text-2xl text-[#00000066]">{item.description}</p>
                                         </div>
