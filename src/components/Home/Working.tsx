@@ -149,7 +149,7 @@ function Working() {
                                 <>
                                     <div className="flex justify-start">
                                         <div className="text-left w-full">
-                                            <p className="font-semibold text-4xl">{item.title}</p>
+                                            <p className="font-semibold text-4xl ">{item.title}</p>
                                             <p className="font-medium text-2xl text-[#00000066]">{item.description}</p>
                                         </div>
                                     </div>
@@ -207,7 +207,7 @@ function Working() {
                                             {item.title && (
                                                 <div className="my-3">
                                                     <p className="font-semibold text-xl">{item.title}</p>
-                                                    <p className="font-medium text-sm text-[#00000066] max-w-[500px]">
+                                                    <p className="font-medium text-base text-[#00000066] max-w-[500px]">
                                                         {item.description}
                                                     </p>
                                                 </div>

@@ -27,9 +27,9 @@ type DataItem = {
 const bilingPlans: DataItem[] = [
     {
         id: 1,
-        desc: 'Free Plan',
+        desc: '',
         title: 'Free Trial',
-        price: '$0.00/month',
+        price: 'Free',
         include: [
             {
                 id: 1,
@@ -146,13 +146,16 @@ function Pricing() {
                                 </p>
                                 <p className="font-semibold text-3xl">{item.title}</p>
                                 <p className="mt-6">
-                                    <span className="text-4xl font-semibold " style={{ color: `${item.priceColor}` }}>
-                                        {item.price.split('/')[0]}
+                                    <span className="text-4xl font-semibold" style={{ color: item.priceColor }}>
+                                        {item.price.includes("/") ? item.price.split("/")[0] : item.price}
                                     </span>
-                                    <span className="text-base font-medium" style={{ color: `${item.smallTextColor}` }}>
-                                        /{item.price.split('/')[1]}
-                                    </span>
+                                    {item.price.includes("/") && (
+                                        <span className="text-base font-medium" style={{ color: item.smallTextColor }}>
+                                            /{item.price.split("/")[1]}
+                                        </span>
+                                    )}
                                 </p>
+
                                 <p className="font-semibold text-base mt-5 mb-2">What&apos;s Included</p>
                                 {item.include.map((inc) => (
                                     <div key={inc.id} className="flex items-start pb-2">

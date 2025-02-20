@@ -7,42 +7,48 @@ function Sample() {
             <p className='font-bold md:text-[55px] text-[40px] text-center md:max-w-[80%] mx-auto'><span className='text-[#266CAB]'>Sample </span>Images</p>
             <p className='text-center text-[#00000066] md:text-[29px] text-[23px] mx-auto font-medium max-w-[90%]'>See how our software transforms the input image into precise, production-ready DXF files for your custom tool drawer inserts.</p>
             {/* upper images */}
-            <div className="flex md:flex-row flex-col justify-center md:mt-10 mt-5 lg:mx-14 2xl:mx-24 md:gap-10 gap-22 items-start">
+            <div className="flex md:flex-row flex-col justify-center md:mt-10 mt-5 lg:mx-14 2xl:mx-24 md:gap-10 gap-[40px] items-start">
                 {/* Left Image */}
-                <div className="relative md:w-2/3  aspect-square">
-                    <div className="relative w-full h-full">
-                        <Image src="/images/user/home/sample/input.svg" alt="overlay Image" fill />
-                    </div>
+                <div className="relative md:w-2/3 w-full h-auto md:h-auto">
+                    <Image
+                        src="/images/user/home/sample/input.svg"
+                        alt="overlay Image"
+                        width={500}
+                        height={500}
+                        className="w-full h-auto"
+                    />
                     <p className="text-start mt-5 font-semibold text-4xl">Input Image</p>
-                    <p className="font-medium md:text-xl text-lg text-[#00000080] invisible">
-                        DXF contours (in red) overlayed onto the input image with the optional offset parameter applied, allowing users to confirm accurate tool edge detection.
-                    </p>
+                    
                 </div>
 
                 {/* Right Image */}
-                <div className="relative md:w-2/3  aspect-square mt-0">
-                    <div className="relative w-full h-full">
-                        <Image src="/images/user/home/sample/mask.svg" alt="preview Image" fill />
-                    </div>
+                <div className="relative md:w-2/3 w-full h-auto md:h-auto mt-0">
+                    <Image
+                        src="/images/user/home/sample/mask.svg"
+                        alt="preview Image"
+                        width={500}
+                        height={500}
+                        className="w-full h-auto"
+                    />
                     <p className="text-start mt-5 font-semibold text-4xl">Mask</p>
-                    {/* Removed the text but maintained the alignment */}
                     <p className="font-medium md:text-xl text-lg text-[#00000080]">
-                    Isolates tool contours, providing the precise geometry needed to generate accurate DXF contours.
+                        Isolates tool contours, providing the precise geometry needed to generate accurate DXF contours.
                     </p>
                 </div>
             </div>
 
+
             {/* lower images */}
-            <div className="flex md:flex-row flex-col justify-center md:mt-10 mt-50 lg:mx-14 2xl:mx-24   md:gap-10 gap-22 items-start">
+            <div className="flex md:flex-row flex-col justify-center mt-10  lg:mx-14 2xl:mx-24   md:gap-10 gap-[50px] items-start">
                 {/* Left Image */}
-                <div className="relative md:w-2/3 aspect-square ">
-                    <div className="relative w-full h-full">
-                        <Image
-                            src="/images/user/home/sample/overlay.svg"
-                            alt="overlay Image"
-                            fill
-                        />
-                    </div>
+                <div className="relative md:w-2/3 w-full h-auto md:h-auto ">
+                    <Image
+                        src="/images/user/home/sample/overlay.svg"
+                        alt="overlay Image"
+                        width={500}
+                        height={500}
+                        className="w-full h-auto"
+                    />
                     <p className="text-start mt-5 font-semibold text-4xl">Overlay</p>
                     <p className='font-medium md:text-xl text-lg text-[#00000080]'>DXF contours (in red) overlayed onto the input image with the optional offset parameter applied, allowing users to confirm accurate tool edge detection.</p>
 
@@ -50,14 +56,14 @@ function Sample() {
 
 
                 {/* Right Image */}
-                <div className="relative md:w-2/3  aspect-square md:mt-0 mt-30">
-                    <div className="relative w-full h-full">
-                        <Image
-                            src="/images/user/home/sample/preview.svg"
-                            alt="preview Image"
-                            fill
-                        />
-                    </div>
+                <div className="relative md:w-2/3 w-full h-auto md:h-auto mt-0">
+                <Image
+                        src="/images/user/home/sample/preview.svg"
+                        alt="preview Image"
+                        width={500}
+                        height={500}
+                        className="w-full h-auto"
+                    />
                     <p className="text-start mt-5 font-semibold text-4xl">DXF Preview</p>
                     <p className='font-medium md:text-xl text-lg text-[#00000080]'>Previews the DXF contours generated by the software (optional bounding box not included in this DXF).</p>
                 </div>
