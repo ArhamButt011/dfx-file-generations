@@ -150,22 +150,22 @@ const DownloadsSubscriptions = () => {
                   <th className="pb-4 px-4 border-b text-start font-medium">
                     Sr No
                   </th>
-                  <th className="pb-4 px-4 border-b text-start font-medium">
+                  <th className="pb-4 px-4 border-b text-center font-medium">
                     Plan name
                   </th>
-                  <th className="pb-4 px-4 border-b text-start font-medium">
+                  <th className="pb-4 px-4 border-b text-center font-medium">
                     Duration
                   </th>
-                  <th className="pb-4 px-4 border-b text-start font-medium">
+                  <th className="pb-4 px-4 border-b text-center font-medium">
                     Added On
                   </th>
-                  <th className="pb-4 px-4 border-b text-start font-medium">
+                  <th className="pb-4 px-4 border-b text-center font-medium">
                     Expiry Date
                   </th>
-                  <th className="pb-4 px-4 border-b text-start font-medium">
+                  <th className="pb-4 px-4 border-b text-center font-medium">
                     Charges
                   </th>
-                  <th className="pb-4 pl-7 border-b text-start font-medium">
+                  <th className="pb-4 pl-7 border-b text-center font-medium">
                     Status
                   </th>
                 </tr>
@@ -179,24 +179,24 @@ const DownloadsSubscriptions = () => {
                     <td className="py-5 px-4 text-start font-medium rounded-l-xl">
                       #{index + 1}
                     </td>
-                    <td className="py-5 px-4 text-start font-medium text-black text-[19px]">
+                    <td className="py-5 px-4 text-center font-medium text-black text-[19px]">
                       {data?.plan_name}
                     </td>
-                    <td className="py-5 px-4 text-start font-medium">
+                    <td className="py-5 px-4 text-center font-medium">
                       {data?.duration}
                     </td>
-                    <td className="py-5 px-4 text-start font-medium ">
+                    <td className="py-5 px-4 text-center font-medium ">
                       {format(new Date(data?.added_on), 'MMM dd, yyyy')}
                     </td>
-                    <td className="py-5 px-4 text-start font-medium ">
+                    <td className="py-5 px-4 text-center font-medium ">
                       {format(new Date(data?.expiry_on), 'MMM dd, yyyy')}
                     </td>
 
-                    <td className="py-5 px-4 text-start text-[19px] font-medium text-[#266CA8]">
+                    <td className="py-5 px-4 text-center text-[19px] font-medium text-[#266CA8]">
                       ${data?.charges}
                     </td>
                     <td
-                      className={`py-5 px-4 text-start font-medium rounded-r-xl`}
+                      className={`py-5 pl-10 text-center font-medium rounded-r-xl`}
                     >
                       <span
                         className={`${
