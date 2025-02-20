@@ -13,7 +13,7 @@ function Footer() {
                     {/* left */}
                     <div>
                         <Image
-                            className="md:w-90 w-70 z-50"
+                            className="md:w-90 w-64 z-50"
                             src="/images/user/home/user_login.svg"
                             alt="Flowbite Logo"
                             width={387}

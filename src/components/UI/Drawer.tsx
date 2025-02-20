@@ -85,7 +85,7 @@ const Drawer: React.FC<DrawerProps> = ({
             onClick={onClose}
           >
             <Image
-              className="z-10 h-full mt-17 me-10"
+              className="z-10 h-full mt-9 me-10"
               src="/images/user/home/NavbarCross.svg"
               alt="one"
               width={20}
