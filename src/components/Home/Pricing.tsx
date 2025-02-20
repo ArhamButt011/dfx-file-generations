@@ -153,9 +153,9 @@ function Pricing() {
                                         /{item.price.split('/')[1]}
                                     </span>
                                 </p>
-                                <p className="font-semibold text-base mt-5">What&apos;s Included</p>
+                                <p className="font-semibold text-base mt-5 mb-2">What&apos;s Included</p>
                                 {item.include.map((inc) => (
-                                    <div key={inc.id} className="flex items-start gap-2">
+                                    <div key={inc.id} className="flex items-start pb-2">
                                         <Image
                                             src={item.icon}
                                             alt=""

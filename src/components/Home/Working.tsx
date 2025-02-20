@@ -28,7 +28,7 @@ const data: { left: DataItem[]; right: DataItem[] } = {
         {
             id: 2,
             title: "Upload Your Image",
-            description: "Start by uploading your design file in a supported format. Simply drag and drop the file into the upload area or use the “Upload File” Button"
+            description: "Start by uploading your input image in a supported format. Specify your optional contour offset parameter and bounding box dimensions"
         },
         {
             id: 4,

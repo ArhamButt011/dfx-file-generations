@@ -130,7 +130,7 @@ function Footer() {
                                         block: 'start',
                                     })
                                 }}
-                            >Contact US</a>
+                            >Contact Us</a>
                         </div>
                     </div>
                     {/* right */}
@@ -138,7 +138,7 @@ function Footer() {
                 </div>
                 <hr className='my-5' />
                 <div className='flex justify-center md:justify-start md:items-start items-center h-full w-full text-center md:text-start md:ps-14'>
-                    <p className=' text-center md:text-start font-normal text-base text-[#22222280]'>Lumashape LLC | © 2025 | All Rights Reserved</p>
+                    <p className=' text-center  font-normal text-base text-[#22222280]'>Lumashape LLC | © 2025 | All Rights Reserved</p>
                 </div>
             </div>
         </div>
