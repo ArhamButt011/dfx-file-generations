@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import ClickOutside from '../ClickOutside'
@@ -40,6 +40,13 @@ const DropdownUser = () => {
   const handleImageClick = () => {
     fileInputRef.current?.click()
   }
+
+  useEffect(() => {
+    if (userData) {
+      setName(userData.username || '')
+      setProfileImage(userData.image || userImages)
+    }
+  }, [userData])
 
   const handleLogoutClick = () => {
     setIsOpen(true)
