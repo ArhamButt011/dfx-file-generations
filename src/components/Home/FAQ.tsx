@@ -47,13 +47,13 @@ function FAQ() {
     };
     return (
         <div className='max-w-[90%] mx-auto mt-10 md:mt-0' id='faqs'>
-            <p className='font-bold md:text-[55px] text-[40px] text-center md:max-w-[80%] mx-auto'><span className='text-[#266CAB]'>Frequently </span>Asked Questions</p>
+            <p className='font-bold md:text-[55px] text-[40px] text-center md:max-w-[80%] mx-auto'  data-aos="fade-up"><span className='text-[#266CAB]'>Frequently </span>Asked Questions</p>
             {/* <p className='text-center text-[#00000066] md:text-[29px] text-[23px] mx-auto font-medium max-w-[90%]'>Everything you need to know about DXF image generator with spaces and how it works? Here are all of your answers</p> */}
 
             {/* questions */}
             <div className="space-y-4 md:mt-20">
                 {accordionData.map(({ id, question, answer }) => (
-                    <div key={id} className=" bg-[#F2F2F299] md:px-10 px-5 rounded-lg">
+                    <div key={id} className=" bg-[#F2F2F299] md:px-10 px-5 rounded-lg" data-aos="fade-up">
                         <button
                             onClick={() => toggleAccordion(id)}
                             className="w-full flex justify-between items-center py-5 text-slate-800"

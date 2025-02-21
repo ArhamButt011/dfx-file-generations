@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import React from 'react'
-
+import { motion } from 'framer-motion';
 type DataItem = {
     id: number;
     title?: string;
@@ -51,8 +51,15 @@ const stepImages = ["one", "two", "three"];
 function Working() {
     return (
         <div className='max-w-[90%] mx-auto  md:py-0  pb-20' id='working'>
-            <p className='font-bold md:text-[55px] text-[40px] text-center max-w-[80%] mx-auto'><span className='text-[#266CAB]'>How </span>It Works</p>
-            <p className='text-center text-[#00000066] md:text-[29px] text-[23px] mx-auto font-medium md:max-w-[90%]'>Our DXF Generator simplifies the file creation process, offering an intuitive and user-friendly experience powered by advanced AI</p>
+            <motion.div
+                className="w-full"
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1 }}
+                viewport={{ once: false }} >
+                <p className='font-bold md:text-[55px] text-[40px] text-center max-w-[80%] mx-auto'><span className='text-[#266CAB]'>How </span>It Works</p>
+                <p className='text-center text-[#00000066] md:text-[29px] text-[23px] mx-auto font-medium md:max-w-[90%]'>Our DXF Generator simplifies the file creation process, offering an intuitive and user-friendly experience powered by advanced AI</p>
+            </motion.div>
             <div className="relative hidden md:grid [grid-template-columns:2fr_auto_2fr] gap-10 mt-10 items-start">
                 {/* Continuous vertical line that spans from just below image 1 to just above image 3 */}
                 <div
@@ -63,7 +70,12 @@ function Working() {
                 {data.left.map((item, index) => (
                     <React.Fragment key={item.id}>
                         {/* Left Section */}
-                        <div className="flex justify-end items-center relative z-10">
+                        <motion.div
+                            className="flex justify-end items-center relative z-10"
+                            initial={{ opacity: 0, x: -50 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.8 }}
+                            viewport={{ once: false }}  >
                             {item.image ? (
                                 <Image
                                     className="w-full"
@@ -80,22 +92,33 @@ function Working() {
                                     </p>
                                 </div>
                             )}
-                        </div>
+                        </motion.div>
 
                         {/* Center Section (Step Images) */}
-                        <div className="flex flex-col justify-center relative z-10">
+                        <motion.div
+                            className="flex flex-col justify-center relative z-10"
+                            initial={{ opacity: 0, y: 50 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 1 }}
+                            viewport={{ once: false }}>
                             <Image
                                 className="w-24 h-24"
                                 src={`/images/user/home/${stepImages[index]}.svg`}
                                 alt={`step-${stepImages[index]}`}
                                 width={96}
                                 height={96}
+
                             />
                             {/* Removed the per-row line */}
-                        </div>
+                        </motion.div>
 
                         {/* Right Section */}
-                        <div className="flex justify-start items-start relative z-10">
+                        <motion.div
+                            className="flex justify-start items-start relative z-10"
+                            initial={{ opacity: 0, x: 50 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.8 }}
+                            viewport={{ once: false }}  >
                             {data.right[index]?.image ? (
                                 <Image
                                     className="w-full"
@@ -112,7 +135,7 @@ function Working() {
                                     </p>
                                 </div>
                             )}
-                        </div>
+                        </motion.div>
                     </React.Fragment>
                 ))}
             </div>

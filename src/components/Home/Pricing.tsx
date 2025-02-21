@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import clsx from "clsx";
+import { motion } from 'framer-motion';
 type included = {
     id: number
     text: string
@@ -54,7 +55,7 @@ const bilingPlans: DataItem[] = [
         id: 2,
         desc: 'Pay Per Download',
         title: 'Basic',
-        price: '$10.00/File',
+        price: '$20/Download',
         include: [
             {
                 id: 1,
@@ -62,7 +63,7 @@ const bilingPlans: DataItem[] = [
             },
             {
                 id: 2,
-                text: 'Purchase DXF files individually for $10 per download.',
+                text: 'Purchase DXF files individually for $20 per download.',
             },
             {
                 id: 3,
@@ -87,7 +88,7 @@ const bilingPlans: DataItem[] = [
         id: 3,
         desc: 'Unlimited Plan',
         title: 'Premium',
-        price: '$100.00/Month',
+        price: '$50/Month',
         include: [
             {
                 id: 1,
@@ -121,19 +122,41 @@ const bilingPlans: DataItem[] = [
 function Pricing() {
     return (
         <div className='max-w-[90%] mx-auto md:py-20' id='pricing'>
-            <p className='font-bold md:text-[55px] text-[40px] text-center md:max-w-[80%] mx-auto'><span className='text-[#266CAB]'>Our </span> Pricing Plans</p>
-            <p className='text-center text-[#00000066] md:text-[29px] text-[23px] mx-auto font-medium md:max-w-[90%]'>Choose a plan that fits your needs, and let&apos;s start designing together.</p>
+            <motion.div
+                className='w-full'
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1 }}
+                viewport={{ once: false }}
+            >
+                <p className='font-bold md:text-[55px] text-[40px] text-center md:max-w-[80%] mx-auto'><span className='text-[#266CAB]'>Our </span> Pricing Plans</p>
+                <p className='text-center text-[#00000066] md:text-[29px] text-[23px] mx-auto font-medium md:max-w-[90%]'>Choose a plan that fits your needs, and let&apos;s start designing together.</p>
+            </motion.div>
             <div>
 
                 <div className="flex md:flex-row flex-col justify-center md:justify-between xl:justify-center gap-4 mt-10 items-center">
                     {bilingPlans.map((item) => (
-                        <div
+                        <motion.div
                             key={item.id}
+                            // Set the initial animation state based on the item id
+                            initial={
+                                item.id === 1
+                                    ? { opacity: 0, x: -50 }   // coming in from the left
+                                    : item.id === 2
+                                        ? { opacity: 0, y: 50 }    // coming in from the bottom
+                                        : item.id === 3
+                                            ? { opacity: 0, x: 50 }    // coming in from the right
+                                            : { opacity: 0 }
+                            }
+                            // When in view, animate to these properties
+                            whileInView={{ opacity: 1, x: 0, y: 0 }}
+                            transition={{ duration: 0.8 }}
+                            viewport={{ once: true }}
                             className={clsx(
-                                "border p-4 w-4/5 rounded-3xl flex flex-col justify-between md:w-1/3 xl:w-1/4 2xl:w-1/5",
-                                item.id === 1 && "h-[490px] lg:h-[540px] xl:h-[540px]",
-                                item.id === 2 && "h-[550px] lg:h-[600px] xl:h-[600px]",
-                                item.id === 3 && "h-[490px] lg:h-[540px] xl:h-[540px]"
+                                "border p-4 w-4/5 rounded-3xl flex flex-col justify-between",
+                                item.id === 1 && "h-[490px] lg:h-[540px] xl:h-[540px] md:w-1/3 xl:w-1/4 2xl:w-1/5",
+                                item.id === 2 && "h-[550px] lg:h-[600px] xl:h-[600px] md:w-1/2 xl:w-1/3 2xl:w-1/4",
+                                item.id === 3 && "h-[490px] lg:h-[540px] xl:h-[540px] md:w-1/3 xl:w-1/4 2xl:w-1/5"
                             )}
                             style={{ background: item.backgroundColor, color: item.textColor }}
                         >
@@ -176,7 +199,7 @@ function Pricing() {
                             <Link href="/user" className="mt-4 py-2 px-4 rounded-full text-center" style={{ color: `${item.buttonTextColor}`, background: `${item.buttonColor}` }}>
                                 {item.buttonText}
                             </Link>
-                        </div>
+                        </motion.div>
                     ))}
                 </div>
             </div>
