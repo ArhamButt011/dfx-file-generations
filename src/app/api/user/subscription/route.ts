@@ -72,7 +72,7 @@
 import { NextResponse } from 'next/server'
 import { MongoClient, ObjectId } from 'mongodb'
 import clientPromise from '@/lib/mongodb'
-import { addNotification } from '../../admin/notifications/route'
+import { addNotification } from '@/lib/notifications'
 
 const uri = process.env.mongodbString as string
 const client = new MongoClient(uri)

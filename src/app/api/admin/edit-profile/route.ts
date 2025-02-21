@@ -3,7 +3,7 @@ import fs from 'node:fs/promises'
 import { ObjectId } from 'mongodb'
 import jwt from 'jsonwebtoken'
 import clientPromise from '@/lib/mongodb'
-import { addNotification } from '../notifications/route'
+import { addNotification } from '@/lib/notifications'
 
 const SECRET_KEY = process.env.NEXT_JWT_SECRET as string
 

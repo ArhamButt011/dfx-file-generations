@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs'
 import clientPromise from '@/lib/mongodb'
 // import nodemailer from 'nodemailer';
 import EmailService from '@/app/api/emailService'
-import { addNotification } from '../../admin/notifications/route'
+import { addNotification } from '@/lib/notifications'
 
 export async function POST(req: Request) {
   try {
