@@ -56,8 +56,8 @@ function Working() {
             <div className="relative hidden md:grid [grid-template-columns:2fr_auto_2fr] gap-10 mt-10 items-start">
                 {/* Continuous vertical line that spans from just below image 1 to just above image 3 */}
                 <div
-                    className="absolute left-1/2 transform -translate-x-1/2 lg:bottom-[28%] md:bottom-[20%] bg-black opacity-60"
-                    style={{ top: '96px', width: '0.5px' }}
+                    className="absolute left-1/2 transform -translate-x-1/2 lg:bottom-[28%] md:bottom-[20%] bg-[#0000001A] "
+                    style={{ top: '96px', width: '3px' }}
                 ></div>
 
                 {data.left.map((item, index) => (
