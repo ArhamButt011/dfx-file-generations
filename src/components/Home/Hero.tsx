@@ -71,7 +71,7 @@ function Hero() {
                     {/* access Anytime */}
                     <motion.div
                         className='flex flex-col items-center md:mt-0 mt-10 md:w-1/3'
-                        initial={{ opacity: 0, x: 50 }}
+                        initial={{ opacity: 0, x: -50 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         transition={{ duration: 1 }}
                         viewport={{ once: false }}  >
