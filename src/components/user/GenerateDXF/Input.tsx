@@ -157,17 +157,17 @@ function Input() {
     if (!res.ok) {
       throw new Error('Failed to create subscription');
     }
-
-    if (!image || !contour) {
+    if (!image || contour === undefined || contour === null) {
       Swal.fire({
         title: 'Error!',
         text: 'Please give both image and contour offset',
         icon: 'error',
         showConfirmButton: false,
         timer: 2000,
-      })
+      });
       return;
     }
+
 
     //pass data to AI api
     setisProcessingOpen(true);
@@ -333,7 +333,7 @@ function Input() {
                   >
                     {image ? (
                       <div
-                        className="relative  flex justify-center items-center w-full h-[500px]"
+                        className="relative  flex justify-center items-center w-full md:h-[500px] h-[300px]"
                         onMouseMove={handleMouseMove}
                         onMouseLeave={() => setLensPos({ ...lensPos, visible: false })}>
                         <Image
@@ -467,7 +467,7 @@ function Input() {
                         fill="currentColor"
                       />
                     </svg>
-                    
+
                     <svg
                       width="36"
                       height="36"
@@ -502,13 +502,18 @@ function Input() {
                   <input
                     type="number"
                     className="border rounded-full w-full p-3 my-5 bg-[#F2F2F2]"
-                    placeholder='0.075'
+                    placeholder="0"
                     value={contour ?? ""}
                     onChange={(e) => {
                       const value = e.target.value;
-                      setContour(value !== "" ? parseFloat(value) : undefined);
+
+                      // Allow only positive integers (including 0)
+                      if (/^\d*$/.test(value)) {
+                        setContour(value !== "" ? parseInt(value, 10) : undefined);
+                      }
                     }}
                   />
+
 
                   <div className="flex justify-between gap-4 my-8">
                     <button type='reset' className='w-1/2 bg-white p-3 rounded-full text-[#00000080] font-medium text-2xl'>Clear</button>
@@ -634,7 +639,7 @@ function Input() {
         </>
       </Modal >
 
-      
+
 
       {isBilingOpen && <Subscribe isBilingOpen={isBilingOpen} setIsBilingOpen={setIsBilingOpen} />}
 

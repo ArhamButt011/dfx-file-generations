@@ -47,118 +47,108 @@ const desiredOrder = [1, 2, 4, 3, 5, 6];
 const combinedArray = [...data.left, ...data.right].sort(
     (a, b) => desiredOrder.indexOf(a.id) - desiredOrder.indexOf(b.id)
 );
-
+// const stepImages = ["one", "two", "three"];
 function Working() {
     return (
-        <div className='max-w-[90%] mx-auto  md:py-0 pt-30 pb-20' id='working'>
+        <div className='max-w-[90%] mx-auto  md:py-0  pb-20' id='working'>
             <p className='font-bold md:text-[55px] text-[40px] text-center max-w-[80%] mx-auto'><span className='text-[#266CAB]'>How </span>It Works</p>
             <p className='text-center text-[#00000066] md:text-[29px] text-[23px] mx-auto font-medium md:max-w-[90%]'>Our DXF Generator simplifies the file creation process, offering an intuitive and user-friendly experience powered by advanced AI</p>
-            <div className="md:flex gap-30 justify-between   mt-10 hidden relative">
-                {/* Left Section */}
-                <div className="w-full ">
-                    {data.left.map((item, index) => (
-                        <div
-                            key={item.id}
-                            className={`relative ${index === 1 ? 'mt-28 xl:mt-20' : index === 2 ? 'mt-60' : ''}`}
-                        >
-                            {item.image ? (
-                                <div className="flex justify-end">
-                                    <Image
-                                        className="w-full"
-                                        src={item.image}
-                                        alt={index + ""}
-                                        width={300}
-                                        height={100}
-                                    />
-                                </div>
-                            ) : (
-                                <div className="flex justify-end">
-                                    <div className="text-left w-full">
-                                        <p className="font-semibold text-4xl">{item.title}</p>
-                                        <p className="font-medium text-2xl text-[#00000066]">{item.description}</p>
-                                    </div>
-                                </div>
-
-
-                            )}
-                        </div>
-                    ))}
-                </div>
-
-                {/* Center Section - Fixed Position */}
-                <div className="absolute left-1/2 transform -translate-x-1/2 flex items-center justify-center">
-                    <div className="items-center">
-                        <Image
-                            className="z-10 h-full w-2/3 mx-auto"
-                            src="/images/user/home/one.svg"
-                            alt="one"
-                            width={35}
-                            height={100}
-                        />
-                        <Image
-                            className="z-0 h-full opacity-60 mx-auto"
-                            src="/images/user/home/line.svg"
-                            alt="centerline"
-                            width={5}
-                            height={100}
-                        />
-                        <Image
-                            className="z-10 h-full w-2/3 mx-auto 2xl:-mt-5 xl:-mt-36 lg:-mt-32"
-                            src="/images/user/home/two.svg"
-                            alt="two"
-                            width={35}
-                            height={100}
-                        />
-                        <Image
-                            className="z-0 h-full opacity-60 mx-auto"
-                            src="/images/user/home/line.svg"
-                            alt="centerline"
-                            width={5}
-                            height={100}
-                        />
-                        <Image
-                            className="z-10 h-full w-2/3 mx-auto"
-                            src="/images/user/home/three.svg"
-                            alt="three"
-                            width={35}
-                            height={100}
-                        />
-                    </div>
-                </div>
-
-
-
-                {/* right */}
-                <div className='w-full'>
-                    {data.right.map((item, index) => (
-                        <div
-                            key={item.id}
-                            className={`relative ${index === 1 ? 'xl:mt-30 2xl:mt-65 lg:mt-28' : index === 2 ? '2xl:mt-28 xl:mt-44 lg:mt-50' : ''}`}
-
-
-                        >
+            <div className="hidden md:grid [grid-template-columns:2fr_auto_2fr] gap-10 mt-10 relative items-start">
+                {data.left.map((item, index) => (
+                    <React.Fragment key={item.id}>
+                        {/* Left Section */}
+                        <div className="flex justify-end items-center">
                             {item.image ? (
                                 <Image
                                     className="w-full"
                                     src={item.image}
-                                    alt={index + ""}
+                                    alt={`left-${index}`}
                                     width={300}
                                     height={100}
                                 />
                             ) : (
-                                <>
-                                    <div className="flex justify-start">
-                                        <div className="text-left w-full">
-                                            <p className="font-semibold text-4xl ">{item.title}</p>
-                                            <p className="font-medium text-2xl text-[#00000066]">{item.description}</p>
-                                        </div>
-                                    </div>
-                                </>
+                                <div className="text-left w-full">
+                                    <p className="font-semibold text-4xl">{item.title}</p>
+                                    <p className="font-medium md:text-2xl text-base text-[#00000066]">
+                                        {item.description}
+                                    </p>
+                                </div>
                             )}
                         </div>
-                    ))}
-                </div>
+
+                        {/* Center Section (Step Images) */}
+                        <div className="flex flex-col items-center justify-center w-[120px]">
+                            {/* Step One */}
+                            <div className="flex justify-center">
+                                <Image
+                                    className="z-10 w-24 h-24"
+                                    src="/images/user/home/one.svg"
+                                    alt="one"
+                                    width={96}
+                                    height={96}
+                                />
+                            </div>
+                            {/* Line between One and Two */}
+                            <Image
+                                className="z-0 h-full opacity-60 mx-auto"
+                                src="/images/user/home/line.svg"
+                                alt="centerline"
+                                width={5}
+                                height={100}
+                            />
+                            {/* Step Two */}
+                            <div className="flex justify-center">
+                                <Image
+                                    className="z-10 w-24 h-24"
+                                    src="/images/user/home/two.svg"
+                                    alt="two"
+                                    width={96}
+                                    height={96}
+                                />
+                            </div>
+                            {/* Line between Two and Three */}
+                            <Image
+                                className="z-0 h-full opacity-60 mx-auto"
+                                src="/images/user/home/line.svg"
+                                alt="centerline"
+                                width={5}
+                                height={100}
+                            />
+                            {/* Step Three */}
+                            <div className="flex justify-center">
+                                <Image
+                                    className="z-10 w-24 h-24"
+                                    src="/images/user/home/three.svg"
+                                    alt="three"
+                                    width={96}
+                                    height={96}
+                                />
+                            </div>
+                        </div>
+
+                        {/* Right Section */}
+                        <div className="flex justify-start items-start">
+                            {data.right[index]?.image ? (
+                                <Image
+                                    className="w-full"
+                                    src={data.right[index].image}
+                                    alt={`right-${index}`}
+                                    width={300}
+                                    height={100}
+                                />
+                            ) : (
+                                <div className="text-left w-full">
+                                    <p className="font-semibold text-4xl">{data.right[index]?.title}</p>
+                                    <p className="font-medium md:text-2xl text-base text-[#00000066]">
+                                        {data.right[index]?.description}
+                                    </p>
+                                </div>
+                            )}
+                        </div>
+                    </React.Fragment>
+                ))}
             </div>
+
             <div className="flex gap-[10px] justify-center mx-auto mt-10 md:hidden">
                 {/* line */}
                 <div className="flex flex-col  -ml-5">
