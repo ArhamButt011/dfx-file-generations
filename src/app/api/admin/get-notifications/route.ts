@@ -1,13 +1,42 @@
 import { NextResponse } from 'next/server'
 import clientPromise from '@/lib/mongodb'
+import { ObjectId } from 'mongodb'
+
+interface Notification {
+  _id: ObjectId
+  userId: ObjectId
+  message: string
+  type: string
+  isReadable: boolean
+  createdAt: Date
+}
+
+interface User {
+  _id: ObjectId
+  name: string
+  email: string
+  image: string
+}
 
 export async function GET() {
   try {
     const client = await clientPromise
     const db = client.db('DFXFileGeneration')
-    const notificationsCollection = db.collection('notifications')
-    const users = await db.collection('users').find().toArray()
-    const allNotifications = []
+    const notificationsCollection = db.collection<Notification>('notifications')
+    const usersCollection = db.collection<User>('users')
+
+    const users = await usersCollection.find().toArray()
+    const allNotifications: Array<{
+      _id: ObjectId
+      user_id: ObjectId
+      user_name: string
+      email: string
+      image: string
+      message: string
+      type: string
+      isReadable: boolean
+      createdAt: Date
+    }> = []
 
     for (const user of users) {
       const filter = { userId: user._id }
@@ -33,6 +62,11 @@ export async function GET() {
         )
       }
     }
+
+    // **Sort all notifications globally by createdAt**
+    allNotifications.sort(
+      (a, b) => b.createdAt.getTime() - a.createdAt.getTime(),
+    )
 
     return NextResponse.json({
       allNotifications,

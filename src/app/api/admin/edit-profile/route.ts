@@ -83,7 +83,7 @@ export async function PUT(req: Request) {
         role: updatedUser.role,
       },
       SECRET_KEY,
-      { expiresIn: '12h' },
+      { expiresIn: '24h' },
     )
 
     if (updatedUser.role !== 'admin' && (updateData.name || updateData.image)) {
