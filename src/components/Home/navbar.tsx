@@ -40,6 +40,10 @@ function Navbar() {
                     onClick={(e) => {
                       e.preventDefault()
                       handleTabChange('/home')
+                      document.getElementById('home')?.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start',
+                      })
                     }}
                     className={`block text-xl font-inter text-[#00000080] font-light leading-[25.5px] hover:text-[#266CA8] ${activeTab === '/home'
                       ? 'text-[#266CA8]'
@@ -177,7 +181,7 @@ function Navbar() {
             <div className="xl:hidden w-full flex  justify-between py-2">
               <div
                 className="relative cursor-pointer flex justify-between w-full items-center  pt-[5px]"
-                
+
               >
                 <Image
                   className="z-50"
@@ -185,7 +189,7 @@ function Navbar() {
                   alt="Logo"
                   width={180}
                   height={180}
-                  
+
                 />
                 <button
                   type="button"
@@ -220,7 +224,10 @@ function Navbar() {
                           onClick={(e) => {
                             e.preventDefault()
                             handleTabChange('/home')
-
+                            document.getElementById('home')?.scrollIntoView({
+                              behavior: 'smooth',
+                              block: 'start',
+                            })
                           }}
                           className={` text-xl text-[#00000080] font-light leading-[25.5px] hover:text-[#266CA8] ${activeTab === '/home'
                             ? 'text-[#266CA8]'

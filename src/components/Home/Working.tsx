@@ -47,17 +47,23 @@ const desiredOrder = [1, 2, 4, 3, 5, 6];
 const combinedArray = [...data.left, ...data.right].sort(
     (a, b) => desiredOrder.indexOf(a.id) - desiredOrder.indexOf(b.id)
 );
-// const stepImages = ["one", "two", "three"];
+const stepImages = ["one", "two", "three"];
 function Working() {
     return (
         <div className='max-w-[90%] mx-auto  md:py-0  pb-20' id='working'>
             <p className='font-bold md:text-[55px] text-[40px] text-center max-w-[80%] mx-auto'><span className='text-[#266CAB]'>How </span>It Works</p>
             <p className='text-center text-[#00000066] md:text-[29px] text-[23px] mx-auto font-medium md:max-w-[90%]'>Our DXF Generator simplifies the file creation process, offering an intuitive and user-friendly experience powered by advanced AI</p>
-            <div className="hidden md:grid [grid-template-columns:2fr_auto_2fr] gap-10 mt-10 relative items-start">
+            <div className="relative hidden md:grid [grid-template-columns:2fr_auto_2fr] gap-10 mt-10 items-start">
+                {/* Continuous vertical line that spans from just below image 1 to just above image 3 */}
+                <div
+                    className="absolute left-1/2 transform -translate-x-1/2 lg:bottom-[28%] md:bottom-[20%] bg-black opacity-60"
+                    style={{ top: '96px', width: '0.5px' }}
+                ></div>
+
                 {data.left.map((item, index) => (
                     <React.Fragment key={item.id}>
                         {/* Left Section */}
-                        <div className="flex justify-end items-center">
+                        <div className="flex justify-end items-center relative z-10">
                             {item.image ? (
                                 <Image
                                     className="w-full"
@@ -77,57 +83,19 @@ function Working() {
                         </div>
 
                         {/* Center Section (Step Images) */}
-                        <div className="flex flex-col items-center justify-center w-[120px]">
-                            {/* Step One */}
-                            <div className="flex justify-center">
-                                <Image
-                                    className="z-10 w-24 h-24"
-                                    src="/images/user/home/one.svg"
-                                    alt="one"
-                                    width={96}
-                                    height={96}
-                                />
-                            </div>
-                            {/* Line between One and Two */}
+                        <div className="flex flex-col justify-center relative z-10">
                             <Image
-                                className="z-0 h-full opacity-60 mx-auto"
-                                src="/images/user/home/line.svg"
-                                alt="centerline"
-                                width={5}
-                                height={100}
+                                className="w-24 h-24"
+                                src={`/images/user/home/${stepImages[index]}.svg`}
+                                alt={`step-${stepImages[index]}`}
+                                width={96}
+                                height={96}
                             />
-                            {/* Step Two */}
-                            <div className="flex justify-center">
-                                <Image
-                                    className="z-10 w-24 h-24"
-                                    src="/images/user/home/two.svg"
-                                    alt="two"
-                                    width={96}
-                                    height={96}
-                                />
-                            </div>
-                            {/* Line between Two and Three */}
-                            <Image
-                                className="z-0 h-full opacity-60 mx-auto"
-                                src="/images/user/home/line.svg"
-                                alt="centerline"
-                                width={5}
-                                height={100}
-                            />
-                            {/* Step Three */}
-                            <div className="flex justify-center">
-                                <Image
-                                    className="z-10 w-24 h-24"
-                                    src="/images/user/home/three.svg"
-                                    alt="three"
-                                    width={96}
-                                    height={96}
-                                />
-                            </div>
+                            {/* Removed the per-row line */}
                         </div>
 
                         {/* Right Section */}
-                        <div className="flex justify-start items-start">
+                        <div className="flex justify-start items-start relative z-10">
                             {data.right[index]?.image ? (
                                 <Image
                                     className="w-full"
@@ -148,6 +116,8 @@ function Working() {
                     </React.Fragment>
                 ))}
             </div>
+
+
 
             <div className="flex gap-[10px] justify-center mx-auto mt-10 md:hidden">
                 {/* line */}
