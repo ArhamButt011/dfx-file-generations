@@ -1,15 +1,29 @@
 import Image from 'next/image'
 import React from 'react'
+import { motion } from 'framer-motion';
+
 
 function Sample() {
     return (
         <div className='max-w-[90%] mx-auto md:py- py-20 ' id='sample'>
-            <p className='font-bold md:text-[55px] text-[40px] text-center md:max-w-[80%] mx-auto'><span className='text-[#266CAB]'>Sample </span>Images</p>
-            <p className='text-center text-[#00000066] md:text-[29px] text-[23px] mx-auto font-medium max-w-[90%]'>See how our software transforms the input image into precise, production-ready DXF files for your custom tool drawer inserts.</p>
+            <motion.div
+                className="w-full"
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1 }}
+                viewport={{ once: false }} >
+                <p className='font-bold md:text-[55px] text-[40px] text-center md:max-w-[80%] mx-auto'><span className='text-[#266CAB]'>Sample </span>Images</p>
+                <p className='text-center text-[#00000066] md:text-[29px] text-[23px] mx-auto font-medium max-w-[90%]'>See how our software transforms the input image into precise, production-ready DXF files for your custom tool drawer inserts.</p>
+            </motion.div>
             {/* upper images */}
             <div className="flex md:flex-row flex-col justify-center md:mt-10 mt-5 lg:mx-14 2xl:mx-24 md:gap-10 gap-[40px] items-start">
                 {/* Left Image */}
-                <div className="relative md:w-2/3 w-full h-auto md:h-auto">
+                <motion.div
+                    className="relative md:w-2/3 w-full h-auto md:h-auto"
+                    initial={{ opacity: 0, y: 50 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 1 }}
+                    viewport={{ once: false }} >
                     <Image
                         src="/images/user/home/sample/input.svg"
                         alt="overlay Image"
@@ -18,11 +32,16 @@ function Sample() {
                         className="w-full h-auto"
                     />
                     <p className="text-start mt-5 font-semibold text-4xl">Input Image</p>
-                    
-                </div>
+
+                </motion.div>
 
                 {/* Right Image */}
-                <div className="relative md:w-2/3 w-full h-auto md:h-auto mt-0">
+                <motion.div
+                    className="relative md:w-2/3 w-full h-auto md:h-auto mt-0"
+                    initial={{ opacity: 0, y: -50 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8 }}
+                    viewport={{ once: false }} >
                     <Image
                         src="/images/user/home/sample/mask.svg"
                         alt="preview Image"
@@ -34,14 +53,19 @@ function Sample() {
                     <p className="font-medium md:text-2xl text-lg text-[#00000080]">
                         Isolates tool contours, providing the precise geometry needed to generate accurate DXF contours.
                     </p>
-                </div>
+                </motion.div>
             </div>
 
 
             {/* lower images */}
             <div className="flex md:flex-row flex-col justify-center mt-10  lg:mx-14 2xl:mx-24   md:gap-10 gap-[50px] items-start">
                 {/* Left Image */}
-                <div className="relative md:w-2/3 w-full h-auto md:h-auto ">
+                <motion.div
+                    className="relative md:w-2/3 w-full h-auto md:h-auto "
+                    initial={{ opacity: 0, y: -50 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8 }}
+                    viewport={{ once: false }} >
                     <Image
                         src="/images/user/home/sample/overlay.svg"
                         alt="overlay Image"
@@ -52,12 +76,17 @@ function Sample() {
                     <p className="text-start mt-5 font-semibold text-4xl">Overlay</p>
                     <p className='font-medium md:text-2xl text-lg text-[#00000080]'>DXF contours (in red) overlayed onto the input image with the optional offset parameter applied, allowing users to confirm accurate tool edge detection.</p>
 
-                </div>
+                </motion.div>
 
 
                 {/* Right Image */}
-                <div className="relative md:w-2/3 w-full h-auto md:h-auto mt-0">
-                <Image
+                <motion.div
+                    className="relative md:w-2/3 w-full h-auto md:h-auto mt-0"
+                    initial={{ opacity: 0, y: 50 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8 }}
+                    viewport={{ once: false }} >
+                    <Image
                         src="/images/user/home/sample/preview.svg"
                         alt="preview Image"
                         width={500}
@@ -66,7 +95,7 @@ function Sample() {
                     />
                     <p className="text-start mt-5 font-semibold text-4xl">DXF Preview</p>
                     <p className='font-medium md:text-2xl text-lg text-[#00000080]'>Previews the DXF contours generated by the software (optional bounding box not included in this DXF).</p>
-                </div>
+                </motion.div>
             </div>
         </div>
     )

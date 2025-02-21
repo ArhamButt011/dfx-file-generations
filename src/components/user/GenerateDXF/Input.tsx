@@ -6,6 +6,7 @@ import React, { useState, FormEvent, useEffect, useRef } from 'react'
 import Swal from 'sweetalert2';
 import { useAuth } from '@/context/AuthContext';
 import Subscribe from '../Subscription/Subscribe';
+import { BeatLoader } from 'react-spinners';
 interface UserPlan {
   plan_name: string;
   duration: number;
@@ -19,9 +20,9 @@ interface UserPlan {
 
 
 function Input() {
-  const [image, setImage] = useState<string | null>(null);
+  const [image, setImage] = useState<string>("");
   const { userData } = useAuth();
-  const [contour, setContour] = useState<number>();
+  const [contour, setContour] = useState<string>("");
   const [dragging, setDragging] = useState<boolean>(false);
   const [isProcessingOpen, setisProcessingOpen] = useState<boolean>(false);
   const [isProcessed, setIsProcessed] = useState<boolean>(false);
@@ -33,12 +34,15 @@ function Input() {
   const [fileSize, setFileSize] = useState<number | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const imgRef = useRef<HTMLImageElement>(null);
-  const [lensPos, setLensPos] = useState({ x: 0, y: 0, visible: false });
+  const lensRef = useRef<HTMLImageElement>(null);
+
+  // const [lensPos, setLensPos] = useState({ x: 0, y: 0, visible: false });
   const [isMagnifierActive, setIsMagnifierActive] = useState(false);
   const [isBilingOpen, setIsBilingOpen] = useState(false); // New state for Subscribe modal
   const [userPlan, setUserPlan] = useState<UserPlan | null>(null);
   const userId = userData?.id;
   const [clicked, setClicked] = useState(false);
+  const zoom = 3, lensSize = 150
   useEffect(() => {
     async function fetchUserPlan() {
       try {
@@ -62,21 +66,74 @@ function Input() {
     }
   }, [userId]);
 
+  useEffect(() => {
+    if (!isMagnifierActive || !image) return; // Only attach event listeners if magnifier is active
 
-  const handleMouseMove = (e: React.MouseEvent) => {
+    const img = imgRef.current;
+    const lens = lensRef.current;
+    if (!img || !lens) return; // Check if refs are available
 
-    if (!isMagnifierActive || !imgRef.current) return;
+    // Set up the background for the lens using the source image
+    lens.style.backgroundImage = `url('${image}')`;
+    lens.style.backgroundSize = `${img.width * zoom}px ${img.height * zoom}px`;
 
-    const img = imgRef.current.getBoundingClientRect();
-    const width = img.width;
-    const height = img.height;
-    let x = e.clientX - img.left;
-    let y = e.clientY - img.top;
-    // Ensure the lens stays inside the image
-    x = Math.max(100 / 2, Math.min(x, width - 100 / 2));
-    y = Math.max(100 / 2, Math.min(y, height - 100 / 2));
-    setLensPos({ x, y, visible: true });
-  };
+    const moveLens = (e: MouseEvent) => {
+      e.preventDefault();
+      const pos = getCursorPos(e);
+      let x = pos.x - lensSize / 2;
+      let y = pos.y - lensSize / 2;
+
+      // Prevent the lens from going outside the image
+      if (x > img.width - lensSize) x = img.width - lensSize;
+      if (x < 0) x = 0;
+      if (y > img.height - lensSize) y = img.height - lensSize;
+      if (y < 0) y = 0;
+
+      // Move the lens to the correct position
+      lens.style.left = `${x}px`;
+      lens.style.top = `${y}px`;
+
+      // Correct background positioning  
+      const bgX = (-pos.x * zoom) + lensSize / 2;
+      const bgY = (-pos.y * zoom) + lensSize / 2;
+
+      lens.style.backgroundPosition = `${bgX}px ${bgY}px`;
+    };
+
+
+    const getCursorPos = (e: MouseEvent) => {
+      const rect = img.getBoundingClientRect();
+      const x = e.pageX - rect.left - window.pageXOffset;
+      const y = e.pageY - rect.top - window.pageYOffset;
+      return { x, y };
+    };
+
+    // Attach event listeners only when active
+    img.addEventListener('mousemove', moveLens);
+    lens.addEventListener('mousemove', moveLens);
+
+    // Clean up event listeners on unmount or when deactivated
+    return () => {
+      img.removeEventListener('mousemove', moveLens);
+      lens.removeEventListener('mousemove', moveLens);
+    };
+  }, [isMagnifierActive]);
+
+
+  // const handleMouseMove = (e: React.MouseEvent) => {
+
+  //   if (!isMagnifierActive || !imgRef.current) return;
+
+  //   const img = imgRef.current.getBoundingClientRect();
+  //   const width = img.width;
+  //   const height = img.height;
+  //   let x = e.clientX - img.left;
+  //   let y = e.clientY - img.top;
+  //   // Ensure the lens stays inside the image
+  //   x = Math.max(100 / 2, Math.min(x, width - 100 / 2));
+  //   y = Math.max(100 / 2, Math.min(y, height - 100 / 2));
+  //   setLensPos({ x, y, visible: true });
+  // };
 
   const onClose = () => {
     setisProcessingOpen(false);
@@ -101,7 +158,19 @@ function Input() {
         };
         reader.readAsDataURL(file);
       } else {
-        alert("Please upload an image file");
+        Swal.fire({
+          title: "Error",
+          text: "Please upload an image file",
+          icon: "error",
+          showConfirmButton: false,
+          timer: 2000,
+          didOpen: () => {
+            const swalContainer = document.querySelector('.swal2-container') as HTMLElement;
+            if (swalContainer) {
+              swalContainer.style.setProperty('z-index', '100000', 'important');
+            }
+          }
+        })
       }
     }
   };
@@ -164,6 +233,12 @@ function Input() {
         icon: 'error',
         showConfirmButton: false,
         timer: 2000,
+        didOpen: () => {
+          const swalContainer = document.querySelector('.swal2-container') as HTMLElement;
+          if (swalContainer) {
+            swalContainer.style.setProperty('z-index', '100000', 'important');
+          }
+        }
       });
       return;
     }
@@ -200,19 +275,19 @@ function Input() {
         text: err instanceof Error ? err.message : String(err),
         icon: "error",
         showConfirmButton: false,
-        timer: 2000
+        timer: 2000,
+        didOpen: () => {
+          const swalContainer = document.querySelector('.swal2-container') as HTMLElement;
+          if (swalContainer) {
+            swalContainer.style.setProperty('z-index', '100000', 'important');
+          }
+        }
       })
     }
     finally {
       setisProcessingOpen(false);
     }
 
-    // setisProcessingOpen(true);
-    // setTimeout(() => {
-    //   onClose();
-    //   setIsProcessed(true);
-    // }, 5000);
-    // setIsProcessed(true);
   }
 
 
@@ -240,7 +315,20 @@ function Input() {
         document.body.removeChild(link);
         window.URL.revokeObjectURL(blobUrl); // Clean up memory
       })
-      .catch(error => console.error("Error downloading the image:", error));
+      .catch(err =>
+        Swal.fire({
+          title: "Error",
+          text: err instanceof Error ? err.message : String(err),
+          icon: "error",
+          showConfirmButton: false,
+          timer: 2000,
+          didOpen: () => {
+            const swalContainer = document.querySelector('.swal2-container') as HTMLElement;
+            if (swalContainer) {
+              swalContainer.style.setProperty('z-index', '100000', 'important');
+            }
+          }
+        }));
   };
 
   const getFileSize = async (url: string) => {
@@ -248,8 +336,20 @@ function Input() {
       const response = await fetch(url, { method: "HEAD" }); // Fetch only headers
       const size = response.headers.get("Content-Length"); // Get file size in bytes
       return size ? parseInt(size, 10) / 1024 : 0; // Convert bytes to KB
-    } catch (error) {
-      console.error("Error fetching file size:", error);
+    } catch (err) {
+      Swal.fire({
+        title: "Error",
+        text: err instanceof Error ? err.message : String(err),
+        icon: "error",
+        showConfirmButton: false,
+        timer: 2000,
+        didOpen: () => {
+          const swalContainer = document.querySelector('.swal2-container') as HTMLElement;
+          if (swalContainer) {
+            swalContainer.style.setProperty('z-index', '100000', 'important');
+          }
+        }
+      })
       return 0;
     }
   };
@@ -297,11 +397,34 @@ function Input() {
           fileInputRef.current.dispatchEvent(event);
         }
       } else {
-        alert("No image found in clipboard. Copy an image first!");
+        Swal.fire({
+          title: "Error",
+          text: "No image found in clipboard. Copy an image first!",
+          icon: "error",
+          showConfirmButton: false,
+          timer: 2000,
+          didOpen: () => {
+            const swalContainer = document.querySelector('.swal2-container') as HTMLElement;
+            if (swalContainer) {
+              swalContainer.style.setProperty('z-index', '100000', 'important');
+            }
+          }
+        })
       }
-    } catch (error) {
-      console.error("Failed to paste image:", error);
-      alert("Clipboard access failed. Make sure you have copied an image.");
+    } catch (err) {
+      Swal.fire({
+        title: "Error",
+        text: err instanceof Error ? err.message : String(err),
+        icon: "error",
+        showConfirmButton: false,
+        timer: 2000,
+        didOpen: () => {
+          const swalContainer = document.querySelector('.swal2-container') as HTMLElement;
+          if (swalContainer) {
+            swalContainer.style.setProperty('z-index', '100000', 'important');
+          }
+        }
+      })
     }
   };
 
@@ -334,8 +457,7 @@ function Input() {
                     {image ? (
                       <div
                         className="relative  flex justify-center items-center w-full md:h-[500px] h-[300px]"
-                        onMouseMove={handleMouseMove}
-                        onMouseLeave={() => setLensPos({ ...lensPos, visible: false })}>
+                      >
                         <Image
                           src={image}
                           alt="Uploaded Preview"
@@ -343,32 +465,19 @@ function Input() {
                           fill
                           ref={imgRef}
                         />
-                        {lensPos.visible && isMagnifierActive && imgRef.current && (
-                          <div
-                            className="absolute w-[100px] h-[100px] border-2 border-gray-400 rounded-full overflow-hidden pointer-events-none"
-                            style={{
-                              left: lensPos.x - 100 / 2,
-                              top: lensPos.y - 100 / 2,
-                              backgroundImage: `url(${image})`,
-                              backgroundSize: `${7 * 100}%`, // Scale up the image
-                              backgroundRepeat: "no-repeat", // Prevents image repetition
-                              backgroundPosition: `-${Math.max(
-                                0,
-                                Math.min(
-                                  (lensPos.x / imgRef.current.width) * (imgRef.current.width * 7) - 100 / 2,
-                                  imgRef.current.width * 7 - 100
-                                )
-                              )}px 
-              -${Math.max(
-                                0,
-                                Math.min(
-                                  (lensPos.y / imgRef.current.height) * (imgRef.current.height * 7) - 100 / 2,
-                                  imgRef.current.height * 7 - 100
-                                )
-                              )}px`,
-                            }}
-                          />
-                        )}
+                        <div
+                          ref={lensRef}
+                          style={{
+                            display: isMagnifierActive ? "block" : "none",
+                            position: "absolute",
+                            border: "3px solid #000",
+                            width: lensSize,
+                            height: lensSize,
+                            opacity: 1,
+                            pointerEvents: "none",
+                          }}
+                        />
+
                         <div
                           className="absolute top-0 right-0 bg-white text-white w-20 h-10 flex items-center justify-around text-sm cursor-pointer rounded-tr-3xl"
                         >
@@ -389,7 +498,7 @@ function Input() {
                             alt="cross"
                             width={14}
                             height={14}
-                            onClick={() => setImage(null)}
+                            onClick={() => { setImage(""); setClicked(false) }}
                           />
                         </div>
                       </div>
@@ -500,19 +609,29 @@ function Input() {
                 <div className='mt-10 '>
                   <p className='font-semibold text-2xl'>Contour Offset Parameter <span className='font-medium text-xl text-[#00000080]'>(inches)</span></p>
                   <input
-                    type="number"
+                    type="text"
+                    inputMode="decimal" // Hint to show a numeric keypad on mobile devices
                     className="border rounded-full w-full p-3 my-5 bg-[#F2F2F2]"
                     placeholder="0"
-                    value={contour ?? ""}
+                    value={contour}
                     onChange={(e) => {
                       const value = e.target.value;
-
-                      // Allow only positive integers (including 0)
-                      if (/^\d*$/.test(value)) {
-                        setContour(value !== "" ? parseInt(value, 10) : undefined);
+                      // Allow only positive decimals (allowing entries like "0.", "0.1", etc.)
+                      if (/^\d*\.?\d*$/.test(value)) {
+                        setContour(value);
+                      }
+                    }}
+                    onBlur={() => {
+                      if (contour !== "") {
+                        const parsed = parseFloat(contour);
+                        if (!isNaN(parsed)) {
+                          setContour(parsed.toString());
+                        }
                       }
                     }}
                   />
+
+
 
 
                   <div className="flex justify-between gap-4 my-8">
@@ -558,7 +677,7 @@ function Input() {
                           <Image src="/images/user/GenerateDFX/Full Screen.svg" alt="fullscreen" width={24} height={24} />
                         </div>
                         <Image src="/images/user/GenerateDFX/Share.svg" alt="share" width={24} height={24} />
-                        <Image src="/images/user/GenerateDFX/download.svg" alt="download" width={24} height={24} onClick={() => handleDownload(overlay)} />
+                        <Image src="/images/user/GenerateDFX/download.svg" alt="download" width={24} height={24} onClick={() => handleDownload(image)} />
                       </div>
                     </div>
                   </div>
@@ -633,7 +752,7 @@ function Input() {
               height={200}
             />
 
-            <p className='font-semibold text-2xl mt-5'>Processing..</p>
+            <p className='font-semibold text-2xl mt-5 flex items-center'>Processing<BeatLoader color="black" /></p>
             <p className='text-center text-[#00000066] font-medium text-lg'>Please wait while we detect contours and generate your DXF file. Usually takes 1-3 minutes.</p>
           </div>
         </>

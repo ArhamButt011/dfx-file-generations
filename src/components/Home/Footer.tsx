@@ -11,7 +11,7 @@ function Footer() {
             <div className='mt-20 bg-[#F7F7F7] py-5'>
                 <div className="flex md:flex-row flex-col max-w-[90%] mx-auto md:justify-center lg:gap-60 md:gap-40 xl:gap-100 2xl:gap-180 justify-between">
                     {/* left */}
-                    <div>
+                    <div >
                         <Image
                             className="md:w-90 w-64 z-50"
                             src="/images/user/home/user_login.svg"
@@ -52,7 +52,7 @@ function Footer() {
 
                         </div>
                     </div>
-                    {/* center */}
+                    {/* right */}
                     <div className='md:mt-0 mt-20'>
                         <p className='font-semibold md:text-3xl text-2xl mb-4'>Quick Links</p>
                         <div className='text-[#22222280] font-medium md:text-2xl text-xl space-y-4 flex flex-col'>
@@ -133,11 +133,10 @@ function Footer() {
                             >Contact Us</a>
                         </div>
                     </div>
-                    {/* right */}
 
                 </div>
                 <hr className='my-5' />
-                <div className='flex justify-center md:justify-start md:items-start items-center h-full w-full text-center md:text-start md:ps-14'>
+                <div className='flex justify-center items-center h-full w-full text-center md:ps-14'>
                     <p className=' text-center  font-normal text-base text-[#22222280]'>Lumashape LLC | © 2025 | All Rights Reserved</p>
                 </div>
             </div>

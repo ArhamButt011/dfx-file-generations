@@ -47,6 +47,12 @@ const UserDetails: React.FC = () => {
           title: 'User Deleted',
           text: 'The user has been deleted successfully.',
           timer: 2000,
+        didOpen: () => {
+          const swalContainer = document.querySelector('.swal2-container') as HTMLElement;
+          if (swalContainer) {
+            swalContainer.style.setProperty('z-index', '100000', 'important');
+          }
+        },
           showConfirmButton: false,
         })
         router.push('/admin/allusers')
