@@ -6,7 +6,7 @@ import React, { useState, FormEvent, useEffect, useRef } from 'react'
 import Swal from 'sweetalert2';
 import { useAuth } from '@/context/AuthContext';
 import Subscribe from '../Subscription/Subscribe';
-import { BeatLoader } from 'react-spinners';
+import { PulseLoader } from 'react-spinners';
 interface UserPlan {
   plan_name: string;
   duration: number;
@@ -330,6 +330,53 @@ function Input() {
           }
         }));
   };
+
+  const handleDownloadDXF = (url: string) => {
+    if (!url) {
+      console.error("No DXF file URL provided for download.");
+      return;
+    }
+
+    // Check if user's plan is expired
+    if (userPlan && new Date(userPlan.expiry_date) < new Date()) {
+      setIsBilingOpen(true);
+      return;
+    }
+
+    fetch(url)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`Failed to download file. Status: ${response.status}`);
+        }
+        return response.blob();
+      })
+      .then(blob => {
+        const blobUrl = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = blobUrl;
+        link.download = url.split("/").pop() || "downloaded_file.dxf"; // Extract filename or fallback
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(blobUrl); // Clean up memory
+      })
+      .catch(err =>
+        Swal.fire({
+          title: "Error",
+          text: err instanceof Error ? err.message : String(err),
+          icon: "error",
+          showConfirmButton: false,
+          timer: 2000,
+          didOpen: () => {
+            const swalContainer = document.querySelector('.swal2-container') as HTMLElement;
+            if (swalContainer) {
+              swalContainer.style.setProperty('z-index', '100000', 'important');
+            }
+          }
+        })
+      );
+  };
+
 
   const getFileSize = async (url: string) => {
     try {
@@ -672,11 +719,11 @@ function Input() {
                         width={350}
                         height={100}
                       />
-                      <div className="absolute top-0 right-0 bg-white border-r border-t rounded-tr-3xl text-white w-25 h-10 flex items-center justify-around text-sm cursor-pointer">
+                      <div className="absolute top-0 right-0 bg-white border-r border-t rounded-tr-3xl text-white w-20 h-10 flex items-center justify-around text-sm cursor-pointer">
                         <div className="cursor-pointer" onClick={() => handleFullScreen(overlay)}>
                           <Image src="/images/user/GenerateDFX/Full Screen.svg" alt="fullscreen" width={24} height={24} />
                         </div>
-                        <Image src="/images/user/GenerateDFX/Share.svg" alt="share" width={24} height={24} />
+                        {/* <Image src="/images/user/GenerateDFX/Share.svg" alt="share" width={24} height={24} /> */}
                         <Image src="/images/user/GenerateDFX/download.svg" alt="download" width={24} height={24} onClick={() => handleDownload(image)} />
                       </div>
                     </div>
@@ -692,11 +739,11 @@ function Input() {
                         height={100}
                         className="w-full border rounded-3xl"
                       />
-                      <div className="absolute shadow-card top-0 right-0 bg-white border-r border-t rounded-tr-3xl text-white w-25 h-10 flex items-center justify-around text-sm cursor-pointer">
+                      <div className="absolute shadow-card top-0 right-0 bg-white border-r border-t rounded-tr-3xl text-white w-20 h-10 flex items-center justify-around text-sm cursor-pointer">
                         <div className="cursor-pointer">
                           <Image src="/images/user/GenerateDFX/Full Screen.svg" alt="fullscreen" width={24} height={24} onClick={() => handleFullScreen(preview)} />
                         </div>
-                        <Image src="/images/user/GenerateDFX/Share.svg" alt="share" width={24} height={24} />
+                        {/* <Image src="/images/user/GenerateDFX/Share.svg" alt="share" width={24} height={24} /> */}
                         <Image src="/images/user/GenerateDFX/download.svg" alt="download" width={24} height={24} onClick={() => handleDownload(preview)} />
                       </div>
                     </div>
@@ -714,11 +761,11 @@ function Input() {
                         height={100}
                         className="w-full rounded-3xl border"
                       />
-                      <div className="absolute top-0 right-0 bg-white border-r border-t rounded-tr-3xl text-white w-25 h-10 flex items-center justify-around text-sm cursor-pointer">
+                      <div className="absolute top-0 right-0 bg-white border-r border-t rounded-tr-3xl text-white w-20 h-10 flex items-center justify-around text-sm cursor-pointer">
                         <div className="cursor-pointer" onClick={() => handleFullScreen(mask)}>
                           <Image src="/images/user/GenerateDFX/Full Screen.svg" alt="fullscreen" width={24} height={24} />
                         </div>
-                        <Image src="/images/user/GenerateDFX/Share.svg" alt="share" width={24} height={24} />
+                        {/* <Image src="/images/user/GenerateDFX/Share.svg" alt="share" width={24} height={24} /> */}
                         <Image src="/images/user/GenerateDFX/download.svg" alt="download" width={24} height={24} onClick={() => handleDownload(mask)} />
                       </div>
                     </div>
@@ -730,7 +777,7 @@ function Input() {
                       <span>{dfxFile.split("/").pop()}</span>
                       <span className="flex">
                         <p className='font-medium text-lg'> {fileSize}kb</p>
-                        <Image className='cursor-pointer' src="/images/user/GenerateDFX/download.svg" alt="download" width={30} height={30} onClick={() => handleDownload(dfxFile)} />
+                        <Image className='cursor-pointer' src="/images/user/GenerateDFX/download.svg" alt="download" width={30} height={30} onClick={() => handleDownloadDXF(dfxFile)} />
                       </span>
                     </p>
                   </div>
@@ -752,7 +799,7 @@ function Input() {
               height={200}
             />
 
-            <p className='font-semibold text-2xl mt-5 flex items-center'>Processing<BeatLoader color="black" /></p>
+            <p className='font-semibold text-2xl mt-5 flex items-center'>Processing <PulseLoader color="black" /></p>
             <p className='text-center text-[#00000066] font-medium text-lg'>Please wait while we detect contours and generate your DXF file. Usually takes 1-3 minutes.</p>
           </div>
         </>
