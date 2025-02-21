@@ -3,6 +3,7 @@ import fs from 'node:fs/promises'
 import { ObjectId } from 'mongodb'
 import jwt from 'jsonwebtoken'
 import clientPromise from '@/lib/mongodb'
+import { addNotification } from '../notifications/route'
 
 const SECRET_KEY = process.env.NEXT_JWT_SECRET as string
 
@@ -37,12 +38,10 @@ export async function PUT(req: Request) {
 
     const updateData: UpdateData = {}
 
-    // Only update name if it's provided and different from existing
     if (name && name !== existingUser.name) {
       updateData.name = name
     }
 
-    // Only update image if a new file is provided
     if (file instanceof File) {
       const arrayBuffer = await file.arrayBuffer()
       const buffer = new Uint8Array(arrayBuffer)
@@ -51,16 +50,14 @@ export async function PUT(req: Request) {
       updateData.image = filePath
     }
 
-    // If no changes detected, return a success response without updating
     if (Object.keys(updateData).length === 0) {
       return NextResponse.json({
         status: 'success',
         message: 'No changes detected, user data remains the same',
-        data: existingUser, // Return existing data
+        data: existingUser,
       })
     }
 
-    // Perform the update in MongoDB
     const result = await usersCollection.updateOne(
       { _id: new ObjectId(id) },
       { $set: updateData },
@@ -70,7 +67,6 @@ export async function PUT(req: Request) {
       return NextResponse.json({ status: 'fail', error: 'No document updated' })
     }
 
-    // Fetch the updated user data
     const updatedUser = await usersCollection.findOne({ _id: new ObjectId(id) })
     if (!updatedUser) {
       return NextResponse.json({
@@ -79,7 +75,6 @@ export async function PUT(req: Request) {
       })
     }
 
-    // Generate a new JWT token with updated user data
     const newToken = jwt.sign(
       {
         id: updatedUser._id.toString(),
@@ -88,8 +83,12 @@ export async function PUT(req: Request) {
         role: updatedUser.role,
       },
       SECRET_KEY,
-      { expiresIn: '1h' },
+      { expiresIn: '12h' },
     )
+
+    if (updatedUser.role !== 'admin' && (updateData.name || updateData.image)) {
+      await addNotification(id, '', 'profile_update')
+    }
 
     return NextResponse.json({
       status: 'success',

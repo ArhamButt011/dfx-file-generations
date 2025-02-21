@@ -245,16 +245,12 @@ const DropdownUser = () => {
             {/* <span className="block text-xs">UX Designer</span> */}
           </span>
 
-          <span className="h-12 w-12">
+          <span className="h-10 w-10 overflow-hidden rounded-full">
             <Image
-              width={112}
-              height={112}
+              width={40}
+              height={40}
               src={userData?.image ? userData.image : user}
               className="rounded-full object-cover"
-              style={{
-                width: 'auto',
-                height: 'auto',
-              }}
               alt="User"
             />
           </span>
@@ -523,7 +519,6 @@ const DropdownUser = () => {
                 <input
                   type="text"
                   placeholder="Enter User Name"
-                  // Ensure this matches the state property name
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
