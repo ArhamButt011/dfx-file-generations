@@ -20,7 +20,7 @@ function Navbar() {
   }, [])
   return (
     <>
-      <nav className="fixed xl:absolute z-50 w-full xl:px-20  px-5 border-b-2 border-[#0000001A]  md:pb-0 top-0 bg-white items-center">
+      <nav className="fixed z-50 w-full xl:px-20  px-5 border-b-2 border-[#0000001A]  md:pb-0 top-0 bg-white items-center">
 
         <div className="flex justify-center items-center w-full">
           <div className=" w-full flex flex-wrap items-center justify-between mx-auto ">
