@@ -20,11 +20,9 @@ export async function POST(req: Request) {
       )
     }
 
-    // Verify and decode the token
     const decoded = jwt.verify(token, SECRET_KEY) as { id: string }
     const userId = decoded.id
 
-    // Fetch user details from MongoDB
     const client = await clientPromise
     const db = client.db('DFXFileGeneration')
     const usersCollection = db.collection('users')
@@ -35,14 +33,13 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: 'User not found' }, { status: 404 })
     }
 
-    // Include user image in the response
     return NextResponse.json(
       {
         id: user._id.toString(),
         username: user.name,
         email: user.email,
         role: user.role,
-        image: user.image ? user.image : null, // Send image if available
+        image: user.image ? user.image : null,
       },
       { status: 200 },
     )

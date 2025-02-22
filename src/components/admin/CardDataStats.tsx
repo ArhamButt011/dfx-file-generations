@@ -8,11 +8,13 @@ import levelDownImage from '/public/images/admin/levelDown.svg'
 
 interface CardDataStatsProps {
   title: string
-  total: string
-  rate: string
+  total: number
+  rate: number
   levelUp?: boolean
   levelDown?: boolean
   duration: string
+  currentAvg?: number
+  lastMonthAvg?: number
   chartData: ApexOptions
   children: ReactNode
 }
@@ -21,8 +23,8 @@ const CardDataStats: React.FC<CardDataStatsProps> = ({
   title,
   total,
   rate,
-  levelUp,
-  levelDown,
+  currentAvg,
+  lastMonthAvg,
   duration,
   chartData,
   children,
@@ -56,13 +58,17 @@ const CardDataStats: React.FC<CardDataStatsProps> = ({
             </span>
             <span
               className={`flex items-center gap-1 text-sm font-medium ${
-                levelUp && 'text-[#266CA8]'
-              } ${levelDown && 'text-[#D7890C]'} `}
+                (currentAvg ?? 0) > (lastMonthAvg ?? 0)
+                  ? 'text-[#266CA8]'
+                  : 'text-[#D7890C]'
+              } `}
             >
-              {rate}
-
-              {levelUp && <Image src={levelUpImage} alt="levelup" />}
-              {levelDown && <Image src={levelDownImage} alt="levelDown" />}
+              {rate}%
+              {(currentAvg ?? 0) > (lastMonthAvg ?? 0) ? (
+                <Image src={levelUpImage} alt="level up" />
+              ) : (
+                <Image src={levelDownImage} alt="level down" />
+              )}
             </span>
           </div>
         </div>
