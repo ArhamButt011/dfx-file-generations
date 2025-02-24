@@ -46,7 +46,7 @@ function FAQ() {
         setOpenAccordionId(openAccordionId === id ? null : id); // Toggle the active accordion
     };
     return (
-        <div className='max-w-[90%] mx-auto mt-10 md:mt-0' id='faqs'>
+        <div className='xl:max-w-[1200px] max-w-[90%] mx-auto mt-10 md:mt-0' id='faqs'>
             <p className='font-bold md:text-[55px] text-[40px] text-center md:max-w-[80%] mx-auto'  data-aos="fade-up"><span className='text-[#266CAB]'>Frequently </span>Asked Questions</p>
             {/* <p className='text-center text-[#00000066] md:text-[29px] text-[23px] mx-auto font-medium max-w-[90%]'>Everything you need to know about DXF image generator with spaces and how it works? Here are all of your answers</p> */}
 

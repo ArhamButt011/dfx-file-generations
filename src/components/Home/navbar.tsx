@@ -57,7 +57,7 @@ function Navbar() {
 
         <div className="flex justify-center items-center w-full">
           <div className=" w-full flex flex-wrap items-center justify-between mx-auto ">
-            <div className="xl:flex justify-between w-full py-4 hidden ">
+            <div className="xl:flex justify-between w-full py-4 hidden max-w-[1500px] mx-auto">
               <Image
                 className="w-[259.2px] h-[56px] mob:w-[175.89px] mob:h-[38px] z-50"
                 src="/images/user/home/user_login.svg"
@@ -213,7 +213,7 @@ function Navbar() {
 
             <div className="xl:hidden w-full flex  justify-between py-2">
               <div
-                className="relative cursor-pointer flex justify-between w-full items-center  pt-[5px]"
+                className="relative cursor-pointer flex justify-between w-full items-center  pt-[5px] max-w-[90%] mx-auto"
 
               >
                 <Image

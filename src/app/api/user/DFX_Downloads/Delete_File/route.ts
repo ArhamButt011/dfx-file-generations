@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import clientPromise from '@/lib/mongodb'
+import { ObjectId } from 'mongodb';
 
 export async function DELETE(req: Request) {
     try {
@@ -16,10 +17,15 @@ export async function DELETE(req: Request) {
         const client = await clientPromise
 
         const db = client.db('DFXFileGeneration')
+        const objectId = ObjectId.createFromHexString(id);
+
 
         const existingFile = await db
             .collection('all-downloads')
-            .findOneAndDelete({_id:id})
+            .findOneAndDelete({ _id: objectId });
+
+        console.log(existingFile)
+
         if (!existingFile) {
             return NextResponse.json(
                 { message: 'File Does not Exist' },

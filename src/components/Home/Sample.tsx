@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 
 function Sample() {
     return (
-        <div className='max-w-[90%] mx-auto md:py- py-20 ' id='sample'>
+        <div className='xl:max-w-[1200px] max-w-[90%] mx-auto md:py- py-20 ' id='sample'>
             <motion.div
                 className="w-full"
                 initial={{ opacity: 0, y: 50 }}
@@ -16,7 +16,7 @@ function Sample() {
                 <p className='text-center text-[#00000066] md:text-[29px] text-[23px] mx-auto font-medium max-w-[90%]'>See how our software transforms the input image into precise, production-ready DXF files for your custom tool drawer inserts.</p>
             </motion.div>
             {/* upper images */}
-            <div className="flex md:flex-row flex-col justify-center md:mt-10 mt-5 lg:mx-14 2xl:mx-24 md:gap-10 gap-[40px] items-start">
+            <div className="flex md:flex-row flex-col justify-center md:mt-10 mt-5  md:gap-10 gap-[40px] items-start">
                 {/* Left Image */}
                 <motion.div
                     className="relative md:w-2/3 w-full h-auto md:h-auto"
@@ -58,7 +58,7 @@ function Sample() {
 
 
             {/* lower images */}
-            <div className="flex md:flex-row flex-col justify-center mt-10  lg:mx-14 2xl:mx-24   md:gap-10 gap-[50px] items-start">
+            <div className="flex md:flex-row flex-col justify-center mt-10   md:gap-10 gap-[50px] items-start">
                 {/* Left Image */}
                 <motion.div
                     className="relative md:w-2/3 w-full h-auto md:h-auto "

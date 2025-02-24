@@ -121,7 +121,7 @@ const bilingPlans: DataItem[] = [
 
 function Pricing() {
     return (
-        <div className='max-w-[90%] mx-auto md:py-20' id='pricing'>
+        <div className='xl:max-w-[1200px] max-w-[90%] mx-auto md:py-20' id='pricing'>
             <motion.div
                 className='w-full'
                 initial={{ opacity: 0, y: 50 }}
@@ -145,7 +145,7 @@ function Pricing() {
                                     : item.id === 2
                                         ? { opacity: 0, y: 50 }    // coming in from the bottom
                                         : item.id === 3
-                                            ? { opacity: 0, x: 50 }    // coming in from the right
+                                            ? { opacity: 0, x: -50 }    // coming in from the right
                                             : { opacity: 0 }
                             }
                             // When in view, animate to these properties
