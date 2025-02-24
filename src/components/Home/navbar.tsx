@@ -18,6 +18,39 @@ function Navbar() {
   useEffect(() => {
     setActiveTab("/home")
   }, [])
+
+
+  useEffect(() => {
+    const handleScroll = () => {
+      let currentTab = '';
+
+      const sectionIds = [
+        'home',
+        'benefits',
+        'sample',
+        'working',
+        'pricing',
+        'faqs',
+        'contact'
+      ];
+
+      sectionIds.forEach((id) => {
+        const section = document.getElementById(id);
+        if (section) {
+          const rect = section.getBoundingClientRect();
+          if (rect.top >= 0 && rect.top <= window.innerHeight / 3) {
+            currentTab = `/${id}`;
+          }
+        }
+      });
+
+      if (currentTab) handleTabChange(currentTab);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [handleTabChange]);
+
   return (
     <>
       <nav className="fixed z-50 w-full xl:px-20  px-5 border-b-2 border-[#0000001A]  md:pb-0 top-0 bg-white items-center">
