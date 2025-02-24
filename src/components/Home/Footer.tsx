@@ -22,7 +22,7 @@ function Footer() {
                         <p className='font-medium md:text-2xl text-xl text-[#22222280] max-w-[490px] mt-10'>Effortlessly create precise DXF files for manufacturing custom tool drawer inserts with AI-powered automation. Simplify your workflow and take tool organization to the next level. Start your free trial today!</p>
                         <div className="flex justify-between max-w-[190px] items-center mt-10 ">
                             <Image
-                                className="w-5 z-50"
+                                className="w-5"
                                 src="/images/user/home/social media/linkedin.svg"
                                 alt="Flowbite Logo"
                                 width={30}
