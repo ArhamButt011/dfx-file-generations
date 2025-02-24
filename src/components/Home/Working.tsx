@@ -50,7 +50,7 @@ const combinedArray = [...data.left, ...data.right].sort(
 const stepImages = ["one", "two", "three"];
 function Working() {
     return (
-        <div className='max-w-[90%] mx-auto  md:py-0  pb-20' id='working'>
+        <div className='xl:max-w-[1200px] max-w-[90%] mx-auto  md:py-0  pb-20' id='working'>
             <motion.div
                 className="w-full"
                 initial={{ opacity: 0, y: 50 }}
@@ -115,7 +115,7 @@ function Working() {
                         {/* Right Section */}
                         <motion.div
                             className="flex justify-start items-start relative z-10"
-                            initial={{ opacity: 0, x: 50 }}
+                            initial={{ opacity: 0, x: -50 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.8 }}
                             viewport={{ once: false }}  >
