@@ -168,7 +168,7 @@ const Dashboard: React.FC = () => {
       },
     ],
     chart: {
-      id: 'total-downloads-3', // Unique id for the third chart
+      id: 'total-downloads-3',
       type: 'area',
       height: 70,
       sparkline: {
@@ -256,8 +256,6 @@ const Dashboard: React.FC = () => {
       },
     },
   }
-
-  console.log('current avg', summary?.lastMonthAvg?.downloads)
 
   return (
     <>

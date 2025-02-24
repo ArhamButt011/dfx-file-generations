@@ -27,7 +27,7 @@ const DropdownNotification = () => {
     const fetchNotifications = async () => {
       try {
         const res = await axios.get('/api/admin/get-notifications')
-        console.log(res.data.allNotifications)
+
         setNotifications(res.data.allNotifications || [])
         setNotifying(res.data.allNotifications[0].isReadable)
       } catch (error) {
@@ -42,6 +42,9 @@ const DropdownNotification = () => {
       setNotifying(true)
     }
     setDropdownOpen(!dropdownOpen)
+    if (notifying) {
+      return
+    }
     try {
       await axios.put('/api/admin/update-notifications')
     } catch (error) {

@@ -10,7 +10,9 @@ const ReactApexChart = dynamic(() => import('react-apexcharts'), {
 const ChartOne: React.FC = () => {
   const [paymentSubscriptions, setPaymentSubscriptions] = useState([])
   const [months, setMonths] = useState([])
-  const [totalPayment, settotalPayment] = useState()
+  const [totalPayment, setTotalPayment] = useState()
+  const [currMonthAvg, setCurrMonthAvg] = useState<number>(0)
+  const [prevMonthAvg, setPrevMonthAvg] = useState<number>(0)
 
   useEffect(() => {
     const fetchDownloads = async () => {
@@ -23,7 +25,9 @@ const ChartOne: React.FC = () => {
         if (data.success) {
           setPaymentSubscriptions(data.payments)
           setMonths(data.months)
-          settotalPayment(data.totalCharges)
+          setTotalPayment(data.totalCharges)
+          setCurrMonthAvg(data.currentMonthAvg)
+          setPrevMonthAvg(data.previousMonthAvg)
         }
       } catch (error) {
         console.error('Error fetching subscriptions payments:', error)
@@ -33,7 +37,6 @@ const ChartOne: React.FC = () => {
     fetchDownloads()
   }, [])
 
-  console.log('paymentSubscriptions-> ', paymentSubscriptions)
   const series = [
     {
       name: 'Subscription Payment',
@@ -150,21 +153,43 @@ const ChartOne: React.FC = () => {
     },
   }
 
+  const formatNumber = (num?: number) => {
+    if (!num) return '0'
+    if (num >= 1000) {
+      return (num / 1000).toFixed(1) + 'K'
+    }
+    return num.toString()
+  }
+
   return (
-    <div className="col-span-12 rounded-xl border border-stroke bg-bodydark px-5 pb-5 pt-7.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-8">
+    <div className="col-span-12 rounded-xl border border-stroke bg-bodydark px-5 pt-7.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-8 h-[450px]">
       <div className="flex flex-wrap items-start justify-between gap-3 sm:flex-nowrap">
         <div className="flex w-full flex-wrap gap-3 sm:gap-5">
           <div className="flex min-w-47.5">
             <div className="w-full">
-              <p className="font-semibold text-black text-2xl">
+              <p className="font-semibold text-black text-[26px]">
                 Subscription Payment
               </p>
             </div>
           </div>
         </div>
         <div className="flex w-full max-w-45 justify-end">
-          <div className="inline-flex items-center rounded-md bg-whiter p-1.5 dark:bg-meta-4">
-            <p className="font-semibold text-black text-2xl">${totalPayment}</p>
+          <div className="inline-flex items-center rounded-md gap-5 bg-whiter p-1.5 dark:bg-meta-4">
+            <p className="font-semibold text-[33.56px] text-black text-2xl">
+              ${formatNumber(totalPayment)}
+            </p>
+            <p
+              className={`rounded-lg p-2 text-[16.07px] font-medium ${
+                currMonthAvg > prevMonthAvg
+                  ? 'text-[#F5704B] bg-[#F5704B1A]'
+                  : 'text-[#D7890C] bg-[#F5704B1A]'
+              }`}
+            >
+              {currMonthAvg > prevMonthAvg ? '+' : '-'}
+              {formatNumber(
+                currMonthAvg > prevMonthAvg ? currMonthAvg : prevMonthAvg,
+              )}
+            </p>
           </div>
         </div>
       </div>
