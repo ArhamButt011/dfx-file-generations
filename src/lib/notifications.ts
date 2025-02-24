@@ -1,11 +1,12 @@
 import clientPromise from '@/lib/mongodb'
 import { ObjectId } from 'mongodb'
+import { database, ref, update } from '@/firebase' // Import Firebase
 
 export async function addNotification(
   userId: string,
   action: string,
   type: string,
-  isReadable: boolean = false,
+  // isReadable: boolean = false,
 ) {
   try {
     const client = await clientPromise
@@ -25,46 +26,44 @@ export async function addNotification(
     let message = ''
     switch (type) {
       case 'user_registration':
-        message = `<span style="color: #00000066;">New user </span>
-                   <b style="color: #000000;">${userName}</b>
-                   <span style="color: #00000066;"> registered on the platform.</span>`
+        message = `New user <b>${userName}</b> registered on the platform.`
         break
       case 'profile_update':
-        message = `<span style="color: #000000;">${userName}</span>
-                   <span style="color: #00000066;"> updated their profile information.</span>`
+        message = `<b>${userName}</b> updated their profile information.`
         break
       case 'account_deletion':
-        message = `<span style="color: #000000;">${userName}</span>
-                   <span style="color: #00000066;"> deleted their account.</span>`
+        message = `<b>${userName}</b> deleted their account.`
         break
       case 'file_download':
-        message = `<span style="color: #000000;">${userName}</span>
-                   <span style="color: #00000066;"> downloaded "${action}" file.</span>`
+        message = `<b>${userName}</b> downloaded "${action}" file.`
         break
       case 'free_subscription':
-        message = `<span style="color: #000000;">${userName}</span>
-                   <span style="color: #00000066;"> subscribed to a free subscription plan.</span>`
+        message = `<b>${userName}</b> subscribed to a free subscription plan.`
         break
       case 'subscription_upgrade':
-        message = `<span style="color: #000000;">${userName}</span>
-                   <span style="color: #00000066;"> upgraded their subscription plan from ${action}.</span>`
+        message = `<b>${userName}</b> upgraded their subscription plan from ${action}.`
         break
       default:
-        message = `<span style="color: #000000;">${userName}</span>
-                   <span style="color: #00000066;"> performed an action.</span>`
+        message = `<b>${userName}</b> performed an action.`
     }
 
+    // ✅ Insert Notification into MongoDB
     const notificationData = {
       userId: new ObjectId(userId),
       message,
       type,
-      isReadable,
+
       createdAt: new Date(),
     }
 
     await notificationsCollection.insertOne(notificationData)
-
     console.log('Notification added successfully:', message)
+
+    // ✅ Update Firebase Global `isNewNotification` Field
+    const notificationRef = ref(database, 'notifications') // Fixed path
+    await update(notificationRef, { isNewNotification: true })
+
+    console.log(`Updated isNewNotification to true globally`)
   } catch (error) {
     console.error('Error adding notification:', error)
   }

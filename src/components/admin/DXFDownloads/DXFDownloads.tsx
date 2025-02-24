@@ -43,7 +43,6 @@ const DXFDownloads = () => {
 
       if (response.ok) {
         const data = await response.json()
-        console.log(data)
         setDownloads(data.allDownloads)
         setTotalPages(data.totalPages)
         setTotalDownloads(data.totalDownloads)

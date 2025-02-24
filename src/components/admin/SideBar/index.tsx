@@ -308,9 +308,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
         }`}
       >
         {/* <!-- SIDEBAR HEADER --> */}
-        <div className="flex items-center justify-between z-999 gap-2 px-6 pt-5.5 lg:pt-6.5">
-          <Link href="/">
-            <Image width={176} height={32} src={logo} alt="Logo" priority />
+        <div className="flex items-center justify-between z-999 gap-2 pl-10 pt-5.5 lg:pt-6.5">
+          <Link href="/admin/dashboard">
+            <Image width={210} height={45} src={logo} alt="Logo" priority />
           </Link>
 
           <button
