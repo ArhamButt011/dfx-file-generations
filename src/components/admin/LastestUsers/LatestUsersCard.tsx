@@ -2,65 +2,45 @@ import Link from 'next/link'
 import Image from 'next/image'
 import userImage from '/public/images/admin/dashboard/user.svg'
 import '@/components/admin/LastestUsers/LatestUsers.css'
+import { useEffect, useState } from 'react'
 
-export type LatestUsers = {
-  id: number
-  avatar: string
+export type LatestUser = {
+  _id: number
+  image?: string
   name: string
+  lastName: string
   email: string
 }
-
-const chatData: LatestUsers[] = [
-  {
-    id: 1,
-    avatar: userImage,
-    name: 'Devid Heilo',
-    email: 'test@gmail.com',
-  },
-  {
-    id: 2,
-    avatar: userImage,
-    name: 'Henry Fisher',
-    email: 'test@gmail.com',
-  },
-  {
-    id: 3,
-    avatar: userImage,
-    name: 'Jhon Doe',
-    email: 'test@gmail.com',
-  },
-  {
-    id: 4,
-    avatar: userImage,
-    name: 'Jane Doe',
-    email: 'test@gmail.com',
-  },
-  {
-    id: 5,
-    avatar: userImage,
-    name: 'Jhon Doe',
-    email: 'test@gmail.com',
-  },
-  {
-    id: 6,
-    avatar: userImage,
-    name: 'Jhon Doe',
-    email: 'test@gmail.com',
-  },
-]
-
 const LastestUsersCard = () => {
+  const [latestUsers, setLatestUsers] = useState<LatestUser[]>([])
+
+  useEffect(() => {
+    const fetchLatestUsers = async () => {
+      try {
+        const response = await fetch('/api/admin/dashboard/latest-users')
+        const data = await response.json()
+        if (data.success) {
+          setLatestUsers(data.data)
+        }
+      } catch (error) {
+        console.error('Error fetching summary:', error)
+      }
+    }
+
+    fetchLatestUsers()
+  }, [])
+
   return (
-    <div className="col-span-12 rounded-xl border border-stroke bg-bodydark py-6 xl:col-span-4">
+    <div className="col-span-12 rounded-xl border border-stroke pt-5 bg-bodydark xl:col-span-4 h-[450px]">
       <h4 className="mb-6 px-7.5 text-xl font-semibold text-black dark:text-white">
         Latest Added Users
       </h4>
 
       {/* Scrollable container for user list */}
-      <div className="modal-body-custom">
-        {chatData.map((chat, key) => (
+      <div className="modal-body-custom h-[375px] overflow-y-auto">
+        {latestUsers.map((user, key) => (
           <Link
-            href="/"
+            href={`/admin/allusers/${user._id}`}
             className="flex items-center gap-5 px-7.5 py-3 hover:bg-gray-3 dark:hover:bg-meta-4"
             key={key}
           >
@@ -68,7 +48,7 @@ const LastestUsersCard = () => {
               <Image
                 width={56}
                 height={56}
-                src={chat.avatar}
+                src={user?.image ? user.image : userImage}
                 alt="User"
                 style={{
                   width: 'auto',
@@ -80,11 +60,11 @@ const LastestUsersCard = () => {
             <div className="flex flex-1 items-center justify-between">
               <div>
                 <h4 className="font-semibold text-black dark:text-white">
-                  {chat.name}
+                  {`${user.name} ${user.lastName}`}
                 </h4>
                 <p>
                   <span className="text-sm text-primary dark:text-white">
-                    {chat.email}
+                    {user.email}
                   </span>
                 </p>
               </div>
