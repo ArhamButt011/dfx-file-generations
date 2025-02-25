@@ -5,6 +5,7 @@ import noDownloads from '/public/images/admin/noDownloads.svg'
 import searchIcon from '/public/images/searchIcon.svg'
 import { useAuth } from "@/context/AuthContext"
 import Swal from 'sweetalert2'
+import { ClipLoader } from 'react-spinners'
 
 interface Downloads {
     _id: string
@@ -13,11 +14,13 @@ interface Downloads {
 }
 
 function FilesTable() {
-    const [loadingTable, setLoadingTable] = useState<boolean>(false)
+    // const [loadingTable, setLoadingTable] = useState<boolean>(false)
     const [searchQuery, setSearchQuery] = useState('')
     const [downloads, setDownloads] = useState<Downloads[]>([])
     const [currentPage, setCurrentPage] = useState(1)
     const [totalPages, setTotalPages] = useState(1)
+    const [loading, setLoading] = useState<boolean>(false)
+
     const handlePageChange = (newPage: number) => {
         setCurrentPage(newPage)
         console.log(currentPage)
@@ -30,8 +33,9 @@ function FilesTable() {
             console.log("userData", userData)
             return;
         }
+        setLoading(true);
         try {
-            setLoadingTable(true)
+            // setLoadingTable(true)
 
             const searchParam = searchQuery
                 ? `&search=${encodeURIComponent(searchQuery)}`
@@ -50,7 +54,7 @@ function FilesTable() {
         } catch (error) {
             console.log('Error fetching downloads:', error)
         } finally {
-            setLoadingTable(false)
+            setLoading(false)
         }
     }, [userData?.id, searchQuery, currentPage])
 
@@ -117,7 +121,11 @@ function FilesTable() {
                 </div>
             </div>
 
-            {downloads.length > 0 ? (
+            {loading ? (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[100000]">
+                    <ClipLoader color="#007bff" size={50} />
+                </div>
+            ) : downloads.length > 0 ? (
                 <div className="overflow-x-auto w-full">
                     <table className="min-w-full table-auto">
                         <thead className="bg-[#266CA8]">
@@ -149,7 +157,6 @@ function FilesTable() {
                                                     <path d="M5.1582 9.08641C5.1582 8.67346 5.4681 8.33869 5.85038 8.33869L8.24093 8.33829C8.71591 8.32529 9.13493 7.99905 9.29655 7.5164C9.3008 7.50371 9.30569 7.48806 9.32321 7.43126L9.42622 7.09739C9.48925 6.89268 9.54417 6.71434 9.62101 6.55493C9.9246 5.92516 10.4863 5.48784 11.1354 5.37587C11.2997 5.34753 11.4736 5.34765 11.6734 5.34779H14.7941C14.9938 5.34765 15.1678 5.34753 15.3321 5.37587C15.9812 5.48784 16.5429 5.92516 16.8465 6.55493C16.9233 6.71434 16.9782 6.89268 17.0413 7.09739L17.1443 7.43126C17.1618 7.48806 17.1667 7.50371 17.1709 7.5164C17.3325 7.99905 17.8347 8.32569 18.3097 8.33869H20.6169C20.9992 8.33869 21.3091 8.67346 21.3091 9.08641C21.3091 9.49937 20.9992 9.83413 20.6169 9.83413H5.85038C5.4681 9.83413 5.1582 9.49937 5.1582 9.08641Z" fill="#ED2A2A" />
                                                 </svg>
                                             </span>
-                                            {/* edit */}
                                             <span>
                                                 <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M17.6265 22.1069C17.4655 22.283 17.2379 22.3833 16.9992 22.3833C16.7606 22.3833 16.5329 22.283 16.3719 22.1069L11.8386 17.1486C11.5218 16.8021 11.5459 16.2644 11.8923 15.9477C12.2388 15.6309 12.7764 15.655 13.0932 16.0014L16.1492 19.344V6.8C16.1492 6.33056 16.5298 5.95 16.9992 5.95C17.4687 5.95 17.8492 6.33056 17.8492 6.8V19.344L20.9052 16.0014C21.222 15.655 21.7596 15.6309 22.1061 15.9477C22.4526 16.2644 22.4766 16.8021 22.1599 17.1486L17.6265 22.1069Z" fill="#266CA8" />
@@ -174,9 +181,9 @@ function FilesTable() {
                         className="object-contain"
                     />
                 </div>
-
             )}
-            {loadingTable || totalPages === 0 || downloads.length === 0 ? null : (
+
+            {loading || totalPages === 0 || downloads.length === 0 ? null : (
                 <div className="mt-4 flex justify-end items-center gap-4 text-gray-800">
                     <button
                         onClick={() => handlePageChange(currentPage - 1)}
