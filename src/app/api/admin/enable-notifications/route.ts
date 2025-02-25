@@ -17,16 +17,20 @@ export async function PUT(req: NextRequest) {
     const db = client.db('DFXFileGeneration')
     const notificationsCollection = db.collection('enable-notifications')
 
-    // Update the single document (assumes only one document exists)
+    const existingDoc = await notificationsCollection.findOne({})
+    if (!existingDoc) {
+      await notificationsCollection.insertOne({ isActive: false })
+    }
+
     const updateResult = await notificationsCollection.updateOne(
       {},
       { $set: { isActive } },
     )
 
-    if (updateResult.modifiedCount === 0) {
+    if (updateResult.matchedCount === 0) {
       return NextResponse.json(
-        { error: 'Failed to update isActive status' },
-        { status: 500 },
+        { error: 'No matching document found to update' },
+        { status: 404 },
       )
     }
 
