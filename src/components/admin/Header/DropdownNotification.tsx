@@ -7,6 +7,7 @@ import axios from 'axios'
 import userImage from '/public/images/userImage.svg'
 import '@/components/admin/Header/DropdownNotifications.css'
 import { formatDistanceToNowStrict } from 'date-fns'
+import { database, ref, onValue, update } from '@/firebase' // Use onValue for real-time updates
 
 interface Notification {
   message: string
@@ -20,60 +21,70 @@ interface Notification {
 
 const DropdownNotification = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false)
-  const [notifying, setNotifying] = useState(true)
+  const [notifying, setNotifying] = useState(false)
   const [notifications, setNotifications] = useState<Notification[]>([])
+
+  useEffect(() => {
+    const notificationRef = ref(database, 'notifications')
+
+    const unsubscribe = onValue(notificationRef, (snapshot) => {
+      if (snapshot.exists()) {
+        setNotifying(snapshot.val().isNewNotification || false)
+      }
+    })
+
+    return () => unsubscribe()
+  }, [])
 
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
         const res = await axios.get('/api/admin/get-notifications')
-
+        console.log('notification>  ', res.data)
         setNotifications(res.data.allNotifications || [])
-        setNotifying(res.data.allNotifications[0].isReadable)
       } catch (error) {
         console.error('Error fetching notifications:', error)
       }
     }
+
     fetchNotifications()
-  }, [])
+  }, [notifying])
 
   const handleNotificationsClick = async () => {
-    if (!notifying) {
-      setNotifying(true)
-    }
     setDropdownOpen(!dropdownOpen)
+
     if (notifying) {
-      return
-    }
-    try {
-      await axios.put('/api/admin/update-notifications')
-    } catch (error) {
-      console.error('Error updating notifications:', error)
+      try {
+        const notificationRef = ref(database, 'notifications') // Firebase path
+        await update(notificationRef, { isNewNotification: false }) // ✅ Mark as read
+
+        console.log('Updated isNewNotification to false in Firebase')
+        setNotifying(false) // ✅ Update UI state
+      } catch (error) {
+        console.error('Error updating isNewNotification:', error)
+      }
     }
   }
 
   return (
-    <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
-      <li>
+    <ClickOutside onClick={() => setDropdownOpen(false)}>
+      <li className="relative">
         <Link
           onClick={handleNotificationsClick}
           href="#"
           className="relative flex h-8.5 w-8.5 items-center justify-center rounded-full"
         >
-          <span
-            className={`absolute -top-0.5 right-[4px] z-1 h-2 w-2 rounded-full bg-meta-1 ${
-              notifying === true ? 'hidden' : 'inline'
-            }`}
-          >
-            <span className="absolute -z-1 inline-flex h-full w-full animate-ping rounded-full bg-meta-1 opacity-75"></span>
-          </span>
+          {/* ✅ Dynamic Notification Badge */}
+          {notifying && (
+            <span className="absolute -top-0.5 right-[4px] z-1 h-2 w-2 rounded-full bg-meta-1">
+              <span className="absolute -z-1 inline-flex h-full w-full animate-ping rounded-full bg-meta-1 opacity-75"></span>
+            </span>
+          )}
           <Image src={notification} alt="notifications" />
         </Link>
 
         {dropdownOpen && (
-          <div
-            className={`absolute -right-10 mt-5 flex h-[90vh] w-75 flex-col rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark sm:-right-11 sm:w-[470px]`}
-          >
+          <div className="absolute -right-10 mt-5 flex h-[90vh] w-75 flex-col rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark sm:-right-11 sm:w-[470px]">
             <div className="px-4.5 py-3">
               <h5 className="text-[27.94px] font-semibold text-[#000000]">
                 Notifications
