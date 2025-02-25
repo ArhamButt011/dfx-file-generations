@@ -4,6 +4,7 @@ import './globals.css'
 import { TabProvider } from '@/context/TabContsxt'
 import MyProvider from '@/components/MyProvider'
 import { AuthProvider } from '@/context/AuthContext'
+import { NotificationProvider } from '@/context/NotificationContext'
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
@@ -16,7 +17,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: 'DXF File Generation',
-  description: 'Efficiently generate DXF files with ease using our powerful tool for precise image processing and seamless integration. Perfect for designers and engineers looking for high-quality CAD outputs.',
+  description:
+    'Efficiently generate DXF files with ease using our powerful tool for precise image processing and seamless integration. Perfect for designers and engineers looking for high-quality CAD outputs.',
 }
 
 export default function RootLayout({
@@ -30,11 +32,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <AuthProvider>
-          <MyProvider>
-            <TabProvider>{children}</TabProvider>
-          </MyProvider>
-        </AuthProvider>
+        <NotificationProvider>
+          <AuthProvider>
+            <MyProvider>
+              <TabProvider>{children}</TabProvider>
+            </MyProvider>
+          </AuthProvider>
+        </NotificationProvider>
       </body>
     </html>
   )
