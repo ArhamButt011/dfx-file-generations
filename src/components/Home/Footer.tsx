@@ -9,7 +9,7 @@ function Footer() {
     return (
         <div>
             <div className='mt-20 bg-[#F7F7F7] py-5'>
-                <div className="flex md:flex-row flex-col xl:max-w-[1200px] max-w-[90%] mx-auto md:justify-center lg:gap-60 md:gap-40 xl:gap-100 2xl:gap-180 justify-between">
+                <div className="flex md:flex-row flex-col xl:max-w-[1200px] max-w-[90%] mx-auto md:justify-center lg:gap-60 md:gap-20 xl:gap-70 2xl:gap-100 justify-between">
                     {/* left */}
                     <div >
                         <Image

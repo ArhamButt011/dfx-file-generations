@@ -341,53 +341,59 @@ function Input() {
       )
   }
 
-  const handleDownloadDXF = (url: string) => {
+  const handleDownloadDXF = async (url: string) => {
     if (!url) {
-      console.error('No DXF file URL provided for download.')
-      return
+      console.error('No DXF file URL provided for download.');
+      return;
     }
 
     // Check if user's plan is expired
     if (userPlan && new Date(userPlan.expiry_date) < new Date()) {
-      setIsBilingOpen(true)
-      return
+      setIsBilingOpen(true);
+      return;
     }
 
-    fetch(url)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Failed to download file. Status: ${response.status}`)
-        }
-        return response.blob()
-      })
-      .then((blob) => {
-        const blobUrl = window.URL.createObjectURL(blob)
-        const link = document.createElement('a')
-        link.href = blobUrl
-        link.download = url.split('/').pop() || 'downloaded_file.dxf' // Extract filename or fallback
-        document.body.appendChild(link)
-        link.click()
-        document.body.removeChild(link)
-        window.URL.revokeObjectURL(blobUrl) // Clean up memory
-      })
-      .catch((err) =>
-        Swal.fire({
-          title: 'Error',
-          text: err instanceof Error ? err.message : String(err),
-          icon: 'error',
-          showConfirmButton: false,
-          timer: 2000,
-          didOpen: () => {
-            const swalContainer = document.querySelector(
-              '.swal2-container',
-            ) as HTMLElement
-            if (swalContainer) {
-              swalContainer.style.setProperty('z-index', '100000', 'important')
-            }
-          },
-        }),
-      )
-  }
+    try {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error(`Failed to download file. Status: ${response.status}`);
+      const file_name = url.split('/').pop() || 'downloaded_file.dxf';
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = file_name;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // Send API request after file is downloaded
+      const res = await fetch('/api/user/DFX_Downloads/Add_File', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ file_name, url, userId }),
+      });
+
+      if (!res.ok) {
+        throw new Error(`Failed to save file info. Status: ${res.status}`);
+      }
+
+      console.log('File info saved successfully');
+    } catch (err) {
+      Swal.fire({
+        title: 'Error',
+        text: err instanceof Error ? err.message : String(err),
+        icon: 'error',
+        showConfirmButton: false,
+        timer: 2000,
+        didOpen: () => {
+          const swalContainer = document.querySelector('.swal2-container') as HTMLElement;
+          if (swalContainer) {
+            swalContainer.style.setProperty('z-index', '100000', 'important');
+          }
+        },
+      });
+    }
+  };
 
   const getFileSize = async (url: string) => {
     try {
@@ -641,9 +647,8 @@ function Input() {
                       fill="currentColor"
                       xmlns="http://www.w3.org/2000/svg"
                       className={`w-10 h-10 cursor-pointer transition-colors duration-300 
-        ${
-          clicked ? 'text-[#266CA8]' : 'text-[#00000066] hover:text-[#266CA8]'
-        }`}
+        ${clicked ? 'text-[#266CA8]' : 'text-[#00000066] hover:text-[#266CA8]'
+                        }`}
                       onClick={() => {
                         setClicked(!clicked)
                         setIsMagnifierActive(!isMagnifierActive)
@@ -724,6 +729,7 @@ function Input() {
                     className="border rounded-full w-full p-3 my-5 bg-[#F2F2F2]"
                     placeholder="0"
                     value={contour}
+                    required
                     onChange={(e) => {
                       const value = e.target.value
                       // Allow only positive decimals (allowing entries like "0.", "0.1", etc.)
@@ -808,7 +814,7 @@ function Input() {
                           alt="download"
                           width={24}
                           height={24}
-                          onClick={() => handleDownload(image)}
+                          onClick={() => handleDownload(overlay)}
                         />
                       </div>
                     </div>
