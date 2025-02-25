@@ -39,19 +39,19 @@
 //   )
 // }
 
-'use client';
-import React, { useState } from 'react';
-import Sidebar from '@/components/user/UserSideBar';
-import Header from '@/components/user/Header/index';
-import Subscribe from '../Subscription/Subscribe';
+'use client'
+import React, { useState } from 'react'
+import Sidebar from '@/components/user/UserSideBar'
+import Header from '@/components/user/Header/index'
+import Subscribe from '../Subscription/Subscribe'
 
 export default function DefaultLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [isBilingOpen, setIsBilingOpen] = useState(false); // New state for Subscribe modal
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [isBilingOpen, setIsBilingOpen] = useState(false) // New state for Subscribe modal
 
   return (
     <>
@@ -59,12 +59,12 @@ export default function DefaultLayout({
       <div className="flex">
         {/* Sidebar */}
 
-        <Sidebar 
-          sidebarOpen={sidebarOpen} 
-          setSidebarOpen={setSidebarOpen} 
+        <Sidebar
+          sidebarOpen={sidebarOpen}
+          setSidebarOpen={setSidebarOpen}
           setIsBilingOpen={setIsBilingOpen}
         />
-        
+
         {/* Content Area */}
         <div className="relative flex flex-1 flex-col lg:ml-72.5">
           {/* Header */}
@@ -79,8 +79,12 @@ export default function DefaultLayout({
       </div>
 
       {/* Subscribe Modal */}
-      {isBilingOpen && <Subscribe isBilingOpen={isBilingOpen} setIsBilingOpen={setIsBilingOpen} />}
+      {isBilingOpen && (
+        <Subscribe
+          isBilingOpen={isBilingOpen}
+          setIsBilingOpen={setIsBilingOpen}
+        />
+      )}
     </>
-  );
+  )
 }
-

@@ -63,7 +63,6 @@ export async function GET() {
       }
     }
 
-    // **Sort all notifications globally by createdAt**
     allNotifications.sort(
       (a, b) => b.createdAt.getTime() - a.createdAt.getTime(),
     )

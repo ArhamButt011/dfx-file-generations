@@ -34,7 +34,7 @@ export async function GET(req: NextRequest) {
 
       if (searchQuery) {
         const searchRegex = { $regex: searchQuery, $options: 'i' }
-        const searchNumber = parseFloat(searchQuery) // Convert to number if possible
+        const searchNumber = parseFloat(searchQuery)
 
         filter = {
           ...filter,
@@ -43,7 +43,7 @@ export async function GET(req: NextRequest) {
             { added_on: searchRegex },
             { expiry_on: searchRegex },
             { duration: searchRegex },
-            ...(isNaN(searchNumber) ? [] : [{ charges: searchNumber }]), // Numeric search
+            ...(isNaN(searchNumber) ? [] : [{ charges: searchNumber }]),
           ],
         }
 

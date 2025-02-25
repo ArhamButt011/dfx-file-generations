@@ -3,7 +3,7 @@ import { ObjectId, ClientSession } from 'mongodb'
 import clientPromise from '@/lib/mongodb'
 
 export async function DELETE(req: NextRequest) {
-  let session: ClientSession | undefined // ✅ Change null to undefined
+  let session: ClientSession | undefined
 
   try {
     const url = new URL(req.url)
@@ -26,7 +26,6 @@ export async function DELETE(req: NextRequest) {
     session = client.startSession()
 
     await session.withTransaction(async () => {
-      // ✅ Delete related data first
       await downloadsCollection.deleteMany(
         { user_id: new ObjectId(id) },
         { session },
@@ -44,14 +43,13 @@ export async function DELETE(req: NextRequest) {
         { session },
       )
 
-      // ✅ Delete from parent table
       const result = await usersCollection.deleteOne(
         { _id: new ObjectId(id) },
         { session },
       )
 
       if (result.deletedCount === 0) {
-        throw new Error('User not found') // Trigger rollback
+        throw new Error('User not found')
       }
     })
 
@@ -63,7 +61,7 @@ export async function DELETE(req: NextRequest) {
     console.log('Error deleting user:', error)
 
     if (session) {
-      await session.abortTransaction() // ✅ Rollback changes if any step fails
+      await session.abortTransaction()
     }
 
     return NextResponse.json(
@@ -72,7 +70,7 @@ export async function DELETE(req: NextRequest) {
     )
   } finally {
     if (session) {
-      await session.endSession() // ✅ Clean up session
+      await session.endSession()
     }
   }
 }

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import clientPromise from '@/lib/mongodb' // Adjust path based on your project structure
+import clientPromise from '@/lib/mongodb'
 
 export async function PUT() {
   try {
@@ -15,7 +15,6 @@ export async function PUT() {
     return NextResponse.json({
       success: true,
       message: 'Notifications updated successfully',
-      //   modifiedCount: result.modifiedCount,
     })
   } catch (error) {
     console.error('Error updating notifications:', error)
