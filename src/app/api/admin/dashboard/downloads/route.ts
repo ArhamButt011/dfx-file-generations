@@ -3,16 +3,14 @@ import clientPromise from '@/lib/mongodb'
 
 export async function GET() {
   try {
-    // Connect to MongoDB
     const client = await clientPromise
     const db = client.db('DFXFileGeneration')
     const downloadsCollection = db.collection('all-downloads')
 
     const today = new Date()
     const currentYear = today.getFullYear()
-    const currentMonth = today.getMonth() // 0 = Jan, 1 = Feb, ..., 11 = Dec
+    const currentMonth = today.getMonth()
 
-    // Month names in correct order
     const monthNames = [
       'Jan',
       'Feb',
@@ -28,7 +26,6 @@ export async function GET() {
       'Dec',
     ]
 
-    // Generate rolling last 12 months
     const months: string[] = []
     const downloads: number[] = []
 
@@ -38,11 +35,9 @@ export async function GET() {
 
       months.push(monthNames[monthIndex])
 
-      // Get start and end date of the month
       const startDate = new Date(year, monthIndex, 1)
       const endDate = new Date(year, monthIndex + 1, 0, 23, 59, 59)
 
-      // Count downloads in the month
       const count = await downloadsCollection.countDocuments({
         downloaded_date: { $gte: startDate, $lte: endDate },
       })

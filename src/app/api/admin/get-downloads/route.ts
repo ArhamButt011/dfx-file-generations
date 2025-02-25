@@ -61,7 +61,6 @@ export async function GET(req: NextRequest) {
       }
     }
 
-    // Apply pagination after collecting all downloads
     const paginatedDownloads = allDownloads.slice(skip, skip + limit)
 
     const totalDownloads = allDownloads.length
