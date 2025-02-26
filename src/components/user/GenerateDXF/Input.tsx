@@ -7,6 +7,7 @@ import Swal from 'sweetalert2'
 import { useAuth } from '@/context/AuthContext'
 import Subscribe from '../Subscription/Subscribe'
 import { PulseLoader } from 'react-spinners'
+// import { useSearchParams } from 'next/navigation'
 interface UserPlan {
   plan_name: string
   duration: number
@@ -34,6 +35,10 @@ function Input() {
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const imgRef = useRef<HTMLImageElement>(null)
   const lensRef = useRef<HTMLImageElement>(null)
+  // const [status, setStatus] = useState('loading')
+  // const [customerEmail, setCustomerEmail] = useState('')
+  // const searchParams = useSearchParams()
+  // const sessionId = searchParams.get('session_id')
 
   // const [lensPos, setLensPos] = useState({ x: 0, y: 0, visible: false });
   const [isMagnifierActive, setIsMagnifierActive] = useState(false)
@@ -248,14 +253,17 @@ function Input() {
     //pass data to AI api
     setisProcessingOpen(true)
     try {
-      const res = await fetch('http://192.241.155.184:8080/predict', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          image_path_or_base64: base64,
-          offset_inches: contour,
-        }),
-      })
+      const res = await fetch(
+        'https://046f-192-241-155-184.ngrok-free.app/predict',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            image_path_or_base64: base64,
+            offset_inches: contour,
+          }),
+        },
+      )
 
       if (!res.ok) {
         // If the response is not OK, throw an error with the message from the server response
@@ -343,26 +351,27 @@ function Input() {
 
   const handleDownloadDXF = async (url: string) => {
     if (!url) {
-      console.error('No DXF file URL provided for download.');
-      return;
+      console.error('No DXF file URL provided for download.')
+      return
     }
 
     // Check if user's plan is expired
     if (userPlan && new Date(userPlan.expiry_date) < new Date()) {
-      setIsBilingOpen(true);
-      return;
+      setIsBilingOpen(true)
+      return
     }
 
     try {
-      const response = await fetch(url);
-      if (!response.ok) throw new Error(`Failed to download file. Status: ${response.status}`);
-      const file_name = url.split('/').pop() || 'downloaded_file.dxf';
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = file_name;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      const response = await fetch(url)
+      if (!response.ok)
+        throw new Error(`Failed to download file. Status: ${response.status}`)
+      const file_name = url.split('/').pop() || 'downloaded_file.dxf'
+      const link = document.createElement('a')
+      link.href = url
+      link.download = file_name
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
 
       // Send API request after file is downloaded
       const res = await fetch('/api/user/DFX_Downloads/Add_File', {
@@ -371,13 +380,13 @@ function Input() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ file_name, url, userId }),
-      });
+      })
 
       if (!res.ok) {
-        throw new Error(`Failed to save file info. Status: ${res.status}`);
+        throw new Error(`Failed to save file info. Status: ${res.status}`)
       }
 
-      console.log('File info saved successfully');
+      console.log('File info saved successfully')
     } catch (err) {
       Swal.fire({
         title: 'Error',
@@ -386,14 +395,16 @@ function Input() {
         showConfirmButton: false,
         timer: 2000,
         didOpen: () => {
-          const swalContainer = document.querySelector('.swal2-container') as HTMLElement;
+          const swalContainer = document.querySelector(
+            '.swal2-container',
+          ) as HTMLElement
           if (swalContainer) {
-            swalContainer.style.setProperty('z-index', '100000', 'important');
+            swalContainer.style.setProperty('z-index', '100000', 'important')
           }
         },
-      });
+      })
     }
-  };
+  }
 
   const getFileSize = async (url: string) => {
     try {
@@ -647,8 +658,9 @@ function Input() {
                       fill="currentColor"
                       xmlns="http://www.w3.org/2000/svg"
                       className={`w-10 h-10 cursor-pointer transition-colors duration-300 
-        ${clicked ? 'text-[#266CA8]' : 'text-[#00000066] hover:text-[#266CA8]'
-                        }`}
+        ${
+          clicked ? 'text-[#266CA8]' : 'text-[#00000066] hover:text-[#266CA8]'
+        }`}
                       onClick={() => {
                         setClicked(!clicked)
                         setIsMagnifierActive(!isMagnifierActive)
