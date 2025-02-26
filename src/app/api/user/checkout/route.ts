@@ -7,7 +7,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 export async function POST(req: Request) {
   try {
     const body = await req.json()
-    const { price_id } = body
+    const { price_id, user_id, plan_name } = body
 
     if (!price_id) {
       return new Response(
@@ -33,6 +33,11 @@ export async function POST(req: Request) {
       //   customer_creation: 'always',
       success_url: `${origin}/Generate_DXF?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/subscription`,
+      customer_email: body.email,
+      metadata: {
+        user_id: user_id,
+        plan_name: plan_name,
+      },
     })
 
     return new Response(JSON.stringify({ sessionId: session.id }), {
