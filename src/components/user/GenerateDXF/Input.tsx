@@ -123,20 +123,7 @@ function Input() {
     }
   }, [isMagnifierActive])
 
-  // const handleMouseMove = (e: React.MouseEvent) => {
 
-  //   if (!isMagnifierActive || !imgRef.current) return;
-
-  //   const img = imgRef.current.getBoundingClientRect();
-  //   const width = img.width;
-  //   const height = img.height;
-  //   let x = e.clientX - img.left;
-  //   let y = e.clientY - img.top;
-  //   // Ensure the lens stays inside the image
-  //   x = Math.max(100 / 2, Math.min(x, width - 100 / 2));
-  //   y = Math.max(100 / 2, Math.min(y, height - 100 / 2));
-  //   setLensPos({ x, y, visible: true });
-  // };
 
   const onClose = () => {
     setisProcessingOpen(false)
@@ -219,17 +206,19 @@ function Input() {
       added_date: Date.now(),
       expiry_date: Date.now() + 7 * 24 * 60 * 60 * 1000,
     }
+    setisProcessingOpen(true)
+    if (!userPlan) {
+      const res = await fetch('/api/user/subscription', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
 
-    const res = await fetch('/api/user/subscription', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    })
-
-    if (!res.ok) {
-      throw new Error('Failed to create subscription')
+      if (!res.ok) {
+        throw new Error('Failed to create subscription')
+      }
     }
     if (!image || contour === undefined || contour === null) {
       Swal.fire({
@@ -251,7 +240,6 @@ function Input() {
     }
 
     //pass data to AI api
-    setisProcessingOpen(true)
     try {
       const res = await fetch(
         'https://046f-192-241-155-184.ngrok-free.app/predict',
@@ -307,47 +295,58 @@ function Input() {
     }
   }
 
-  const handleDownload = (url: string) => {
+  const handleDownload = async (url: string) => {
     if (!url) {
       console.error('No image URL provided for download.')
       return
     }
-
+  
+    // Check if user's plan is expired
     if (userPlan && new Date(userPlan.expiry_date) < new Date()) {
       setIsBilingOpen(true)
       return
     }
-
-    fetch(url)
-      .then((response) => response.blob()) // Convert image URL to a blob
-      .then((blob) => {
-        const blobUrl = window.URL.createObjectURL(blob)
-        const link = document.createElement('a')
-        link.href = blobUrl
-        link.download = url.split('/').pop() || 'downloaded_image' // Extract filename or fallback
-        document.body.appendChild(link)
-        link.click()
-        document.body.removeChild(link)
-        window.URL.revokeObjectURL(blobUrl) // Clean up memory
+  
+    try {
+      // Fetch the image and convert it to a blob
+      const response = await fetch(url)
+      if (!response.ok)
+        throw new Error(`Failed to download image. Status: ${response.status}`)
+  
+      const blob = await response.blob()
+      const blobUrl = URL.createObjectURL(blob)
+  
+      // Create a download link
+      const file_name = url.split('/').pop() || 'downloaded_image.jpg'
+      const link = document.createElement('a')
+      link.href = blobUrl
+      link.download = file_name
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+  
+      // Clean up memory
+      URL.revokeObjectURL(blobUrl)
+  
+      console.log('Image downloaded successfully')
+    } catch (err) {
+      Swal.fire({
+        title: 'Error',
+        text: err instanceof Error ? err.message : String(err),
+        icon: 'error',
+        showConfirmButton: false,
+        timer: 2000,
+        didOpen: () => {
+          const swalContainer = document.querySelector('.swal2-container') as HTMLElement
+          if (swalContainer) {
+            swalContainer.style.setProperty('z-index', '100000', 'important')
+          }
+        },
       })
-      .catch((err) =>
-        Swal.fire({
-          title: 'Error',
-          text: err instanceof Error ? err.message : String(err),
-          icon: 'error',
-          showConfirmButton: false,
-          timer: 2000,
-          didOpen: () => {
-            const swalContainer = document.querySelector(
-              '.swal2-container',
-            ) as HTMLElement
-            if (swalContainer) {
-              swalContainer.style.setProperty('z-index', '100000', 'important')
-            }
-          },
-        }),
-      )
+    }
   }
+  
+
 
   const handleDownloadDXF = async (url: string) => {
     if (!url) {
@@ -658,9 +657,8 @@ function Input() {
                       fill="currentColor"
                       xmlns="http://www.w3.org/2000/svg"
                       className={`w-10 h-10 cursor-pointer transition-colors duration-300 
-        ${
-          clicked ? 'text-[#266CA8]' : 'text-[#00000066] hover:text-[#266CA8]'
-        }`}
+        ${clicked ? 'text-[#266CA8]' : 'text-[#00000066] hover:text-[#266CA8]'
+                        }`}
                       onClick={() => {
                         setClicked(!clicked)
                         setIsMagnifierActive(!isMagnifierActive)
