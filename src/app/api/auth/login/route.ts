@@ -138,8 +138,21 @@ export async function POST(req: Request) {
       )
     }
 
+
+    const subscriptionsCollection = db.collection('all-subscriptions');
+    const latestSubscription = await subscriptionsCollection.findOne(
+      { user_id: user._id, status: "active" },
+      { sort: { added_on: -1 } } // Sort by added_on in descending order
+    );
+    let plan = "";
+    if (latestSubscription?.status === "active") {
+      plan = latestSubscription?.plan_name;
+    }
+    else {
+      plan = latestSubscription?.status;
+    }
     const token = jwt.sign(
-      { email: user.email, id: user._id, role: user.role, username: user.name, userLastName: user.lastName },
+      { email: user.email, id: user._id, role: user.role, username: user.name, userLastName: user.lastName, subscription: plan },
       SECRET_KEY,
       { expiresIn: '24h' },
     )

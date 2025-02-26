@@ -7,23 +7,18 @@ export async function POST(req: Request) {
     try {
         const { file_name, url, userId } = await req.json()
 
-
         if (!file_name || !url || !userId) {
             return NextResponse.json(
-                { message: 'file_name, url, userId are required' },
+                { message: 'file_name, url, and userId are required' },
                 { status: 400 },
             )
         }
 
-
-
         const client = await clientPromise
-
         const db = client.db('DFXFileGeneration')
+        const objectId = ObjectId.createFromHexString(userId)
 
-        const objectId = ObjectId.createFromHexString(userId);
-
-        const existingUser = await db.collection('users').findOne({ _id: objectId });
+        const existingUser = await db.collection('users').findOne({ _id: objectId })
 
         if (!existingUser) {
             return NextResponse.json(
@@ -32,22 +27,31 @@ export async function POST(req: Request) {
             )
         }
 
-        const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
-        const formattedDate = new Date().toLocaleDateString('en-US', options);
-        
-    
-        await db.collection('all-downloads').insertOne({
-            user_id: new ObjectId(userId),  
-            file_name:file_name,
-            file_url:url,
-            downloaded_on:formattedDate,
-            downloaded_date:new Date()
+        // Check if file with same name and URL already exists
+        const existingDownload = await db.collection('all-downloads').findOne({
+            user_id: objectId,
+            file_name: file_name,
+            file_url: url
         })
+
+        if (!existingDownload) {
+            const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' }
+            const formattedDate = new Date().toLocaleDateString('en-US', options)
+
+            await db.collection('all-downloads').insertOne({
+                user_id: objectId,
+                file_name,
+                file_url: url,
+                downloaded_on: formattedDate,
+                downloaded_date: new Date()
+            })
+        }
+
 
 
         return NextResponse.json(
-          { message: 'FIle Downloaded successfully' },
-          { status: 201 },
+            { message: 'File downloaded successfully' },
+            { status: 201 },
         )
     } catch (error) {
         console.log('Error creating user:', error)
@@ -57,4 +61,5 @@ export async function POST(req: Request) {
         )
     }
 }
+
 
