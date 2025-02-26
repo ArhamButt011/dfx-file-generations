@@ -17,7 +17,7 @@ type DataItem = {
   id: number
   desc: string
   price_id: string
-  title: string
+  plan_name: string
   price: string
   include: included[]
   buttonText: string
@@ -27,7 +27,7 @@ const bilingPlans: DataItem[] = [
   {
     id: 1,
     desc: 'Free Plan',
-    title: 'Free Trial',
+    plan_name: 'Free Trial',
     price: '$0.00/month',
     price_id: '',
     include: [
@@ -45,7 +45,7 @@ const bilingPlans: DataItem[] = [
   {
     id: 2,
     desc: 'Pay Per Download',
-    title: 'Basic',
+    plan_name: 'Basic',
     price: '$20.00',
     price_id: 'price_1QwMSZLPfX4joK3zUDF3sbax',
     include: [
@@ -71,7 +71,7 @@ const bilingPlans: DataItem[] = [
   {
     id: 3,
     desc: 'Unlimited Plan',
-    title: 'Premium',
+    plan_name: 'Premium',
     price: '$50.00/Month',
     price_id: 'price_1QwM6PLPfX4joK3zKgOIQBsp',
     include: [
@@ -106,7 +106,7 @@ type SubscribeProps = {
 
 //     const subscriptionData = {
 //         userid: userData?._id,
-//         plan: item.title,
+//         plan: item.plan_name,
 //         charges:  item.price.split("/")[0],
 //         duration: item.price.split("/")[1],
 //         bilingDate,
@@ -126,11 +126,12 @@ function Subscribe({ isBilingOpen, setIsBilingOpen }: SubscribeProps) {
     setIsBilingOpen(false)
   }
 
-  const handleSubscribe = async (price_id: string) => {
+  const handleSubscribe = async (price_id: string, plan_name: string) => {
     try {
       const res = await axios.post('/api/user/checkout', {
         price_id: price_id,
         user_id: userData?.id,
+        plan_name: plan_name,
       })
       console.log('subscription reponse-> ', res)
 
@@ -174,7 +175,7 @@ function Subscribe({ isBilingOpen, setIsBilingOpen }: SubscribeProps) {
                 <p className="font-medium text-base text-[#22222280]">
                   {item.desc}
                 </p>
-                <p className="font-semibold text-3xl">{item.title}</p>
+                <p className="font-semibold text-3xl">{item.plan_name}</p>
                 <p className="mt-6">
                   <span className="text-4xl font-semibold text-[#266CA8]">
                     {item.price.split('/')[0]}
@@ -203,7 +204,7 @@ function Subscribe({ isBilingOpen, setIsBilingOpen }: SubscribeProps) {
               </div>
               <button
                 className="mt-4 bg-[#266CA8] text-white py-2 px-4 rounded-full"
-                onClick={() => handleSubscribe(item.price_id)}
+                onClick={() => handleSubscribe(item.price_id, item.plan_name)}
                 // disabled={loadingId === item.id}
               >
                 {item.buttonText}
