@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { format, parseISO } from 'date-fns'
+import { format } from 'date-fns'
 import noDownloads from '/public/images/admin/noDownloads.svg'
 import { ClipLoader } from 'react-spinners'
 interface Subscription {
@@ -74,7 +74,7 @@ const SubscriptionTable: React.FC<SubscriptionTableProps> = ({
                 </td>
                 <td className="py-4 px-4 text-center text-lg font-medium">
                   {data.added_on
-                    ? format(parseISO(data.added_on), 'MMM dd, yyyy')
+                    ? format(new Date(data.added_on), 'MMM dd, yyyy')
                     : 'N/A'}
                 </td>
                 <td
@@ -85,7 +85,7 @@ const SubscriptionTable: React.FC<SubscriptionTableProps> = ({
                   }`}
                 >
                   {data.expiry_on
-                    ? format(parseISO(data.expiry_on), 'MMM dd, yyyy')
+                    ? format(new Date(data.expiry_on), 'MMM dd, yyyy')
                     : 'N/A'}
                 </td>
               </tr>
