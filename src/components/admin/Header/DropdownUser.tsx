@@ -18,7 +18,6 @@ import EditIcon from '/public/images/editIcon.svg'
 import userImages from '/public/images/userImage.svg'
 import axios, { AxiosError } from 'axios'
 import Swal from 'sweetalert2'
-import { useNotification } from '@/context/NotificationContext'
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false)
@@ -31,14 +30,13 @@ const DropdownUser = () => {
   const [oldPassword, setOldPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  // const [isActive, setIsActive] = useState(false)
   const [name, setName] = useState('')
   const [profileImage, setProfileImage] = useState(userImages) // Set initial image
   const [file, setFile] = useState<File | undefined>(undefined)
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const { logout } = useAuth()
   const { userData, setUserData } = useAuth()
-  const { isActive, toggleNotifications } = useNotification()
+
   const handleImageClick = () => {
     fileInputRef.current?.click()
   }
@@ -231,40 +229,7 @@ const DropdownUser = () => {
       })
     }
   }
-  // useEffect(() => {
-  //   const fetchStatus = async () => {
-  //     try {
-  //       const response = await fetch('/api/admin/get-enable-notification')
-  //       const data = await response.json()
 
-  //       if (response.ok) {
-  //         setIsActive(data.isActive)
-  //       }
-  //     } catch (error) {
-  //       console.error('Error fetching notification status:', error)
-  //     }
-  //   }
-  //   fetchStatus()
-  // }, [])
-  // const handleToggle = async () => {
-  //   const newStatus = !isActive
-  //   setIsActive(newStatus)
-
-  //   try {
-  //     const response = await fetch('/api/admin/enable-notifications', {
-  //       method: 'PUT',
-  //       headers: { 'Content-Type': 'application/json' },
-  //       body: JSON.stringify({ isActive: newStatus }),
-  //     })
-
-  //     if (!response.ok) {
-  //       throw new Error('Failed to update notification status')
-  //     }
-  //   } catch (error) {
-  //     console.error('Error updating notification status:', error)
-  //     setIsActive(!newStatus) // Revert UI if the request fails
-  //   }
-  // }
   return (
     <>
       <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
@@ -277,6 +242,7 @@ const DropdownUser = () => {
             <span className="block text-[20.94px] font-medium text-black dark:text-white">
               {userData?.username}
             </span>
+            {/* <span className="block text-xs">UX Designer</span> */}
           </span>
 
           <span className="h-10 w-10 overflow-hidden rounded-full">
@@ -340,12 +306,7 @@ const DropdownUser = () => {
                     Enable Notifications
                   </div>
                   <label className="inline-flex items-center cursor-pointer">
-                    <input
-                      type="checkbox"
-                      className="sr-only peer"
-                      checked={isActive}
-                      onChange={toggleNotifications}
-                    />
+                    <input type="checkbox" value="" className="sr-only peer" />
                     <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-secondary dark:peer-checked:bg-secondary"></div>
                   </label>
                 </div>

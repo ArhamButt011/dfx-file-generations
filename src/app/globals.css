@@ -46,7 +46,7 @@ body {
   .pricing-box:nth-child(3) { height: 40vh !important; }
 }
 
-input, button {
+/* input, button {
   -webkit-appearance: none;
   appearance: none;
-}
+} */
