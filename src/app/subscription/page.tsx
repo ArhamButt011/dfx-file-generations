@@ -46,15 +46,17 @@ function Page() {
   }, [token, router])
 
   const fetchSubscriptions = useCallback(async () => {
+    if (!userData?.id) return
+
     try {
       setLoadingTable(true)
       const response = await fetch(
-        `/api/admin/get-subscriptions/${userData?.id}`,
+        `/api/admin/get-subscriptions/${userData.id}`,
       )
 
       if (response.ok) {
         const data = await response.json()
-        console.log(data)
+        console.log('subscriptions-> ', data)
         setSubscriptions(data.subscriptions)
       } else {
         console.log('Failed to fetch users')
@@ -72,7 +74,7 @@ function Page() {
 
   return (
     <DefaultLayout>
-      <Index />
+      <Index subscriptions={subscriptions} />
       <SubscriptionTable
         subscriptions={subscriptions}
         loadingTable={loadingTable}

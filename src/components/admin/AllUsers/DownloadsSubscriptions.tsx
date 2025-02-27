@@ -124,17 +124,6 @@ const DownloadsSubscriptions = () => {
                 />
               </div>
             </div>
-
-            {/* <nav>
-        <ol className="flex items-center gap-2">
-          <li>
-            <Link className="font-medium" href="/">
-              Dashboard /
-            </Link>
-          </li>
-          <li className="font-medium text-primary">{pageName}</li>
-        </ol>
-      </nav> */}
           </div>
           {loadingTable ? (
             <div className="flex items-center justify-center bg-opacity-50 z-[1000] mt-20 h-50">
