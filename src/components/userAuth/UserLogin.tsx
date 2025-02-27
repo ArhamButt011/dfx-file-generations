@@ -1071,7 +1071,7 @@ const UserLogin = () => {
             <p className="font-[550] md:text-xl text-base text-center mt-5">
               Didn’t receive the code?{" "}
               {Timer > 0 ? (
-                <span className="text-gray-500">Resend in {Timer}s</span>
+                <span className="text-[#266CAB]">Resend in {Timer}s</span>
               ) : (
                 <span
                   className="underline text-[#266CAB] cursor-pointer"

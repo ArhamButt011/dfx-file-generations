@@ -257,7 +257,7 @@ function Input() {
         // If the response is not OK, throw an error with the message from the server response
 
         const data = await res.json()
-        throw new Error(data.message || 'An error occurred')
+        throw new Error(data.detail + " or Invalid Image" || 'An error occurred')
       }
 
       // If the response is OK, parse the JSON data
@@ -280,7 +280,7 @@ function Input() {
         text: err instanceof Error ? err.message : String(err),
         icon: 'error',
         showConfirmButton: false,
-        timer: 2000,
+        timer: 10000,
         didOpen: () => {
           const swalContainer = document.querySelector(
             '.swal2-container',
@@ -761,6 +761,7 @@ function Input() {
                     <button
                       type="reset"
                       className="w-1/2 bg-white p-3 rounded-full text-[#00000080] font-medium text-2xl"
+                      onClick={() => {setContour(''); setImage('')}}
                     >
                       Clear
                     </button>
