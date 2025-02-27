@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'DXF File Generation',
+  title: 'Lumashape',
   description:
     'Efficiently generate DXF files with ease using our powerful tool for precise image processing and seamless integration. Perfect for designers and engineers looking for high-quality CAD outputs.',
 }

@@ -123,6 +123,8 @@ export async function POST(req: Request) {
         customer_id,
         plan_name,
         subscription_id,
+        charges: total,
+        duration: 'Monthly',
         status: 'active',
         added_on: nowUTC.toISOString(),
         expiry_on: expiryUTC.toISOString(),

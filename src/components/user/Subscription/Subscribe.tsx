@@ -133,7 +133,6 @@ function Subscribe({ isBilingOpen, setIsBilingOpen }: SubscribeProps) {
         user_id: userData?.id,
         plan_name: plan_name,
       })
-      console.log('subscription reponse-> ', res)
 
       if (!res.data.sessionId) throw new Error('Missing sessionId from API')
 
@@ -188,7 +187,7 @@ function Subscribe({ isBilingOpen, setIsBilingOpen }: SubscribeProps) {
                   What&apos;s Included
                 </p>
                 {item.include.map((inc) => (
-                  <div key={inc.id} className="flex items-center gap-2">
+                  <div key={inc.id} className="flex items-start gap-2">
                     <Image
                       src="/images/user/AuthScreens/Check Circle.svg"
                       alt=""
@@ -202,13 +201,14 @@ function Subscribe({ isBilingOpen, setIsBilingOpen }: SubscribeProps) {
                   </div>
                 ))}
               </div>
-              <button
-                className="mt-4 bg-[#266CA8] text-white py-2 px-4 rounded-full"
-                onClick={() => handleSubscribe(item.price_id, item.plan_name)}
-                // disabled={loadingId === item.id}
-              >
-                {item.buttonText}
-              </button>
+              {item.plan_name !== 'Free Trial' && (
+                <button
+                  className="mt-4 bg-[#266CA8] text-white py-2 px-4 rounded-full"
+                  onClick={() => handleSubscribe(item.price_id, item.plan_name)}
+                >
+                  {item.buttonText}
+                </button>
+              )}
             </div>
           ))}
         </div>
