@@ -208,6 +208,7 @@ const UserLogin = () => {
         password: '',
         role: 'User',
       })
+      sessionStorage.setItem('billingTriggered',"false");
     } catch (err) {
       Swal.fire({
         title: 'Error!',

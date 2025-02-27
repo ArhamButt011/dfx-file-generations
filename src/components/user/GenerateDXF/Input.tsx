@@ -66,6 +66,8 @@ function Input() {
       }
     }
 
+
+
     if (userId) {
       fetchUserPlan()
     }
@@ -123,7 +125,15 @@ function Input() {
     }
   }, [isMagnifierActive])
 
+  useEffect(() => {
+    const isBillingTriggered = sessionStorage.getItem('billingTriggered');
+    console.log(isBillingTriggered)
 
+    if (isBillingTriggered!="true" && userPlan && new Date(userPlan.expiry_date) < new Date()) {
+      setIsBilingOpen(true);
+      sessionStorage.setItem('billingTriggered', 'true'); // Mark that the effect has run
+    }
+  }, [userPlan]);
 
   const onClose = () => {
     setisProcessingOpen(false)
@@ -300,22 +310,22 @@ function Input() {
       console.error('No image URL provided for download.')
       return
     }
-  
+
     // Check if user's plan is expired
     if (userPlan && new Date(userPlan.expiry_date) < new Date()) {
       setIsBilingOpen(true)
       return
     }
-  
+
     try {
       // Fetch the image and convert it to a blob
       const response = await fetch(url)
       if (!response.ok)
         throw new Error(`Failed to download image. Status: ${response.status}`)
-  
+
       const blob = await response.blob()
       const blobUrl = URL.createObjectURL(blob)
-  
+
       // Create a download link
       const file_name = url.split('/').pop() || 'downloaded_image.jpg'
       const link = document.createElement('a')
@@ -324,10 +334,10 @@ function Input() {
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
-  
+
       // Clean up memory
       URL.revokeObjectURL(blobUrl)
-  
+
       console.log('Image downloaded successfully')
     } catch (err) {
       Swal.fire({
@@ -345,7 +355,7 @@ function Input() {
       })
     }
   }
-  
+
 
 
   const handleDownloadDXF = async (url: string) => {
@@ -761,7 +771,7 @@ function Input() {
                     <button
                       type="reset"
                       className="w-1/2 bg-white p-3 rounded-full text-[#00000080] font-medium text-2xl"
-                      onClick={() => {setContour(''); setImage('')}}
+                      onClick={() => { setContour(''); setImage('') }}
                     >
                       Clear
                     </button>
