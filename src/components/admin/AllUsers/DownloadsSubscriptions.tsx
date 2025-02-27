@@ -34,11 +34,8 @@ const DownloadsSubscriptions = () => {
   const getStatus = (expiryDate: string): string => {
     const currentDate = new Date()
     const expiryDateObj = new Date(expiryDate)
-
     return currentDate < expiryDateObj ? 'Current' : 'Past'
   }
-
-  const status = getStatus(subscriptions[0]?.expiry_date)
 
   const fetchSubscriptions = useCallback(async () => {
     try {
@@ -171,45 +168,48 @@ const DownloadsSubscriptions = () => {
                 </tr>
               </thead>
               <tbody>
-                {subscriptions.map((data, index) => (
-                  <tr
-                    key={index}
-                    className="text-primary bg-[#F5F5F5] text-[16px]"
-                  >
-                    <td className="py-5 px-4 text-start font-medium rounded-l-xl">
-                      #{index + 1}
-                    </td>
-                    <td className="py-5 px-4 text-center font-medium text-black text-[19px]">
-                      {data?.plan_name}
-                    </td>
-                    <td className="py-5 px-4 text-center font-medium">
-                      {data?.duration}
-                    </td>
-                    <td className="py-5 px-4 text-center font-medium ">
-                      {format(new Date(data?.added_on), 'MMM dd, yyyy')}
-                    </td>
-                    <td className="py-5 px-4 text-center font-medium ">
-                      {format(new Date(data?.expiry_on), 'MMM dd, yyyy')}
-                    </td>
-
-                    <td className="py-5 px-4 text-center text-[19px] font-medium text-[#266CA8]">
-                      ${data?.charges}
-                    </td>
-                    <td
-                      className={`py-5 pl-10 text-center font-medium rounded-r-xl`}
+                {subscriptions.map((data, index) => {
+                  const status = getStatus(data?.expiry_on)
+                  return (
+                    <tr
+                      key={index}
+                      className="text-primary bg-[#F5F5F5] text-[16px]"
                     >
-                      <span
-                        className={`${
-                          status === 'Current'
-                            ? 'text-[#266CA8] bg-[#E0E7ED] rounded-full px-4 py-2'
-                            : 'text-[#F9A000] bg-[#F5EDDD] px-8 py-2 rounded-full'
-                        }`}
+                      <td className="py-5 px-4 text-start font-medium rounded-l-xl">
+                        #{index + 1}
+                      </td>
+                      <td className="py-5 px-4 text-center font-medium text-black text-[19px]">
+                        {data?.plan_name}
+                      </td>
+                      <td className="py-5 px-4 text-center font-medium">
+                        {data?.duration}
+                      </td>
+                      <td className="py-5 px-4 text-center font-medium ">
+                        {format(new Date(data?.added_on), 'MMM dd, yyyy')}
+                      </td>
+                      <td className="py-5 px-4 text-center font-medium ">
+                        {format(new Date(data?.expiry_on), 'MMM dd, yyyy')}
+                      </td>
+
+                      <td className="py-5 px-4 text-center text-[19px] font-medium text-[#266CA8]">
+                        ${data?.charges}
+                      </td>
+                      <td
+                        className={`py-5 pl-10 text-center font-medium rounded-r-xl`}
                       >
-                        {status}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
+                        <span
+                          className={`${
+                            status === 'Current'
+                              ? 'text-[#266CA8] bg-[#E0E7ED] rounded-full px-4 py-2'
+                              : 'text-[#F9A000] bg-[#F5EDDD] px-8 py-2 rounded-full'
+                          }`}
+                        >
+                          {status}
+                        </span>
+                      </td>
+                    </tr>
+                  )
+                })}
               </tbody>
             </table>
           ) : (
