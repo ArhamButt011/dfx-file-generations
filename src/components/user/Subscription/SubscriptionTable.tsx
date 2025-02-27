@@ -73,7 +73,9 @@ const SubscriptionTable: React.FC<SubscriptionTableProps> = ({
                   ${data.charges}
                 </td>
                 <td className="py-4 px-4 text-center text-lg font-medium">
-                  {format(parseISO(data.added_on), 'MMM dd, yyyy')}
+                  {data.added_on
+                    ? format(parseISO(data.added_on), 'MMM dd, yyyy')
+                    : 'N/A'}
                 </td>
                 <td
                   className={`py-4 px-4 text-center text-lg font-medium ${
@@ -82,7 +84,9 @@ const SubscriptionTable: React.FC<SubscriptionTableProps> = ({
                       : 'border-r'
                   }`}
                 >
-                  {format(parseISO(data.expiry_on), 'MMM dd, yyyy')}
+                  {data.expiry_on
+                    ? format(parseISO(data.expiry_on), 'MMM dd, yyyy')
+                    : 'N/A'}
                 </td>
               </tr>
             ))}
