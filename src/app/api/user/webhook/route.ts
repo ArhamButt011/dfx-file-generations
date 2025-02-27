@@ -91,33 +91,6 @@ export async function POST(req: Request) {
       const client = await clientPromise
       const db = client.db('DFXFileGeneration')
 
-      const latestSubscription = await db
-        .collection('all-subscriptions')
-        .findOne(
-          { user_id: objectUserId, status: 'active' },
-          { sort: { added_on: -1 } },
-        )
-
-      if (latestSubscription) {
-        console.log('Found latest active subscription:', latestSubscription)
-
-        await db.collection('all-subscriptions').updateOne(
-          { _id: latestSubscription._id },
-          {
-            $set: {
-              expiry_on: nowUTC.toISOString(),
-              expiry_date: nowUTC,
-              status: 'expired',
-            },
-          },
-        )
-        console.log('Updated previous subscription to expired')
-      } else {
-        console.log(
-          'No previous active subscription found. Creating a new one.',
-        )
-      }
-
       await db.collection('all-subscriptions').insertOne({
         user_id: objectUserId,
         customer_id,

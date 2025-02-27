@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import React, { useState } from 'react'
 import Subscribe from './Subscribe'
+import { format } from 'date-fns'
 
 interface Subscription {
   order_id: string
@@ -19,38 +20,51 @@ interface SubscriptionProps {
 
 const Index: React.FC<SubscriptionProps> = ({ subscriptions }) => {
   const [isBilingOpen, setIsBilingOpen] = useState(false)
-  console.log(subscriptions)
+
   return (
     <div>
       <p className="font-semibold text-4xl">Subscription Plan</p>
       <p className="font-medium text-lg text-[#00000080] mt-1">
-        Manage your subscription and payment details{' '}
+        Manage your subscription and payment details
       </p>
       <div className="flex mt-5 w-full justify-between gap-10">
         {/* left */}
         <div className="border rounded-2xl p-5 w-full">
-          <div className="flex justify-between">
-            <div>
-              <p className="font-semibold text-xl">
-                Basic plan{' '}
-                <span className="font-medium text-xs bg-[#266CA81A] text-[#266CA8] px-2 py-1 rounded-full">
-                  Monthly
+          {subscriptions[0]?.status === 'active' ? (
+            <>
+              <div className="flex justify-between">
+                <div>
+                  <p className="font-semibold text-xl">
+                    {subscriptions[0]?.plan_name} Plan{' '}
+                    <span className="font-medium text-xs bg-[#266CA81A] text-[#266CA8] px-2 py-1 rounded-full">
+                      Monthly
+                    </span>
+                  </p>
+                </div>
+                <div>
+                  <p className="font-medium">
+                    <span className="text-4xl">
+                      ${subscriptions[0]?.charges}
+                    </span>{' '}
+                    <span className="text-base text-[#00000066]">/month</span>
+                  </p>
+                </div>
+              </div>
+              <p className="font-medium text-base text-[#00000080] mt-10">
+                Next Renewal Date:{' '}
+                <span className="text-black">
+                  {subscriptions[0]?.expiry_on
+                    ? format(
+                        new Date(subscriptions[0]?.expiry_on),
+                        'MMM dd, yyyy',
+                      )
+                    : 'N/A'}
                 </span>
               </p>
-              <p className="text-[#00000080] font-medium text-xs mt-2">
-                Our most popular plan for small teams.
-              </p>
-            </div>
-            <div>
-              <p className="font-medium">
-                <span className="text-4xl">$100</span>{' '}
-                <span className="text-base text-[#00000066]">/month</span>
-              </p>
-            </div>
-          </div>
-          <p className="font-medium text-base text-[#00000080] mt-10">
-            Next Renewal Date: <span className="text-black">Apr 10, 2025</span>
-          </p>
+            </>
+          ) : (
+            <div>No subcription added yet</div>
+          )}
           <div className="-mx-5 border-t border-[#0000001A] my-5"></div>
           <div className="flex justify-center mt-5">
             <p
@@ -118,6 +132,7 @@ const Index: React.FC<SubscriptionProps> = ({ subscriptions }) => {
         <Subscribe
           isBilingOpen={isBilingOpen}
           setIsBilingOpen={setIsBilingOpen}
+          // planName={subscriptions[0]?.plan_name}
         />
       )}
     </div>

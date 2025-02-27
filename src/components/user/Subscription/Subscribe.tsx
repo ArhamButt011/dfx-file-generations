@@ -51,15 +51,15 @@ const bilingPlans: DataItem[] = [
     include: [
       {
         id: 1,
-        text: 'Free upload and preview',
+        text: 'Unlimited DXF downloads',
       },
       {
         id: 2,
-        text: 'Purchase DXF files individually for $10 per download.',
+        text: 'Full access to DXF customization tools',
       },
       {
         id: 3,
-        text: 'No commitment or subscription',
+        text: 'Cancel or modify anytime',
       },
       {
         id: 4,
@@ -81,14 +81,30 @@ const bilingPlans: DataItem[] = [
       },
       {
         id: 2,
-        text: 'Exclusive customer support ',
+        text: 'Full access to DXF customization tools',
       },
       {
         id: 3,
-        text: 'Cancel or modify anytime',
+        text: 'Batch image processing (up to 4 images per batch)',
       },
       {
         id: 4,
+        text: 'Advanced file management (organize, rename, and tag DXF files)',
+      },
+      {
+        id: 5,
+        text: 'Automated cloud backup C sync',
+      },
+      {
+        id: 6,
+        text: 'Customer Support',
+      },
+      {
+        id: 7,
+        text: 'Cancel or modify anytime',
+      },
+      {
+        id: 8,
         text: 'Secure payment processing',
       },
     ],
@@ -98,9 +114,14 @@ const bilingPlans: DataItem[] = [
 type SubscribeProps = {
   isBilingOpen: boolean
   setIsBilingOpen: (open: boolean) => void
+  // planName: string
 }
 
-function Subscribe({ isBilingOpen, setIsBilingOpen }: SubscribeProps) {
+function Subscribe({
+  isBilingOpen,
+  setIsBilingOpen,
+}: // planName,
+SubscribeProps) {
   // const [isBilingOpen, setIsBilingOpen] = useState<boolean>(false);
   //   const router = useRouter()
   const { userData } = useAuth()
@@ -187,8 +208,13 @@ function Subscribe({ isBilingOpen, setIsBilingOpen }: SubscribeProps) {
               </div>
               {item.plan_name !== 'Free Trial' && (
                 <button
-                  className="mt-4 bg-[#266CA8] text-white py-2 px-4 rounded-full"
+                  className={`mt-4 py-2 px-4 rounded-full ${
+                    item.plan_name === userData?.subscription
+                      ? 'bg-[#266CA8] text-white cursor-not-allowed opacity-70'
+                      : 'bg-[#266CA8] text-white cursor-pointer'
+                  }`}
                   onClick={() => handleSubscribe(item.price_id, item.plan_name)}
+                  disabled={item.plan_name === userData?.subscription}
                 >
                   {item.buttonText}
                 </button>

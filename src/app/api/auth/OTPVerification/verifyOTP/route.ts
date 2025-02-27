@@ -5,7 +5,7 @@
 // export async function POST(req: Request) {
 //   try {
 //     const { email, otp } = await req.json()
-    
+
 //     if (!otp || !email) {
 //       return NextResponse.json({ message: 'OTP is required' }, { status: 400 })
 //     }
@@ -52,15 +52,19 @@
 import { NextResponse } from 'next/server'
 import clientPromise from '@/lib/mongodb'
 import jwt from 'jsonwebtoken'
+import sendWelcomeEmail from '@/lib/welcome-email'
 
 const SECRET_KEY = process.env.NEXT_JWT_SECRET as string
 
 export async function POST(req: Request) {
   try {
-    const { email, otp } = await req.json()
-    
+    const { email, otp, otpTexts } = await req.json()
+
     if (!otp || !email) {
-      return NextResponse.json({ message: 'OTP and Email is required' }, { status: 400 })
+      return NextResponse.json(
+        { message: 'OTP and Email is required' },
+        { status: 400 },
+      )
     }
 
     const normalizedEmail = email.toLowerCase()
@@ -68,13 +72,12 @@ export async function POST(req: Request) {
     const client = await clientPromise
     const db = client.db('DFXFileGeneration')
 
-    const user = await db.collection('users').findOne({ email: normalizedEmail })
+    const user = await db
+      .collection('users')
+      .findOne({ email: normalizedEmail })
 
     if (!user) {
-      return NextResponse.json(
-        { message: 'User not found' },
-        { status: 404 },
-      )
+      return NextResponse.json({ message: 'User not found' }, { status: 404 })
     }
 
     if (user.otp !== otp) {
@@ -86,10 +89,10 @@ export async function POST(req: Request) {
 
     await db.collection('users').updateOne(
       { email: normalizedEmail },
-      { 
+      {
         $set: { is_verified: true, updatedAt: new Date() },
-        $unset: { otp: "" } 
-      }
+        $unset: { otp: '' },
+      },
     )
 
     const token = jwt.sign(
@@ -102,9 +105,12 @@ export async function POST(req: Request) {
       SECRET_KEY,
       { expiresIn: '24h' },
     )
+    if (otpTexts === 'registration') {
+      await sendWelcomeEmail(user.email, user.name)
+    }
 
     return NextResponse.json(
-      { message: 'User verified successfully', token, name: user.name },
+      { message: 'Use2r verified successfully', token, name: user.name },
       { status: 200 },
     )
   } catch (error) {
@@ -115,4 +121,3 @@ export async function POST(req: Request) {
     )
   }
 }
-

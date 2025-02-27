@@ -73,6 +73,7 @@ import { NextResponse } from 'next/server'
 import { MongoClient, ObjectId } from 'mongodb'
 import clientPromise from '@/lib/mongodb'
 import { addNotification } from '@/lib/notifications'
+import FreeTrailEmail from '@/lib/free-trial-email'
 
 const uri = process.env.mongodbString as string
 const client = new MongoClient(uri)
@@ -121,6 +122,8 @@ export async function POST(req: Request) {
       charges: 0, // Checking for free plans
     })
 
+    const userData = await db.collection('users').findOne({ _id: userIdObject })
+
     // If a free plan exists, silently return success without inserting
     if (existingFreePlan) {
       return NextResponse.json(
@@ -134,6 +137,8 @@ export async function POST(req: Request) {
 
     const addedDate = new Date(added_date)
     const expiryDate = new Date(expiry_date)
+    const email = userData?.email || ''
+    const name = userData?.name || ''
 
     const options: Intl.DateTimeFormatOptions = {
       year: 'numeric',
@@ -161,7 +166,10 @@ export async function POST(req: Request) {
       added_date: addedDate,
       expiry_date: expiryDate,
     })
+
     await addNotification(user_id, '', 'free_subscription')
+
+    await FreeTrailEmail(email, name, expiryOnFormatted)
 
     return NextResponse.json(
       { message: 'Subscription successfully created' },

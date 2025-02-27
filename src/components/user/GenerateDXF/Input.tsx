@@ -66,8 +66,6 @@ function Input() {
       }
     }
 
-
-
     if (userId) {
       fetchUserPlan()
     }
@@ -126,14 +124,18 @@ function Input() {
   }, [isMagnifierActive])
 
   useEffect(() => {
-    const isBillingTriggered = sessionStorage.getItem('billingTriggered');
+    const isBillingTriggered = sessionStorage.getItem('billingTriggered')
     console.log(isBillingTriggered)
 
-    if (isBillingTriggered!="true" && userPlan && new Date(userPlan.expiry_date) < new Date()) {
-      setIsBilingOpen(true);
-      sessionStorage.setItem('billingTriggered', 'true'); // Mark that the effect has run
+    if (
+      isBillingTriggered != 'true' &&
+      userPlan &&
+      new Date(userPlan.expiry_date) < new Date()
+    ) {
+      setIsBilingOpen(true)
+      sessionStorage.setItem('billingTriggered', 'true') // Mark that the effect has run
     }
-  }, [userPlan]);
+  }, [userPlan])
 
   const onClose = () => {
     setisProcessingOpen(false)
@@ -267,7 +269,9 @@ function Input() {
         // If the response is not OK, throw an error with the message from the server response
 
         const data = await res.json()
-        throw new Error(data.detail + " or Invalid Image" || 'An error occurred')
+        throw new Error(
+          data.detail + ' or Invalid Image' || 'An error occurred',
+        )
       }
 
       // If the response is OK, parse the JSON data
@@ -347,7 +351,9 @@ function Input() {
         showConfirmButton: false,
         timer: 2000,
         didOpen: () => {
-          const swalContainer = document.querySelector('.swal2-container') as HTMLElement
+          const swalContainer = document.querySelector(
+            '.swal2-container',
+          ) as HTMLElement
           if (swalContainer) {
             swalContainer.style.setProperty('z-index', '100000', 'important')
           }
@@ -355,8 +361,6 @@ function Input() {
       })
     }
   }
-
-
 
   const handleDownloadDXF = async (url: string) => {
     if (!url) {
@@ -667,8 +671,9 @@ function Input() {
                       fill="currentColor"
                       xmlns="http://www.w3.org/2000/svg"
                       className={`w-10 h-10 cursor-pointer transition-colors duration-300 
-        ${clicked ? 'text-[#266CA8]' : 'text-[#00000066] hover:text-[#266CA8]'
-                        }`}
+        ${
+          clicked ? 'text-[#266CA8]' : 'text-[#00000066] hover:text-[#266CA8]'
+        }`}
                       onClick={() => {
                         setClicked(!clicked)
                         setIsMagnifierActive(!isMagnifierActive)
@@ -771,7 +776,10 @@ function Input() {
                     <button
                       type="reset"
                       className="w-1/2 bg-white p-3 rounded-full text-[#00000080] font-medium text-2xl"
-                      onClick={() => { setContour(''); setImage('') }}
+                      onClick={() => {
+                        setContour('')
+                        setImage('')
+                      }}
                     >
                       Clear
                     </button>
