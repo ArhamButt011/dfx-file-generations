@@ -32,6 +32,15 @@ export async function POST(req: Request) {
     if (!user) {
       return NextResponse.json({ message: 'User not found' }, { status: 404 })
     }
+    const subscriptionsCollection = db.collection('all-subscriptions')
+    const latestSubscription = await subscriptionsCollection.findOne(
+      { user_id: new ObjectId(userId), status: 'active' },
+      { sort: { added_on: -1 } },
+    )
+    let plan = ''
+    if (latestSubscription?.status === 'active') {
+      plan = latestSubscription?.plan_name
+    }
 
     return NextResponse.json(
       {
@@ -40,6 +49,7 @@ export async function POST(req: Request) {
         email: user.email,
         role: user.role,
         image: user.image ? user.image : null,
+        subscription: plan,
       },
       { status: 200 },
     )
