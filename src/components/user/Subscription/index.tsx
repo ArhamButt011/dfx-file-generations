@@ -2,9 +2,24 @@ import Image from 'next/image'
 import React, { useState } from 'react'
 import Subscribe from './Subscribe'
 
-function Index() {
-  const [isBilingOpen, setIsBilingOpen] = useState(false)
+interface Subscription {
+  order_id: string
+  plan_name: string
+  duration: string
+  added_on: string
+  expiry_date: string
+  expiry_on: string
+  charges: number
+  status: string
+}
 
+interface SubscriptionProps {
+  subscriptions: Subscription[]
+}
+
+const Index: React.FC<SubscriptionProps> = ({ subscriptions }) => {
+  const [isBilingOpen, setIsBilingOpen] = useState(false)
+  console.log(subscriptions)
   return (
     <div>
       <p className="font-semibold text-4xl">Subscription Plan</p>

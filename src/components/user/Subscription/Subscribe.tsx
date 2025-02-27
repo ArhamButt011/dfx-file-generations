@@ -100,23 +100,6 @@ type SubscribeProps = {
   setIsBilingOpen: (open: boolean) => void
 }
 
-// function handleSkiporFree(item: DataItem) {
-//     const { userData } = useAuth();
-//     const bilingDate= new Date();
-
-//     const subscriptionData = {
-//         userid: userData?._id,
-//         plan: item.plan_name,
-//         charges:  item.price.split("/")[0],
-//         duration: item.price.split("/")[1],
-//         bilingDate,
-//         ExpiryDate: bilingDate.getDate() + 7,
-
-//     };
-
-//     console.log(subscriptionData);
-// }
-
 function Subscribe({ isBilingOpen, setIsBilingOpen }: SubscribeProps) {
   // const [isBilingOpen, setIsBilingOpen] = useState<boolean>(false);
   //   const router = useRouter()
@@ -127,6 +110,7 @@ function Subscribe({ isBilingOpen, setIsBilingOpen }: SubscribeProps) {
   }
 
   const handleSubscribe = async (price_id: string, plan_name: string) => {
+    if (!userData?.id) return
     try {
       const res = await axios.post('/api/user/checkout', {
         price_id: price_id,
