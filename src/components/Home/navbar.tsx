@@ -51,6 +51,8 @@ function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [handleTabChange]);
 
+  
+
   return (
     <>
       <nav className="fixed z-50 w-full xl:px-20  px-5 border-b-2 border-[#0000001A]  md:pb-0 top-0 bg-white items-center">
@@ -69,9 +71,8 @@ function Navbar() {
               <ul className="font-light  items-center mob:px-4  z-50 flex flex-col py-4 md:p-0 mt-4 gap-[24px] md:flex-row  md:mt-0 ">
                 <li>
                   <Link
-                    href="#"
-                    onClick={(e) => {
-                      e.preventDefault()
+                    href="/"
+                    onClick={() => {
                       handleTabChange('/home')
                       document.getElementById('home')?.scrollIntoView({
                         behavior: 'smooth',
@@ -87,8 +88,8 @@ function Navbar() {
                   </Link>
                 </li>
                 <li>
-                  <a
-                    href="#benefits"
+                  <Link
+                    href="#"
                     onClick={(e) => {
                       e.preventDefault()
                       handleTabChange('/benefits')
@@ -103,7 +104,7 @@ function Navbar() {
                       }`}
                   >
                     Benefits
-                  </a>
+                  </Link>
                 </li>
                 <li>
                   <a
@@ -164,10 +165,10 @@ function Navbar() {
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="#faqs"
+                  <Link
+                    href="/"
                     onClick={(e) => {
-                      e.preventDefault()
+                      e.preventDefault();
                       handleTabChange('/faqs')
                       document.getElementById('faqs')?.scrollIntoView({
                         behavior: 'smooth',
@@ -180,18 +181,14 @@ function Navbar() {
                       }`}
                   >
                     FAQ&apos;s
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href='#contact'
-                    onClick={(e) => {
-                      e.preventDefault()
+                  <Link
+                    href='/Contact_Us'
+                    onClick={() => {
                       handleTabChange('/contact')
-                      document.getElementById('contact')?.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start',
-                      })
+                     
                     }}
                     className={`block text-xl font-inter font-light text-[#00000080] leading-[25.5px] hover:text-[#266CA8] ${activeTab === '/contact'
                       ? 'text-[#266CA8]'
@@ -199,7 +196,7 @@ function Navbar() {
                       }`}
                   >
                     Contact Us
-                  </a>
+                  </Link>
                 </li>
               </ul>
 
@@ -253,7 +250,7 @@ function Navbar() {
                     <ul className='flex flex-col items-start justify-center gap-5'>
                       <li>
                         <Link
-                          href="#"
+                          href="/"
                           onClick={(e) => {
                             e.preventDefault()
                             handleTabChange('/home')
@@ -272,7 +269,7 @@ function Navbar() {
                       </li>
                       <li>
                         <a
-                          href="#benefits"
+                          href="#"
                           onClick={(e) => {
                             e.preventDefault()
                             handleTabChange('/benefits')
@@ -369,13 +366,9 @@ function Navbar() {
                       <li>
                         <a
                           href='#contact'
-                          onClick={(e) => {
-                            e.preventDefault()
+                          onClick={() => {
                             handleTabChange('/contact')
-                            document.getElementById('contact')?.scrollIntoView({
-                              behavior: 'smooth',
-                              block: 'start',
-                            })
+                           
                           }}
                           className={`block text-xl font-inter font-light text-[#00000080] leading-[25.5px] hover:text-[#266CA8] ${activeTab === '/contact'
                             ? 'text-[#266CA8]'

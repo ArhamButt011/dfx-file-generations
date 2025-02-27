@@ -1,4 +1,5 @@
-import Image from 'next/image'
+'use client'
+// import Image from 'next/image'
 import React, { FormEvent, useState } from 'react'
 import { ClipLoader } from 'react-spinners'
 import Swal from 'sweetalert2'
@@ -66,9 +67,9 @@ function ContactUS() {
                     <ClipLoader color="#007bff" size={50} />
                 </div>
             )}
-            <div className='flex md:flex-row flex-col my-10 max-w-[90%] mx-auto md:gap-10' id='contact'>
+            <div className='flex md:flex-row flex-col items-center justify-center my-10 max-w-[90%] mx-auto md:gap-10 mt-44' id='contact'>
                 {/* left */}
-                <div className="md:w-1/2">
+                <div className="xl:w-1/2 w-full">
                     <div>
                         <p className='font-bold md:text-[55px] text-[40px]   mx-auto'><span className='text-[#266CAB]'>Contact </span> Us</p>
                         <p className=' text-[#00000066] md:text-[29px] text-[23px] mx-auto font-medium '>Our friendly team would love to hear from you.</p>
@@ -140,14 +141,7 @@ function ContactUS() {
                     </form>
                 </div>
                 {/* right */}
-                <div className='md:w-1/2 relative md:aspect-4/3 aspect-[7/9] md:mt-0 mt-5'>
-                    <Image
-                        src="/images/user/home/contact.svg"
-                        alt="free"
-                        className="w-full h-full object-cover"
-                        fill
-                    />
-                </div>
+               
             </div>
         </>
     )

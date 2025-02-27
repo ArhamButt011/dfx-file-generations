@@ -248,6 +248,7 @@ function Input() {
           }
         },
       })
+      setisProcessingOpen(false)
       return
     }
 

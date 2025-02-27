@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, FormEvent } from 'react'
+import React, { useState, FormEvent, useEffect } from 'react'
 // import { useRouter } from 'next/navigation'
 import { FaEye } from 'react-icons/fa'
 import { LuEyeClosed } from 'react-icons/lu'
@@ -755,6 +755,14 @@ const UserLogin = () => {
     //const response=fetch();
     setIsResetOpen(false)
   }
+  useEffect(() => {
+    setTimeout(() => {
+      const firstInput = document.getElementById("otp-1");
+      if (firstInput) {
+        firstInput.focus();
+      }
+    }, 100); // Small delay to ensure DOM is rendered
+  }, []);
 
   return (
     <div className="flex flex-col w-full h-[100vh] md:h-full md:flex-row">
