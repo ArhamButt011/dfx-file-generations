@@ -28,7 +28,7 @@ export async function POST(req: Request) {
       process.env.STRIPE_WEBHOOK_SECRET!,
     )
   } catch (err) {
-    console.error('Error in webhook route:', err) // Log the error
+    console.error('Error in webhook route:', err)
     return new NextResponse(JSON.stringify({ error: 'Invalid signature' }), {
       status: 400,
     })
@@ -36,6 +36,8 @@ export async function POST(req: Request) {
 
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object as Stripe.Checkout.Session
+    console.log('session->>>>====  ', session)
+    console.log('meta data->>>> -=== =', session.metadata)
 
     const user_id = session.metadata?.user_id
     const plan_name = session.metadata?.plan_name
@@ -117,6 +119,54 @@ export async function POST(req: Request) {
     } catch (err) {
       return NextResponse.json(
         { error: 'Database insert failed', err },
+        { status: 500 },
+      )
+    }
+  } else if (event.type === 'customer.subscription.deleted') {
+    const subscription = event.data.object as Stripe.Subscription
+    console.log('subscription cancelled=====-->>  ', subscription)
+
+    const subscriptionId = subscription.id
+    const customer_id = subscription.customer as string
+    const cancelingDate = subscription.canceled_at ?? 0
+
+    if (!cancelingDate || !subscriptionId || !customer_id) {
+      return NextResponse.json(
+        {
+          error: 'Missing cancelingDate, subscription_id, or customer_id',
+        },
+        { status: 400 },
+      )
+    }
+    function formatDateToISO(date: number): string {
+      return new Date(date * 1000).toISOString()
+    }
+
+    const expiryOn = formatDateToISO(cancelingDate)
+    const expiryDate = new Date(cancelingDate * 1000)
+
+    console.log('expiryDate, expiryDate->   ', expiryOn, expiryDate)
+    try {
+      const client = await clientPromise
+      const db = client.db('DFXFileGeneration')
+
+      await db.collection('all-subscriptions').updateOne(
+        {
+          subscription_id: subscriptionId,
+        },
+        {
+          $set: {
+            status: 'expired',
+            expiry_on: expiryOn,
+            expiry_date: expiryDate,
+          },
+        },
+      )
+
+      return NextResponse.json({ received: true })
+    } catch (err) {
+      return NextResponse.json(
+        { error: 'Database update failed', err },
         { status: 500 },
       )
     }

@@ -2,6 +2,10 @@ import Image from 'next/image'
 import React, { useState } from 'react'
 import Subscribe from './Subscribe'
 import { format } from 'date-fns'
+import Modal from '@/components/UI/Modal'
+import dltCircle from '/public/images/admin/allusers/dltCircle.svg'
+import Swal from 'sweetalert2'
+import { useAuth } from '@/context/AuthContext'
 
 interface Subscription {
   order_id: string
@@ -12,14 +16,92 @@ interface Subscription {
   expiry_on: string
   charges: number
   status: string
+  subscription_id: string
 }
 
 interface SubscriptionProps {
   subscriptions: Subscription[]
+  setSubscriptions: React.Dispatch<React.SetStateAction<Subscription[]>>
 }
-
-const Index: React.FC<SubscriptionProps> = ({ subscriptions }) => {
+const Index: React.FC<SubscriptionProps> = ({
+  subscriptions,
+  setSubscriptions,
+}) => {
   const [isBilingOpen, setIsBilingOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
+  const { setUserData } = useAuth()
+
+  async function cancelSubscription(subscriptionId: string) {
+    try {
+      const response = await fetch('/api/user/cancel-subscription', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ subscription_id: subscriptionId }),
+      })
+
+      const data = await response.json()
+
+      if (data.message === 'Subscription canceled') {
+        Swal.fire({
+          icon: 'success',
+          title: 'Subscription canceled',
+          text: 'Subscription canceled successfully',
+          showConfirmButton: false,
+          timer: 2000,
+        })
+        setSubscriptions((prevSubscriptions) =>
+          prevSubscriptions.map((subscription) =>
+            subscription.subscription_id === subscriptionId
+              ? {
+                  ...subscription,
+                  status: 'canceled',
+                  expiry_on: new Date().toISOString(),
+                }
+              : subscription,
+          ),
+        )
+        setUserData((prevData) => ({
+          ...prevData,
+          id: prevData?.id || '',
+          name: prevData?.name || '',
+          email: prevData?.email || '',
+          role: prevData?.role || '',
+          username: prevData?.name || '',
+          image: prevData?.image || '',
+          subscription: '',
+        }))
+      } else {
+        console.error('Error canceling subscription:', data)
+        Swal.fire({
+          icon: 'error',
+          title: 'Cancellation Failed',
+          text: 'Error canceling subscription.',
+          showConfirmButton: false,
+          timer: 2000,
+        })
+      }
+      setIsOpen(false)
+    } catch (error) {
+      console.error('Error canceling subscription:', error)
+      Swal.fire({
+        icon: 'error',
+        title: 'Cancellation Failed',
+        text: 'Error canceling subscription.',
+      })
+    }
+  }
+  const onClose = () => {
+    setIsOpen(false)
+  }
+
+  const activeSubscriptions = subscriptions.filter(
+    (sub) => sub.status === 'active',
+  )
+  const subscription_id = activeSubscriptions[0]?.subscription_id ?? null
+  const status = subscriptions[0]?.status ?? null
+  console.log(status)
 
   return (
     <div>
@@ -66,19 +148,33 @@ const Index: React.FC<SubscriptionProps> = ({ subscriptions }) => {
             <div>No subcription added yet</div>
           )}
           <div className="-mx-5 border-t border-[#0000001A] my-5"></div>
-          <div className="flex justify-center mt-5">
-            <p
-              className="font-semibold text-base text-[#266CA8] underline text-center cursor-pointer"
-              onClick={() => setIsBilingOpen(true)}
-            >
-              Upgrade Plan
-            </p>
-            <Image
-              src="/images/user/subscription/diagonalArrow.svg"
-              alt="arrow"
-              width={25}
-              height={25}
-            />
+          <div className="flex items-center justify-end gap-4">
+            {subscriptions[0]?.status === 'active' ? (
+              <div className="flex justify-center">
+                <p
+                  className="font-semibold text-[#266CA8] text-[19.83px] underline cursor-pointer"
+                  onClick={() => setIsOpen(true)}
+                >
+                  Cancel Subscription
+                </p>
+                <Image
+                  src="/images/user/subscription/diagonalArrow.svg"
+                  alt="arrow"
+                  width={25}
+                  height={25}
+                />
+              </div>
+            ) : (
+              ''
+            )}
+            <div>
+              <button
+                className="font-medium text-[17.94px] text-[#FFFFFF] bg-[#266CA8] px-3 py-1 rounded-full"
+                onClick={() => setIsBilingOpen(true)}
+              >
+                Upgrade Plan
+              </button>
+            </div>
           </div>
         </div>
         {/* right */}
@@ -127,6 +223,31 @@ const Index: React.FC<SubscriptionProps> = ({ subscriptions }) => {
 
                 </div> */}
       </div>
+      <Modal isOpen={isOpen} onClose={onClose} buttonContent="">
+        <div className="flex items-center flex-col">
+          <Image src={dltCircle} alt="dltCircle" className="" />
+          <p className="text-[#000000] text-[29px] font-medium">
+            Cancel Subscription?
+          </p>
+          <p className="font-medium text-primary text-[21px]">
+            Are you sure you want to Cancel This Subscription??
+          </p>
+          <div className="flex gap-10 mt-5">
+            <button
+              className="font-normal text-[22.48px] rounded-full text-[#266CA8] border border-[#266CA8] px-16 py-3"
+              onClick={() => onClose()}
+            >
+              Cancel
+            </button>
+            <button
+              className="font-normal text-white text-[22.48px] bg-[#266CA8] rounded-full px-16 py-3"
+              onClick={() => cancelSubscription(subscription_id)}
+            >
+              Yes, I am
+            </button>
+          </div>
+        </div>
+      </Modal>
       {/* Subscribe Modal */}
       {isBilingOpen && (
         <Subscribe

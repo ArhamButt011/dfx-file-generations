@@ -16,6 +16,7 @@ interface Subscriptions {
   expiry_on: string
   charges: number
   status: string
+  subscription_id: string
 }
 function Page() {
   const [loadingTable, setLoadingTable] = useState<boolean>(false)
@@ -74,7 +75,10 @@ function Page() {
 
   return (
     <DefaultLayout>
-      <Index subscriptions={subscriptions} />
+      <Index
+        subscriptions={subscriptions}
+        setSubscriptions={setSubscriptions}
+      />
       <SubscriptionTable
         subscriptions={subscriptions}
         loadingTable={loadingTable}
