@@ -10,6 +10,7 @@ interface User {
   _id: string
   name: string
   email: string
+  lastName: string
   createdAt: string
   downloadsCount: number
 }
@@ -39,6 +40,7 @@ const AllUsers = () => {
 
       if (response.ok) {
         const data = await response.json()
+        console.log(data)
         setUsers(data.users)
         setTotalPages(data.totalPages)
         setTotalUsers(data.totalUsers)
@@ -128,7 +130,7 @@ const AllUsers = () => {
                     </div>
                     <div>
                       <span className="font-semibold text-gray-800 text-[22px]">
-                        {user.name}
+                        {user.name} {user.lastName}
                       </span>
                       {/* <span className="text-gray-500 text-[14.3px]">
                         #{index + 1}

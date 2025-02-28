@@ -30,8 +30,10 @@ const Index: React.FC<SubscriptionProps> = ({
   const [isBilingOpen, setIsBilingOpen] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const { setUserData } = useAuth()
+  const [loading, setLoading] = useState(false)
 
   async function cancelSubscription(subscriptionId: string) {
+    setLoading(true)
     try {
       const response = await fetch('/api/user/cancel-subscription', {
         method: 'POST',
@@ -90,6 +92,8 @@ const Index: React.FC<SubscriptionProps> = ({
         title: 'Cancellation Failed',
         text: 'Error canceling subscription.',
       })
+    } finally {
+      setLoading(false)
     }
   }
   const onClose = () => {
@@ -240,10 +244,13 @@ const Index: React.FC<SubscriptionProps> = ({
               Cancel
             </button>
             <button
-              className="font-normal text-white text-[22.48px] bg-[#266CA8] rounded-full px-16 py-3"
+              className={`font-normal text-white text-[22.48px] bg-[#266CA8] rounded-full px-16 py-3 ${
+                loading ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
               onClick={() => cancelSubscription(subscription_id)}
+              disabled={loading}
             >
-              Yes, I am
+              {loading ? 'Processing...' : 'Yes, I am'}
             </button>
           </div>
         </div>
