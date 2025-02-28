@@ -47,7 +47,7 @@ const bilingPlans: DataItem[] = [
     desc: 'For Small Teams',
     plan_name: 'Basic',
     price: '$50/Month',
-    price_id: 'price_1QwMSZLPfX4joK3zUDF3sbax',
+    price_id: process.env.NEXT_PUBLIC_STRIPE_BASIC_PRICE_ID!,
     include: [
       {
         id: 1,
@@ -73,7 +73,7 @@ const bilingPlans: DataItem[] = [
     desc: 'For Professionals',
     plan_name: 'Premium',
     price: '$100/Month',
-    price_id: 'price_1QwM6PLPfX4joK3zKgOIQBsp',
+    price_id: process.env.NEXT_PUBLIC_STRIPE_PREMIUM_PRICE_ID!,
     include: [
       {
         id: 1,
