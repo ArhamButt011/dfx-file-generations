@@ -758,8 +758,8 @@ function Input() {
                     required
                     onChange={(e) => {
                       const value = e.target.value
-                      // Allow only positive decimals (allowing entries like "0.", "0.1", etc.)
-                      if (/^\d*\.?\d*$/.test(value)) {
+                      // Allow only positive decimals with up to four digits after the decimal point
+                      if (/^\d*\.?\d{0,4}$/.test(value)) {
                         setContour(value)
                       }
                     }}
