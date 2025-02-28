@@ -78,6 +78,9 @@ export async function GET(req: NextRequest) {
         )
       }
     }
+    allDownloads.sort(
+      (a, b) => new Date(b.added_on).getTime() - new Date(a.added_on).getTime(),
+    )
 
     const paginatedSubscriptions = allDownloads.slice(skip, skip + limit)
 

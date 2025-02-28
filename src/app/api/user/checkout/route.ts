@@ -38,6 +38,9 @@ export async function POST(req: Request) {
         user_id: user_id,
         plan_name: plan_name,
       },
+      // payment_intent_data: {
+      //   setup_future_usage: 'off_session',
+      // },
     })
 
     return new Response(JSON.stringify({ sessionId: session.id }), {
