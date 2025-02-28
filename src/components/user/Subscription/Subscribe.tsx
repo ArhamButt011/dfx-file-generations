@@ -26,9 +26,9 @@ type DataItem = {
 const bilingPlans: DataItem[] = [
   {
     id: 1,
-    desc: 'Free Plan',
+    desc: '',
     plan_name: 'Free Trial',
-    price: '$0.00/month',
+    price: 'Free',
     price_id: '',
     include: [
       {
@@ -44,9 +44,9 @@ const bilingPlans: DataItem[] = [
   },
   {
     id: 2,
-    desc: 'Pay Per Download',
+    desc: 'For Small Teams',
     plan_name: 'Basic',
-    price: '$20.00',
+    price: '$50/Month',
     price_id: 'price_1QwMSZLPfX4joK3zUDF3sbax',
     include: [
       {
@@ -70,9 +70,9 @@ const bilingPlans: DataItem[] = [
   },
   {
     id: 3,
-    desc: 'Unlimited Plan',
+    desc: 'For Professionals',
     plan_name: 'Premium',
-    price: '$50.00/Month',
+    price: '$100/Month',
     price_id: 'price_1QwM6PLPfX4joK3zKgOIQBsp',
     include: [
       {
@@ -185,7 +185,8 @@ SubscribeProps) {
                     {item.price.split('/')[0]}
                   </span>
                   <span className="text-base text-[#22222280] font-medium">
-                    /{item.price.split('/')[1]}
+                    {item.price !== 'Free' && '/'}
+                    {item.price.split('/')[1]}
                   </span>
                 </p>
                 <p className="font-semibold text-base mt-5">
