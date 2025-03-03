@@ -88,6 +88,7 @@ export async function POST(req: Request) {
       added_on,
       expiry_date,
       charges,
+      status,
       added_date,
       expiry_on,
     } = body
@@ -99,6 +100,7 @@ export async function POST(req: Request) {
       !added_on ||
       !expiry_date ||
       typeof charges !== 'number' ||
+      !status ||
       !added_date ||
       !expiry_on
     ) {
@@ -163,6 +165,7 @@ export async function POST(req: Request) {
       added_on: addedOnFormatted,
       expiry_on: expiryOnFormatted,
       charges,
+      status,
       added_date: addedDate,
       expiry_date: expiryDate,
     })

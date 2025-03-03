@@ -215,6 +215,7 @@ function Input() {
       added_on: new Date().toISOString(),
       expiry_on: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
       charges: 0,
+      status: 'active',
       added_date: Date.now(),
       expiry_date: Date.now() + 7 * 24 * 60 * 60 * 1000,
     }
@@ -252,23 +253,19 @@ function Input() {
       return
     }
 
-    //pass data to AI api
     try {
-      const res = await fetch(
-        'https://046f-192-241-155-184.ngrok-free.app/predict',
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            image_path_or_base64: base64,
-            offset_inches: contour,
-          }),
-        },
-      )
+      const res = await fetch('https://dxf.lumashape.com/predict', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          image_path_or_base64: base64,
+          offset_inches: contour,
+        }),
+      })
 
       if (!res.ok) {
         // If the response is not OK, throw an error with the message from the server response
-
+        console.log(res)
         const data = await res.json()
         throw new Error(
           data.detail + ' or Invalid Image' || 'An error occurred',

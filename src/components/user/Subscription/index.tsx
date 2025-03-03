@@ -151,7 +151,8 @@ const Index: React.FC<SubscriptionProps> = ({
           )}
           <div className="-mx-5 border-t border-[#0000001A] my-5"></div>
           <div className="flex items-center justify-end gap-4">
-            {subscriptions[0]?.status === 'active' ? (
+            {subscriptions[0]?.status === 'active' &&
+            subscriptions[0]?.plan_name !== 'Free' ? (
               <div className="flex justify-center">
                 <p
                   className="font-semibold text-[#266CA8] text-[19.83px] underline cursor-pointer"
