@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react'
+import { Dispatch, SetStateAction, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -23,7 +23,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
 }) => {
   const handleClick = () => {
     const updatedPageName =
-      pageName !== item.label.toLowerCase() ? item.label.toLowerCase() : ''
+      pageName !== item.label.toLowerCase() ? item.label : ''
     setPageName(updatedPageName)
   }
 
@@ -42,6 +42,11 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
   }
 
   const isItemActive = isActive(item)
+  useEffect(() => {
+    if (isItemActive) {
+      document.title = `${item.label} | Lumashape`
+    }
+  }, [isItemActive, item.label])
 
   return (
     <li>

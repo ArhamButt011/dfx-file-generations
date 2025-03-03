@@ -79,6 +79,9 @@ const Sidebar = ({
 }: SidebarProps) => {
   // const pathname = usePathname()
   const [pageName, setPageName] = useLocalStorage('selectedMenu', 'dashboard')
+  useEffect(() => {
+    document.title = `${pageName} | Lumashape`
+  }, [pageName])
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const { logout, userData, setUserData } = useAuth()
   const [userPlan, setUserPlan] = useState<UserPlan | null>(null)

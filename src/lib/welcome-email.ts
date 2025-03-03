@@ -9,10 +9,13 @@ const sendWelcomeEmail = async (email: string, name: string) => {
     },
   })
 
+  const logoUrl = `${process.env.NEXT_PUBLIC_BASE_URL ?? ''}mailLogo.jpg`
+
   const htmlContent = `
    <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
    <div style="text-align:center">
-  <img src="/public/images/user/home/logo.svg" alt="Lumashape Logo" width="150" />
+      <img src="${logoUrl}" alt="Lumashape Logo" width="250" />
+
   </div>
   <h2 style="text-align:center;">Welcome to <span style="color: #266CA8;">Lumashape!</span></h2>
   <p style="color:#333333; font-size: 18px; font-weight: 600;">Dear ${name},</p>

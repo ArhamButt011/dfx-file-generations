@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useEffect } from 'react'
 // import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -300,6 +300,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   // const pathname = usePathname()
   const [pageName, setPageName] = useLocalStorage('selectedMenu', 'dashboard')
 
+  useEffect(() => {
+    document.title = `${pageName} | Lumashape`
+  }, [pageName])
+
   return (
     <ClickOutside onClick={() => setSidebarOpen(false)}>
       <aside
@@ -310,7 +314,14 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
         {/* <!-- SIDEBAR HEADER --> */}
         <div className="flex items-center justify-between z-999 gap-2 pl-10 pt-5.5 lg:pt-6.5">
           <Link href="/admin/dashboard">
-            <Image width={210} height={45} src={logo} alt="Logo" priority />
+            <Image
+              width={210}
+              height={45}
+              src={logo}
+              alt="Logo"
+              priority
+              onClick={() => setPageName('Dashboard')}
+            />
           </Link>
 
           <button

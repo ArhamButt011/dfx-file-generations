@@ -12,15 +12,18 @@ export const sendSubscriptionEmail = async (
   const transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
-      user: process.env.EMAIL_USER, // Your email
-      pass: process.env.EMAIL_PASS, // App password
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
     },
   })
+
+  const logoUrl = `${process.env.NEXT_PUBLIC_BASE_URL ?? ''}mailLogo.jpg`
 
   const mailOptions = {
     from: `"DFX File Generation" <${process.env.EMAIL_USER}>`,
     to: toEmail,
     subject: `Subscription Activated: ${planName}`,
+
     html: `
       <!DOCTYPE html>
       <html>
@@ -33,15 +36,13 @@ export const sendSubscriptionEmail = async (
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            color: #666;
           }
           .container {
             max-width: 600px;
             margin: 20px auto;
-            background: #ffffff;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
           }
           .logo {
             padding: 10px 0;
@@ -50,20 +51,11 @@ export const sendSubscriptionEmail = async (
             text-align: start;
             padding: 10px 0;
           }
-            .invoice-date {
+          .invoice-date {
             text-align: right;
             font-size: 14px;
             color: #666;
           }
-          .subscriptions-date {
-  display: flex;
-  justify-content: space-between; 
-  align-items: center; 
-  font-size: 14px;
-  color: #666;
-  padding: 10px 0;
-}
-
           .subscriptions {
             width: 100%;
             border-collapse: collapse;
@@ -72,10 +64,6 @@ export const sendSubscriptionEmail = async (
           .subscriptions th, .subscriptions td {
             padding: 10px;
             text-align: left;
-            border-bottom: 1px solid #ddd;
-          }
-          .subscriptions th {
-            background: #f8f8f8;
           }
           .amount {
             text-align: right;
@@ -86,53 +74,47 @@ export const sendSubscriptionEmail = async (
           .important-info {
             margin-top: 20px;
             padding: 10px;
-           
           }
-       .footer {
-  text-align: left;
-  margin-top: 20px;
-  font-size: 12px;
-  color: #777;
-}
-
-.footer-links {
-  display: flex;
-  justify-content: flex-start;
-  gap: 10px; /* Adjust spacing between links */
-}
-
-.footer a {
-  
-  text-decoration: none;
-}
+          .footer {
+            text-align: left;
+            margin-top: 20px;
+            font-size: 12px;
+            color: #777;
+          }
+          .footer-links {
+            display: flex;
+            justify-content: flex-start;
+            gap: 10px;
+          }
+          .footer a {
+            text-decoration: none;
+          }
         </style>
       </head>
       <body>
         <div class="container">
           <div class="logo">
-            <img src="/public/images/user/home/logo.svg" alt="Company Logo">
+              <img src="${logoUrl}" alt="Lumashape Logo" width="250" />
           </div>
           <div class="header">
             <p><strong>Dear ${user_name},</strong></p>
-            <p>Thank you for subscribing with Lumashape. This email serves as a receipt for your recent purchase. Below, you will find the details of your subscriptions and payments</p>
+            <p>Thank you for subscribing with Lumashape. This email serves as a receipt for your recent purchase. Below, you will find the details of your subscriptions and payments.</p>
           </div>
           <div class="invoice-date"><p>Invoice Date</p></div>
           <table width="100%">
-  <tr>
-    <td align="left">Your Subscriptions</td>
-    <td align="right"><strong>${addedDate}</strong></td>
-  </tr>
-</table>
-
-      
+            <tr>
+              <td align="left" style="font-size: 25px;" class="your-subscription"><strong>Your Subscriptions</strong></td>
+              <td align="right"><strong>${addedDate}</strong></td>
+            </tr>
+          </table>
           <table class="subscriptions">
             <tr>
-              <th>Subscription Name</th>
+              <th style="color: #666;">Subscription Name</th>
               <th>Exp Date</th>
               <th class="amount">Amount</th>
             </tr>
             <tr>
-              <td><strong>${planName}</br>This payment is recurring and will charge every month if not cancelled beforehand (for subcriptions)</strong></td>
+              <td><strong>${planName}</strong></td>
               <td>${expiryDate}</td>
               <td class="amount">$${total}</td>
             </tr>
@@ -149,20 +131,18 @@ export const sendSubscriptionEmail = async (
           </table>
           <div class="important-info">
             <p><strong>Important Information</strong></p>
-            <p>This payment is recurring and will charge every month if not cancelled beforehand (for subcriptions)</p>
-            <p>This payment is for one-time use and to use this feature again, please make another payment on the app</p>
-          
-          <p>${`If this payment was not made by you please get in touch with our customer service team at ${
-            planName === 'Premium' ? 'sam.peterson@lumashape.com' : ''
-          }`}</p>
-            </div>
+            <p>This payment is recurring and will charge every month if not cancelled beforehand (for subscriptions).</p>
+            <p>This payment is for one-time use and to use this feature again, please make another payment on the app.</p>
+            <p>${`If this payment was not made by you, please get in touch with our customer service team at ${
+              planName === 'Premium' ? 'sam.peterson@lumashape.com' : ''
+            }`}</p>
+          </div>
           <div class="footer">
-  <div class="footer-links">
-    <a href="https://www.lumashape.com" target="_blank">www.lumashape.com</a> | 
-    <a href="mailto:sam.peterson@lumashape.com">sam.peterson@lumashape.com</a>
-  </div>
-</div>
-
+            <div class="footer-links">
+              <a href="https://www.lumashape.com" target="_blank">www.lumashape.com</a> | 
+              <a href="mailto:sam.peterson@lumashape.com">sam.peterson@lumashape.com</a>
+            </div>
+          </div>
         </div>
       </body>
       </html>
