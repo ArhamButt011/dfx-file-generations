@@ -114,7 +114,8 @@ const Index: React.FC<SubscriptionProps> = ({
       <div className="flex mt-5 w-full justify-between gap-10">
         {/* left */}
         <div className="border rounded-2xl p-5 w-full">
-          {subscriptions[0]?.status === 'active' ? (
+          {subscriptions[0]?.status === 'active' &&
+          subscriptions[0]?.plan_name !== 'Free' ? (
             <>
               <div className="flex justify-between">
                 <div>
@@ -146,6 +147,9 @@ const Index: React.FC<SubscriptionProps> = ({
                 </span>
               </p>
             </>
+          ) : subscriptions[0]?.status === 'active' &&
+            subscriptions[0]?.plan_name === 'Free' ? (
+            <div>Free Trial activated.</div>
           ) : (
             <div>No subcription added yet</div>
           )}

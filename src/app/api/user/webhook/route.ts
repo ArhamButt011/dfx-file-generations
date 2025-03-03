@@ -112,7 +112,6 @@ export async function POST(req: Request) {
           },
         )
       }
-      console.log('existing plan->>>>==== ', existingFreePlan)
 
       await db.collection('all-subscriptions').insertOne({
         user_id: objectUserId,
