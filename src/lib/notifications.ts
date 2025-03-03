@@ -43,11 +43,13 @@ export async function addNotification(
       case 'subscription_upgrade':
         message = `<b>${userName}</b> upgraded their subscription plan from ${action}.`
         break
+      case 'basic_subscription':
+        message = `<b>${userName}</b> subscribed basic subscription plan.`
+        break
       default:
         message = `<b>${userName}</b> performed an action.`
     }
 
-    // ✅ Insert Notification into MongoDB
     const notificationData = {
       userId: new ObjectId(userId),
       message,
@@ -59,11 +61,8 @@ export async function addNotification(
     await notificationsCollection.insertOne(notificationData)
     console.log('Notification added successfully:', message)
 
-    // ✅ Update Firebase Global `isNewNotification` Field
-    const notificationRef = ref(database, 'notifications') // Fixed path
+    const notificationRef = ref(database, 'notifications')
     await update(notificationRef, { isNewNotification: true })
-
-    console.log(`Updated isNewNotification to true globally`)
   } catch (error) {
     console.error('Error adding notification:', error)
   }

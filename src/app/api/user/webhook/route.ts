@@ -4,6 +4,7 @@ import clientPromise from '@/lib/mongodb'
 import { headers } from 'next/headers'
 import { ObjectId } from 'mongodb'
 import { sendSubscriptionEmail } from '@/lib/subscription-email'
+import { addNotification } from '@/lib/notifications'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2025-02-24.acacia',
@@ -36,9 +37,6 @@ export async function POST(req: Request) {
 
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object as Stripe.Checkout.Session
-    console.log('session->>>>====  ', session)
-    console.log('meta data->>>> -=== =', session.metadata)
-
     const user_id = session.metadata?.user_id
     const plan_name = session.metadata?.plan_name
     const subscription_id = session.subscription as string
@@ -115,6 +113,7 @@ export async function POST(req: Request) {
         subTotal,
         user_name,
       )
+      await addNotification(user_id, '', 'basic_subscription')
       return NextResponse.json({ received: true })
     } catch (err) {
       return NextResponse.json(
@@ -124,8 +123,6 @@ export async function POST(req: Request) {
     }
   } else if (event.type === 'customer.subscription.deleted') {
     const subscription = event.data.object as Stripe.Subscription
-    console.log('subscription cancelled=====-->>  ', subscription)
-
     const subscriptionId = subscription.id
     const customer_id = subscription.customer as string
     const cancelingDate = subscription.canceled_at ?? 0

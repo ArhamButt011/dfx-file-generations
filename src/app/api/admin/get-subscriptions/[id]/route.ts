@@ -8,6 +8,10 @@ interface Subscription {
   user_id: ObjectId
   plan_name: string
   status: string
+  added_on?: string
+  expiry_date?: string
+  duration?: string
+  charges?: number
 }
 
 export async function GET(req: NextRequest) {
@@ -53,18 +57,22 @@ export async function GET(req: NextRequest) {
     const subscriptions = await db
       .collection<Subscription>('all-subscriptions')
       .find(filter)
-      .sort({ added_on: -1 })
-      .skip(skip)
-      .limit(limit)
+      .sort({ added_on: -1 }) // Sorting by added_on in descending order
       .toArray()
 
-    const totalSubscriptions = await db
-      .collection<Subscription>('all-subscriptions')
-      .countDocuments(filter)
+    subscriptions.sort(
+      (a, b) =>
+        new Date(b.added_on || '').getTime() -
+        new Date(a.added_on || '').getTime(),
+    )
+
+    const paginatedSubscriptions = subscriptions.slice(skip, skip + limit)
+
+    const totalSubscriptions = subscriptions.length
 
     return NextResponse.json(
       {
-        subscriptions,
+        subscriptions: paginatedSubscriptions,
         totalSubscriptions,
         page,
         totalPages: Math.ceil(totalSubscriptions / limit),

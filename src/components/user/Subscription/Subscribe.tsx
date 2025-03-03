@@ -136,7 +136,6 @@ SubscribeProps) {
     plan_name: string,
     planId: number,
   ) => {
-    console.log(planId)
     if (!userData?.id) return
     setProcessingPlanId(planId)
 

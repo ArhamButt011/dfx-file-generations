@@ -104,8 +104,6 @@ const Index: React.FC<SubscriptionProps> = ({
     (sub) => sub.status === 'active',
   )
   const subscription_id = activeSubscriptions[0]?.subscription_id ?? null
-  const status = subscriptions[0]?.status ?? null
-  console.log(status)
 
   return (
     <div>
