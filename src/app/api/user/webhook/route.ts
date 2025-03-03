@@ -91,6 +91,29 @@ export async function POST(req: Request) {
       const client = await clientPromise
       const db = client.db('DFXFileGeneration')
 
+      // Check if the user already has an active free plan
+      const existingFreePlan = await db
+        .collection('all-subscriptions')
+        .findOne({
+          user_id: objectUserId,
+          plan_name: 'Free',
+          status: 'active',
+        })
+
+      if (existingFreePlan) {
+        await db.collection('all-subscriptions').updateOne(
+          { _id: existingFreePlan._id },
+          {
+            $set: {
+              status: 'expired',
+              expiry_on: nowUTC.toISOString(),
+              expiry_date: nowUTC,
+            },
+          },
+        )
+      }
+      console.log('existing plan->>>>==== ', existingFreePlan)
+
       await db.collection('all-subscriptions').insertOne({
         user_id: objectUserId,
         customer_id,
@@ -104,6 +127,8 @@ export async function POST(req: Request) {
         added_date: nowUTC,
         expiry_date: expiryUTC,
       })
+
+      // Send confirmation email
       await sendSubscriptionEmail(
         user_email,
         plan_name,
@@ -113,7 +138,9 @@ export async function POST(req: Request) {
         subTotal,
         user_name,
       )
+
       await addNotification(user_id, '', 'basic_subscription')
+
       return NextResponse.json({ received: true })
     } catch (err) {
       return NextResponse.json(
