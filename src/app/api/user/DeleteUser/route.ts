@@ -24,28 +24,27 @@ export async function DELETE(req: Request) {
       )
     }
 
-    const userData = {
-      userId: user._id,
+    const inactiveUserData = {
+      _id: user._id,
       name: user.name,
+      lastName: user.lastName,
       email: user.email,
+      role: user.role,
+      image: user.image,
+      password: user.password,
+      otp: user.otp,
+      is_verified: user.is_verified,
       createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+      deletedAt: new Date(),
     }
 
-    const notificationData = {
-      userId: objectId,
-      message: `<b>${userData.name}</b> deleted their account.`,
-      type: 'account_deletion',
-      userData,
-      createdAt: new Date(),
-    }
-
-    await db.collection('notifications').insertOne(notificationData)
-
+    await db.collection('inactive-accounts').insertOne(inactiveUserData)
     await addNotification(id, '', 'account_deletion')
-
     await db.collection('all-downloads').deleteMany({ user_id: objectId })
     await db.collection('all-subscriptions').deleteMany({ user_id: objectId })
     await db.collection('notifications').deleteMany({ user_id: objectId })
+
     const deleteResult = await db
       .collection('users')
       .deleteOne({ _id: objectId })
@@ -58,11 +57,11 @@ export async function DELETE(req: Request) {
     }
 
     return NextResponse.json(
-      { message: 'User Deleted successfully' },
+      { message: 'User deleted successfully and moved to inactive accounts' },
       { status: 201 },
     )
   } catch (error) {
-    console.log('Error Deleting File:', error)
+    console.log('Error Deleting User:', error)
     return NextResponse.json(
       { message: 'Internal server error' },
       { status: 500 },
