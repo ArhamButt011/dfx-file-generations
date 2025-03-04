@@ -47,7 +47,7 @@ export async function PUT(req: Request) {
       const buffer = new Uint8Array(arrayBuffer)
       // const filePath = `/uploads/${file.name}`
       const filePath = `/var/www/uploads/${file.name}`
-      await fs.writeFile(`./public${filePath}`, buffer)
+      await fs.writeFile(filePath, buffer)
       updateData.image = filePath
     }
 
