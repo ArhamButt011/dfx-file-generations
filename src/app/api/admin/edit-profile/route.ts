@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import fs from 'node:fs/promises'
+import path from 'path'
 import { ObjectId } from 'mongodb'
 import jwt from 'jsonwebtoken'
 import clientPromise from '@/lib/mongodb'
@@ -45,10 +46,27 @@ export async function PUT(req: Request) {
     if (file && file instanceof Blob) {
       const arrayBuffer = await file.arrayBuffer()
       const buffer = new Uint8Array(arrayBuffer)
-      // const filePath = `/uploads/${file.name}`
-      const filePath = `/var/www/uploads/${file.name}`
+
+      const uploadsDir = '/var/www/uploads'
+
+      if (existingUser.image) {
+        const oldImagePath = path.join(
+          uploadsDir,
+          path.basename(existingUser.image),
+        )
+        try {
+          await fs.unlink(oldImagePath)
+          console.log(`Deleted old image: ${oldImagePath}`)
+        } catch (error) {
+          console.warn(`Failed to delete old image: ${oldImagePath}`, error)
+        }
+      }
+
+      // Save the new image
+      const fileName = `${id}_${Date.now()}_${file.name}` // Ensures unique file name
+      const filePath = path.join(uploadsDir, fileName)
       await fs.writeFile(filePath, buffer)
-      updateData.image = filePath
+      updateData.image = `/uploads/${fileName}`
     }
 
     if (Object.keys(updateData).length === 0) {

@@ -170,7 +170,7 @@ const DropdownUser = () => {
 
     const formData = new FormData()
     if (file) {
-      formData.append('file', file) // Only append if file exists
+      formData.append('file', file)
     }
     formData.append('name', name)
     formData.append('id', id)
