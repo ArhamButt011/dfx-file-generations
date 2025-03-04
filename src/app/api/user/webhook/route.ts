@@ -179,7 +179,7 @@ export async function POST(req: Request) {
         },
         {
           $set: {
-            status: 'expired',
+            status: 'canceled',
             expiry_on: expiryOn,
             expiry_date: expiryDate,
           },

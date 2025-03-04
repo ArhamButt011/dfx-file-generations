@@ -31,10 +31,15 @@ const DownloadsSubscriptions = () => {
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage)
   }
-  const getStatus = (expiryDate: string): string => {
-    const currentDate = new Date()
-    const expiryDateObj = new Date(expiryDate)
-    return currentDate < expiryDateObj ? 'Current' : 'Past'
+  const getStatus = (expiryDate: string, status: string): string => {
+    console.log('status->. ', status)
+    if (status === 'canceled') {
+      return 'Canceled'
+    } else {
+      const currentDate = new Date()
+      const expiryDateObj = new Date(expiryDate)
+      return currentDate < expiryDateObj ? 'Current' : 'Past'
+    }
   }
 
   const fetchSubscriptions = useCallback(async () => {
@@ -158,7 +163,7 @@ const DownloadsSubscriptions = () => {
               </thead>
               <tbody>
                 {subscriptions.map((data, index) => {
-                  const status = getStatus(data?.expiry_on)
+                  const status = getStatus(data?.expiry_on, data?.status)
                   return (
                     <tr
                       key={index}

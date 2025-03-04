@@ -14,6 +14,7 @@ import image3 from '/public/images/user/AuthScreens/rightSection.svg'
 import Swal from 'sweetalert2'
 import { ClipLoader } from 'react-spinners'
 import { useAuth } from '@/context/AuthContext'
+import Link from 'next/link'
 // import { console } from 'inspector';
 // Defining types for the props
 
@@ -35,6 +36,8 @@ const UserLogin = () => {
   const [isBilingOpen, setIsBilingOpen] = useState(false)
   const [isAccountVerified, setIsAccountVerified] = useState<boolean>(false)
   const [isAccountCreated, setIsAccountCreated] = useState<boolean>(false)
+  const [OTPSent, setOTPSent] = useState(false)
+
   const onClose = () => {
     setIsNewOpen(false)
     setIsVerifyOpen(false)
@@ -616,7 +619,7 @@ const UserLogin = () => {
   const sendOTP = async (e?: React.FormEvent, userEmail?: string) => {
     if (e) e.preventDefault()
     if (Timer > 0) return
-
+    console.log('call')
     const targetEmail = userEmail || email
 
     try {
@@ -644,6 +647,7 @@ const UserLogin = () => {
           clearInterval(timerInterval)
         }
       }, 1000)
+      setOTPSent(true)
     } catch (err) {
       Swal.fire({
         title: 'Error!',
@@ -757,12 +761,12 @@ const UserLogin = () => {
   }
   useEffect(() => {
     setTimeout(() => {
-      const firstInput = document.getElementById("otp-1");
+      const firstInput = document.getElementById('otp-1')
       if (firstInput) {
-        firstInput.focus();
+        firstInput.focus()
       }
-    }, 100); // Small delay to ensure DOM is rendered
-  }, []);
+    }, 100) // Small delay to ensure DOM is rendered
+  }, [])
 
   return (
     <div className="flex flex-col w-full h-[100vh] md:h-full md:flex-row">
@@ -1033,9 +1037,12 @@ const UserLogin = () => {
               >
                 <span>
                   I have read and agree to the{' '}
-                  <a href="#" className="underline text-[#266CAB]">
+                  <Link
+                    href="/privacy-policy"
+                    className="underline text-[#266CAB]"
+                  >
                     Privacy Policy
-                  </a>
+                  </Link>
                   <span> & </span>
                   <a href="#" className="underline text-[#266CAB]">
                     User Agreement
@@ -1191,7 +1198,7 @@ const UserLogin = () => {
                   {Timer > 0 ? (
                     <span className="text-gray-500">Resend in {Timer}s</span>
                   ) : (
-                    <>Send OTP</>
+                    <>{`${OTPSent ? 'Resend OTP' : 'Send OTP'}`}</>
                   )}
                 </button>
               </div>

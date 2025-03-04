@@ -236,7 +236,7 @@ const Index: React.FC<SubscriptionProps> = ({
           <p className="text-[#000000] text-[29px] font-medium">
             Cancel Subscription?
           </p>
-          <p className="font-medium text-primary text-[21px]">
+          <p className="font-medium text-primary text-[21px] text-center">
             Are you sure you want to Cancel This Subscription??
           </p>
           <div className="flex gap-10 mt-5">
@@ -244,7 +244,7 @@ const Index: React.FC<SubscriptionProps> = ({
               className="font-normal text-[22.48px] rounded-full text-[#266CA8] border border-[#266CA8] px-16 py-3"
               onClick={() => onClose()}
             >
-              Cancel
+              No
             </button>
             <button
               className={`font-normal text-white text-[22.48px] bg-[#266CA8] rounded-full px-16 py-3 ${
@@ -253,7 +253,7 @@ const Index: React.FC<SubscriptionProps> = ({
               onClick={() => cancelSubscription(subscription_id)}
               disabled={loading}
             >
-              {loading ? 'Processing...' : 'Yes, I am'}
+              {loading ? 'Processing...' : 'Yes'}
             </button>
           </div>
         </div>
