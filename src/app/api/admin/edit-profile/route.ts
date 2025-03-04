@@ -42,10 +42,11 @@ export async function PUT(req: Request) {
       updateData.name = name
     }
 
-    if (file instanceof File) {
+    if (file && file instanceof Blob) {
       const arrayBuffer = await file.arrayBuffer()
       const buffer = new Uint8Array(arrayBuffer)
-      const filePath = `/uploads/${file.name}`
+      // const filePath = `/uploads/${file.name}`
+      const filePath = `/var/www/uploads/${file.name}`
       await fs.writeFile(`./public${filePath}`, buffer)
       updateData.image = filePath
     }
