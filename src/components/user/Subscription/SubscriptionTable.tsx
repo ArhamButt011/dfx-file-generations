@@ -29,69 +29,70 @@ const SubscriptionTable: React.FC<SubscriptionTableProps> = ({
           <ClipLoader color="#007bff" size={50} />
         </div>
       ) : subscriptions.length > 0 ? (
-        <table className="min-w-full rounded-3xl">
-          <thead className="bg-[#266CA8] rounded-3xl">
-            <tr className="text-[18.45px] text-white">
-              <th className="p-3 border-b text-start font-medium rounded-tl-3xl">
-                Sr No
-              </th>
-              <th className="p3 border-b text-center font-medium">Plan</th>
-              <th className="p3 border-b text-center font-medium">Duration</th>
-              <th className="p3 border-b text-center font-medium">Charges</th>
-              <th className="p3 border-b text-center font-medium">
-                Biling Date
-              </th>
-              <th className="p3 border-b text-center font-medium rounded-tr-3xl">
-                Expiry Date
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {subscriptions.map((data: Subscription, index: number) => (
-              <tr
-                key={index}
-                className={`text-primary text-[16.45px] ${
-                  index % 2 !== 0 ? 'bg-[#F2F2F2]' : 'bg-white'
-                }`}
-              >
-                <td
-                  className={`py-4 px-4 text-start font-medium ${
-                    index === subscriptions.length - 1
-                      ? 'rounded-bl-3xl border-0'
-                      : 'border-l'
-                  }`}
-                >
-                  #{index + 1}
-                </td>
-                <td className="py-4 px-4 text-center font-medium text-[19px] text-[#000000]">
-                  {data.plan_name}
-                </td>
-                <td className="py-4 px-4 text-center text-lg font-medium">
-                  Monthly
-                </td>
-                <td className="py-4 px-4 text-center text-lg font-medium text-[#266CA8]">
-                  ${data.charges}
-                </td>
-                <td className="py-4 px-4 text-center text-lg font-medium">
-                  {data.added_on
-                    ? format(new Date(data.added_on), 'MMM dd, yyyy')
-                    : 'N/A'}
-                </td>
-                <td
-                  className={`py-4 px-4 text-center text-lg font-medium ${
-                    index === subscriptions.length - 1
-                      ? 'rounded-br-3xl border-0'
-                      : 'border-r'
-                  }`}
-                >
-                  {data.expiry_on
-                    ? format(new Date(data.expiry_on), 'MMM dd, yyyy')
-                    : 'N/A'}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <div className="w-full overflow-x-auto">
+          <div className="w-full max-w-[200px] sm:max-w-full"> {/* Ensures the table has a minimum width */}
+            <table className="w-full rounded-3xl whitespace-nowrap">
+              <thead className="bg-[#266CA8] rounded-3xl">
+                <tr className="text-[18.45px] text-white">
+                  <th className="p-3 border-b text-start font-medium rounded-tl-3xl">
+                    Sr No
+                  </th>
+                  <th className="p-3 border-b text-center font-medium">Plan</th>
+                  <th className="p-3 border-b text-center font-medium">Duration</th>
+                  <th className="p-3 border-b text-center font-medium">Charges</th>
+                  <th className="p-3 border-b text-center font-medium">Billing Date</th>
+                  <th className="p-3 border-b text-center font-medium rounded-tr-3xl">
+                    Expiry Date
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {subscriptions.map((data: Subscription, index: number) => (
+                  <tr
+                    key={index}
+                    className={`text-primary text-[16.45px] ${index % 2 !== 0 ? 'bg-[#F2F2F2]' : 'bg-white'
+                      }`}
+                  >
+                    <td
+                      className={`py-4 px-4 text-start font-medium ${index === subscriptions.length - 1
+                          ? 'rounded-bl-3xl border-0'
+                          : 'border-l'
+                        }`}
+                    >
+                      #{index + 1}
+                    </td>
+                    <td className="py-4 px-4 text-center font-medium text-[19px] text-[#000000]">
+                      {data.plan_name}
+                    </td>
+                    <td className="py-4 px-4 text-center text-lg font-medium">
+                      Monthly
+                    </td>
+                    <td className="py-4 px-4 text-center text-lg font-medium text-[#266CA8]">
+                      ${data.charges}
+                    </td>
+                    <td className="py-4 px-4 text-center text-lg font-medium">
+                      {data.added_on
+                        ? format(new Date(data.added_on), 'MMM dd, yyyy')
+                        : 'N/A'}
+                    </td>
+                    <td
+                      className={`py-4 px-4 text-center text-lg font-medium ${index === subscriptions.length - 1
+                          ? 'rounded-br-3xl border-0'
+                          : 'border-r'
+                        }`}
+                    >
+                      {data.expiry_on
+                        ? format(new Date(data.expiry_on), 'MMM dd, yyyy')
+                        : 'N/A'}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+
       ) : (
         <div className="flex flex-col items-center mt-20">
           <Image

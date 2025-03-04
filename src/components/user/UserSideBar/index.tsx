@@ -318,6 +318,7 @@ const Sidebar = ({
       setLoading(false)
     }
   }
+  
 
   const handleImageClick = () => {
     fileInputRef.current?.click()
@@ -331,7 +332,7 @@ const Sidebar = ({
       )}
       <ClickOutside onClick={() => setSidebarOpen(false)}>
         <aside
-          className={`fixed left-0 top-0 lg:z-9999 z-9999 flex min-h-screen max-h-auto md:w-72.5 w-full flex-col overflow-y-auto bg-[#F8F8F8] duration-300 ease-linear dark:bg-boxdark lg:translate-x-0 ${
+          className={`fixed left-0 top-0 z-9999 flex min-h-screen max-h-auto md:w-72.5 w-full flex-col overflow-y-auto bg-[#F8F8F8] duration-300 ease-linear dark:bg-boxdark lg:translate-x-0 ${
             sidebarOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
         >
@@ -420,7 +421,7 @@ const Sidebar = ({
                   className="flex items-center gap-4 justify-center"
                   href="#"
                 >
-                  <span className="h-12 w-12 rounded-full">
+                  {/* <span className="h-12 w-12 rounded-full">
                     <Image
                       width={112}
                       height={112}
@@ -439,7 +440,7 @@ const Sidebar = ({
                     <span className="block text-xs font-normal text-[#00000066]">
                       {userData?.email}
                     </span>
-                  </span>
+                  </span> */}
                   {/* <svg
                   style={{
                     transform: dropdownOpen
@@ -530,7 +531,7 @@ const Sidebar = ({
                         <li>
                           <Link
                             href="#"
-                            className="flex items-center gap-2 text-sm font-medium duration-300 ease-in-out hover:text-[#266CA8] lg:text-base"
+                            className="flex items-center gap-2 text-sm font-medium duration-300 ease-in-out hover:text-[#266CA8] lg:text-base cursor-pointer"
                             onClick={() => {
                               handleEditClick()
                               setSidebarOpen(false)
@@ -564,7 +565,7 @@ const Sidebar = ({
                         <li>
                           <Link
                             href="#"
-                            className="flex items-center gap-2 text-sm font-medium duration-300 ease-in-out hover:text-[#266CA8] lg:text-base"
+                            className="flex items-center gap-2 text-sm font-medium duration-300 ease-in-out hover:text-[#266CA8] lg:text-base cursor-pointer"
                             onClick={() => {
                               handleChangePassword()
                               setSidebarOpen(false)
@@ -590,7 +591,7 @@ const Sidebar = ({
                         <li>
                           <Link
                             href="#"
-                            className="flex items-center gap-2 text-sm font-medium duration-300 ease-in-out hover:text-[#266CA8] lg:text-base"
+                            className="flex items-center gap-2 text-sm font-medium duration-300 ease-in-out hover:text-[#266CA8] lg:text-base  cursor-pointer"
                             onClick={() => {
                               setIsDeleteOpen(true)
                               setSidebarOpen(false)
@@ -619,7 +620,7 @@ const Sidebar = ({
                           <Link
                             href="#"
                             onClick={handleLogoutClick}
-                            className="flex items-center gap-2 text-sm font-medium duration-300 ease-in-out hover:text-[#266CA8] lg:text-base"
+                            className="flex items-center gap-2 text-sm font-medium duration-300 ease-in-out hover:text-[#266CA8] lg:text-base cursor-pointer"
                           >
                             <svg
                               width="27"
@@ -703,7 +704,7 @@ const Sidebar = ({
                 />
               </div>
             </div>
-            <div className="w-full mt-24">
+            <div className="w-full mt-10">
               <button
                 type="submit"
                 className="font-normal text-white text-[24.56px] bg-[#266CA8] rounded-full px-16 py-3 w-full"

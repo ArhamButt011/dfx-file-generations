@@ -170,20 +170,20 @@ SubscribeProps) {
         }
       >
         <div>
-          <div className="text-center">
-            <p className="font-semibold text-3xl">
+          <div className="md:text-center">
+            <p className="font-semibold md:text-3xl text-2xl sm:w-full w-[50%]">
               Choose Your Subscription Plan
             </p>
-            <p className="font-medium text-xl text-[#00000080]">
+            <p className="font-medium md:text-xl text-lg text-[#00000080]">
               Choose a plan that fits your needs, and let&apos;s start designing
               together.
             </p>
           </div>
-          <div className="flex flex-wrap justify-center gap-4 mt-10">
+          <div className="flex sm:flex-row flex-col justify-center gap-4 mt-10">
             {bilingPlans.map((item) => (
               <div
                 key={item.id}
-                className="border p-4 w-full md:w-[48%] lg:max-w-[32%] rounded-2xl flex flex-col justify-between"
+                className="border p-4 w-full md:w-[48%] lg:max-w-[32%] rounded-2xl flex flex-col justify-between h-[590px] sm:h-auto"
               >
                 <div>
                   <p className="font-medium text-base text-[#22222280]">
