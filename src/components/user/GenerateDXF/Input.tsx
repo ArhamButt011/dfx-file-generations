@@ -137,6 +137,27 @@ function Input() {
     }
   }, [userPlan])
 
+  useEffect(()=>{
+    sessionStorage.setItem("overlay",overlay);
+    sessionStorage.setItem("mask",mask);
+    sessionStorage.setItem("preview",preview);
+    sessionStorage.setItem("dxf_file",dfxFile);
+    sessionStorage.setItem("image",image);
+    sessionStorage.setItem("contour",contour);
+  },[overlay,image,contour])
+
+  useEffect(()=>{
+    if(sessionStorage.getItem("overlay"))
+    {
+      setOverlay(sessionStorage.getItem("overlay")?? '')
+      setMask(sessionStorage.getItem("mask")?? '')
+      setPreview(sessionStorage.getItem("preview")?? '')
+      setDfxFile(sessionStorage.getItem("dxf_file")?? '')
+      setImage(sessionStorage.getItem("image")?? '')
+      setContour(sessionStorage.getItem("contour")?? '')
+    }
+  },[])
+
   const onClose = () => {
     setisProcessingOpen(false)
     setIsProcessed(false)
@@ -151,13 +172,19 @@ function Input() {
       // Validate file type
       if (file.type.startsWith('image/')) {
         const reader = new FileReader()
-        reader.readAsDataURL(file)
+
         reader.onload = (event) => {
-          setImage(event.target?.result as string)
-          if (typeof reader.result === 'string') {
-            setBase64(reader.result)
+          if (event.target?.result) {
+            const result = event.target.result as string
+            setImage(result)
+
+
+            const cleanBase64 = result.replace(/^data:image\/[a-zA-Z]+;base64,/, '')
+            setBase64(cleanBase64)
+            console.log(cleanBase64)
           }
         }
+
         reader.readAsDataURL(file)
       } else {
         Swal.fire({
@@ -178,6 +205,7 @@ function Input() {
       }
     }
   }
+
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault()
@@ -204,6 +232,7 @@ function Input() {
       }
     }
   }
+
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -261,38 +290,49 @@ function Input() {
           image_path_or_base64: base64,
           offset_inches: contour,
         }),
-      })
+      });
 
       if (!res.ok) {
-        // If the response is not OK, throw an error with the message from the server response
-        console.log(res)
-        const data = await res.json()
-        throw new Error(
-          data.detail + ' or Invalid Image' || 'An error occurred',
-        )
+        console.log(res);
+        const data = await res.json();
+        throw new Error(data.detail + ' or Invalid Image' || 'An error occurred');
       }
 
-      // If the response is OK, parse the JSON data
-      // , scaling_factor
-      const {
-        output_image_url,
-        outlines_url,
-        dxf_file,
-        mask_url,
-      } = await res.json()
-      setMask(mask_url)
-      setDfxFile(dxf_file)
-      setPreview(outlines_url)
-      setOverlay(output_image_url)
-      setIsProcessed(true)
-    } catch (err) {
+      const { output_image_url, outlines_url, dxf_file, mask_url } = await res.json();
+
+      // Function to convert image URL to Base64
+      const convertToBase64 = async (url: string): Promise<string> => {
+        const response = await fetch(url);
+        const blob = await response.blob();
+        return new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result as string); // Explicitly cast to string
+          reader.readAsDataURL(blob);
+        });
+      };
+
+      // Convert images to base64
+      const [maskBase64, overlayBase64, previewBase64] = await Promise.all([
+        convertToBase64(mask_url),
+        convertToBase64(output_image_url),
+        convertToBase64(outlines_url),
+      ]);
+
+      // Save the base64 images
+      setMask(maskBase64);
+      setDfxFile(dxf_file);
+      setPreview(previewBase64);
+      setOverlay(overlayBase64);
+      setIsProcessed(true);
+    }
+    catch (err) {
       // Catch any error in the try block and log it
       Swal.fire({
         title: 'Error',
         text: err instanceof Error ? err.message : String(err),
         icon: 'error',
         showConfirmButton: false,
-        timer: 10000,
+        timer: 2000,
         didOpen: () => {
           const swalContainer = document.querySelector(
             '.swal2-container',
@@ -448,6 +488,11 @@ function Input() {
       return
     }
 
+    if (userPlan && new Date(userPlan.expiry_date) < new Date()) {
+      setIsBilingOpen(true)
+      return
+    }
+
     const newTab = window.open()
     if (newTab) {
       newTab.document.body.innerHTML = `<img src="${url}" style="width:100%; height:auto;" />`
@@ -473,9 +518,16 @@ function Input() {
 
         // Convert to preview URL
         const reader = new FileReader()
-        reader.onload = (e) => setImage(e.target?.result as string)
-        reader.readAsDataURL(file)
 
+        reader.readAsDataURL(file)
+        reader.onload = (event) => {
+          setImage(event.target?.result as string)
+          if (typeof reader.result === 'string') {
+            const base64Data = reader.result.split(',')[1]
+            setBase64(base64Data)
+            console.log(base64Data)
+          }
+        }
         // Mimic file input behavior
         const dataTransfer = new DataTransfer()
         dataTransfer.items.add(file)
@@ -549,11 +601,11 @@ function Input() {
                     }}
                   >
                     {image ? (
-                      <div className="relative  flex justify-center items-center w-full md:h-[500px] h-[300px]">
+                      <div className="relative  flex justify-center items-center w-full md:h-[450px] h-[300px]">
                         <Image
                           src={image}
                           alt="Uploaded Preview"
-                          className="rounded-t-3xl "
+                          className="rounded-t-3xl object-contain"
                           fill
                           ref={imgRef}
                         />
@@ -669,9 +721,8 @@ function Input() {
                       fill="currentColor"
                       xmlns="http://www.w3.org/2000/svg"
                       className={`w-10 h-10 cursor-pointer transition-colors duration-300 
-        ${
-          clicked ? 'text-[#266CA8]' : 'text-[#00000066] hover:text-[#266CA8]'
-        }`}
+        ${clicked ? 'text-[#266CA8]' : 'text-[#00000066] hover:text-[#266CA8]'
+                        }`}
                       onClick={() => {
                         setClicked(!clicked)
                         setIsMagnifierActive(!isMagnifierActive)
@@ -777,6 +828,11 @@ function Input() {
                       onClick={() => {
                         setContour('')
                         setImage('')
+                        setOverlay('')
+                        setMask('')
+                        setPreview('')
+                        setDfxFile('')
+                        setIsProcessed(false);
                       }}
                     >
                       Clear
@@ -816,12 +872,23 @@ function Input() {
                   <div className="relative">
                     <p className="font-semibold text-2xl mb-5">Overlay Image</p>
                     <div className="relative flex justify-center items-center">
-                      <Image
+                      {/* <Image
                         src={overlay}
                         alt="overlay Image"
                         className="w-full rounded-3xl border"
                         width={350}
                         height={100}
+                      /> */}
+                      <div
+                        className="w-full h-full rounded-3xl border"
+                        style={{
+                          // width: "400px",
+                          height: "400px",
+                          backgroundImage: `url(${overlay})`,
+                          backgroundSize: "contain",
+                          backgroundPosition: "center",
+                          backgroundRepeat: "no-repeat"
+                        }}
                       />
                       <div className="absolute top-0 right-0 bg-white border-r border-t rounded-tr-3xl text-white w-20 h-10 flex items-center justify-around text-sm cursor-pointer">
                         <div
@@ -850,12 +917,23 @@ function Input() {
                   <div className="relative">
                     <p className="font-semibold text-2xl mb-5">DXF Preview</p>
                     <div className="relative flex justify-center items-center">
-                      <Image
+                      {/* <Image
                         src={preview}
                         alt="preview Image"
                         width={350}
                         height={100}
                         className="w-full border rounded-3xl"
+                      /> */}
+                      <div
+                        className="w-full h-full rounded-3xl border"
+                        style={{
+                          // width: "400px",
+                          height: "400px",
+                          backgroundImage: `url(${preview})`,
+                          backgroundSize: "contain",
+                          backgroundPosition: "center",
+                          backgroundRepeat: "no-repeat"
+                        }}
                       />
                       <div className="absolute shadow-card top-0 right-0 bg-white border-r border-t rounded-tr-3xl text-white w-20 h-10 flex items-center justify-around text-sm cursor-pointer">
                         <div className="cursor-pointer">
@@ -884,12 +962,23 @@ function Input() {
                   <div className="relative">
                     <p className="font-semibold text-2xl mb-5">Mask</p>
                     <div className="relative flex justify-center items-center rounded-3xl">
-                      <Image
+                      {/* <Image
                         src={mask}
                         alt="mask Image"
                         width={350}
                         height={100}
                         className="w-full rounded-3xl border"
+                      /> */}
+                      <div
+                        className="w-full h-full rounded-3xl border"
+                        style={{
+                          // width: "400px",
+                          height: "400px",
+                          backgroundImage: `url(${mask})`,
+                          backgroundSize: "contain",
+                          backgroundPosition: "center",
+                          backgroundRepeat: "no-repeat"
+                        }}
                       />
                       <div className="absolute top-0 right-0 bg-white border-r border-t rounded-tr-3xl text-white w-20 h-10 flex items-center justify-around text-sm cursor-pointer">
                         <div

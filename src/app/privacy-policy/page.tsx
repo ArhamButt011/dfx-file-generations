@@ -126,7 +126,7 @@ const PrivacyPolicy = () => {
         <a href="/privacy-policy" className="border-b h-7">
           Privacy Policy
         </a>
-        <a href="/terms" className="border-b h-7">
+        <a href="/Terms&Condition" className="border-b h-7">
           Terms and Conditions
         </a>
         <a href="/Contact_Us" className="border-b h-7">

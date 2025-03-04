@@ -333,7 +333,7 @@ const DropdownUser = () => {
                 <li>
                   <Link
                     href="#"
-                    className="flex items-center gap-2 text-sm font-medium duration-300 ease-in-out hover:text-[#266CA8] lg:text-base"
+                    className="flex items-center gap-2 text-sm font-medium duration-300 ease-in-out hover:text-[#266CA8] lg:text-base cursor-pointer"
                     onClick={handleEditClick}
                   >
                     <svg
@@ -362,7 +362,7 @@ const DropdownUser = () => {
                   </Link>
                 </li>
                 <li
-                  className="flex items-center gap-2 text-sm font-medium duration-300 ease-in-out hover:text-[#266CA8] lg:text-base"
+                  className="flex items-center gap-2 text-sm font-medium duration-300 ease-in-out hover:text-[#266CA8] lg:text-base cursor-pointer"
                   onClick={handleChangePassword}
                 >
                   <svg
@@ -384,7 +384,7 @@ const DropdownUser = () => {
                 <li>
                   <Link
                     href="#"
-                    className="flex items-center gap-2 text-sm font-medium duration-300 ease-in-out hover:text-[#266CA8] lg:text-base"
+                    className="flex items-center gap-2 text-sm font-medium duration-300 ease-in-out hover:text-[#266CA8] lg:text-base  cursor-pointer"
                     onClick={() => setIsDeleteOpen(true)}
                   >
                     <svg
@@ -492,7 +492,7 @@ const DropdownUser = () => {
                 />
               </div>
             </div>
-            <div className="w-full mt-24">
+            <div className="w-full mt-8">
               <button
                 type="submit"
                 className="font-normal text-white text-[24.56px] bg-[#266CA8] rounded-full px-16 py-3 w-full"

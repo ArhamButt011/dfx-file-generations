@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useAuth } from '@/context/AuthContext'
 import Subscribe from '../Subscription/Subscribe'
+import { format } from 'date-fns'
 
 interface UserPlan {
   plan_name: string
@@ -55,7 +56,10 @@ function Title() {
           </p>
           <p className="font-medium text-lg sm:text-xl text-[#00000080] text-left mt-2">
             You have successfully activated your free trial on{' '}
-            <span className="text-black font-medium">{userPlan.added_on}</span>{' '}
+            <span className="text-black font-medium">{format(
+                        new Date(userPlan.added_on),
+                        'MMM dd, yyyy',
+                      )}</span>{' '}
             and it will end on{' '}
             <span className="text-black font-medium">{userPlan.expiry_on}</span>
             .
