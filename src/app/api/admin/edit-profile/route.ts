@@ -47,7 +47,7 @@ export async function PUT(req: Request) {
       const arrayBuffer = await file.arrayBuffer()
       const buffer = new Uint8Array(arrayBuffer)
 
-      const uploadsDir = '/var/www/uploads'
+      const uploadsDir = path.join(process.cwd(), 'public/uploads')
 
       if (existingUser.image) {
         const oldImagePath = path.join(
@@ -63,7 +63,7 @@ export async function PUT(req: Request) {
       }
 
       // Save the new image
-      const fileName = `${id}_${Date.now()}_${file.name}` // Ensures unique file name
+      const fileName = `${id}_${Date.now()}_${file.name}`
       const filePath = path.join(uploadsDir, fileName)
       await fs.writeFile(filePath, buffer)
       updateData.image = `/uploads/${fileName}`
