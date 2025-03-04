@@ -58,7 +58,6 @@ const Forgot: React.FC<ForgotProps> = ({ title, content }) => {
 
       if (!res.ok) {
         const data = await res.json()
-
         throw new Error(data.message)
       }
       setIsOTPSent(true)
