@@ -1,27 +1,46 @@
 import clientPromise from '@/lib/mongodb'
 import { ObjectId } from 'mongodb'
-import { database, ref, update } from '@/firebase' // Import Firebase
+import { database, ref, update } from '@/firebase'
+interface User {
+  _id: ObjectId
+  name?: string
+}
 
 export async function addNotification(
   userId: string,
   action: string,
   type: string,
-  // isReadable: boolean = false,
 ) {
   try {
     const client = await clientPromise
     const db = client.db('DFXFileGeneration')
     const usersCollection = db.collection('users')
+    const inactiveUsersCollection = db.collection('inactive-accounts')
     const notificationsCollection = db.collection('notifications')
 
-    const user = await usersCollection.findOne({ _id: new ObjectId(userId) })
+    let user: User | null = null
+    let inactiveUser: User | null = null
 
-    if (!user) {
+    if (type === 'account_deletion') {
+      inactiveUser = await inactiveUsersCollection.findOne({
+        _id: new ObjectId(userId),
+      })
+    } else {
+      user = await usersCollection.findOne({ _id: new ObjectId(userId) })
+    }
+
+    if (type === 'account_deletion' && !inactiveUser) {
+      console.error('Inactive user not found for notification.')
+      return
+    }
+
+    if (type !== 'account_deletion' && !user) {
       console.error('User not found for notification.')
       return
     }
 
-    const userName = user.name
+    // Ensure userName is safely accessed
+    const userName = inactiveUser?.name ?? user?.name ?? 'Unknown User'
 
     let message = ''
     switch (type) {
@@ -44,7 +63,7 @@ export async function addNotification(
         message = `<b>${userName}</b> upgraded their subscription plan from ${action}.`
         break
       case 'basic_subscription':
-        message = `<b>${userName}</b> subscribed basic subscription plan.`
+        message = `<b>${userName}</b> subscribed to the basic subscription plan.`
         break
       default:
         message = `<b>${userName}</b> performed an action.`
@@ -54,7 +73,6 @@ export async function addNotification(
       userId: new ObjectId(userId),
       message,
       type,
-
       createdAt: new Date(),
     }
 

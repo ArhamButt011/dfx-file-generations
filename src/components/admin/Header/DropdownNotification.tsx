@@ -83,7 +83,7 @@ const DropdownNotification = () => {
           <Image src={notification} alt="notifications" />
         </Link>
         {dropdownOpen && (
-          <div className="absolute lg:-right-6.4 xl:-right-7 2xl:-right-11 mt-5 flex h-[92.2vh] w-75 flex-col rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark sm:-right-5 sm:w-[470px]">
+          <div className="absolute -right-4  lg:-right-6.4 xl:-right-7 2xl:-right-11 mt-5 flex h-[92.2vh] w-75 flex-col rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark sm:-right-5 sm:w-[470px]">
             <div className="px-4.5 py-3">
               <h5 className="text-[27.94px] font-semibold text-[#000000]">
                 Notifications
@@ -93,16 +93,16 @@ const DropdownNotification = () => {
               {notifications?.map((data, index) => (
                 <li key={index}>
                   <div className="flex flex-col gap-2.5 border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4">
-                    <div className="flex gap-4">
-                      <span className="h-15 w-15 overflow-hidden rounded-full">
-                        <Image
-                          src={data?.image ? data.image : userImage}
-                          width={60}
-                          height={50}
-                          alt="userImage"
-                          className="rounded-full mt-1"
-                        />
-                      </span>
+                    <div className="flex gap-4 items-start">
+                      {/* <div className="h-15 w-15 overflow-hidden rounded-full"> */}
+                      <Image
+                        src={data?.image ? data.image : userImage}
+                        width={60}
+                        height={50}
+                        alt="userImage"
+                        className="rounded-full mt-1"
+                      />
+                      {/* </div> */}
                       <div className="flex flex-col">
                         <p
                           className="font-medium text-[21.94px]"
