@@ -1022,7 +1022,7 @@ const UserLogin = () => {
               </div>
             </div>
             {/* agreement */}
-            <div className="flex items-center">
+            <div className="flex items-baseline">
               <input
                 type="checkbox"
                 name="agree"

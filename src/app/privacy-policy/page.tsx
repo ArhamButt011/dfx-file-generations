@@ -4,7 +4,7 @@ import logo from '/public/images/user/home/user_login.svg'
 
 const PrivacyPolicy = () => {
   return (
-    <div className="max-w-7xl mx-auto py-16 text-gray-800">
+    <div className="md:p-12 p-5 md:max-w-screen-2xl  mx-auto py-16 text-gray-800">
       <div className="flex items-center mb-20">
         <Image src={logo} alt="LUMASHAPE Logo" height={73} width={400} />
       </div>
