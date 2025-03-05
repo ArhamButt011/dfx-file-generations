@@ -46,6 +46,7 @@ export const sendSubscriptionEmail = async (
           }
           .logo {
             padding: 10px 0;
+            text-align: center;
           }
           .header {
             text-align: start;
@@ -89,6 +90,9 @@ export const sendSubscriptionEmail = async (
           .footer a {
             text-decoration: none;
           }
+          .summary-table td {
+            text-align: right;
+          }
         </style>
       </head>
       <body>
@@ -101,34 +105,37 @@ export const sendSubscriptionEmail = async (
             <p>Thank you for subscribing with Lumashape. This email serves as a receipt for your recent purchase. Below, you will find the details of your subscriptions and payments.</p>
           </div>
           <div class="invoice-date"><p>Invoice Date</p></div>
-          <table width="100%">
-            <tr>
-              <td align="left" style="font-size: 25px;" class="your-subscription"><strong>Your Subscriptions</strong></td>
-              <td align="right"><strong>${addedDate}</strong></td>
-            </tr>
+          <table width="100%" style="border-bottom: 1px solid #0000001A;">
+           <tr >
+  <td align="left" style="font-size: 25px;">
+    <strong>Your Subscriptions</strong>
+  </td>
+  <td align="right"><strong>${addedDate}</strong></td>
+</tr>
           </table>
           <table class="subscriptions">
             <tr>
               <th style="color: #666;">Subscription Name</th>
               <th>Exp Date</th>
-              <th class="amount">Amount</th>
+              <th>Amount</th>
             </tr>
-            <tr>
+            <tr style="border-bottom: 1px solid #0000001A;">
               <td><strong>${planName}</strong></td>
               <td>${expiryDate}</td>
-              <td class="amount">$${total}</td>
+              <td>$${total}</td>
             </tr>
           </table>
-          <table class="subscriptions">
-            <tr>
-              <td class="total">Sub Total:</td>
-              <td class="amount">$${subTotal}</td>
-            </tr>
-            <tr>
-              <td class="total">Total:</td>
-              <td class="amount">$${total}</td>
-            </tr>
-          </table>
+
+         <table class="subscriptions summary-table">
+    <tr >
+      <td class="total" align="right" style="border-bottom: 1px solid #0000001A;">Sub Total:</td>
+      <td class="amount" style="border-bottom: 1px solid #0000001A;">$${subTotal}</td>
+    </tr>
+    <tr>
+      <td class="total" align="right">Total:</td>
+      <td class="amount">$${total}</td>
+    </tr>
+  </table>
           <div class="important-info">
             <p><strong>Important Information</strong></p>
             <p>This payment is recurring and will charge every month if not cancelled beforehand (for subscriptions).</p>
