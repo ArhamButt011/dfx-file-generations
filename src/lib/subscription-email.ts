@@ -97,9 +97,10 @@ export const sendSubscriptionEmail = async (
       </head>
       <body>
         <div class="container">
-          <div class="logo">
-              <img src="${logoUrl}" alt="Lumashape Logo" width="250" />
-          </div>
+         <div class="logo">
+          <img src="${logoUrl}" alt="Lumashape Logo" width="250" style="pointer-events: none; user-drag: none; -webkit-user-drag: none;" />
+        </div>
+
           <div class="header">
             <p><strong>Dear ${user_name},</strong></p>
             <p>Thank you for subscribing with Lumashape. This email serves as a receipt for your recent purchase. Below, you will find the details of your subscriptions and payments.</p>
@@ -140,9 +141,8 @@ export const sendSubscriptionEmail = async (
             <p><strong>Important Information</strong></p>
             <p>This payment is recurring and will charge every month if not cancelled beforehand (for subscriptions).</p>
             <p>This payment is for one-time use and to use this feature again, please make another payment on the app.</p>
-            <p>${`If this payment was not made by you, please get in touch with our customer service team at ${
-              planName === 'Premium' ? 'sam.peterson@lumashape.com' : ''
-            }`}</p>
+            <p>${`If this payment was not made by you, please get in touch with our customer service team at ${planName === 'Premium' ? 'sam.peterson@lumashape.com' : ''
+      }`}</p>
           </div>
           <div class="footer">
             <div class="footer-links">
