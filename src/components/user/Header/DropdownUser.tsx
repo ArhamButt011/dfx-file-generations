@@ -139,8 +139,17 @@ const DropdownUser = () => {
 
   const handleSubmit1 = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    console.log('hlo')
 
+    // if (!file) {
+    //   Swal.fire({
+    //     title: 'Error!',
+    //     text: 'Please select a file first.',
+    //     icon: 'error',
+    //     showConfirmButton: false,
+    //     timer: 2000,
+    //   })
+    //   return
+    // }
     if (!userData) {
       Swal.fire({
         title: 'Error!',
@@ -148,6 +157,14 @@ const DropdownUser = () => {
         icon: 'error',
         showConfirmButton: false,
         timer: 2000,
+        didOpen: () => {
+          const swalContainer = document.querySelector(
+            '.swal2-container',
+          ) as HTMLElement
+          if (swalContainer) {
+            swalContainer.style.setProperty('z-index', '100000', 'important')
+          }
+        },
       })
       return
     }
@@ -155,15 +172,14 @@ const DropdownUser = () => {
 
     const formData = new FormData()
     if (file) {
-      formData.append('file', file) // Only append if file exists
+      formData.append('file', file)
     }
     formData.append('name', name)
     formData.append('id', id)
-    console.log('helo')
 
     try {
-      const response = await fetch('/api/upload', {
-        method: 'POST',
+      const response = await fetch('/api/admin/edit-profile', {
+        method: 'PUT',
         body: formData,
       })
 
@@ -192,6 +208,14 @@ const DropdownUser = () => {
           icon: 'success',
           showConfirmButton: false,
           timer: 2000,
+          didOpen: () => {
+            const swalContainer = document.querySelector(
+              '.swal2-container',
+            ) as HTMLElement
+            if (swalContainer) {
+              swalContainer.style.setProperty('z-index', '1000000', 'important')
+            }
+          },
         })
         setName('')
         setProfileImage(userImages)
@@ -255,18 +279,20 @@ const DropdownUser = () => {
           className="flex items-center gap-4"
           href="#"
         >
-          <span className="h-12 w-12 rounded-full">
+          {userData?.image ? (
             <Image
-              width={112}
-              height={112}
-              src={user}
-              style={{
-                width: 'auto',
-                height: 'auto',
-              }}
+              width={44}
+              height={44}
+              src={userData.image}
+              className="rounded-full"
               alt="User"
             />
-          </span>
+          ) : (
+            <div className="w-[44px] h-[44px] text-[26.86px] flex items-center justify-center bg-[#F2F2F2] rounded-full text-[#266CA8] font-bold">
+              {userData?.username?.charAt(0).toUpperCase()}
+            </div>
+          )}
+
           <span className="hidden text-left lg:block">
             <span className="block text-lg font-semibold text-black dark:text-white">
               {userData?.username}
@@ -309,18 +335,25 @@ const DropdownUser = () => {
             >
               <div className=" flex justify-center flex-col items-center py-3">
                 <span className="h-18 w-18 text-center rounded-full">
-                  <Image
-                    width={100}
-                    height={100}
-                    src={user}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                    }}
-                    alt="User"
-                  />
+                  {userData?.image ? (
+                    <Image
+                      width={100}
+                      height={100}
+                      className="rounded-full"
+                      src={userData?.image ? userData.image : user}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                      }}
+                      alt="User"
+                    />
+                  ) : (
+                    <div className="w-[80px] h-[80px] flex items-center justify-center bg-[#F2F2F2] rounded-full text-[#266CA8] font-semibold text-[42.21px]">
+                      {userData?.username?.charAt(0).toUpperCase()}
+                    </div>
+                  )}
                 </span>
-                <span className="hidden text-center lg:block">
+                <span className="hidden text-center lg:block mt-4">
                   <span className="block text-lg font-semibold text-black dark:text-white">
                     {userData?.username}
                   </span>

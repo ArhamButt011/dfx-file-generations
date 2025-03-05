@@ -61,8 +61,13 @@ export async function GET(req: NextRequest) {
       }
     }
 
-    const paginatedDownloads = allDownloads.slice(skip, skip + limit)
+    allDownloads.sort(
+      (a, b) =>
+        new Date(b.downloaded_on).getTime() -
+        new Date(a.downloaded_on).getTime(),
+    )
 
+    const paginatedDownloads = allDownloads.slice(skip, skip + limit)
     const totalDownloads = allDownloads.length
 
     return NextResponse.json(
