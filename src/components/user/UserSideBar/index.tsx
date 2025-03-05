@@ -403,7 +403,7 @@ const Sidebar = ({
                   <div className="text-center mt-3 cursor-pointer">
                     <div
                       className="bg-[#266CA8] text-white rounded-2xl py-1 font-semibold"
-                      // onClick={() => setIsBilingOpen(true)}
+                      onClick={() => setIsBilingOpen(true)}
                     >
                       Upgrade
                     </div>
