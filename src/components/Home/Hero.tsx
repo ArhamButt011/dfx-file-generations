@@ -23,7 +23,7 @@ function Hero() {
                 <div className='w-full mx-auto'>
                     <video
                         className="w-full object-cover rounded-lg" // Optional rounded corners
-                        
+
                         loop
                         muted
                         controls
@@ -66,7 +66,7 @@ function Hero() {
                     >
                         <Image src="/images/user/home/AI.svg" alt="" className='' width={120} height={100} />
                         <p className='font-bold text-[30px] text-center md:w-[70%] w-[50%] mt-5'>AI-Powered Precision</p>
-                        <p className='text-center text-[#00000066] text-[21px] mx-auto font-medium max-w-[80%]'>Our advanced AI detects and processes tool layouts with extreme accuracy, instantly generating high-quality DXF files—no manual tracing required.</p>
+                        <p className='text-center text-[#00000066] text-[21px] mx-auto font-medium max-w-[80%]'>OOur advanced AI detects and converts tool contours into accurate DXF files — no manual tracing or CAD work needed.</p>
 
                     </motion.div>
 
@@ -78,8 +78,8 @@ function Hero() {
                         transition={{ duration: 1 }}
                         viewport={{ once: false }}  >
                         <Image src="/images/user/home/fast.svg" alt="" className='' width={120} height={100} />
-                        <p className='font-bold text-[30px] text-center w-[80%] mt-5'>Custom Offset Parameter</p>
-                        <p className='text-center text-[#00000066] text-[21px] mx-auto font-medium max-w-[70%]'>Save time with our intuitive interface. Upload your design files, preview the results, and download your DXF file in just a few clicks.</p>
+                        <p className='font-bold text-[30px] text-center w-[80%] mt-5'>Production-Ready Outputs</p>
+                        <p className='text-center text-[#00000066] text-[21px] mx-auto font-medium max-w-[70%]'>Generate ready-to-cut DXF files of the exact tool layout shown in the input image, perfectly sized to fit specified drawer dimensions. Or scan individual tools to import into CAD and create custom layouts</p>
                     </motion.div>
                     {/* access Anytime */}
                     <motion.div
@@ -89,8 +89,8 @@ function Hero() {
                         transition={{ duration: 1 }}
                         viewport={{ once: false }}  >
                         <Image src="/images/user/home/access.svg" alt="" className='' width={120} height={100} />
-                        <p className='font-bold text-[30px] text-center w-[80%] mt-5'>Production-Ready Outputs</p>
-                        <p className='text-center text-[#00000066] text-[21px] mx-auto font-medium max-w-[80%]'>Generate DXF files ready for cutting, with an optional bounding box that auto-centers tool contours and scales to your specified width and length—no extra adjustments needed.</p>
+                        <p className='font-bold text-[30px] text-center w-[80%] mt-5'>Customer Support</p>
+                        <p className='text-center text-[#00000066] text-[21px] mx-auto font-medium max-w-[80%]'>Support comes directly from the developers behind the software, ensuring fast, expert assistance.</p>
                     </motion.div>
                 </div>
 
