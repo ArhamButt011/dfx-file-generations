@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import ClickOutside from '../ClickOutside'
-import user from '/public/images/admin/dashboard/user.svg'
+// import user from '/public/images/admin/dashboard/user.svg'
 import Edit from '/public/images/admin/dashboard/edit.svg'
 import Lock from '/public/images/admin/dashboard/lock.svg'
 import Bell from '/public/images/admin/dashboard/bell.svg'
@@ -163,6 +163,14 @@ const DropdownUser = () => {
         icon: 'error',
         showConfirmButton: false,
         timer: 2000,
+        didOpen: () => {
+          const swalContainer = document.querySelector(
+            '.swal2-container',
+          ) as HTMLElement
+          if (swalContainer) {
+            swalContainer.style.setProperty('z-index', '100000', 'important')
+          }
+        },
       })
       return
     }
@@ -206,6 +214,14 @@ const DropdownUser = () => {
           icon: 'success',
           showConfirmButton: false,
           timer: 2000,
+          didOpen: () => {
+            const swalContainer = document.querySelector(
+              '.swal2-container',
+            ) as HTMLElement
+            if (swalContainer) {
+              swalContainer.style.setProperty('z-index', '1000000', 'important')
+            }
+          },
         })
         setName('')
         setProfileImage(userImages)
@@ -245,16 +261,19 @@ const DropdownUser = () => {
             {/* <span className="block text-xs">UX Designer</span> */}
           </span>
 
-          <span className="h-10 w-10 overflow-hidden rounded-full">
+          {userData?.image ? (
             <Image
-              width={40}
-              height={40}
-              src={userData?.image ? userData.image : user}
-              className="rounded-full object-cover"
+              width={44}
+              height={44}
+              src={userData.image}
+              className="rounded-full"
               alt="User"
             />
-          </span>
-
+          ) : (
+            <div className="w-[44px] h-[44px] text-[26.86px] flex items-center justify-center bg-[#F2F2F2] rounded-full text-[#266CA8] font-bold">
+              {userData?.username?.charAt(0).toUpperCase()}
+            </div>
+          )}
           <svg
             className="hidden fill-current sm:block"
             width="12"

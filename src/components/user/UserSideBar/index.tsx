@@ -75,8 +75,8 @@ const menuGroups = [
 const Sidebar = ({
   sidebarOpen,
   setSidebarOpen,
-  setIsBilingOpen,
-}: SidebarProps) => {
+}: // setIsBilingOpen,
+SidebarProps) => {
   // const pathname = usePathname()
   const [pageName, setPageName] = useLocalStorage('selectedMenu', 'dashboard')
   useEffect(() => {
@@ -85,6 +85,7 @@ const Sidebar = ({
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const { logout, userData, setUserData } = useAuth()
   const [userPlan, setUserPlan] = useState<UserPlan | null>(null)
+  console.log(userPlan)
   const handleLogoutClick = () => {
     logout()
     window.location.href = '/user'
@@ -318,7 +319,6 @@ const Sidebar = ({
       setLoading(false)
     }
   }
-  
 
   const handleImageClick = () => {
     fileInputRef.current?.click()
@@ -373,7 +373,7 @@ const Sidebar = ({
               ))}
             </nav>
 
-            {userPlan &&
+            {/* {userPlan &&
               userPlan.plan_name !== 'Free' &&
               userPlan.plan_name !== 'Premium' && (
                 <div className="bg-[#FFFFFF] flex flex-col justify-center rounded-2xl mx-5 p-5 mb-5">
@@ -409,7 +409,7 @@ const Sidebar = ({
                     </div>
                   </div>
                 </div>
-              )}
+              )} */}
 
             <div className="lg:hidden flex justify-center">
               <div
@@ -455,18 +455,20 @@ const Sidebar = ({
                   xmlns="http://www.w3.org/2000/svg"
                 > */}
 
-                  <span className="h-12 w-12 rounded-full">
+                  {userData?.image ? (
                     <Image
-                      width={112}
-                      height={112}
-                      src={user}
-                      style={{
-                        width: 'auto',
-                        height: 'auto',
-                      }}
+                      width={44}
+                      height={44}
+                      src={userData.image}
+                      className="rounded-full"
                       alt="User"
                     />
-                  </span>
+                  ) : (
+                    <div className="w-[44px] h-[44px] text-[26.86px] flex items-center justify-center bg-[#F2F2F2] rounded-full text-[#266CA8] font-bold">
+                      {userData?.username?.charAt(0).toUpperCase()}
+                    </div>
+                  )}
+
                   <span className="lg:hidden text-left">
                     <span className="block text-lg font-semibold text-black dark:text-white">
                       {userData?.username}
@@ -507,16 +509,23 @@ const Sidebar = ({
                     >
                       <div className=" flex justify-center flex-col items-center py-3">
                         <span className="h-18 w-18 text-center rounded-full">
-                          <Image
-                            width={100}
-                            height={100}
-                            src={user}
-                            style={{
-                              width: '100%',
-                              height: '100%',
-                            }}
-                            alt="User"
-                          />
+                          {userData?.image ? (
+                            <Image
+                              width={100}
+                              height={100}
+                              className="rounded-full"
+                              src={userData?.image ? userData.image : user}
+                              style={{
+                                width: '100%',
+                                height: '100%',
+                              }}
+                              alt="User"
+                            />
+                          ) : (
+                            <div className="w-[80px] h-[80px] flex items-center justify-center bg-[#F2F2F2] rounded-full text-[#266CA8] font-semibold text-[42.21px]">
+                              {userData?.username?.charAt(0).toUpperCase()}
+                            </div>
+                          )}
                         </span>
                         <span className="text-center lg:block">
                           <span className="block text-lg font-semibold text-black dark:text-white">
