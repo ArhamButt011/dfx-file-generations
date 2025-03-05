@@ -13,6 +13,7 @@ export const config = { runtime: 'experimental-edge' }
 type UpdateData = {
   name?: string
   image?: string
+  lastName?: string
 }
 
 export async function PUT(req: Request) {
@@ -20,6 +21,7 @@ export async function PUT(req: Request) {
     const formData = await req.formData()
     const id = formData.get('id') as string
     const name = formData.get('name') as string
+    const lastName = formData.get('lastName') as string
     const file = formData.get('file')
 
     if (!id) {
@@ -41,6 +43,9 @@ export async function PUT(req: Request) {
 
     if (name && name !== existingUser.name) {
       updateData.name = name
+    }
+    if (lastName && lastName !== existingUser.lastName) {
+      updateData.lastName = lastName
     }
 
     if (file && file instanceof Blob) {
@@ -98,6 +103,7 @@ export async function PUT(req: Request) {
       {
         id: updatedUser._id.toString(),
         username: updatedUser.name,
+        lastName: updateData.lastName,
         email: updatedUser.email,
         role: updatedUser.role,
       },
@@ -105,7 +111,10 @@ export async function PUT(req: Request) {
       { expiresIn: '24h' },
     )
 
-    if (updatedUser.role !== 'admin' && (updateData.name || updateData.image)) {
+    if (
+      updatedUser.role !== 'admin' &&
+      (updateData.name || updateData.image || updateData.lastName)
+    ) {
       await addNotification(id, '', 'profile_update')
     }
 
