@@ -74,7 +74,10 @@ export const sendSubscriptionEmail = async (
           }
           .important-info {
             margin-top: 20px;
-            padding: 10px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-right: 10px;
+            padding-left: 0px;
           }
           .footer {
             text-align: left;
@@ -114,16 +117,16 @@ export const sendSubscriptionEmail = async (
   <td align="right"><strong>${addedDate}</strong></td>
 </tr>
           </table>
-          <table class="subscriptions">
+          <table style="width: 100%; border-collapse: collapse; margin-top: 14px;">
             <tr>
-              <th style="color: #666;">Subscription Name</th>
-              <th>Exp Date</th>
-              <th>Amount</th>
+              <th align="left" style="color: #666;">Subscription Name</th>
+              <th align="right">Exp Date</th>
+              <th align="right">Amount</th>
             </tr>
             <tr style="border-bottom: 1px solid #0000001A;">
-              <td><strong>${planName}</strong></td>
-              <td>${expiryDate}</td>
-              <td>$${total}</td>
+              <td style="padding-top: 16px;" align="left"><strong>${planName}</strong></td>
+              <td align="right">${expiryDate}</td>
+              <td align="right">$${total}</td>
             </tr>
           </table>
 
@@ -141,13 +144,15 @@ export const sendSubscriptionEmail = async (
             <p><strong>Important Information</strong></p>
             <p>This payment is recurring and will charge every month if not cancelled beforehand (for subscriptions).</p>
             <p>This payment is for one-time use and to use this feature again, please make another payment on the app.</p>
-            <p>${`If this payment was not made by you, please get in touch with our customer service team at ${planName === 'Premium' ? 'sam.peterson@lumashape.com' : ''
-      }`}</p>
+            <p>${`If this payment was not made by you, please get in touch with our customer service team at ${
+              planName === 'Premium' ? 'sam.peterson@lumashape.com' : ''
+            }`}</p>
           </div>
           <div class="footer">
             <div class="footer-links">
-              <a href="https://www.lumashape.com" target="_blank">www.lumashape.com</a> | 
-              <a href="mailto:sam.peterson@lumashape.com">sam.peterson@lumashape.com</a>
+            <a href="https://www.lumashape.com" target="_blank">www.lumashape.com</a> &nbsp; | &nbsp;  
+<a href="mailto:sam.peterson@lumashape.com">sam.peterson@lumashape.com</a>
+
             </div>
           </div>
         </div>
