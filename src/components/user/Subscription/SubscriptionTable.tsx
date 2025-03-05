@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { format } from 'date-fns'
-import noDownloads from '/public/images/admin/noDownloads.svg'
+import noDownloads from '/public/images/user/subscription/noSubscription.svg'
 import { ClipLoader } from 'react-spinners'
 interface Subscription {
   order_id: string

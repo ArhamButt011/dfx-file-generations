@@ -21,8 +21,20 @@ function Hero() {
                     <Link href="/user" className='bg-[#266CA8] text-white rounded-full mt-2 flex justify-center h-[10%] px-3 py-4 text-center p-5 font-medium md:text-2xl text-xl'>Try LumaShape Now</Link>
                 </div>
                 <div className='w-full mx-auto'>
-                    <Image src="/images/user/home/hero.svg" alt="" className='mx-auto w-full md:h-full ' width={100} height={100} />
+                    <video
+                        className="w-full object-cover rounded-lg" // Optional rounded corners
+                        
+                        loop
+                        muted
+                        controls
+                    >
+                        <source
+                            src="/video/Lumashape_Video_Animation_1st_Cut.mov"
+                            type="video/mp4"
+                        />
+                    </video>
                 </div>
+
 
 
 
