@@ -29,7 +29,8 @@ const DropdownUser = () => {
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [name, setName] = useState('')
-  const [profileImage, setProfileImage] = useState(userImages) // Set initial image
+  const [lastName, setLastName] = useState('')
+  const [profileImage, setProfileImage] = useState(userImages)
   const [file, setFile] = useState<File | undefined>(undefined)
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
@@ -47,6 +48,7 @@ const DropdownUser = () => {
   useEffect(() => {
     if (userData) {
       setName(userData.username || '')
+      setLastName(userData.lastName || '')
       setProfileImage(userData.image || userImages)
     }
   }, [userData])
@@ -69,7 +71,7 @@ const DropdownUser = () => {
   }
 
   const handleUpdatePassword = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault()
     setLoading(true)
     try {
       if (newPassword !== confirmPassword) {
@@ -214,8 +216,9 @@ const DropdownUser = () => {
       formData.append('file', file)
     }
     formData.append('name', name)
+    formData.append('lastName', lastName)
     formData.append('id', id)
-    setLoading(true);
+    setLoading(true)
 
     try {
       const response = await fetch('/api/admin/edit-profile', {
@@ -285,9 +288,9 @@ const DropdownUser = () => {
           }
         },
       })
-    }
-    finally {
-      setLoading(false);
+    } finally {
+      setLoading(false)
+      setIsEditOpen(false)
     }
   }
 
@@ -302,7 +305,7 @@ const DropdownUser = () => {
         const data = await response.json()
         throw new Error(data.message || 'Error Deleting user')
       }
-      setIsDeleteOpen(false);
+      setIsDeleteOpen(false)
       handleLogoutClick()
     } catch (err) {
       Swal.fire({
@@ -327,7 +330,6 @@ const DropdownUser = () => {
 
   return (
     <>
-
       <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
         <Link
           onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -350,7 +352,7 @@ const DropdownUser = () => {
 
           <span className="hidden text-left lg:block">
             <span className="block text-lg font-semibold text-black dark:text-white">
-              {userData?.username}
+              {userData?.username} {userData?.lastName}
             </span>
             <span className="block text-xs font-normal text-[#00000066]">
               {userData?.email}
@@ -533,7 +535,7 @@ const DropdownUser = () => {
               <ClipLoader color="#007bff" size={50} />
             </div>
           )}
-          <div className="flex items-center flex-col gap-10">
+          <div className="flex items-center flex-col gap-3">
             <div className="flex justify-between items-center w-full mb-7">
               <div className="text-[#000000] text-[34px] font-semibold text-center flex-grow">
                 Edit Profile
@@ -570,16 +572,31 @@ const DropdownUser = () => {
                 onChange={handleFileChange}
               />
             </div>
-            <div className="mb-2 w-full">
+            <div className="w-full">
               <label className="text-[#000000] font-semibold mb-2 text-[21.37px]">
-                User Name
+                First Name
               </label>
               <div>
                 <input
                   type="text"
-                  placeholder="Enter User Name"
+                  placeholder="Enter First Name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
+                  className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
+                  required
+                />
+              </div>
+            </div>
+            <div className="w-full">
+              <label className="text-[#000000] font-semibold mb-2 text-[21.37px]">
+                Last Name
+              </label>
+              <div>
+                <input
+                  type="text"
+                  placeholder="Enter Last Name"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
                   className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
                   required
                 />
@@ -705,7 +722,7 @@ const DropdownUser = () => {
             </div>
             <div>
               <button
-                type='submit'
+                type="submit"
                 className="font-normal text-white text-[23px] bg-[#266CA8] rounded-full px-16 py-3 w-full mt-5"
               >
                 Update
@@ -736,7 +753,7 @@ const DropdownUser = () => {
               <span className="text-[#266CA8]">Delete</span> Your Account?
             </div>
 
-            <p className="text-center text-[#777777] font-medium text-2xl">
+            <p className="text-center text-[#777777] font-medium text-lg sm:text-2xl">
               Are you sure you want to delete your account? All your downloaded
               files and subscription data will be lost
             </p>
@@ -745,13 +762,13 @@ const DropdownUser = () => {
           <div className="w-full flex gap-10">
             <button
               onClick={() => setIsDeleteOpen(false)}
-              className="font-normal text-[#266CA8] border border-[#266CA8] text-[24.56px] bg-white rounded-full p-5  w-full"
+              className="font-normal text-[#266CA8] border border-[#266CA8] text-[16px] sm:text-[24.56px] bg-white rounded-full p-5 w-full "
             >
               Cancel
             </button>
             <button
               onClick={handleDelete}
-              className="font-normal text-white text-[24.56px] bg-[#266CA8] rounded-full p-5  w-full"
+              className="font-normal text-white text-[16px] sm:text-[24.56px] bg-[#266CA8] rounded-full p-5  w-full"
             >
               Yes I&apos;m Sure
             </button>

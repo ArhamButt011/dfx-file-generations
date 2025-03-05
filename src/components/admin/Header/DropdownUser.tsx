@@ -80,7 +80,7 @@ const DropdownUser = () => {
   }
 
   const handleUpdatePassword = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault()
     setLoading(true)
     try {
       if (newPassword !== confirmPassword) {
@@ -251,7 +251,7 @@ const DropdownUser = () => {
           username: data.data.name,
           image: data.data.image,
         }))
-        setIsEditOpen(false);
+        setIsEditOpen(false)
 
         Swal.fire({
           title: 'Success',
@@ -306,7 +306,6 @@ const DropdownUser = () => {
       })
     } finally {
       setLoading(false)
-
     }
   }
 
@@ -552,7 +551,7 @@ const DropdownUser = () => {
             </div>
             <div>
               <button
-                type='submit'
+                type="submit"
                 className="font-normal text-white text-[23px] bg-[#266CA8] rounded-full px-16 py-3 w-full mt-5"
               >
                 Update
@@ -610,7 +609,7 @@ const DropdownUser = () => {
             </div>
             <div className="mb-2 w-full">
               <label className="text-[#000000] font-semibold mb-2 text-[21.37px]">
-                User Name
+                Name
               </label>
               <div>
                 <input

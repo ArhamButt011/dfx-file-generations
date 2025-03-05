@@ -50,6 +50,7 @@ export async function POST(req: Request) {
         role: user.role,
         image: user.image ? user.image : null,
         subscription: plan,
+        lastName: user.lastName,
       },
       { status: 200 },
     )
