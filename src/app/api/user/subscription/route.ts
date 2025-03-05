@@ -2,7 +2,7 @@
 // import { MongoClient, ObjectId } from 'mongodb';
 // import clientPromise from '@/lib/mongodb';
 
-// const uri = process.env.mongodbString as string;
+// const uri = process.env.MONGODB_URI as string;
 // const client = new MongoClient(uri);
 
 // export async function POST(req: Request) {
@@ -75,7 +75,7 @@ import clientPromise from '@/lib/mongodb'
 import { addNotification } from '@/lib/notifications'
 import FreeTrailEmail from '@/lib/free-trial-email'
 
-const uri = process.env.mongodbString as string
+const uri = process.env.MONGODB_URI as string
 const client = new MongoClient(uri)
 
 export async function POST(req: Request) {
