@@ -18,6 +18,7 @@ import EditIcon from '/public/images/editIcon.svg'
 import userImages from '/public/images/userImage.svg'
 import axios, { AxiosError } from 'axios'
 import Swal from 'sweetalert2'
+import { ClipLoader } from 'react-spinners'
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false)
@@ -33,6 +34,7 @@ const DropdownUser = () => {
   const [name, setName] = useState('')
   const [profileImage, setProfileImage] = useState(userImages) // Set initial image
   const [file, setFile] = useState<File | undefined>(undefined)
+  const [loading, setLoading] = useState(false)
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const { logout } = useAuth()
   const { userData, setUserData } = useAuth()
@@ -182,7 +184,7 @@ const DropdownUser = () => {
     }
     formData.append('name', name)
     formData.append('id', id)
-
+    setLoading(true)
     try {
       const response = await fetch('/api/admin/edit-profile', {
         method: 'PUT',
@@ -243,6 +245,8 @@ const DropdownUser = () => {
         showConfirmButton: false,
         timer: 2000,
       })
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -492,6 +496,11 @@ const DropdownUser = () => {
       {/* Edit Profile Modal */}
 
       <Modal isOpen={isEditOpen} onClose={onEditClose} buttonContent="">
+        {loading && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[1000000]">
+            <ClipLoader color="#007bff" size={50} />
+          </div>
+        )}
         <form onSubmit={handleSubmit}>
           <div className="flex items-center flex-col gap-10">
             <div className="flex justify-between items-center w-full mb-7">
