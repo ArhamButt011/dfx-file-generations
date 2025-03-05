@@ -79,7 +79,9 @@ const DropdownUser = () => {
     setIsEditOpen(true)
   }
 
-  const handleUpdatePassword = async () => {
+  const handleUpdatePassword = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true)
     try {
       if (newPassword !== confirmPassword) {
         Swal.fire({
@@ -88,14 +90,22 @@ const DropdownUser = () => {
           icon: 'error',
           showConfirmButton: false,
           timer: 2000,
+          didOpen: () => {
+            const swalContainer = document.querySelector(
+              '.swal2-container',
+            ) as HTMLElement
+            if (swalContainer) {
+              swalContainer.style.setProperty('z-index', '1000000', 'important')
+            }
+          },
         })
         return
       }
-      if (!userData) {
-        alert('User id not found')
-        return
-      }
-      const id = userData.id
+      // if (!userData) {
+      //   alert('User id not found')
+      //   return
+      // }
+      const id = userData?.id
 
       const response = await axios.put('/api/admin/change-password', {
         id,
@@ -104,7 +114,21 @@ const DropdownUser = () => {
       })
 
       if (response.data.error) {
-        alert(response.data.error)
+        Swal.fire({
+          title: 'Error!',
+          text: response?.data?.error ?? 'An unknown error occurred',
+          icon: 'error',
+          showConfirmButton: false,
+          timer: 2000,
+          didOpen: () => {
+            const swalContainer = document.querySelector(
+              '.swal2-container',
+            ) as HTMLElement
+            if (swalContainer) {
+              swalContainer.style.setProperty('z-index', '1000000', 'important')
+            }
+          },
+        })
       } else {
         Swal.fire({
           title: 'Success',
@@ -112,6 +136,14 @@ const DropdownUser = () => {
           icon: 'success',
           showConfirmButton: false,
           timer: 2000,
+          didOpen: () => {
+            const swalContainer = document.querySelector(
+              '.swal2-container',
+            ) as HTMLElement
+            if (swalContainer) {
+              swalContainer.style.setProperty('z-index', '1000000', 'important')
+            }
+          },
         })
         onPasswordClose()
         setOldPassword('')
@@ -131,8 +163,18 @@ const DropdownUser = () => {
           icon: 'error',
           showConfirmButton: false,
           timer: 2000,
+          didOpen: () => {
+            const swalContainer = document.querySelector(
+              '.swal2-container',
+            ) as HTMLElement
+            if (swalContainer) {
+              swalContainer.style.setProperty('z-index', '1000000', 'important')
+            }
+          },
         })
       }
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -209,6 +251,7 @@ const DropdownUser = () => {
           username: data.data.name,
           image: data.data.image,
         }))
+        setIsEditOpen(false);
 
         Swal.fire({
           title: 'Success',
@@ -234,6 +277,14 @@ const DropdownUser = () => {
           icon: 'error',
           showConfirmButton: false,
           timer: 2000,
+          didOpen: () => {
+            const swalContainer = document.querySelector(
+              '.swal2-container',
+            ) as HTMLElement
+            if (swalContainer) {
+              swalContainer.style.setProperty('z-index', '1000000', 'important')
+            }
+          },
         })
       }
     } catch (error) {
@@ -244,9 +295,18 @@ const DropdownUser = () => {
         icon: 'error',
         showConfirmButton: false,
         timer: 2000,
+        didOpen: () => {
+          const swalContainer = document.querySelector(
+            '.swal2-container',
+          ) as HTMLElement
+          if (swalContainer) {
+            swalContainer.style.setProperty('z-index', '1000000', 'important')
+          }
+        },
       })
     } finally {
       setLoading(false)
+
     }
   }
 
@@ -386,6 +446,11 @@ const DropdownUser = () => {
 
       <Modal isOpen={passwordOpen} onClose={onPasswordClose} buttonContent="">
         <div className="flex flex-col gap-4">
+          {loading && (
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[1000000]">
+              <ClipLoader color="#007bff" size={50} />
+            </div>
+          )}
           <div className="flex justify-between items-center w-full mb-7">
             <p className="text-[#000000] text-[30px] font-medium text-center flex-grow">
               Change Password
@@ -400,96 +465,100 @@ const DropdownUser = () => {
             </div>
           </div>
 
-          <div className="mb-2 relative">
-            <label className="text-[#000000] font-medium mb-2 text-[20px]">
-              Old Password
-            </label>
-            <div className="relative">
-              <input
-                type={showOldPassword ? 'text' : 'password'}
-                placeholder="Enter Old Password"
-                value={oldPassword}
-                onChange={(e) => setOldPassword(e.target.value)}
-                className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
-                required
-              />
+          <form onSubmit={handleUpdatePassword}>
+            <div className="mb-2 relative">
+              <label className="text-[#000000] font-medium mb-2 text-[20px]">
+                Old Password
+              </label>
+              <div className="relative">
+                <input
+                  type={showOldPassword ? 'text' : 'password'}
+                  placeholder="Enter Old Password"
+                  value={oldPassword}
+                  onChange={(e) => setOldPassword(e.target.value)}
+                  className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowOldPassword(!showOldPassword)}
+                  className="absolute inset-y-0 right-3 top-1/2 transform text-gray-500"
+                  style={{ transform: 'translateY(-40%)' }}
+                >
+                  {showOldPassword ? (
+                    <FaEye size={20} className="text-[#005B97] mr-3" />
+                  ) : (
+                    <Image alt="eye" src={eye} className="mr-3" />
+                  )}
+                </button>
+              </div>
+            </div>
+            <div className="mb-2 relative">
+              <label className="text-[#000000] font-medium text-[20px]">
+                New Password
+              </label>
+              <div className="relative">
+                <input
+                  type={showNewPassword ? 'text' : 'password'}
+                  placeholder="Enter new Password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
+                  required
+                  minLength={8}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowNewPassword(!showNewPassword)}
+                  className="absolute inset-y-0 right-3 top-1/2 transform text-gray-500"
+                  style={{ transform: 'translateY(-40%)' }}
+                >
+                  {showNewPassword ? (
+                    <FaEye size={20} className="text-[#005B97] mr-3" />
+                  ) : (
+                    <Image alt="eye" src={eye} className="mr-3" />
+                  )}
+                </button>
+              </div>
+            </div>
+            <div className="mb-2 relative">
+              <label className="text-[#000000] font-medium mb-1 text-[20px]">
+                Confirm New Password
+              </label>
+              <div className="relative">
+                <input
+                  type={showConfirmPassword ? 'text' : 'password'}
+                  placeholder="Enter new Password"
+                  name="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
+                  required
+                  minLength={8}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute inset-y-0 right-3 top-1/2 transform text-gray-500"
+                  style={{ transform: 'translateY(-40%)' }}
+                >
+                  {showConfirmPassword ? (
+                    <FaEye size={20} className="text-[#005B97] mr-3" />
+                  ) : (
+                    <Image alt="eye" src={eye} className="mr-3" />
+                  )}
+                </button>
+              </div>
+            </div>
+            <div>
               <button
-                type="button"
-                onClick={() => setShowOldPassword(!showOldPassword)}
-                className="absolute inset-y-0 right-3 top-1/2 transform text-gray-500"
-                style={{ transform: 'translateY(-40%)' }}
+                type='submit'
+                className="font-normal text-white text-[23px] bg-[#266CA8] rounded-full px-16 py-3 w-full mt-5"
               >
-                {showOldPassword ? (
-                  <FaEye size={20} className="text-[#005B97] mr-3" />
-                ) : (
-                  <Image alt="eye" src={eye} className="mr-3" />
-                )}
+                Update
               </button>
             </div>
-          </div>
-          <div className="mb-2 relative">
-            <label className="text-[#000000] font-medium text-[20px]">
-              New Password
-            </label>
-            <div className="relative">
-              <input
-                type={showNewPassword ? 'text' : 'password'}
-                placeholder="Enter new Password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
-                required
-              />
-              <button
-                type="button"
-                onClick={() => setShowNewPassword(!showNewPassword)}
-                className="absolute inset-y-0 right-3 top-1/2 transform text-gray-500"
-                style={{ transform: 'translateY(-40%)' }}
-              >
-                {showNewPassword ? (
-                  <FaEye size={20} className="text-[#005B97] mr-3" />
-                ) : (
-                  <Image alt="eye" src={eye} className="mr-3" />
-                )}
-              </button>
-            </div>
-          </div>
-          <div className="mb-2 relative">
-            <label className="text-[#000000] font-medium mb-1 text-[20px]">
-              Confirm New Password
-            </label>
-            <div className="relative">
-              <input
-                type={showConfirmPassword ? 'text' : 'password'}
-                placeholder="Enter new Password"
-                name="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
-                required
-              />
-              <button
-                type="button"
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="absolute inset-y-0 right-3 top-1/2 transform text-gray-500"
-                style={{ transform: 'translateY(-40%)' }}
-              >
-                {showConfirmPassword ? (
-                  <FaEye size={20} className="text-[#005B97] mr-3" />
-                ) : (
-                  <Image alt="eye" src={eye} className="mr-3" />
-                )}
-              </button>
-            </div>
-          </div>
-          <div>
-            <button
-              onClick={handleUpdatePassword}
-              className="font-normal text-white text-[23px] bg-[#266CA8] rounded-full px-16 py-3 w-full mt-5"
-            >
-              Update
-            </button>
-          </div>
+          </form>
         </div>
       </Modal>
 

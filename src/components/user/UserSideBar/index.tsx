@@ -76,7 +76,7 @@ const Sidebar = ({
   sidebarOpen,
   setSidebarOpen,
 }: // setIsBilingOpen,
-SidebarProps) => {
+  SidebarProps) => {
   // const pathname = usePathname()
   const [pageName, setPageName] = useLocalStorage('selectedMenu', 'dashboard')
   useEffect(() => {
@@ -146,7 +146,8 @@ SidebarProps) => {
     setIsEditOpen(true)
   }
 
-  const handleUpdatePassword = async () => {
+  const handleUpdatePassword = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     setLoading(true)
     try {
       if (newPassword !== confirmPassword) {
@@ -156,14 +157,22 @@ SidebarProps) => {
           icon: 'error',
           showConfirmButton: false,
           timer: 2000,
+          didOpen: () => {
+            const swalContainer = document.querySelector(
+              '.swal2-container',
+            ) as HTMLElement
+            if (swalContainer) {
+              swalContainer.style.setProperty('z-index', '1000000', 'important')
+            }
+          },
         })
         return
       }
-      if (!userData) {
-        alert('User id not found')
-        return
-      }
-      const id = userData.id
+      // if (!userData) {
+      //   alert('User id not found')
+      //   return
+      // }
+      const id = userData?.id
 
       const response = await axios.put('/api/admin/change-password', {
         id,
@@ -172,7 +181,21 @@ SidebarProps) => {
       })
 
       if (response.data.error) {
-        alert(response.data.error)
+        Swal.fire({
+          title: 'Error!',
+          text: response?.data?.error ?? 'An unknown error occurred',
+          icon: 'error',
+          showConfirmButton: false,
+          timer: 2000,
+          didOpen: () => {
+            const swalContainer = document.querySelector(
+              '.swal2-container',
+            ) as HTMLElement
+            if (swalContainer) {
+              swalContainer.style.setProperty('z-index', '1000000', 'important')
+            }
+          },
+        })
       } else {
         Swal.fire({
           title: 'Success',
@@ -180,6 +203,14 @@ SidebarProps) => {
           icon: 'success',
           showConfirmButton: false,
           timer: 2000,
+          didOpen: () => {
+            const swalContainer = document.querySelector(
+              '.swal2-container',
+            ) as HTMLElement
+            if (swalContainer) {
+              swalContainer.style.setProperty('z-index', '1000000', 'important')
+            }
+          },
         })
         onPasswordClose()
         setOldPassword('')
@@ -199,6 +230,14 @@ SidebarProps) => {
           icon: 'error',
           showConfirmButton: false,
           timer: 2000,
+          didOpen: () => {
+            const swalContainer = document.querySelector(
+              '.swal2-container',
+            ) as HTMLElement
+            if (swalContainer) {
+              swalContainer.style.setProperty('z-index', '1000000', 'important')
+            }
+          },
         })
       }
     } finally {
@@ -217,8 +256,17 @@ SidebarProps) => {
 
   const handleSubmit1 = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    console.log('hlo')
 
+    // if (!file) {
+    //   Swal.fire({
+    //     title: 'Error!',
+    //     text: 'Please select a file first.',
+    //     icon: 'error',
+    //     showConfirmButton: false,
+    //     timer: 2000,
+    //   })
+    //   return
+    // }
     if (!userData) {
       Swal.fire({
         title: 'Error!',
@@ -226,6 +274,14 @@ SidebarProps) => {
         icon: 'error',
         showConfirmButton: false,
         timer: 2000,
+        didOpen: () => {
+          const swalContainer = document.querySelector(
+            '.swal2-container',
+          ) as HTMLElement
+          if (swalContainer) {
+            swalContainer.style.setProperty('z-index', '100000', 'important')
+          }
+        },
       })
       return
     }
@@ -233,15 +289,15 @@ SidebarProps) => {
 
     const formData = new FormData()
     if (file) {
-      formData.append('file', file) // Only append if file exists
+      formData.append('file', file)
     }
     formData.append('name', name)
     formData.append('id', id)
-    console.log('helo')
+    setLoading(true);
 
     try {
-      const response = await fetch('/api/upload', {
-        method: 'POST',
+      const response = await fetch('/api/admin/edit-profile', {
+        method: 'PUT',
         body: formData,
       })
 
@@ -270,6 +326,14 @@ SidebarProps) => {
           icon: 'success',
           showConfirmButton: false,
           timer: 2000,
+          didOpen: () => {
+            const swalContainer = document.querySelector(
+              '.swal2-container',
+            ) as HTMLElement
+            if (swalContainer) {
+              swalContainer.style.setProperty('z-index', '1000000', 'important')
+            }
+          },
         })
         setName('')
         setProfileImage(userImages)
@@ -290,12 +354,22 @@ SidebarProps) => {
         icon: 'error',
         showConfirmButton: false,
         timer: 2000,
+        didOpen: () => {
+          const swalContainer = document.querySelector(
+            '.swal2-container',
+          ) as HTMLElement
+          if (swalContainer) {
+            swalContainer.style.setProperty('z-index', '1000000', 'important')
+          }
+        },
       })
+    }
+    finally {
+      setLoading(false);
     }
   }
 
   const handleDelete = async () => {
-    console.log('delete')
     setLoading(true)
     try {
       const response = await fetch('/api/user/DeleteUser', {
@@ -306,6 +380,7 @@ SidebarProps) => {
         const data = await response.json()
         throw new Error(data.message || 'Error Deleting user')
       }
+      setIsDeleteOpen(false);
       handleLogoutClick()
     } catch (err) {
       Swal.fire({
@@ -314,6 +389,14 @@ SidebarProps) => {
         icon: 'error',
         showConfirmButton: false,
         timer: 2000,
+        didOpen: () => {
+          const swalContainer = document.querySelector(
+            '.swal2-container',
+          ) as HTMLElement
+          if (swalContainer) {
+            swalContainer.style.setProperty('z-index', '1000000', 'important')
+          }
+        },
       })
     } finally {
       setLoading(false)
@@ -325,16 +408,11 @@ SidebarProps) => {
   }
   return (
     <>
-      {loading && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[100000]">
-          <ClipLoader color="#007bff" size={50} />
-        </div>
-      )}
+
       <ClickOutside onClick={() => setSidebarOpen(false)}>
         <aside
-          className={`fixed left-0 top-0 z-9999 flex min-h-screen max-h-auto md:w-72.5 w-full flex-col overflow-y-auto bg-[#F8F8F8] duration-300 ease-linear dark:bg-boxdark lg:translate-x-0 ${
-            sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-          }`}
+          className={`fixed left-0 top-0 z-9999 flex min-h-screen max-h-auto md:w-72.5 w-full flex-col overflow-y-auto bg-[#F8F8F8] duration-300 ease-linear dark:bg-boxdark lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+            }`}
         >
           <div className="flex items-center justify-between gap-2 px-6 pt-5.5 lg:pt-6.5">
             <Link href="/">
@@ -661,6 +739,11 @@ SidebarProps) => {
       </ClickOutside>
       <Modal isOpen={isEditOpen} onClose={onEditClose} buttonContent="">
         <form onSubmit={handleSubmit1}>
+          {loading && (
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[100000]">
+              <ClipLoader color="#007bff" size={50} />
+            </div>
+          )}
           <div className="flex items-center flex-col gap-10">
             <div className="flex justify-between items-center w-full mb-7">
               <div className="text-[#000000] text-[34px] font-semibold text-center flex-grow">
@@ -728,6 +811,11 @@ SidebarProps) => {
       {/* change password */}
       <Modal isOpen={passwordOpen} onClose={onPasswordClose} buttonContent="">
         <div className="flex flex-col gap-4">
+          {loading && (
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[100000]">
+              <ClipLoader color="#007bff" size={50} />
+            </div>
+          )}
           <div className="flex justify-between items-center w-full mb-7">
             <p className="text-[#000000] text-[30px] font-medium text-center flex-grow">
               Change Password
@@ -741,102 +829,108 @@ SidebarProps) => {
               />
             </div>
           </div>
-
-          <div className="mb-2 relative">
-            <label className="text-[#000000] font-medium mb-2 text-[20px]">
-              Old Password
-            </label>
-            <div className="relative">
-              <input
-                type={showOldPassword ? 'text' : 'password'}
-                placeholder="Enter Old Password"
-                value={oldPassword}
-                onChange={(e) => setOldPassword(e.target.value)}
-                className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
-                required
-              />
+          <form onSubmit={handleUpdatePassword}>
+            <div className="mb-2 relative">
+              <label className="text-[#000000] font-medium mb-2 text-[20px]">
+                Old Password
+              </label>
+              <div className="relative">
+                <input
+                  type={showOldPassword ? 'text' : 'password'}
+                  placeholder="Enter Old Password"
+                  value={oldPassword}
+                  onChange={(e) => setOldPassword(e.target.value)}
+                  className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowOldPassword(!showOldPassword)}
+                  className="absolute inset-y-0 right-3 top-1/2 transform text-gray-500"
+                  style={{ transform: 'translateY(-40%)' }}
+                >
+                  {showOldPassword ? (
+                    <FaEye size={20} className="text-[#005B97] mr-3" />
+                  ) : (
+                    <Image alt="eye" src={eye} className="mr-3" />
+                  )}
+                </button>
+              </div>
+            </div>
+            <div className="mb-2 relative">
+              <label className="text-[#000000] font-medium text-[20px]">
+                New Password
+              </label>
+              <div className="relative">
+                <input
+                  type={showNewPassword ? 'text' : 'password'}
+                  placeholder="Enter new Password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowNewPassword(!showNewPassword)}
+                  className="absolute inset-y-0 right-3 top-1/2 transform text-gray-500"
+                  style={{ transform: 'translateY(-40%)' }}
+                >
+                  {showNewPassword ? (
+                    <FaEye size={20} className="text-[#005B97] mr-3" />
+                  ) : (
+                    <Image alt="eye" src={eye} className="mr-3" />
+                  )}
+                </button>
+              </div>
+            </div>
+            <div className="mb-2 relative">
+              <label className="text-[#000000] font-medium mb-1 text-[20px]">
+                Confirm New Password
+              </label>
+              <div className="relative">
+                <input
+                  type={showConfirmPassword ? 'text' : 'password'}
+                  placeholder="Enter new Password"
+                  name="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute inset-y-0 right-3 top-1/2 transform text-gray-500"
+                  style={{ transform: 'translateY(-40%)' }}
+                >
+                  {showConfirmPassword ? (
+                    <FaEye size={20} className="text-[#005B97] mr-3" />
+                  ) : (
+                    <Image alt="eye" src={eye} className="mr-3" />
+                  )}
+                </button>
+              </div>
+            </div>
+            <div>
               <button
-                type="button"
-                onClick={() => setShowOldPassword(!showOldPassword)}
-                className="absolute inset-y-0 right-3 top-1/2 transform text-gray-500"
-                style={{ transform: 'translateY(-40%)' }}
+                type='submit'
+                className="font-normal text-white text-[23px] bg-[#266CA8] rounded-full px-16 py-3 w-full mt-5"
               >
-                {showOldPassword ? (
-                  <FaEye size={20} className="text-[#005B97] mr-3" />
-                ) : (
-                  <Image alt="eye" src={eye} className="mr-3" />
-                )}
+                Update
               </button>
             </div>
-          </div>
-          <div className="mb-2 relative">
-            <label className="text-[#000000] font-medium text-[20px]">
-              New Password
-            </label>
-            <div className="relative">
-              <input
-                type={showNewPassword ? 'text' : 'password'}
-                placeholder="Enter new Password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
-                required
-              />
-              <button
-                type="button"
-                onClick={() => setShowNewPassword(!showNewPassword)}
-                className="absolute inset-y-0 right-3 top-1/2 transform text-gray-500"
-                style={{ transform: 'translateY(-40%)' }}
-              >
-                {showNewPassword ? (
-                  <FaEye size={20} className="text-[#005B97] mr-3" />
-                ) : (
-                  <Image alt="eye" src={eye} className="mr-3" />
-                )}
-              </button>
-            </div>
-          </div>
-          <div className="mb-2 relative">
-            <label className="text-[#000000] font-medium mb-1 text-[20px]">
-              Confirm New Password
-            </label>
-            <div className="relative">
-              <input
-                type={showConfirmPassword ? 'text' : 'password'}
-                placeholder="Enter new Password"
-                name="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
-                required
-              />
-              <button
-                type="button"
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="absolute inset-y-0 right-3 top-1/2 transform text-gray-500"
-                style={{ transform: 'translateY(-40%)' }}
-              >
-                {showConfirmPassword ? (
-                  <FaEye size={20} className="text-[#005B97] mr-3" />
-                ) : (
-                  <Image alt="eye" src={eye} className="mr-3" />
-                )}
-              </button>
-            </div>
-          </div>
-          <div>
-            <button
-              onClick={handleUpdatePassword}
-              className="font-normal text-white text-[23px] bg-[#266CA8] rounded-full px-16 py-3 w-full mt-5"
-            >
-              Update
-            </button>
-          </div>
+          </form>
         </div>
       </Modal>
       {/* delete */}
       <Modal isOpen={isDeleteOpen} onClose={onEditClose} buttonContent="">
         <div className="flex items-center flex-col gap-10">
+          {loading && (
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[100000]">
+              <ClipLoader color="#007bff" size={50} />
+            </div>
+          )}
           <div className="flex justify-between items-center w-full mb-7"></div>
           <div className="relative flex flex-col items-center">
             <Image
