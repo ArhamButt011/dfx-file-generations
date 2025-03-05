@@ -1044,9 +1044,12 @@ const UserLogin = () => {
                     Privacy Policy
                   </Link>
                   <span> & </span>
-                  <a href="#" className="underline text-[#266CAB]">
+                  <Link
+                    href="Terms&Condition"
+                    className="underline text-[#266CAB]"
+                  >
                     User Agreement
-                  </a>
+                  </Link>
                 </span>
               </label>
             </div>
