@@ -20,6 +20,7 @@ interface CardDetails {
 interface UserData {
   _id: ObjectId
   name: string
+  lastName: string
   email: string
   createdAt: string
   cards: CardDetails[]
@@ -116,7 +117,7 @@ const UserDetails: React.FC = () => {
           </div>
           <div className="flex justify-center flex-col">
             <h1 className="text-[32.6px] font-semibold text-[#000000]">
-              {userData?.name}
+              {userData?.name} {userData?.lastName}
             </h1>
             <div className="flex items-center gap-2 mt-2">
               <span>
