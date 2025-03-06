@@ -12,9 +12,9 @@ export async function GET() {
     const subscriptionsCollection = db.collection('all-subscriptions')
     const contoursCollection = db.collection('contours')
 
-    const today = new Date()
-    const currentYear = today.getFullYear()
-    const currentMonth = today.getMonth()
+    // const today = new Date()
+    // const currentYear = today.getFullYear()
+    // const currentMonth = today.getMonth()
 
     const getMonthRange = (year: number, month: number) => ({
       start: new Date(year, month, 1),
@@ -24,52 +24,62 @@ export async function GET() {
     const getMonthlyData = async (
       collection: Collection,
       dateField: string,
+      roleFilter?: object, // Optional filter for users
     ): Promise<number[]> => {
       const monthlyData: number[] = []
       for (let i = 5; i >= 0; i--) {
-        const monthDate = new Date(currentYear, currentMonth - i)
+        const monthDate = new Date(
+          new Date().getFullYear(),
+          new Date().getMonth() - i,
+        )
         const range = getMonthRange(
           monthDate.getFullYear(),
           monthDate.getMonth(),
         )
 
-        const count = await collection.countDocuments({
-          [dateField]: { $gte: range.start, $lte: range.end },
-        })
+        const pipeline = [
+          {
+            $match: {
+              [dateField]: { $gte: range.start, $lte: range.end },
+              ...(roleFilter || {}), // Apply role filter if provided
+            },
+          },
+          {
+            $group: {
+              _id: null,
+              count: { $sum: 1 },
+            },
+          },
+        ]
 
-        monthlyData.push(count)
+        const result = await collection.aggregate(pipeline).toArray()
+        monthlyData.push(result[0]?.count || 0)
       }
       return monthlyData
     }
 
-    const monthlyUsers = await getMonthlyData(usersCollection, 'createdAt')
-    const monthlyDownloads = await getMonthlyData(
-      downloadsCollection,
-      'downloaded_date',
-    )
-    const monthlySubscriptions = await getMonthlyData(
-      subscriptionsCollection,
-      'added_date',
-    )
-    const monthlyContours = await getMonthlyData(
-      contoursCollection,
-      'createdAt',
-    )
+    const [
+      monthlyUsers,
+      monthlyDownloads,
+      monthlySubscriptions,
+      monthlyContours,
+    ] = await Promise.all([
+      getMonthlyData(usersCollection, 'createdAt', { role: 'user' }), // Filter users by role
+      getMonthlyData(downloadsCollection, 'downloaded_date'),
+      getMonthlyData(subscriptionsCollection, 'added_date'),
+      getMonthlyData(contoursCollection, 'createdAt'),
+    ])
 
-    const totalUsers = monthlyUsers.reduce((sum, count) => sum + count, 0)
-    const totalDownloads = monthlyDownloads.reduce(
-      (sum, count) => sum + count,
-      0,
-    )
-    const totalSubscriptions = monthlySubscriptions.reduce(
-      (sum, count) => sum + count,
-      0,
-    )
-    const totalContours = monthlyContours.reduce((sum, count) => sum + count, 0)
+    const calculateTotals = (monthlyData: number[]) =>
+      monthlyData.reduce((sum, count) => sum + count, 0)
 
-    const calculatePercentage = (value: number, total: number): number => {
-      return total > 0 ? parseFloat(((value / total) * 100).toFixed(2)) : 0
-    }
+    const totalUsers = calculateTotals(monthlyUsers)
+    const totalDownloads = calculateTotals(monthlyDownloads)
+    const totalSubscriptions = calculateTotals(monthlySubscriptions)
+    const totalContours = calculateTotals(monthlyContours)
+
+    const calculatePercentage = (value: number, total: number): number =>
+      total > 0 ? parseFloat(((value / total) * 100).toFixed(2)) : 0
 
     const summary = {
       totalUsers,

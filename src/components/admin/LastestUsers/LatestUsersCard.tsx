@@ -44,16 +44,13 @@ const LastestUsersCard = () => {
             className="flex items-center gap-5 px-7.5 py-3 hover:bg-gray-3 dark:hover:bg-meta-4"
             key={key}
           >
-            <div className="relative h-14 w-14 rounded-full">
+            <div className="w-14 h-14 rounded-full overflow-hidden">
               <Image
+                src={user?.image ? user.image : userImage}
                 width={56}
                 height={56}
-                src={user?.image ? user.image : userImage}
-                alt="User"
-                style={{
-                  width: 'auto',
-                  height: 'auto',
-                }}
+                alt="userImage"
+                className="w-full h-full object-cover"
               />
             </div>
 
