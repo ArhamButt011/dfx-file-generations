@@ -117,7 +117,7 @@ export const sendSubscriptionEmail = async (
   <td align="right"><strong>${addedDate}</strong></td>
 </tr>
           </table>
-          <table style="width: 100%; border-collapse: collapse; margin-top: 14px;">
+          <table style="width: 100%; border-collapse: collapse; margin-top: 14px; ">
             <tr>
               <th align="left" style="color: #666;">Subscription Name</th>
               <th align="right">Exp Date</th>
@@ -129,17 +129,28 @@ export const sendSubscriptionEmail = async (
               <td align="right">$${total}</td>
             </tr>
           </table>
-
-         <table class="subscriptions summary-table">
-    <tr >
-      <td class="total" align="right" style="border-bottom: 1px solid #0000001A;">Sub Total:</td>
-      <td class="amount" style="border-bottom: 1px solid #0000001A;">$${subTotal}</td>
+<table class="summary-table" width="100%" style="margin-top: 20px;">
+    <tr>
+        <td colspan="2"></td>
+        <td class="total" align="right" style="padding-right: 20px; padding-bottom:8px;">
+            Sub Total:
+        </td>
+        <td class="amount" style="text-align: right; border-bottom: 1px solid #0000001A;">
+            $${subTotal}
+        </td>
     </tr>
     <tr>
-      <td class="total" align="right">Total:</td>
-      <td class="amount">$${total}</td>
+        <td colspan="2"></td> <!-- Empty cell to align properly -->
+        <td class="total" align="right" style="padding-right: 20px; padding-top:8px;">
+            Total:
+        </td>
+        <td class="amount" style="text-align: right;">
+            $${total}
+        </td>
     </tr>
-  </table>
+</table>
+
+
           <div class="important-info">
             <p><strong>Important Information</strong></p>
             <p>This payment is recurring and will charge every month if not cancelled beforehand (for subscriptions).</p>
