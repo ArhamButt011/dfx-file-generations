@@ -1,6 +1,7 @@
 'use client'
 import React, { useCallback, useEffect, useState } from 'react'
 import Breadcrumb from '../Breadcrumbs/Breadcrumb'
+import userImage from '/public/images/admin/emptyUser.svg'
 import Image from 'next/image'
 import noSubscriptions from '/public/images/admin/allusers/noSubscriptions.svg'
 import { ObjectId } from 'mongodb'
@@ -17,6 +18,7 @@ interface Subscriptions {
   expiry_on: string
   added_on: string
   charges: string
+  image: string
 }
 
 const Subscriptions = () => {
@@ -135,16 +137,16 @@ const Subscriptions = () => {
                 <td className="py-3 px-4 text-start font-medium">
                   <div className="flex justify-start align-center gap-3">
                     <div>
-                      <span>
+                      <div className="w-12 h-12 rounded-full overflow-hidden">
                         <Image
-                          src="/images/admin/emptyUser.svg"
-                          alt="user"
-                          width={200}
-                          height={200}
+                          src={user?.image ? user.image : userImage}
+                          alt="userImage"
+                          className="w-full h-full object-cover"
+                          width={30}
+                          height={30}
                           priority
-                          style={{ width: 'auto', height: 'auto' }}
                         />
-                      </span>
+                      </div>
                     </div>
                     <div className="flex flex-col gap-0">
                       <span className="font-semibold text-gray-800 text-[17px]">

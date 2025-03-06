@@ -94,15 +94,16 @@ const DropdownNotification = () => {
                 <li key={index}>
                   <div className="flex flex-col gap-2.5 border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4">
                     <div className="flex gap-4 items-start">
-                      {/* <div className="h-15 w-15 overflow-hidden rounded-full"> */}
-                      <Image
-                        src={data?.image ? data.image : userImage}
-                        width={60}
-                        height={50}
-                        alt="userImage"
-                        className="rounded-full mt-1"
-                      />
-                      {/* </div> */}
+                      <div className="w-[60px] h-[60px] rounded-full overflow-hidden flex-shrink-0">
+                        <Image
+                          src={data?.image ? data.image : userImage}
+                          width={60}
+                          height={60}
+                          alt="userImage"
+                          className="object-cover w-full h-full"
+                        />
+                      </div>
+
                       <div className="flex flex-col">
                         <p
                           className="font-medium text-[21.94px]"

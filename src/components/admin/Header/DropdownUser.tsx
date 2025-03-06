@@ -325,18 +325,21 @@ const DropdownUser = () => {
           </span>
 
           {userData?.image ? (
-            <Image
-              width={44}
-              height={44}
-              src={userData.image}
-              className="rounded-full"
-              alt="User"
-            />
+            <div className="w-[44px] h-[44px] rounded-full overflow-hidden flex-shrink-0">
+              <Image
+                width={44}
+                height={44}
+                src={userData.image}
+                className="object-cover w-full h-full"
+                alt="User"
+              />
+            </div>
           ) : (
             <div className="w-[44px] h-[44px] text-[26.86px] flex items-center justify-center bg-[#F2F2F2] rounded-full text-[#266CA8] font-bold">
               {userData?.username?.charAt(0).toUpperCase()}
             </div>
           )}
+
           <svg
             className="hidden fill-current sm:block"
             width="12"

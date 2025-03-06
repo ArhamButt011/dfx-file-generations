@@ -59,12 +59,15 @@ const Dashboard: React.FC = () => {
 
     fetchData()
   }, [])
-
   const chartData1: ApexOptions = {
     series: [
       {
         name: 'total users',
-        color: '#266CA8',
+        color:
+          (summary?.currentMonthAvg?.users ?? 0) >
+          (summary?.lastMonthAvg?.users ?? 0)
+            ? '#266CA8'
+            : '#D7890C',
         data: monthlyUsers,
       },
     ],

@@ -76,7 +76,7 @@ const Sidebar = ({
   sidebarOpen,
   setSidebarOpen,
 }: // setIsBilingOpen,
-  SidebarProps) => {
+SidebarProps) => {
   // const pathname = usePathname()
   const [pageName, setPageName] = useLocalStorage('selectedMenu', 'dashboard')
   useEffect(() => {
@@ -147,7 +147,7 @@ const Sidebar = ({
   }
 
   const handleUpdatePassword = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault()
     setLoading(true)
     try {
       if (newPassword !== confirmPassword) {
@@ -293,7 +293,7 @@ const Sidebar = ({
     }
     formData.append('name', name)
     formData.append('id', id)
-    setLoading(true);
+    setLoading(true)
 
     try {
       const response = await fetch('/api/admin/edit-profile', {
@@ -363,9 +363,8 @@ const Sidebar = ({
           }
         },
       })
-    }
-    finally {
-      setLoading(false);
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -380,7 +379,7 @@ const Sidebar = ({
         const data = await response.json()
         throw new Error(data.message || 'Error Deleting user')
       }
-      setIsDeleteOpen(false);
+      setIsDeleteOpen(false)
       handleLogoutClick()
     } catch (err) {
       Swal.fire({
@@ -408,11 +407,11 @@ const Sidebar = ({
   }
   return (
     <>
-
       <ClickOutside onClick={() => setSidebarOpen(false)}>
         <aside
-          className={`fixed left-0 top-0 z-9999 flex min-h-screen max-h-auto md:w-72.5 w-full flex-col overflow-y-auto bg-[#F8F8F8] duration-300 ease-linear dark:bg-boxdark lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-            }`}
+          className={`fixed left-0 top-0 z-9999 flex min-h-screen max-h-auto md:w-72.5 w-full flex-col overflow-y-auto bg-[#F8F8F8] duration-300 ease-linear dark:bg-boxdark lg:translate-x-0 ${
+            sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+          }`}
         >
           <div className="flex items-center justify-between gap-2 px-6 pt-5.5 lg:pt-6.5">
             <Link href="/">
@@ -499,48 +498,16 @@ const Sidebar = ({
                   className="flex items-center gap-4 justify-center"
                   href="#"
                 >
-                  {/* <span className="h-12 w-12 rounded-full">
-                    <Image
-                      width={112}
-                      height={112}
-                      src={user}
-                      style={{
-                        width: 'auto',
-                        height: 'auto',
-                      }}
-                      alt="User"
-                    />
-                  </span>
-                  <span className="lg:hidden text-left">
-                    <span className="block text-lg font-semibold text-black dark:text-white">
-                      {userData?.username}
-                    </span>
-                    <span className="block text-xs font-normal text-[#00000066]">
-                      {userData?.email}
-                    </span>
-                  </span> */}
-                  {/* <svg
-                  style={{
-                    transform: dropdownOpen
-                      ? 'rotate(180deg)'
-                      : 'rotate(270deg)',
-                  }}
-                  className="fill-current sm:block transition-transform duration-300"
-                  width="15"
-                  height="14"
-                  viewBox="0 0 12 8"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                > */}
-
                   {userData?.image ? (
-                    <Image
-                      width={44}
-                      height={44}
-                      src={userData.image}
-                      className="rounded-full"
-                      alt="User"
-                    />
+                    <div className="w-[44px] h-[44px] rounded-full overflow-hidden flex-shrink-0">
+                      <Image
+                        width={44}
+                        height={44}
+                        src={userData.image}
+                        className="w-full h-full object-cover"
+                        alt="User"
+                      />
+                    </div>
                   ) : (
                     <div className="w-[44px] h-[44px] text-[26.86px] flex items-center justify-center bg-[#F2F2F2] rounded-full text-[#266CA8] font-bold">
                       {userData?.username?.charAt(0).toUpperCase()}
@@ -914,7 +881,7 @@ const Sidebar = ({
             </div>
             <div>
               <button
-                type='submit'
+                type="submit"
                 className="font-normal text-white text-[23px] bg-[#266CA8] rounded-full px-16 py-3 w-full mt-5"
               >
                 Update
