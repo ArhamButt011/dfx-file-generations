@@ -10,7 +10,6 @@ import Modal from '@/components/UI/Modal'
 import Swal from 'sweetalert2'
 import axios, { AxiosError } from 'axios'
 import blackCross from '/public/images/blackCross.svg'
-
 import eye from '/public/images/admin/eye.svg'
 import WarningIcon from '/public/images/user/warning.svg'
 import EditIcon from '/public/images/editIcon.svg'
