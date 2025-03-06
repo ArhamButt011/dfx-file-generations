@@ -463,8 +463,8 @@ const UserLogin = () => {
           typeof err === 'string'
             ? err
             : err && typeof err === 'object' && 'message' in err
-              ? (err as { message: string }).message
-              : JSON.stringify(err),
+            ? (err as { message: string }).message
+            : JSON.stringify(err),
         icon: 'error',
         showConfirmButton: false,
         timer: 2000,
@@ -506,8 +506,8 @@ const UserLogin = () => {
         typeof err === 'string'
           ? err
           : err && typeof err === 'object' && 'message' in err
-            ? (err as { message: string }).message
-            : JSON.stringify(err)
+          ? (err as { message: string }).message
+          : JSON.stringify(err)
 
       Swal.fire({
         title: 'Error!',
@@ -538,10 +538,10 @@ const UserLogin = () => {
     try {
       const otp = parseInt(
         verifyFormData.otp1 +
-        verifyFormData.otp2 +
-        verifyFormData.otp3 +
-        verifyFormData.otp4 +
-        verifyFormData.otp5,
+          verifyFormData.otp2 +
+          verifyFormData.otp3 +
+          verifyFormData.otp4 +
+          verifyFormData.otp5,
         10,
       )
 
@@ -1048,7 +1048,7 @@ const UserLogin = () => {
                     href="Terms&Condition"
                     className="underline text-[#266CAB]"
                   >
-                    Terms and Conditions
+                    Terms & Conditions
                   </Link>
                 </span>
               </label>
@@ -1056,8 +1056,9 @@ const UserLogin = () => {
             <button
               type="submit"
               disabled={!newAccountFormData.agree}
-              className={`w-full bg-[#005B97] text-white p-3 font-bold rounded-full hover:bg-[#005b97f0] transition duration-300 mt-10 ${!newAccountFormData.agree ? 'opacity-50 cursor-not-allowed' : ''
-                }`}
+              className={`w-full bg-[#005B97] text-white p-3 font-bold rounded-full hover:bg-[#005b97f0] transition duration-300 mt-10 ${
+                !newAccountFormData.agree ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
             >
               Continue
             </button>
@@ -1135,7 +1136,7 @@ const UserLogin = () => {
             <button
               type="submit"
               className="w-full bg-[#005B97] text-white p-3 md:mt-10 mt-10 font-bold rounded-[94.17px] hover:bg-[#005b97f0] transition duration-300"
-            //   disabled={loading}
+              //   disabled={loading}
             >
               Verify
             </button>
@@ -1288,7 +1289,7 @@ const UserLogin = () => {
             <button
               type="submit"
               className="w-full bg-[#005B97] text-white p-3 md:mt-10 mt-10 font-bold rounded-[94.17px] hover:bg-[#005b97f0] transition duration-300"
-            //   disabled={loading}
+              //   disabled={loading}
             >
               Verify
             </button>
@@ -1380,7 +1381,7 @@ const UserLogin = () => {
             <button
               type="submit"
               className="w-full bg-[#005B97] text-white p-3 md:mt-10 mt-10 font-bold rounded-[94.17px] hover:bg-[#005b97f0] transition duration-300"
-            //   disabled={loading}
+              //   disabled={loading}
             >
               Continue
             </button>
