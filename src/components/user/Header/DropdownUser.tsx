@@ -336,13 +336,15 @@ const DropdownUser = () => {
           href="#"
         >
           {userData?.image ? (
-            <Image
-              width={44}
-              height={44}
-              src={userData.image}
-              className="rounded-full"
-              alt="User"
-            />
+            <div className="w-[44px] h-[44px] rounded-full overflow-hidden flex-shrink-0">
+              <Image
+                width={44}
+                height={44}
+                src={userData.image}
+                className="w-full h-full object-cover"
+                alt="User"
+              />
+            </div>
           ) : (
             <div className="w-[44px] h-[44px] text-[26.86px] flex items-center justify-center bg-[#F2F2F2] rounded-full text-[#266CA8] font-bold">
               {userData?.username?.charAt(0).toUpperCase()}
@@ -357,6 +359,7 @@ const DropdownUser = () => {
               {userData?.email}
             </span>
           </span>
+
           <svg
             style={{
               transform: dropdownOpen ? 'rotate(360deg)' : 'rotate(270deg)',
@@ -376,6 +379,7 @@ const DropdownUser = () => {
             />
           </svg>
         </Link>
+
         {/* <!-- Dropdown Start --> */}
         <AnimatePresence>
           {dropdownOpen && (
@@ -395,7 +399,7 @@ const DropdownUser = () => {
                     <Image
                       width={100}
                       height={100}
-                      className="rounded-full"
+                      className="rounded-full object-cover"
                       src={userData?.image ? userData.image : user}
                       style={{
                         width: '100%',

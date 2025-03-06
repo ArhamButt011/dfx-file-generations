@@ -5,6 +5,7 @@ import Breadcrumb from '../Breadcrumbs/Breadcrumb'
 import { ClipLoader } from 'react-spinners'
 import Image from 'next/image'
 import Link from 'next/link'
+import userImage from '/public/images/admin/emptyUser.svg'
 import searchIcon from '/public/images/searchIcon.svg'
 interface User {
   _id: string
@@ -12,6 +13,7 @@ interface User {
   email: string
   lastName: string
   createdAt: string
+  image: string
   downloadsCount: number
 }
 
@@ -117,16 +119,16 @@ const AllUsers = () => {
                 <td className="py-3 px-4 text-start text-lg font-medium rounded-l-xl">
                   <div className="flex justify-start items-center gap-3">
                     <div>
-                      <span>
+                      <div className="w-12 h-12 rounded-full overflow-hidden">
                         <Image
-                          src="/images/admin/emptyUser.svg"
-                          alt="No jobs found"
-                          width={200}
-                          height={200}
+                          src={user?.image ? user.image : userImage}
+                          alt="userImage"
+                          className="w-full h-full object-cover"
+                          width={30}
+                          height={30}
                           priority
-                          style={{ width: 'auto', height: 'auto' }}
                         />
-                      </span>
+                      </div>
                     </div>
                     <div>
                       <span className="font-semibold text-gray-800 text-[22px]">

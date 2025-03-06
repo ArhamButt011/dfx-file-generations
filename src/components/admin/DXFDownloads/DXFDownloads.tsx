@@ -16,6 +16,7 @@ interface Download {
   email: string
   downloaded_on: string
   file_name: string
+  image: string
 }
 
 const DXFDownloads = () => {
@@ -119,16 +120,16 @@ const DXFDownloads = () => {
                 <td className="py-3 px-4 font-medium">
                   <div className="flex justify-center items-center gap-3">
                     <div className="">
-                      <span>
+                      <div className="w-12 h-12 rounded-full overflow-hidden">
                         <Image
-                          src={userImage}
-                          alt="user"
-                          width={200}
-                          height={200}
+                          src={data?.image ? data.image : userImage}
+                          alt="userImage"
+                          className="w-full h-full object-cover"
+                          width={30}
+                          height={30}
                           priority
-                          style={{ width: 'auto', height: 'auto' }}
                         />
-                      </span>
+                      </div>
                     </div>
                     <div className="flex flex-col gap-0 w-[100px]">
                       <span className="font-semibold text-gray-800 text-[17px]">
