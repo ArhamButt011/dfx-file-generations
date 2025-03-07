@@ -44,8 +44,8 @@ function Choose() {
             AI-Powered Precision
           </p>
           <p className="text-center text-[#00000066] text-[21px] mx-auto font-medium max-w-[80%]">
-            OOur advanced AI detects and converts tool contours into accurate
-            DXF files — no manual tracing or CAD work needed.
+            Our advanced AI detects and converts tool contours into accurate DXF
+            files — no manual tracing or CAD work needed.
           </p>
         </motion.div>
 
