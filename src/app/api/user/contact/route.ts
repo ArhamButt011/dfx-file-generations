@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
 export async function POST(req: NextRequest) {
+  const logoUrl = `${process.env.NEXT_PUBLIC_BASE_URL ?? ''}mailLogo.jpg`
+
   try {
     // Parse the request body
     const data = await req.json();
@@ -9,13 +11,13 @@ export async function POST(req: NextRequest) {
 
     // Configure the email transport using SMTP (for example, using Gmail)
     const transporter = nodemailer.createTransport({
-        service: 'gmail', // Or any other SMTP service
-        auth: {
-          user: process.env.EMAIL_USER,
-          pass: process.env.EMAIL_PASS,
-        },
-      });
-    
+      service: 'gmail', // Or any other SMTP service
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
 
     // Create a dynamic HTML email template
     const emailTemplate = `
@@ -24,74 +26,94 @@ export async function POST(req: NextRequest) {
         
        
         padding-left: 10px;
-        max-width: 900px;
+        max-width: 100%;
         color: black;
         
       "
     >
+       <div style=" text-align: center;">
+          <img src="${logoUrl}" alt="Lumashape Logo" width="500" style="pointer-events: none; user-drag: none; -webkit-user-drag: none;" />
+        </div>
      
        
-      <p style="font-size: 38.59px; font-weight: 600; margin-top: 40px;">Contact Details</p>
+      <p style="font-size: 30.59px; font-weight: 600; text-align: center;">Welcome to <span style="color: #266CA8;">Lumashape!</span></p>
+      
+  
       
   
       <div style=" ">
         <p
           style="
             font-size: 22px;
-            min-width: 300px;
-            font-weight: 700;
+            font-weight: 600;
             color: black;
           "
         >
-          Created on:
+         Dear ${data.formData.first}${" "}${data.formData.last}
         </p>
-        <p style="font-size: 22px; font-weight: 100;">${new Date().toLocaleDateString()}</p>
       </div>
-  
+
       <div style=" ">
         <p
           style="
             font-size: 22px;
+            font-weight: 300;
+            color: #00000099;
+          "
+        >
+         Thank you for reaching out to us! We have received your inquiry and our team will review it shortly. 
+        </p>
+      </div>
+
+      <p style="font-size: 25.59px; font-weight: 600;">Your Submitted Details</p>
+      <hr/>
+
+      <div style="display:flex; justify-content:start;">
+        <p
+          style="
+            font-size: 22px;
             min-width: 300px;
-            font-weight: 700;
-            color: black;
+            font-weight: 200;
+            color: #00000080;
           "
         >
           Name:
         </p>
-        <p style="font-size: 22px; font-weight: 100;">${data.formData.first}${" "}${data.formData.last}</p>
+        <p style="font-size: 22px; font-weight: 500;">${data.formData.first}${" "}${data.formData.last}</p>
       </div>
+  
+      <div style="display:flex">
+        <p
+          style="
+            font-size: 22px;
+            min-width: 300px;
+            font-weight: 200;
+            color: #00000080;
+          "
+        >
+          Email Address:
+        </p>
+        <p style="font-size: 22px; font-weight: 500; decoration:none">${data.formData.email}</p>
+      </div>
+
   
       <div style=" ">
         <p
           style="
             font-size: 22px;
             min-width: 300px;
-            font-weight: 700;
-            color: black;
+            font-weight: 200;
+            color: #00000080;
           "
         >
-          Email Address:
+          Message:
         </p>
-        <p style="font-size: 22px; font-weight: 100;">${data.formData.email}</p>
+        <p style="font-size: 22px; font-weight: 100;">${data.formData.message}
+      </p>
       </div>
-  
-      <div style=" ">
-  <p
-    style="
-      font-size: 22px;
-      min-width: 300px;
-      font-weight: 700;
-      color: black;
-    "
-  >
-    Message:
-  </p>
-  <p style="font-size: 22px; font-weight: 100;">${data.formData.message}
-  </p>
-</div>
+      <hr />
     
-  
+      <p
       
 </div>
 
@@ -101,10 +123,10 @@ export async function POST(req: NextRequest) {
 
     // Set up email options
     const mailOptions = {
-        from: process.env.EMAIL_USER,
-        to: process.env.EMAIL_USER,
-        subject: "Contact",
-        html: emailTemplate,
+      from: process.env.EMAIL_USER,
+      to: process.env.EMAIL_USER,
+      subject: "Contact",
+      html: emailTemplate,
     };
 
     // Send the email
