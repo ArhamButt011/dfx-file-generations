@@ -3,7 +3,7 @@ import React, { FormEvent, useState } from 'react'
 import { ClipLoader } from 'react-spinners';
 import Swal from 'sweetalert2';
 
-function signup() {
+function Signup() {
     const [email, setEmail] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -78,4 +78,4 @@ function signup() {
     )
 }
 
-export default signup
+export default Signup
