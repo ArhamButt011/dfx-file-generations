@@ -1,28 +1,5 @@
 import { NextResponse } from 'next/server'
 import clientPromise from '@/lib/mongodb'
-import { GoogleSpreadsheet } from 'google-spreadsheet'
-import { JWT } from 'google-auth-library'
-
-const SHEET_ID = process.env.GOOGLE_SHEET_ID as string
-const GOOGLE_SERVICE_ACCOUNT_EMAIL = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL as string
-const GOOGLE_PRIVATE_KEY = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n') as string
-
-const addToGoogleSheet = async (email: string) => {
-    fetch(
-        "https://script.google.com/macros/s/AKfycbzbM-WJjsenM-2AlUaeVrcswzLsd4aRVzohR7dq-qMdxgb7oYodsKJsyHU-U8mSKt5u/exec",
-        {
-            method: "POST",
-            body: JSON.stringify({ email })
-        }
-    )
-        .then((res) => res.json())
-        .then((data) => {
-            console.log(data);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-}
 
 
 export async function POST(req: Request) {
@@ -52,7 +29,7 @@ export async function POST(req: Request) {
             createdAt: new Date(),
         })
 
-        await addToGoogleSheet(normalizedEmail) // Save to Google Sheet
+       
 
         return NextResponse.json(
             { message: 'Email Added Successfully' },
