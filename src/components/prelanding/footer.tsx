@@ -15,6 +15,23 @@ function footer() {
                                 width={100}
                                 height={100}
                             />
+                            <div className="flex justify-between max-w-[70px] items-end mt-5 ">
+                                <Image
+                                    className="w-5"
+                                    src="/images/user/home/social media/linkedin.svg"
+                                    alt="Flowbite Logo"
+                                    width={30}
+                                    height={20}
+                                />
+                                <Image
+                                    className="w-5"
+                                    src="/images/user/home/social media/youtube.svg"
+                                    alt="Flowbite Logo"
+                                    width={30}
+                                    height={20}
+                                /> 
+                            </div>
+
                             <div className='text-center mt-4'>
                                 <p className='font-normal text-base text-[#22222280]'>
                                     Lumashape LLC | © 2025 | All Rights Reserved
