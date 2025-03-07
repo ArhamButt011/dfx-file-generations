@@ -20,17 +20,35 @@ interface UserPlan {
 }
 
 function Input() {
-  const [image, setImage] = useState<string>(() => sessionStorage.getItem("image") || "")
+  const [image, setImage] = useState<string>(
+    () => sessionStorage.getItem('image') || '',
+  )
   const { userData } = useAuth()
-  const [contour, setContour] = useState<string>(() => sessionStorage.getItem("contour") || "")
+  const [contour, setContour] = useState<string>(
+    () => sessionStorage.getItem('contour') || '',
+  )
   const [dragging, setDragging] = useState<boolean>(false)
   const [isProcessingOpen, setisProcessingOpen] = useState<boolean>(false)
-  const [isProcessed, setIsProcessed] = useState<boolean>(JSON.parse(sessionStorage.getItem("isProcessed") || "false"))
+  const [isProcessed, setIsProcessed] = useState<boolean>(
+    JSON.parse(sessionStorage.getItem('isProcessed') || 'false'),
+  )
   const [base64, setBase64] = useState<string>('')
-  const [overlay, setOverlay] = useState<string>(() => sessionStorage.getItem("overlay") || "")
-  const [mask, setMask] = useState<string>(() => sessionStorage.getItem("mask") || "")
-  const [preview, setPreview] = useState<string>(() => sessionStorage.getItem("preview") || "")
-  const [dfxFile, setDfxFile] = useState<string>(() => sessionStorage.getItem("dxf_file") || "")
+  const [overlayUrl, setOverlayUrl] = useState<string>('')
+  const [outlineUrl, setOutlineUrl] = useState<string>('')
+  const [maskUrl, setMaskUrl] = useState<string>('')
+
+  const [overlay, setOverlay] = useState<string>(
+    () => sessionStorage.getItem('overlay') || '',
+  )
+  const [mask, setMask] = useState<string>(
+    () => sessionStorage.getItem('mask') || '',
+  )
+  const [preview, setPreview] = useState<string>(
+    () => sessionStorage.getItem('preview') || '',
+  )
+  const [dfxFile, setDfxFile] = useState<string>(
+    () => sessionStorage.getItem('dxf_file') || '',
+  )
   const [fileSize, setFileSize] = useState<number | null>(null)
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const imgRef = useRef<HTMLImageElement>(null)
@@ -137,24 +155,24 @@ function Input() {
   }, [userPlan])
 
   useEffect(() => {
-    sessionStorage.setItem("overlay", overlay);
-    sessionStorage.setItem("mask", mask);
-    sessionStorage.setItem("preview", preview);
-    sessionStorage.setItem("dxf_file", dfxFile);
-    sessionStorage.setItem("image", image);
-    sessionStorage.setItem("contour", contour);
-    sessionStorage.setItem("isProcessed", JSON.stringify(isProcessed));
+    sessionStorage.setItem('overlay', overlay)
+    sessionStorage.setItem('mask', mask)
+    sessionStorage.setItem('preview', preview)
+    sessionStorage.setItem('dxf_file', dfxFile)
+    sessionStorage.setItem('image', image)
+    sessionStorage.setItem('contour', contour)
+    sessionStorage.setItem('isProcessed', JSON.stringify(isProcessed))
   }, [overlay, image, contour])
 
   useEffect(() => {
-    console.log("image",sessionStorage.getItem("contour"))
-    setOverlay(sessionStorage.getItem("overlay") ?? '')
-    setMask(sessionStorage.getItem("mask") ?? '')
-    setPreview(sessionStorage.getItem("preview") ?? '')
-    setDfxFile(sessionStorage.getItem("dxf_file") ?? '')
-    setImage(sessionStorage.getItem("image") ?? '')
-    setContour(sessionStorage.getItem("contour") ?? '')
-    setIsProcessed(JSON.parse(sessionStorage.getItem("isProcessed") || "false"))
+    console.log('image', sessionStorage.getItem('contour'))
+    setOverlay(sessionStorage.getItem('overlay') ?? '')
+    setMask(sessionStorage.getItem('mask') ?? '')
+    setPreview(sessionStorage.getItem('preview') ?? '')
+    setDfxFile(sessionStorage.getItem('dxf_file') ?? '')
+    setImage(sessionStorage.getItem('image') ?? '')
+    setContour(sessionStorage.getItem('contour') ?? '')
+    setIsProcessed(JSON.parse(sessionStorage.getItem('isProcessed') || 'false'))
   }, [])
 
   const onClose = () => {
@@ -177,8 +195,10 @@ function Input() {
             const result = event.target.result as string
             setImage(result)
 
-
-            const cleanBase64 = result.replace(/^data:image\/[a-zA-Z]+;base64,/, '')
+            const cleanBase64 = result.replace(
+              /^data:image\/[a-zA-Z]+;base64,/,
+              '',
+            )
             setBase64(cleanBase64)
             console.log(cleanBase64)
           }
@@ -205,7 +225,6 @@ function Input() {
     }
   }
 
-
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault()
     setDragging(true)
@@ -231,7 +250,6 @@ function Input() {
       }
     }
   }
-
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -289,42 +307,51 @@ function Input() {
           image_path_or_base64: base64,
           offset_inches: contour,
         }),
-      });
+      })
 
       if (!res.ok) {
-        console.log(res);
-        const data = await res.json();
-        throw new Error(data.detail + ' or Invalid Image' || 'An error occurred');
+        console.log(res)
+        const data = await res.json()
+        throw new Error(
+          data.detail + ' or Invalid Image' || 'An error occurred',
+        )
       }
 
-      const { output_image_url, outlines_url, dxf_file, mask_url } = await res.json();
+      const {
+        output_image_url,
+        outlines_url,
+        dxf_file,
+        mask_url,
+      } = await res.json()
+      setOverlayUrl(output_image_url)
+      setOutlineUrl(outlines_url)
+      setMaskUrl(mask_url)
 
       // Function to convert image URL to Base64
       const convertToBase64 = async (url: string): Promise<string> => {
-        const response = await fetch(url);
-        const blob = await response.blob();
+        const response = await fetch(url)
+        const blob = await response.blob()
         return new Promise((resolve) => {
-          const reader = new FileReader();
-          reader.onloadend = () => resolve(reader.result as string); // Explicitly cast to string
-          reader.readAsDataURL(blob);
-        });
-      };
+          const reader = new FileReader()
+          reader.onloadend = () => resolve(reader.result as string) // Explicitly cast to string
+          reader.readAsDataURL(blob)
+        })
+      }
 
       // Convert images to base64
       const [maskBase64, overlayBase64, previewBase64] = await Promise.all([
         convertToBase64(mask_url),
         convertToBase64(output_image_url),
         convertToBase64(outlines_url),
-      ]);
+      ])
 
       // Save the base64 images
-      setMask(maskBase64);
-      setDfxFile(dxf_file);
-      setPreview(previewBase64);
-      setOverlay(overlayBase64);
-      setIsProcessed(true);
-    }
-    catch (err) {
+      setMask(maskBase64)
+      setDfxFile(dxf_file)
+      setPreview(previewBase64)
+      setOverlay(overlayBase64)
+      setIsProcessed(true)
+    } catch (err) {
       // Catch any error in the try block and log it
       Swal.fire({
         title: 'Error',
@@ -429,7 +456,14 @@ function Input() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ file_name, url, userId }),
+        body: JSON.stringify({
+          file_name,
+          url,
+          userId,
+          mask_url: maskUrl,
+          overlay_url: overlayUrl,
+          outline_url: outlineUrl,
+        }),
       })
 
       if (!res.ok) {
@@ -576,9 +610,9 @@ function Input() {
       <div className="mt-5">
         <div className="flex md:flex-row flex-col gap-10">
           {/* left */}
-          <div className="bg-[#F2F2F2] md:w-1/2 rounded-b-2xl">
-            <div className="bg-[#266CA8] py-3 rounded-t-2xl">
-              <p className="text-white text-center font-medium text-2xl">
+          <div className="bg-[#F2F2F2] md:w-1/2 rounded-b-2xl rounded-t-2xl">
+            <div className="bg-[#C6C9CB] py-3 rounded-t-2xl">
+              <p className="text-white text-center font-medium text-2xl text-[#000000]">
                 Input Data
               </p>
             </div>
@@ -720,8 +754,9 @@ function Input() {
                       fill="currentColor"
                       xmlns="http://www.w3.org/2000/svg"
                       className={`w-10 h-10 cursor-pointer transition-colors duration-300 
-        ${clicked ? 'text-[#266CA8]' : 'text-[#00000066] hover:text-[#266CA8]'
-                        }`}
+        ${
+          clicked ? 'text-[#266CA8]' : 'text-[#00000066] hover:text-[#266CA8]'
+        }`}
                       onClick={() => {
                         setClicked(!clicked)
                         setIsMagnifierActive(!isMagnifierActive)
@@ -831,7 +866,7 @@ function Input() {
                         setMask('')
                         setPreview('')
                         setDfxFile('')
-                        setIsProcessed(false);
+                        setIsProcessed(false)
                       }}
                     >
                       Clear
@@ -848,8 +883,8 @@ function Input() {
             </div>
           </div>
           {/* right */}
-          <div className="bg-[#F2F2F2] md:w-1/2 rounded-b-2xl">
-            <div className="bg-[#266CA8] py-3 rounded-t-2xl">
+          <div className="bg-[#F2F2F2] md:w-1/2 rounded-b-2xl rounded-t-2xl">
+            <div className="bg-[#C6C9CB] py-3 rounded-t-2xl text-[#000000]">
               <p className="text-white text-center font-medium text-2xl">
                 Output Data
               </p>
@@ -882,11 +917,11 @@ function Input() {
                         className="w-full h-full rounded-3xl border"
                         style={{
                           // width: "400px",
-                          height: "400px",
+                          height: '400px',
                           backgroundImage: `url(${overlay})`,
-                          backgroundSize: "contain",
-                          backgroundPosition: "center",
-                          backgroundRepeat: "no-repeat"
+                          backgroundSize: 'contain',
+                          backgroundPosition: 'center',
+                          backgroundRepeat: 'no-repeat',
                         }}
                       />
                       <div className="absolute top-0 right-0 bg-white border-r border-t rounded-tr-3xl text-white w-20 h-10 flex items-center justify-around text-sm cursor-pointer">
@@ -914,7 +949,9 @@ function Input() {
                   </div>
 
                   <div className="relative">
-                    <p className="font-semibold text-2xl mb-5">DXF Preview</p>
+                    <p className="font-semibold text-2xl mb-5">
+                      Outline Of Object
+                    </p>
                     <div className="relative flex justify-center items-center">
                       {/* <Image
                         src={preview}
@@ -927,11 +964,11 @@ function Input() {
                         className="w-full h-full rounded-3xl border"
                         style={{
                           // width: "400px",
-                          height: "400px",
+                          height: '400px',
                           backgroundImage: `url(${preview})`,
-                          backgroundSize: "contain",
-                          backgroundPosition: "center",
-                          backgroundRepeat: "no-repeat"
+                          backgroundSize: 'contain',
+                          backgroundPosition: 'center',
+                          backgroundRepeat: 'no-repeat',
                         }}
                       />
                       <div className="absolute shadow-card top-0 right-0 bg-white border-r border-t rounded-tr-3xl text-white w-20 h-10 flex items-center justify-around text-sm cursor-pointer">
@@ -972,11 +1009,11 @@ function Input() {
                         className="w-full h-full rounded-3xl border"
                         style={{
                           // width: "400px",
-                          height: "400px",
+                          height: '400px',
                           backgroundImage: `url(${mask})`,
-                          backgroundSize: "contain",
-                          backgroundPosition: "center",
-                          backgroundRepeat: "no-repeat"
+                          backgroundSize: 'contain',
+                          backgroundPosition: 'center',
+                          backgroundRepeat: 'no-repeat',
                         }}
                       />
                       <div className="absolute top-0 right-0 bg-white border-r border-t rounded-tr-3xl text-white w-20 h-10 flex items-center justify-around text-sm cursor-pointer">

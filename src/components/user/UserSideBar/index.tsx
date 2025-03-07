@@ -59,7 +59,7 @@ const menuGroups = [
       {
         Whiteicon: WhiteDownloadIcon,
         Grayicon: GrayDownloadIcon,
-        label: 'Downloaded Files',
+        label: 'Files History',
         route: '/downloaded-files',
       },
       {
