@@ -34,16 +34,7 @@ function hero() {
                                 </p>
                             </div>
 
-                            <div className="flex items-start my-3 gap-2">
-                                <Image src="/images/user/prelanding/bolt.svg" alt="star" width={40} height={20} />
-                                <p className="text-2xl font-semibold">
-                                    Preview DXF File
-                                    <p className="font-medium text-xl text-[#00000066]  max-w-[559px]">
-                                        Our AI extracts and scales contours to generate a high-precision DXF file, with customization options for finger clearance holes, text labels, boundary contours, and adjustable contour offset parameter
-                                    </p>
-                                </p>
-
-                            </div>
+                            
                             <div className="flex items-start gap-2">
                                 <Image src="/images/user/prelanding/download.svg" alt="star" width={40} height={20} />
                                 <p className="md:text-2xl text-xl font-semibold">
@@ -55,7 +46,7 @@ function hero() {
                             </div>
 
                         </div>
-                        <div className=" flex justify-center md:w-1/3">
+                        {/* <div className=" flex justify-center md:w-1/3">
                             <Image
                                 src="/images/user/prelanding/video.svg"
                                 alt="video"
@@ -64,6 +55,30 @@ function hero() {
                                 height={100}
                                 className="object-contain w-full "
                             />
+                        </div> */}
+                        <div className='flex flex-col justify-center md:w-1/3"'>
+                            <video
+                                className="w-full object-cover rounded-lg" // Optional rounded corners
+
+                                loop
+                                muted
+                                controls
+                            >
+                                <source
+                                    src="/video/Lumashape_Video_Animation_1st_Cut.mov"
+                                    type="video/mp4"
+                                />
+                            </video>
+                            <div className="flex items-start my-3 gap-2">
+                                <Image src="/images/user/prelanding/bolt.svg" alt="star" width={40} height={20} />
+                                <p className="text-2xl font-semibold">
+                                    Preview DXF File
+                                    <p className="font-medium text-xl text-[#00000066]  max-w-[559px]">
+                                        Our AI extracts and scales contours to generate a high-precision DXF file, with customization options for finger clearance holes, text labels, boundary contours, and adjustable contour offset parameter
+                                    </p>
+                                </p>
+
+                            </div>
                         </div>
 
                     </div>
