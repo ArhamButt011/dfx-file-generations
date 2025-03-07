@@ -5,11 +5,28 @@ import { addNotification } from '@/lib/notifications'
 
 export async function POST(req: Request) {
   try {
-    const { file_name, url, userId } = await req.json()
+    const {
+      file_name,
+      url,
+      userId,
+      mask_url,
+      overlay_url,
+      outline_url,
+    } = await req.json()
 
-    if (!file_name || !url || !userId) {
+    if (
+      !file_name ||
+      !url ||
+      !userId ||
+      !mask_url ||
+      !overlay_url ||
+      !outline_url
+    ) {
       return NextResponse.json(
-        { message: 'file_name, url, and userId are required' },
+        {
+          message:
+            'file_name, url, userId, mask_url, overlayURL, and outlineURL are required',
+        },
         { status: 400 },
       )
     }
@@ -31,6 +48,9 @@ export async function POST(req: Request) {
       user_id: objectId,
       file_name: file_name,
       file_url: url,
+      mask_url: mask_url,
+      outline_url: outline_url,
+      overlay_url: overlay_url,
     })
 
     if (!existingDownload) {
@@ -45,6 +65,9 @@ export async function POST(req: Request) {
         user_id: objectId,
         file_name,
         file_url: url,
+        mask_url: mask_url,
+        outline_url: outline_url,
+        overlay_url: overlay_url,
         downloaded_on: formattedDate,
         downloaded_date: new Date(),
       })
