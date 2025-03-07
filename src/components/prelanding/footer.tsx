@@ -6,7 +6,7 @@ function footer() {
         <div className='border-t-2 border-[#0000001A] py-2'>
             <div className='items-center hidden md:flex justify-between w-full py-4'>
                 <div className='w-full max-w-[1300px] mx-auto px-5'>
-                    <div className="flex justify-between items-center">
+                    <div className="flex justify-between items-start">
                         <div className="flex flex-col justify-between">
                             <Image
                                 className="w-[259.2px] h-[56px] mob:w-[175.89px] mob:h-[38px] z-50"

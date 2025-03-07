@@ -53,10 +53,10 @@ function Signup() {
                     <ClipLoader color="#007bff" size={50} />
                 </div>
             )}
-            <h1 className="text-[32px] text-center font-foghe font-normal text-graish">
+            <h1 className="md:text-5xl text-2xl text-center  font-bold">
                 Get Updated Or Support New Ideas!!
             </h1>
-            <p className="text-[16px] text-center font-sofiapro font-normal text-[#888888] mob:px-4">
+            <p className="md:text-xl text-lg text-center font-medium text-[#888888] max-w-[700px] mx-auto">
                 Stay in the loop as we get ready to launch Lumashape! Sign up with your email below for exclusive updates and early access.
             </p>
             <form onSubmit={handleSignIn}>
