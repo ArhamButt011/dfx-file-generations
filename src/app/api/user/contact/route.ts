@@ -139,7 +139,7 @@ export async function POST(req: NextRequest) {
     // Set up email options
     const mailOptions = {
       from: process.env.EMAIL_USER,
-      to: process.env.EMAIL_USER,
+      to: data.formData.email,
       subject: "Contact",
       html: emailTemplate,
     };
