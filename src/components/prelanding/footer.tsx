@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import React from 'react'
 
 function footer() {
@@ -6,7 +7,7 @@ function footer() {
         <div className='border-t-2 border-[#0000001A] py-2'>
             <div className='items-center hidden md:flex justify-between w-full py-4'>
                 <div className='w-full max-w-[1300px] mx-auto px-5'>
-                    <div className="flex justify-between items-center">
+                    <div className="flex justify-between items-start">
                         <div className="flex flex-col justify-between">
                             <Image
                                 className="w-[259.2px] h-[56px] mob:w-[175.89px] mob:h-[38px] z-50"
@@ -16,20 +17,24 @@ function footer() {
                                 height={100}
                             />
                             <div className="flex justify-between max-w-[70px] items-end mt-5 ">
-                                <Image
-                                    className="w-5"
-                                    src="/images/user/home/social media/linkedin.svg"
-                                    alt="Flowbite Logo"
-                                    width={30}
-                                    height={20}
-                                />
-                                <Image
-                                    className="w-5"
-                                    src="/images/user/home/social media/youtube.svg"
-                                    alt="Flowbite Logo"
-                                    width={30}
-                                    height={20}
-                                /> 
+                                <Link href="https://www.linkedin.com/company/lumashape">
+                                    <Image
+                                        className="w-5"
+                                        src="/images/user/home/social media/linkedin.svg"
+                                        alt="Flowbite Logo"
+                                        width={30}
+                                        height={20}
+                                    />
+                                </Link>
+                                <Link href="https://m.youtube.com/@Lumashape">
+                                    <Image
+                                        className="w-5"
+                                        src="/images/user/home/social media/youtube.svg"
+                                        alt="Flowbite Logo"
+                                        width={30}
+                                        height={20}
+                                    />
+                                </Link>
                             </div>
 
                             <div className='text-center mt-4'>
@@ -63,6 +68,26 @@ function footer() {
                 </div>
                 <div className='flex h-full w-full text-center '>
                     <p className='font-normal text-base text-[#22222280]'>Lumashape LLC | © 2025 | All Rights Reserved</p>
+                </div>
+                <div className="flex justify-between max-w-[70px] items-end  ">
+                    <Link href="https://m.youtube.com/@Lumashape">
+                        <Image
+                            className="w-5"
+                            src="/images/user/home/social media/linkedin.svg"
+                            alt="Flowbite Logo"
+                            width={30}
+                            height={20}
+                        />
+                    </Link>
+                    <Link href="https://www.linkedin.com/company/lumashape">
+                        <Image
+                            className="w-5"
+                            src="/images/user/home/social media/youtube.svg"
+                            alt="Flowbite Logo"
+                            width={30}
+                            height={20}
+                        />
+                    </Link>
                 </div>
 
             </div>
