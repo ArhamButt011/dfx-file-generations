@@ -29,7 +29,7 @@ export async function POST(req: Request) {
             createdAt: new Date(),
         })
 
-        await addToGoogleSheet(normalizedEmail) // Save to Google Sheet
+       
 
         return NextResponse.json(
             { message: 'Email Added Successfully' },
