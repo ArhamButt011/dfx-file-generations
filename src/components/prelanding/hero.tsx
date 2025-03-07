@@ -16,22 +16,21 @@ function hero() {
                     />
                 </div>
             </div>
-            <div className="flex justify-center px-5 ">
-                <div className="w-full max-w-[1328px] relative md:my-20 my-10 min-h-[500px] overflow-hidden">
+            <div className="flex justify-center px-5 xl:max-w-[1200px] max-w-[90%] mx-auto">
+                <div className="w-full relative md:my-20 my-10 min-h-[500px] overflow-hidden">
                     <div className="flex flex-col gap-20 items-start justify-center  z-10 ">
-                        <div className="flex relative z-10 h-full">
-                            <div>
-                                <h1 className="md:text-6xl text-4xl font-bold  md:max-w-[559px] w-full md:leading-[67.2px] ">
+                        <div className="flex lg:flex-row flex-col relative z-10 h-full gap-20 ">
+                            <div className='lg:w-1/2'>
+                                <h1 className="md:text-6xl text-4xl font-bold  lg:max-w-[559px] w-full md:leading-[67.2px] ">
                                     AI-Powered Tool Organization Made Simple
                                 </h1>
                                 <p className='font-medium md:text-xl text-lg text-[#00000066]  max-w-[559px] my-5'>Automatically generate precise DXF files from photos of your tool layouts with AI-driven image processing. Create custom foam drawer inserts and keep your workspace organized — no manual tracing or CAD work required.</p>
                             </div>
-                            <div>
+                            <div className='lg:w-1/2'>
                                 <video
-                                    className="w-full object-cover rounded-lg" // Optional rounded corners
-
+                                    className="w-full object-cover rounded-lg" 
                                     loop
-                                    muted
+                                    autoPlay
                                     controls
                                 >
                                     <source
@@ -74,7 +73,7 @@ function hero() {
                                 className="object-contain w-full "
                             /> */}
 
-                        <p className='font-semibold md:text-5xl text-2xl text-center w-full'>How It <span className='text-[#266CA8]'>Works?</span></p>
+                        <p className='font-semibold md:text-5xl text-4xl md:text-center text-start w-full'>How It <span className='text-[#266CA8]'>Works?</span></p>
 
                         <div className="flex items-start mt-3 gap-2">
                             <Image src="/images/user/prelanding/plus.svg" alt="star" width={40} height={20} />

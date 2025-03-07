@@ -27,7 +27,7 @@ function Signup() {
                 title: 'Success',
                 text: "Our Team will reach out to you soon",
                 timer: 2000,
-                showConfirmButton:false,
+                showConfirmButton: false,
             })
             setEmail('');
 
@@ -53,27 +53,28 @@ function Signup() {
                     <ClipLoader color="#007bff" size={50} />
                 </div>
             )}
-            <h1 className="md:text-5xl text-2xl text-center  font-bold">
-                Get Updated Or Support New Ideas!!
-            </h1>
-            <p className="md:text-xl text-lg text-center font-medium text-[#888888] max-w-[700px] mx-auto">
-                Stay in the loop as we get ready to launch Lumashape! Sign up with your email below for exclusive updates and early access.
-            </p>
-            <form onSubmit={handleSignIn}>
-                <div className="flex justify-center gap-[8px] mt-8 mb-12">
-                    <input
-                        className="w-full max-w-[239px] h-[40px] px-3 border-[1px] outline-none  rounded-xl  placeholder:text-[14px] placeholder:font-foghe"
-                        type="email"
-                        value={email}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setEmail(e.target.value) }}
-                        placeholder="Enter your email address"
-                    />
-                    <button type="submit" className="bg-[#266CA8] text-white w-[98px] h-[41.2px] font-normal text-[14px] rounded-xl">
-                        Sign up
-                    </button>
-                </div>
-            </form>
-
+            <div className='md:max-w-[1328px] max-w-[90%] mx-auto'>
+                <h1 className="md:text-5xl text-3xl text-center  font-bold mt-10">
+                    Get Updated Or Support New Ideas!!
+                </h1>
+                <p className="md:text-xl text-lg text-center font-medium text-[#888888] max-w-[700px] mx-auto">
+                    Stay in the loop as we get ready to launch Lumashape! Sign up with your email below for exclusive updates and early access.
+                </p>
+                <form onSubmit={handleSignIn}>
+                    <div className="flex justify-center gap-[8px] mt-8 mb-12">
+                        <input
+                            className="w-full max-w-[239px] h-[40px] px-3 border-[1px] outline-none  rounded-xl  placeholder:text-[14px] placeholder:font-foghe"
+                            type="email"
+                            value={email}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setEmail(e.target.value) }}
+                            placeholder="Enter your email address"
+                        />
+                        <button type="submit" className="bg-[#266CA8] text-white w-[98px] h-[41.2px] font-normal text-[14px] rounded-xl">
+                            Submit
+                        </button>
+                    </div>
+                </form>
+            </div>
         </>
     )
 }
