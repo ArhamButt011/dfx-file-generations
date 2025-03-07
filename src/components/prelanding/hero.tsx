@@ -5,19 +5,21 @@ import React from 'react'
 function hero() {
     return (
         <div>
-            <div className="flex justify-between w-full py-4 mx-auto border-b-2 border-[#0000001A]">
-                <Image
-                    className="w-[259.2px] h-[56px]  z-50 pl-5"
-                    src="/images/user/home/user_login.svg"
-                    alt=" Logo"
-                    width={100}
-                    height={100}
-                />
+            <div className=" border-b-2 border-[#0000001A] ">
+                <div className='max-w-[1400px] flex justify-start py-4  mx-auto'>
+                    <Image
+                        className="w-[259.2px] h-[56px]  z-50 pl-5"
+                        src="/images/user/home/user_login.svg"
+                        alt=" Logo"
+                        width={100}
+                        height={100}
+                    />
+                </div>
             </div>
             <div className="flex justify-center px-5 ">
                 <div className="w-full max-w-[1328px] relative md:my-20 my-10 min-h-[500px] overflow-hidden">
                     <div className="flex flex-col md:flex-row gap-20 items-start justify-center  z-10 h-full ">
-                        <div className="flex-col relative z-10 ">
+                        <div className="flex-col relative z-10 h-full">
                             <h1 className="md:text-6xl text-4xl font-bold  md:max-w-[559px] w-full md:leading-[67.2px] ">
                                 AI-Powered Tool Organization Made Simple
                             </h1>
@@ -34,7 +36,18 @@ function hero() {
                                 </p>
                             </div>
 
-                            
+                            <div className="flex items-start my-3 gap-2 md:hidden">
+                                <Image src="/images/user/prelanding/bolt.svg" alt="star" width={40} height={20} />
+                                <p className="text-2xl font-semibold">
+                                    Preview DXF File
+                                    <p className="font-medium text-xl text-[#00000066]  max-w-[559px]">
+                                        Our AI extracts and scales contours to generate a high-precision DXF file, with customization options for finger clearance holes, text labels, boundary contours, and adjustable contour offset parameter
+                                    </p>
+                                </p>
+
+                            </div>
+
+
                             <div className="flex items-start gap-2">
                                 <Image src="/images/user/prelanding/download.svg" alt="star" width={40} height={20} />
                                 <p className="md:text-2xl text-xl font-semibold">
@@ -56,20 +69,23 @@ function hero() {
                                 className="object-contain w-full "
                             />
                         </div> */}
-                        <div className='flex flex-col justify-center md:w-1/3"'>
-                            <video
-                                className="w-full object-cover rounded-lg" // Optional rounded corners
+                        <div className='flex flex-col justify-between h-full'>
+                            <div>
+                                <video
+                                    className="w-full object-cover rounded-lg" // Optional rounded corners
 
-                                loop
-                                muted
-                                controls
-                            >
-                                <source
-                                    src="/video/Lumashape_Video_Animation_1st_Cut.mov"
-                                    type="video/mp4"
-                                />
-                            </video>
-                            <div className="flex items-start my-3 gap-2">
+                                    loop
+                                    muted
+                                    controls
+                                >
+                                    <source
+                                        src="/video/Lumashape_Video_Animation_1st_Cut.mov"
+                                        type="video/mp4"
+                                    />
+                                </video>
+                            </div>
+
+                            <div className="md:flex items-start mt-3 gap-2 hidden">
                                 <Image src="/images/user/prelanding/bolt.svg" alt="star" width={40} height={20} />
                                 <p className="text-2xl font-semibold">
                                     Preview DXF File

@@ -113,8 +113,23 @@ export async function POST(req: NextRequest) {
       </div>
       <hr />
     
-      <p
+       <p style="margin-top: 30px;  font-size: 22px; font-weight: 300; color: #00000099;">
+          If you have any questions or need assistance, please contact our support team at 
+              <a href="mailto:support@lumashape.com" style="color: #266CA8;">support@lumashape.com</a></p>
+
+        <p
+          style="
+            font-size: 22px;
+            font-weight: 300;
+            color: #00000099;
+          "
+        >
+         Thank you for reaching out to us! We have received your inquiry and our team will review it shortly. 
+        </p>
       
+
+        <p style="margin-top: 60px;"><a href="https://www.lumashape.com" style="color: #000000; text-decoration: none;">www.lumashape.com</a> <span style="color: #000000;">  |  </span>     
+            <a href="mailto:support@lumashape.com" style="color: #000000;">support@lumashape.com</a></p>
 </div>
 
 
