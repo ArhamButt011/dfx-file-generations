@@ -59,15 +59,15 @@ const bilingPlans: DataItem[] = [
     include: [
       {
         id: 1,
-        text: 'Free upload and preview',
+        text: 'Unlimited DXF downloads',
       },
       {
         id: 2,
-        text: 'Purchase DXF files individually for $20 per download.',
+        text: 'Full access to DXF customization tools',
       },
       {
         id: 3,
-        text: 'No commitment or subscription',
+        text: 'Cancel or modify anytime',
       },
       {
         id: 4,
@@ -96,14 +96,30 @@ const bilingPlans: DataItem[] = [
       },
       {
         id: 2,
-        text: 'Exclusive customer support ',
+        text: 'Full access to DXF customization tools',
       },
       {
         id: 3,
-        text: 'Cancel or modify anytime',
+        text: 'Batch image processing (up to 4 images per batch)',
       },
       {
         id: 4,
+        text: 'Advanced file management (organize, rename, and tag DXF files)',
+      },
+      {
+        id: 5,
+        text: 'Automated cloud backup C sync',
+      },
+      {
+        id: 6,
+        text: 'Customer Support',
+      },
+      {
+        id: 7,
+        text: 'Cancel or modify anytime',
+      },
+      {
+        id: 8,
         text: 'Secure payment processing',
       },
     ],
@@ -162,11 +178,11 @@ function Pricing() {
               className={clsx(
                 'border p-4 w-4/5 rounded-3xl flex flex-col justify-between',
                 item.id === 1 &&
-                  'h-[490px] lg:h-[540px] xl:h-[540px] md:w-1/3 xl:w-1/4 2xl:w-1/5',
+                  'h-[550px] md:w-[350px]',
                 item.id === 2 &&
-                  'h-[550px] lg:h-[600px] xl:h-[600px] md:w-1/2 xl:w-1/3 2xl:w-1/4',
+                  'h-[600px] md:w-[370px]',
                 item.id === 3 &&
-                  'h-[490px] lg:h-[540px] xl:h-[540px] md:w-1/3 xl:w-1/4 2xl:w-1/5',
+                  'h-[550px] md:w-[350px]',
               )}
               style={{
                 background: item.backgroundColor,
