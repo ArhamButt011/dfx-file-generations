@@ -326,16 +326,12 @@ const DropdownUser = () => {
 
           {userData?.image ? (
             <div className="w-[44px] h-[44px] rounded-full overflow-hidden flex-shrink-0">
-              {/* <Image
+              <Image
                 width={44}
                 height={44}
                 src={userData.image}
                 className="object-cover w-full h-full"
                 alt="User"
-              /> */}
-              <img
-                src="/static/uploads/67c96c66a2d3648c087f51d4_1741425638797_ab.jpeg"
-                alt="Image"
               />
             </div>
           ) : (
