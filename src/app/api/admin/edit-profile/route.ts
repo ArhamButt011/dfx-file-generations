@@ -52,8 +52,7 @@ export async function PUT(req: Request) {
       const arrayBuffer = await file.arrayBuffer()
       const buffer = new Uint8Array(arrayBuffer)
 
-      // Updated directory path
-      const uploadsDir = path.join(process.cwd(), 'public/static/uploads')
+      const uploadsDir = path.join(process.cwd(), 'public/uploads')
 
       if (existingUser.image) {
         const oldImagePath = path.join(
@@ -68,13 +67,11 @@ export async function PUT(req: Request) {
         }
       }
 
-      // Save the new image in static/uploads
+      // Save the new image
       const fileName = `${id}_${Date.now()}_${file.name}`
       const filePath = path.join(uploadsDir, fileName)
       await fs.writeFile(filePath, buffer)
-
-      // Update database with the new file path
-      updateData.image = `/static/uploads/${fileName}`
+      updateData.image = `/uploads/${fileName}`
     }
 
     if (Object.keys(updateData).length === 0) {
@@ -106,7 +103,7 @@ export async function PUT(req: Request) {
       {
         id: updatedUser._id.toString(),
         username: updatedUser.name,
-        lastName: updatedUser.lastName,
+        lastName: updateData.lastName,
         email: updatedUser.email,
         role: updatedUser.role,
       },
