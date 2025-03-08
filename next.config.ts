@@ -1,15 +1,18 @@
-import type { NextConfig } from 'next'
-
-const nextConfig: NextConfig = {
-  reactStrictMode: false, // Disable Strict Mode to prevent double API calls
+const nextConfig = {
+  reactStrictMode: false,
 
   images: {
-    domains: ['dxf.lumashape.com'], // Add new domain to allowed image sources
+    domains: ['lumashape.com', 'dxf.lumashape.com'],
     remotePatterns: [
       {
-        protocol: 'https', // Ensure HTTPS usage
+        protocol: 'https',
+        hostname: 'lumashape.com',
+        pathname: '/uploads/**',
+      },
+      {
+        protocol: 'https',
         hostname: 'dxf.lumashape.com',
-        pathname: '/outputs/**',
+        pathname: '/uploads/**',
       },
     ],
   },
