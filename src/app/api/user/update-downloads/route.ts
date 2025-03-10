@@ -4,8 +4,9 @@ import clientPromise from '@/lib/mongodb'
 
 export async function PUT(req: NextRequest) {
   try {
-    const { id, text } = await req.json()
-    console.log('id->> ', id)
+    const { id, text, fileName } = await req.json()
+
+    console.log('id->> ', fileName)
 
     if (!id || !text) {
       return NextResponse.json(
@@ -25,6 +26,7 @@ export async function PUT(req: NextRequest) {
     if (text === 'outlineImage') updateField = { outline_url: '' }
     else if (text === 'overlayImage') updateField = { overlay_url: '' }
     else if (text === 'maskImage') updateField = { mask_url: '' }
+    else if (text === 'fileName') updateField = { file_name: fileName }
     else {
       return NextResponse.json(
         {

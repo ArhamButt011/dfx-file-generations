@@ -33,9 +33,15 @@ function Input() {
     JSON.parse(sessionStorage.getItem('isProcessed') || 'false'),
   )
   const [base64, setBase64] = useState<string>('')
-  const [overlayUrl, setOverlayUrl] = useState<string>('')
-  const [outlineUrl, setOutlineUrl] = useState<string>('')
-  const [maskUrl, setMaskUrl] = useState<string>('')
+  const [overlayUrl, setOverlayUrl] = useState<string>(
+    () => sessionStorage.getItem('overlayUrl') || '',
+  )
+  const [maskUrl, setMaskUrl] = useState<string>(
+    () => sessionStorage.getItem('maskUrl') || '',
+  )
+  const [outlineUrl, setOutlineUrl] = useState<string>(
+    () => sessionStorage.getItem('outlineUrl') || '',
+  )
 
   const [overlay, setOverlay] = useState<string>(
     () => sessionStorage.getItem('overlay') || '',
@@ -161,11 +167,17 @@ function Input() {
     sessionStorage.setItem('dxf_file', dfxFile)
     sessionStorage.setItem('image', image)
     sessionStorage.setItem('contour', contour)
+    sessionStorage.setItem('overlayUrl', overlayUrl)
+    sessionStorage.setItem('maskUrl', maskUrl)
+    sessionStorage.setItem('outlineUrl', outlineUrl)
     sessionStorage.setItem('isProcessed', JSON.stringify(isProcessed))
   }, [overlay, image, contour])
 
   useEffect(() => {
     console.log('image', sessionStorage.getItem('contour'))
+    setOverlayUrl(sessionStorage.getItem('overlayUrl') ?? '')
+    setOutlineUrl(sessionStorage.getItem('outlineUrl') ?? '')
+    setMaskUrl(sessionStorage.getItem('maskUrl') ?? '')
     setOverlay(sessionStorage.getItem('overlay') ?? '')
     setMask(sessionStorage.getItem('mask') ?? '')
     setPreview(sessionStorage.getItem('preview') ?? '')
@@ -449,6 +461,18 @@ function Input() {
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
+      console.log(
+        'filename-> ',
+        file_name,
+        'url-> ',
+        url,
+        'maskUrl-> ',
+        maskUrl,
+        'overlayUrl-> ',
+        overlayUrl,
+        'outlineUrl-> ',
+        outlineUrl,
+      )
 
       // Send API request after file is downloaded
       const res = await fetch('/api/user/DFX_Downloads/Add_File', {

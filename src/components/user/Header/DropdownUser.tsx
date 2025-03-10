@@ -415,7 +415,7 @@ const DropdownUser = () => {
                 </span>
                 <span className="hidden text-center lg:block mt-4">
                   <span className="block text-lg font-semibold text-black dark:text-white">
-                    {userData?.username}
+                    {userData?.username} {userData?.lastName}
                   </span>
                   <span className="block  text-center text-xs font-normal text-[#00000066]">
                     {userData?.email}

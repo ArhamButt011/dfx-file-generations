@@ -79,6 +79,8 @@ const Sidebar = ({
 SidebarProps) => {
   // const pathname = usePathname()
   const [pageName, setPageName] = useLocalStorage('selectedMenu', 'dashboard')
+  const [lastName, setLastName] = useState('')
+
   useEffect(() => {
     document.title = `${pageName} | Lumashape`
   }, [pageName])
@@ -368,6 +370,14 @@ SidebarProps) => {
     }
   }
 
+  useEffect(() => {
+    if (userData) {
+      setName(userData.username || '')
+      setLastName(userData.lastName || '')
+      setProfileImage(userData.image || userImages)
+    }
+  }, [userData])
+
   const handleDelete = async () => {
     setLoading(true)
     try {
@@ -516,7 +526,7 @@ SidebarProps) => {
 
                   <span className="lg:hidden text-left">
                     <span className="block text-lg font-semibold text-black dark:text-white">
-                      {userData?.username}
+                      {userData?.username} {userData?.lastName}
                     </span>
                     <span className="block text-xs font-normal text-[#00000066]">
                       {userData?.email}
@@ -711,7 +721,7 @@ SidebarProps) => {
               <ClipLoader color="#007bff" size={50} />
             </div>
           )}
-          <div className="flex items-center flex-col gap-10">
+          <div className="flex items-center flex-col gap-8">
             <div className="flex justify-between items-center w-full mb-7">
               <div className="text-[#000000] text-[34px] font-semibold text-center flex-grow">
                 Edit Profile
@@ -748,16 +758,31 @@ SidebarProps) => {
                 onChange={handleFileChange}
               />
             </div>
-            <div className="mb-2 w-full">
+            <div className="w-full">
               <label className="text-[#000000] font-semibold mb-2 text-[21.37px]">
-                User Name
+                First Name
               </label>
               <div>
                 <input
                   type="text"
-                  placeholder="Enter User Name"
+                  placeholder="Enter First Name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
+                  className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
+                  required
+                />
+              </div>
+            </div>
+            <div className="w-full">
+              <label className="text-[#000000] font-semibold mb-2 text-[21.37px]">
+                Last Name
+              </label>
+              <div>
+                <input
+                  type="text"
+                  placeholder="Enter Last Name"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
                   className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
                   required
                 />
