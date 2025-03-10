@@ -38,6 +38,10 @@ const bilingPlans: DataItem[] = [
       },
       {
         id: 2,
+        text: 'Full access to DXF customization tools',
+      },
+      {
+        id: 2,
         text: 'No payment required',
       },
     ],
@@ -67,11 +71,11 @@ const bilingPlans: DataItem[] = [
       },
       {
         id: 3,
-        text: 'Cancel or modify anytime',
+        text: 'Secure payment processing',
       },
       {
         id: 4,
-        text: 'Secure payment processing',
+        text: 'Cancel or modify anytime',
       },
     ],
     buttonText: '',
@@ -100,19 +104,20 @@ const bilingPlans: DataItem[] = [
       },
       {
         id: 3,
-        text: 'Batch image processing (up to 4 images per batch)',
+        text: 'Batch image processing',
       },
       {
         id: 4,
-        text: 'Advanced file management (organize, rename, and tag DXF files)',
+        text: 'Advanced file management',
       },
       {
         id: 5,
-        text: 'Automated cloud backup C sync',
+        text:
+          'Automated cloud file syncing (Google Drive, OneDrive, and Dropbox)',
       },
       {
         id: 6,
-        text: 'Customer Support',
+        text: 'Exclusive Customer Support',
       },
       {
         id: 7,
@@ -120,7 +125,7 @@ const bilingPlans: DataItem[] = [
       },
       {
         id: 8,
-        text: 'Secure payment processing',
+        text: 'And more...',
       },
     ],
     buttonText: '',
@@ -138,7 +143,7 @@ const bilingPlans: DataItem[] = [
 function Pricing() {
   return (
     <div
-      className="xl:max-w-[1200px] max-w-[90%] mx-auto md:py-20 mt-12"
+      className="xl:max-w-[1200px] max-w-[90%] mx-auto md:py-20 mt-12 md:mt-0"
       id="pricing"
     >
       <motion.div
@@ -148,15 +153,15 @@ function Pricing() {
         transition={{ duration: 1 }}
         viewport={{ once: false }}
       >
-        <p className="font-bold md:text-[55px] text-[40px] text-center md:max-w-[80%] mx-auto md:mb- leading-[44px] mb-2">
+        <p className="font-bold md:text-[48px] text-[40px] text-center md:max-w-[80%] mx-auto leading-[44px] md:mb-6">
           <span className="text-[#266CAB]">Our </span> Pricing Plans
         </p>
-        <p className="text-center text-[#00000066] md:text-[29px] text-[23px] mx-auto font-medium md:max-w-[90%]">
+        <p className="text-center text-[#00000066] md:text-[24px] text-[21px] mx-auto font-medium md:max-w-[90%]">
           Choose a plan that fits your needs, and let&apos;s start designing
           together.
         </p>
       </motion.div>
-      <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 justify-stretch items-center mt-10">
+      <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 justify-stretch items-center mt-12">
         {bilingPlans.map((item) => (
           <motion.div
             key={item.id}
