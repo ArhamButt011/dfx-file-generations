@@ -1,5 +1,4 @@
 import Image from 'next/image'
-import Link from 'next/link'
 import React from 'react'
 
 function footer() {
@@ -17,7 +16,7 @@ function footer() {
                 height={100}
               />
               <div className="flex justify-between max-w-[70px] items-end mt-5 ">
-                <Link href="https://www.linkedin.com/company/lumashape">
+                <a href="https://www.linkedin.com/company/lumashape">
                   <Image
                     className="w-5"
                     src="/images/user/home/social media/linkedin.svg"
@@ -25,8 +24,8 @@ function footer() {
                     width={30}
                     height={20}
                   />
-                </Link>
-                <Link href="https://m.youtube.com/@Lumashape">
+                </a>
+                <a href="https://m.youtube.com/@Lumashape">
                   <Image
                     className="w-5"
                     src="/images/user/home/social media/youtube.svg"
@@ -34,7 +33,7 @@ function footer() {
                     width={30}
                     height={20}
                   />
-                </Link>
+                </a>
               </div>
 
               <div className="text-center mt-4">
@@ -87,7 +86,7 @@ function footer() {
         </div>
 
         <div className="flex justify-between max-w-[70px] items-end gap-3 mb-6">
-          <Link href="https://www.linkedin.com/company/lumashape">
+          <a href="https://www.linkedin.com/company/lumashape">
             <Image
               className="w-5"
               src="/images/user/home/social media/linkedin.svg"
@@ -95,8 +94,8 @@ function footer() {
               width={30}
               height={20}
             />
-          </Link>
-          <Link href="https://m.youtube.com/@Lumashape">
+          </a>
+          <a href="https://m.youtube.com/@Lumashape">
             <Image
               className="w-5"
               src="/images/user/home/social media/youtube.svg"
@@ -104,7 +103,7 @@ function footer() {
               width={30}
               height={20}
             />
-          </Link>
+          </a>
         </div>
         <div className="">
           <p className="font-normal text-base text-[12px] text-[#22222280]">

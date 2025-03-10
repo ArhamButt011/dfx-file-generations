@@ -148,7 +148,7 @@ function Pricing() {
         transition={{ duration: 1 }}
         viewport={{ once: false }}
       >
-        <p className="font-bold md:text-[55px] text-[40px] text-center md:max-w-[80%] mx-auto md:mb-6 leading-[44px] mb-2">
+        <p className="font-bold md:text-[55px] text-[40px] text-center md:max-w-[80%] mx-auto md:mb- leading-[44px] mb-2">
           <span className="text-[#266CAB]">Our </span> Pricing Plans
         </p>
         <p className="text-center text-[#00000066] md:text-[29px] text-[23px] mx-auto font-medium md:max-w-[90%]">
@@ -156,97 +156,93 @@ function Pricing() {
           together.
         </p>
       </motion.div>
-      <div>
-        <div className="flex md:flex-row flex-col justify-center md:justify-between xl:justify-center gap-4 mt-10 items-center">
-          {bilingPlans.map((item) => (
-            <motion.div
-              key={item.id}
-              // Set the initial animation state based on the item id
-              initial={
-                item.id === 1
-                  ? { opacity: 0, x: -50 } // coming in from the left
-                  : item.id === 2
-                  ? { opacity: 0, y: 50 } // coming in from the bottom
-                  : item.id === 3
-                  ? { opacity: 0, x: -50 } // coming in from the right
-                  : { opacity: 0 }
-              }
-              // When in view, animate to these properties
-              whileInView={{ opacity: 1, x: 0, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className={clsx(
-                'border p-4 w-4/5 rounded-3xl flex flex-col justify-between',
-                item.id === 1 && 'h-[550px] md:w-[350px]',
-                item.id === 2 && 'h-[600px] md:w-[370px]',
-                item.id === 3 && 'h-[550px] md:w-[350px]',
-              )}
+      <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 justify-stretch items-center mt-10">
+        {bilingPlans.map((item) => (
+          <motion.div
+            key={item.id}
+            initial={
+              item.id === 1
+                ? { opacity: 0, x: -50 }
+                : item.id === 2
+                ? { opacity: 0, y: 50 }
+                : item.id === 3
+                ? { opacity: 0, x: 50 }
+                : { opacity: 0 }
+            }
+            whileInView={{ opacity: 1, x: 0, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className={clsx(
+              'border p-6 rounded-3xl flex flex-col justify-between mx-auto w-full max-w-[386px]',
+              item.id === 1 && 'h-[550px]',
+              item.id === 2 && 'h-[600px]',
+              item.id === 3 && 'h-[550px]',
+            )}
+            style={{
+              background: item.backgroundColor,
+              color: item.textColor,
+            }}
+          >
+            <div>
+              <p
+                className="font-medium text-base"
+                style={{ color: item.smallTextColor }}
+              >
+                {item.desc}
+              </p>
+              <p className="font-semibold text-3xl">{item.title}</p>
+              <p className="mt-6">
+                <span
+                  className="text-4xl font-semibold"
+                  style={{ color: item.priceColor }}
+                >
+                  {item.price.includes('/')
+                    ? item.price.split('/')[0]
+                    : item.price}
+                </span>
+                {item.price.includes('/') && (
+                  <span
+                    className="text-base font-medium"
+                    style={{ color: item.smallTextColor }}
+                  >
+                    /{item.price.split('/')[1]}
+                  </span>
+                )}
+              </p>
+
+              <p className="font-semibold text-base mt-5 mb-2">
+                What&apos;s Included
+              </p>
+              {item.include.map((inc) => (
+                <div key={inc.id} className="flex items-start pb-2">
+                  <Image
+                    src={item.icon}
+                    alt=""
+                    width={24}
+                    height={24}
+                    className="flex-shrink-0"
+                  />
+                  <p
+                    className="font-medium text-base"
+                    style={{ color: item.smallTextColor }}
+                  >
+                    {inc.text}
+                  </p>
+                </div>
+              ))}
+            </div>
+            <Link
+              href="/user"
+              className="mt-4 py-2 px-4 rounded-full text-center"
               style={{
-                background: item.backgroundColor,
-                color: item.textColor,
+                color: item.buttonTextColor,
+                background: item.buttonColor,
               }}
             >
-              <div>
-                <p
-                  className="font-medium text-base "
-                  style={{ color: `${item.smallTextColor}` }}
-                >
-                  {item.desc}
-                </p>
-                <p className="font-semibold text-3xl">{item.title}</p>
-                <p className="mt-6">
-                  <span
-                    className="text-4xl font-semibold"
-                    style={{ color: item.priceColor }}
-                  >
-                    {item.price.includes('/')
-                      ? item.price.split('/')[0]
-                      : item.price}
-                  </span>
-                  {item.price.includes('/') && (
-                    <span
-                      className="text-base font-medium"
-                      style={{ color: item.smallTextColor }}
-                    >
-                      /{item.price.split('/')[1]}
-                    </span>
-                  )}
-                </p>
-
-                <p className="font-semibold text-base mt-5 mb-2">
-                  What&apos;s Included
-                </p>
-                {item.include.map((inc) => (
-                  <div key={inc.id} className="flex items-start pb-2">
-                    <Image
-                      src={item.icon}
-                      alt=""
-                      width={24}
-                      height={24}
-                      className="flex-shrink-0"
-                    />
-                    <p
-                      className="font-medium text-base"
-                      style={{ color: `${item.smallTextColor}` }}
-                    >
-                      {inc.text}
-                    </p>
-                  </div>
-                ))}
-              </div>
-              <Link
-                href="/user"
-                className="mt-4 py-2 px-4 rounded-full text-center"
-                style={{
-                  color: `${item.buttonTextColor}`,
-                  background: `${item.buttonColor}`,
-                }}
-              >
-                {item.buttonText}
-              </Link>
-            </motion.div>
-          ))}
-        </div>
+              {item.buttonText}
+            </Link>
+          </motion.div>
+        ))}
       </div>
     </div>
   )
