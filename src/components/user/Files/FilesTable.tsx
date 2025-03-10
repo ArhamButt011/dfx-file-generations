@@ -363,7 +363,7 @@ function FilesTable() {
           <div className="flex items-center flex-col gap-3">
             <div className="flex justify-between items-center w-full mb-7">
               <div className="text-[#000000] text-[34px] font-semibold text-center flex-grow">
-                Edit Profile
+                Edit File Name
               </div>
               <div>
                 <Image

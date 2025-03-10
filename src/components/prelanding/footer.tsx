@@ -50,37 +50,43 @@ function footer() {
                 width={40}
                 height={20}
               />
-              <p>sam.peterson@lumashape.com</p>
+              <a
+                href="mailto:sam.peterson@lumashape.com"
+                className="text-[22px] text-[#266CA8] underline"
+              >
+                sam.peterson@lumashape.com
+              </a>
             </div>
           </div>
         </div>
       </div>
 
-      <div className=" md:hidden justify-between  ps-5 flex flex-col">
-        <div className="flex flex-col justify-between py-4]">
+      <div className="md:hidden justify-between flex flex-col items-center mt-6 mb-2">
+        <div className="flex flex-col justify-between mb-6">
           <Image
-            className="w-[259.2px] h-[56px] mob:w-[175.89px] mob:h-[38px] z-50"
-            src="/images/user/home/user_login.svg"
+            // className="w-[175.89px] h-[38px] z-50"
+            src="/images/lumashape.svg"
             alt=" Logo"
-            width={100}
-            height={100}
+            width={208}
+            height={38}
           />
         </div>
-        <div className="flex items-center">
+        <div className="flex items-center mb-4 gap-1">
           <Image
             src="/images/user/prelanding/letter.svg"
-            alt="star"
-            width={40}
+            alt="email"
+            width={30}
             height={20}
           />
-          <p>sam.peterson@lumashape.com</p>
+          <a
+            href="mailto:sam.peterson@lumashape.com"
+            className="text-[16px] text-[#266CA8] underline"
+          >
+            sam.peterson@lumashape.com
+          </a>
         </div>
-        <div className="flex h-full w-full text-center ">
-          <p className="font-normal text-base text-[#22222280]">
-            Lumashape LLC | © 2025 | All Rights Reserved
-          </p>
-        </div>
-        <div className="flex justify-between max-w-[70px] items-end  ">
+
+        <div className="flex justify-between max-w-[70px] items-end gap-3 mb-6">
           <Link href="https://www.linkedin.com/company/lumashape">
             <Image
               className="w-5"
@@ -99,6 +105,11 @@ function footer() {
               height={20}
             />
           </Link>
+        </div>
+        <div className="">
+          <p className="font-normal text-base text-[12px] text-[#22222280]">
+            Lumashape LLC | © 2025 | All Rights Reserved
+          </p>
         </div>
       </div>
     </div>

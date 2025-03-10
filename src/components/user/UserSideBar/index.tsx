@@ -15,6 +15,7 @@ import WhiteDownloadIcon from '/public/images/user/sidebar/whiteDownloadIcon.svg
 import GrayDownloadIcon from '/public/images/user/sidebar/GrayDownloadIcon.svg'
 import WhiteSubscriptionIcon from '/public/images/user/sidebar/whiteSubscriptionIcon.svg'
 import GraySubscriptionIcon from '/public/images/user/sidebar/GraySubcriptionIcon.svg'
+import GrayInstructionsIcon from '/public/images/user/sidebar/grayInstructionsIcon.svg'
 import { useAuth } from '@/context/AuthContext'
 import user from '/public/images/admin/dashboard/user.svg'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -23,7 +24,6 @@ import userImages from '/public/images/userImage.svg'
 import Swal from 'sweetalert2'
 import axios, { AxiosError } from 'axios'
 import blackCross from '/public/images/blackCross.svg'
-
 import eye from '/public/images/admin/eye.svg'
 import WarningIcon from '/public/images/user/warning.svg'
 import EditIcon from '/public/images/editIcon.svg'
@@ -51,6 +51,12 @@ const menuGroups = [
   {
     menuItems: [
       {
+        Whiteicon: GrayInstructionsIcon,
+        Grayicon: GrayInstructionsIcon,
+        label: 'Instructions',
+        route: '/instructions',
+      },
+      {
         Whiteicon: WhiteGenerateIcon,
         Grayicon: GrayGenerateIcon,
         label: 'Generate DXF',
@@ -62,6 +68,7 @@ const menuGroups = [
         label: 'Files History',
         route: '/downloaded-files',
       },
+
       {
         Whiteicon: WhiteSubscriptionIcon,
         Grayicon: GraySubscriptionIcon,
