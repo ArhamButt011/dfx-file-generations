@@ -148,7 +148,7 @@ function Pricing() {
         transition={{ duration: 1 }}
         viewport={{ once: false }}
       >
-        <p className="font-bold md:text-[55px] text-[40px] text-center md:max-w-[80%] mx-auto md:leading-[0px] leading-[44px] mb-2">
+        <p className="font-bold md:text-[55px] text-[40px] text-center md:max-w-[80%] mx-auto md:mb-6 leading-[44px] mb-2">
           <span className="text-[#266CAB]">Our </span> Pricing Plans
         </p>
         <p className="text-center text-[#00000066] md:text-[29px] text-[23px] mx-auto font-medium md:max-w-[90%]">

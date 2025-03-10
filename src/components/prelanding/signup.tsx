@@ -60,7 +60,7 @@ function Signup() {
         <form onSubmit={handleSignIn}>
           <div className="flex justify-center gap-[8px] mt-10 md:mb-24 mb-10">
             <input
-              className="w-full max-w-[477px] h-[44px] px-3 border-[1px] outline-none  rounded-xl  placeholder:text-[14px] placeholder:font-foghe"
+              className="w-full max-w-[477px] md:h-[44px] h-[42px] px-3 border-[1px] outline-none rounded-xl placeholder:text-[13px] placeholder:font-foghe"
               type="email"
               value={email}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -70,9 +70,9 @@ function Signup() {
             />
             <button
               type="submit"
-              className="bg-[#266CA8] text-white w-[140px] md:w-[130px] h-[44px] font-medium text-[14px]  rounded-xl"
+              className="bg-[#266CA8] text-white w-[156px] md:w-[130px] md:h-[44px] h-[42px]  font-medium md:text-[14px] text-[13px] rounded-xl"
             >
-              Submit
+              Get Connected
             </button>
           </div>
         </form>

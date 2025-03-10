@@ -12,7 +12,7 @@ function Choose() {
         transition={{ duration: 1 }}
         viewport={{ once: false }}
       >
-        <p className="font-bold md:text-5xl text-3xl text-center mb-3  md:leading-[0px] leading-[44px]">
+        <p className="font-bold md:text-5xl text-3xl text-center mb-3 md:mb-5 leading-[44px]">
           Why <span className="text-[#266CAB]">Choose</span> Our DXF Generator?
         </p>
         <p className="text-center text-[#00000066] md:text-[24px] text-[21px] mx-auto font-medium max-w-[90%]">
@@ -61,7 +61,7 @@ function Choose() {
             width={120}
             height={100}
           />
-          <p className="font-bold text-[30px] md:text-[32.57px]  text-center w-[80%] mt-5 mb-2">
+          <p className="font-bold text-[30px] md:text-[32.57px] text-center w-[80%] mt-5 mb-2 leading-[38.22px]">
             Production-Ready Outputs
           </p>
           <p className="text-center text-[#00000066] text-[21px] mx-auto font-medium max-w-[80%]">
