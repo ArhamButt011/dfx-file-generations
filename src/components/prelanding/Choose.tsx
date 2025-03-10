@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 
 function Choose() {
   return (
-    <div className=" max-w-[1328px] mx-auto" id="benefits">
+    <div className=" max-w-[1328px] mx-auto mb-6" id="benefits">
       <motion.div
         className="w-full"
         initial={{ opacity: 0, y: 50 }}
@@ -12,16 +12,13 @@ function Choose() {
         transition={{ duration: 1 }}
         viewport={{ once: false }}
       >
-        <p className="font-bold md:text-[55px] text-[40px] text-center">
+        <p className="font-bold md:text-5xl text-3xl text-center mb-3  md:leading-[0px] leading-[44px]">
           Why <span className="text-[#266CAB]">Choose</span> Our DXF Generator?
         </p>
-        <p className="text-center text-[#00000066] md:text-[29px] text-[23px] mx-auto font-medium max-w-[90%]">
-          Simplify the creation of DXF files with precision and ease. Designed
-          for both hobbyists and professionals, our software eliminates tedious
-          manual design work, delivers accurate files ready for manufacturing
-          custom tool drawer inserts, and saves you time and effort. Choose a
-          fast, reliable, and cost-effective solution that streamlines your
-          workflow and puts you in control.
+        <p className="text-center text-[#00000066] md:text-[24px] text-[21px] mx-auto font-medium max-w-[90%]">
+          Effortlessly create precise DXF files for custom tool drawer inserts
+          with our fast, reliable, and cost-effective software—designed to
+          streamline your workflow.
         </p>
       </motion.div>
       <div className="flex md:flex-row flex-col pt-20 justify-between items-start ">
@@ -40,7 +37,7 @@ function Choose() {
             width={120}
             height={100}
           />
-          <p className="font-bold text-[30px] text-center md:w-[70%] w-[50%] mt-5">
+          <p className="leading-[38.22px] font-bold text-[30px] md:text-[32.57px] text-center md:w-[70%] w-[50%] mt-5 mb-2">
             AI-Powered Precision
           </p>
           <p className="text-center text-[#00000066] text-[21px] mx-auto font-medium max-w-[80%]">
@@ -64,7 +61,7 @@ function Choose() {
             width={120}
             height={100}
           />
-          <p className="font-bold text-[30px] text-center w-[80%] mt-5">
+          <p className="font-bold text-[30px] md:text-[32.57px]  text-center w-[80%] mt-5 mb-2">
             Production-Ready Outputs
           </p>
           <p className="text-center text-[#00000066] text-[21px] mx-auto font-medium max-w-[80%]">
@@ -89,7 +86,7 @@ function Choose() {
             width={120}
             height={100}
           />
-          <p className="font-bold text-[30px] text-center w-[80%] mt-5">
+          <p className="font-bold text-[30px] md:text-[32.57px]  text-center w-[80%] mt-5 mb-2">
             Customer Support
           </p>
           <p className="text-center text-[#00000066] text-[21px] mx-auto font-medium max-w-[80%]">

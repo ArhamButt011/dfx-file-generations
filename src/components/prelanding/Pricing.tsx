@@ -138,7 +138,7 @@ const bilingPlans: DataItem[] = [
 function Pricing() {
   return (
     <div
-      className="xl:max-w-[1200px] max-w-[90%] mx-auto md:py-20"
+      className="xl:max-w-[1200px] max-w-[90%] mx-auto md:py-20 mt-12"
       id="pricing"
     >
       <motion.div
@@ -148,7 +148,7 @@ function Pricing() {
         transition={{ duration: 1 }}
         viewport={{ once: false }}
       >
-        <p className="font-bold md:text-[55px] text-[40px] text-center md:max-w-[80%] mx-auto">
+        <p className="font-bold md:text-[55px] text-[40px] text-center md:max-w-[80%] mx-auto md:leading-[0px] leading-[44px] mb-2">
           <span className="text-[#266CAB]">Our </span> Pricing Plans
         </p>
         <p className="text-center text-[#00000066] md:text-[29px] text-[23px] mx-auto font-medium md:max-w-[90%]">
@@ -177,12 +177,9 @@ function Pricing() {
               viewport={{ once: true }}
               className={clsx(
                 'border p-4 w-4/5 rounded-3xl flex flex-col justify-between',
-                item.id === 1 &&
-                  'h-[550px] md:w-[350px]',
-                item.id === 2 &&
-                  'h-[600px] md:w-[370px]',
-                item.id === 3 &&
-                  'h-[550px] md:w-[350px]',
+                item.id === 1 && 'h-[550px] md:w-[350px]',
+                item.id === 2 && 'h-[600px] md:w-[370px]',
+                item.id === 3 && 'h-[550px] md:w-[350px]',
               )}
               style={{
                 background: item.backgroundColor,
