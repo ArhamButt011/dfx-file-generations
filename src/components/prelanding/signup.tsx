@@ -50,17 +50,17 @@ function Signup() {
         </div>
       )}
       <div className="md:max-w-[1328px] max-w-[90%] mx-auto">
-        <h1 className="md:text-5xl text-3xl text-center  font-bold mt-10 mb-5">
+        <h1 className="md:text-[49.23px] text-[34.23px] text-center font-bold mt-10 mb-5">
           Get Updated Or Support New Ideas!!
         </h1>
-        <p className="md:text-xl text-lg text-center font-medium text-[#00000066] max-w-[700px] mx-auto">
+        <p className="md:text-[24px] text-[21px] text-center font-medium text-[#00000066] max-w-[700px] mx-auto">
           Stay in the loop as we get ready to launch Lumashape! Sign up with
           your email below for exclusive updates and early access.
         </p>
         <form onSubmit={handleSignIn}>
           <div className="flex justify-center gap-[8px] mt-10 md:mb-24 mb-10">
             <input
-              className="w-full max-w-[477px] md:h-[44px] h-[42px] px-3 border-[1px] outline-none rounded-xl placeholder:text-[13px] placeholder:font-foghe"
+              className="w-full max-w-[477px] md:h-[44px] h-[42px] px-3 border-[1px] outline-none rounded-xl placeholder:text-[13px] md:placeholder:text-[14px] placeholder:font-foghe"
               type="email"
               value={email}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {

@@ -13,8 +13,8 @@ export function middleware(req: NextRequest) {
     pathname !== '/' && // Allow only the root
     !pathname.startsWith('/_next/') && // Allow Next.js static assets
     !pathname.startsWith('/api/') && // Allow API routes
-    !pathname.startsWith('/images/') && // ✅ Allow images from public
-    !pathname.startsWith('/video/') // ✅ Allow videos from public
+    !pathname.startsWith('/images/') &&
+    !pathname.startsWith('/video/')
   ) {
     console.log(`Redirecting ${pathname} to /`)
     return NextResponse.redirect(new URL('/', req.url))

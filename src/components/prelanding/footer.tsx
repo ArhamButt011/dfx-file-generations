@@ -42,13 +42,15 @@ function footer() {
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-2">
-              <Image
-                src="/images/user/prelanding/letter.svg"
-                alt="Email"
-                width={40}
-                height={20}
-              />
+            <div className="flex items-center gap-1">
+              <div className="mt-[1px]">
+                <Image
+                  src="/images/user/prelanding/letter.svg"
+                  alt="Email"
+                  width={32}
+                  height={20}
+                />
+              </div>
               <a
                 href="mailto:sam.peterson@lumashape.com"
                 className="text-[22px] text-[#266CA8] underline"
@@ -74,7 +76,7 @@ function footer() {
           <Image
             src="/images/user/prelanding/letter.svg"
             alt="email"
-            width={30}
+            width={26}
             height={20}
           />
           <a
