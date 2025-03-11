@@ -50,6 +50,7 @@ export async function GET(req: NextRequest) {
       if (downloads.length > 0) {
         allDownloads.push(
           ...downloads.map((download) => ({
+            _id: download._id,
             user_id: user._id,
             user_name: user.name,
             email: user.email,
