@@ -69,6 +69,7 @@ export async function GET(req: NextRequest) {
             email: user.email,
             image: user.image,
             plan_name: subscription.plan_name,
+            status: subscription.status,
             duration: subscription.duration,
             added_on: subscription.added_on,
             expiry_on: subscription.expiry_on,

@@ -27,6 +27,7 @@ const FileDetails = () => {
   const [outlineUrl, setOutlineUrl] = useState('')
   const [overlay, setOverlay] = useState('')
   const [dfxFile, setDfxFile] = useState('')
+  const [fileName, setFileName] = useState('')
   const [fileSize, setFileSize] = useState<number | null>(null)
   const [outline, setOutline] = useState('')
 
@@ -41,6 +42,7 @@ const FileDetails = () => {
           setOverlayUrl(data?.overlay_url)
           setOutlineUrl(data?.outline_url)
           setDfxFile(data?.file_url)
+          setFileName(data.file_name)
           const convertToBase64 = async (url: string): Promise<string> => {
             const response = await fetch(url)
             const blob = await response.blob()
@@ -75,9 +77,9 @@ const FileDetails = () => {
 
   const getFileSize = async (url: string) => {
     try {
-      const response = await fetch(url, { method: 'HEAD' }) // Fetch only headers
-      const size = response.headers.get('Content-Length') // Get file size in bytes
-      return size ? parseInt(size, 10) / 1024 : 0 // Convert bytes to KB
+      const response = await fetch(url, { method: 'HEAD' })
+      const size = response.headers.get('Content-Length')
+      return size ? parseInt(size, 10) / 1024 : 0
     } catch (err) {
       Swal.fire({
         title: 'Error',
@@ -349,10 +351,8 @@ const FileDetails = () => {
                   <h3 className="font-semibold text-lg mb-3 self-center w-full max-w-xs">
                     DXF File
                   </h3>
-                  <div className="flex items-center w-full max-w-xs bg-white px-8 py-3 rounded-full self-center">
-                    <span className="truncate text-sm">
-                      {dfxFile.split('/').pop()}
-                    </span>
+                  <div className="flex items-center justify-between w-full max-w-xs bg-white px-8 py-3 rounded-full self-center">
+                    <span className="truncate text-sm">{fileName}</span>
                     <span className="flex items-center gap-2">
                       <p className="font-medium text-sm">{fileSize}kb</p>
                       <Image

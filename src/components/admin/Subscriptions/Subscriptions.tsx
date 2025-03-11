@@ -19,6 +19,7 @@ interface Subscriptions {
   added_on: string
   charges: string
   image: string
+  status: string
 }
 
 const Subscriptions = () => {
@@ -63,6 +64,16 @@ const Subscriptions = () => {
   useEffect(() => {
     fetchSubscriptions()
   }, [fetchSubscriptions])
+
+  const getStatus = (expiryDate: string, status: string): string => {
+    if (status === 'canceled') {
+      return 'Canceled'
+    } else {
+      const currentDate = new Date()
+      const expiryDateObj = new Date(expiryDate)
+      return currentDate < expiryDateObj ? 'Current' : 'Past'
+    }
+  }
 
   return (
     <div>
@@ -117,62 +128,83 @@ const Subscriptions = () => {
               <th className="pb-6 px-4 border-b text-center font-medium">
                 Charges
               </th>
+              <th className="pb-6 px-4 border-b text-center font-medium">
+                Status
+              </th>
             </tr>
           </thead>
           <tbody>
-            {subscriptions.map((user, index) => (
-              <tr
-                key={index}
-                className="text-primary bg-[#F5F5F5] text-[16.45px]"
-              >
-                <td className="py-3 px-4 text-start font-medium rounded-l-xl">
-                  #{(currentPage - 1) * 10 + (index + 1)}
-                </td>
-                <td className="py-3 px-4 text-start text-[19px] font-medium text-[#000000]">
-                  {user.plan_name}
-                </td>
-                <td className="py-3 px-4 text-start font-medium">
-                  {user.duration}
-                </td>
-                <td className="py-3 px-4 text-start font-medium">
-                  <div className="flex justify-start align-center gap-3">
-                    <div>
-                      <div className="w-12 h-12 rounded-full overflow-hidden">
-                        <Image
-                          src={user?.image ? user.image : userImage}
-                          alt="userImage"
-                          className="w-full h-full object-cover"
-                          width={30}
-                          height={30}
-                          priority
-                        />
+            {subscriptions.map((user, index) => {
+              const status = getStatus(user?.expiry_on, user?.status)
+              return (
+                <tr
+                  key={index}
+                  className="text-primary bg-[#F5F5F5] text-[16.45px]"
+                >
+                  <td className="py-3 px-4 text-start font-medium rounded-l-xl">
+                    #{(currentPage - 1) * 10 + (index + 1)}
+                  </td>
+                  <td className="py-3 px-4 text-start text-[19px] font-medium text-[#000000]">
+                    {user.plan_name}
+                  </td>
+                  <td className="py-3 px-4 text-start font-medium">
+                    {user.duration}
+                  </td>
+                  <td className="py-3 px-4 text-start font-medium">
+                    <div className="flex justify-start align-center gap-3">
+                      <div>
+                        <div className="w-12 h-12 rounded-full overflow-hidden">
+                          <Image
+                            src={user?.image ? user.image : userImage}
+                            alt="userImage"
+                            className="w-full h-full object-cover"
+                            width={30}
+                            height={30}
+                            priority
+                          />
+                        </div>
+                      </div>
+                      <div className="flex flex-col gap-0">
+                        <span className="font-semibold text-gray-800 text-[17px]">
+                          {user.user_name}
+                        </span>
+                        <span className="text-gray-500 text-[13px] font-medium">
+                          {user.email}
+                        </span>
                       </div>
                     </div>
-                    <div className="flex flex-col gap-0">
-                      <span className="font-semibold text-gray-800 text-[17px]">
-                        {user.user_name}
-                      </span>
-                      <span className="text-gray-500 text-[13px] font-medium">
-                        {user.email}
-                      </span>
-                    </div>
-                  </div>
-                </td>
-                <td className="py-3 px-4 text-start font-medium">
-                  {user?.added_on
-                    ? format(new Date(user.added_on), 'MMM dd, yyyy')
-                    : 'N/A'}
-                </td>
-                <td className="py-3 px-4 text-start font-medium">
-                  {user?.expiry_on
-                    ? format(new Date(user.expiry_on), 'MMM dd, yyyy')
-                    : 'N/A'}
-                </td>
-                <td className="py-3 px-4 text-center text-[21px] font-medium rounded-r-xl text-[#266CA8]">
-                  ${user.charges}
-                </td>
-              </tr>
-            ))}
+                  </td>
+                  <td className="py-3 px-4 text-start font-medium">
+                    {user?.added_on
+                      ? format(new Date(user.added_on), 'MMM dd, yyyy')
+                      : 'N/A'}
+                  </td>
+                  <td className="py-3 px-4 text-start font-medium">
+                    {user?.expiry_on
+                      ? format(new Date(user.expiry_on), 'MMM dd, yyyy')
+                      : 'N/A'}
+                  </td>
+                  <td className="py-3 px-4 text-center text-[21px] font-medium text-[#266CA8]">
+                    ${user.charges}
+                  </td>
+                  <td
+                    className={`py-5 pl-10 text-center font-medium rounded-r-xl`}
+                  >
+                    <span
+                      className={`${
+                        status === 'Current'
+                          ? 'text-[#266CA8] bg-[#E0E7ED] rounded-full px-4 py-2'
+                          : status === 'Canceled'
+                          ? 'bg-[#DB9E9E] text-[#D32F2F] px-3 py-2 rounded-full'
+                          : 'bg-[#F9A0001A] text-[#F9A000] px-8 py-2 rounded-full'
+                      }`}
+                    >
+                      {status}
+                    </span>
+                  </td>
+                </tr>
+              )
+            })}
           </tbody>
         </table>
       ) : (

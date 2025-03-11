@@ -8,9 +8,10 @@ import userImage from '/public/images/admin/emptyUser.svg'
 import { ObjectId } from 'mongodb'
 import { ClipLoader } from 'react-spinners'
 import searchIcon from '/public/images/searchIcon.svg'
+import Link from 'next/link'
 
 interface Download {
-  _id: ObjectId
+  _id: string
   user_id: ObjectId
   user_name: string
   email: string
@@ -61,6 +62,8 @@ const DXFDownloads = () => {
     fetchDownloads()
   }, [fetchDownloads])
 
+  console.log('downloads-> ', downloads)
+
   return (
     <div>
       <Breadcrumb
@@ -102,6 +105,9 @@ const DXFDownloads = () => {
               </th>
               <th className="pb-6 px-4 border-b text-center font-medium">
                 Downloaded On
+              </th>
+              <th className="pb-6 px-4 border-b text-center font-medium">
+                Action
               </th>
             </tr>
           </thead>
@@ -145,6 +151,14 @@ const DXFDownloads = () => {
                 <td className="py-3 px-4 text-center text-lg font-medium rounded-r-xl">
                   {format(new Date(data.downloaded_on), 'MMM dd, yyyy')}
                 </td>
+                <td className="py-3 px-4 text-center text-lg font-medium rounded-r-xl text-[#266CA8]">
+                  <Link
+                    href={`/admin/dxf-downloads/${data._id}`}
+                    className="border-b-blue-500 border-b font-semibold "
+                  >
+                    View Details
+                  </Link>
+                </td>
               </tr>
             ))}
           </tbody>
@@ -153,7 +167,7 @@ const DXFDownloads = () => {
         <div className="flex flex-col items-center mt-20">
           <Image
             src={noDownloads}
-            alt="No payment details found"
+            alt="No downloads found"
             width={200}
             height={200}
             priority

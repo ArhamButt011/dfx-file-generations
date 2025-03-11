@@ -6,8 +6,10 @@ import { useParams } from 'next/navigation'
 import { ClipLoader } from 'react-spinners'
 import noDownloads from '/public/images/admin/allusers/nodownloads.svg'
 import searchIcon from '/public/images/searchIcon.svg'
+import Link from 'next/link'
 
 interface Subscriptions {
+  _id: string
   order_id: string
   plan_name: string
   duration: string
@@ -18,6 +20,7 @@ interface Subscriptions {
   status: string
 }
 interface Downloads {
+  _id: string
   order_id: string
   file_name: string
   downloaded_on: string
@@ -184,8 +187,11 @@ const DownloadsSubscriptions = () => {
                   <th className="pb-4 px-4 border-b text-start font-medium">
                     File Name
                   </th>
-                  <th className="pb-4 px-4 border-b text-right font-medium">
+                  <th className="pb-4 px-4 border-b text-center font-medium">
                     Downloaded On
+                  </th>
+                  <th className="pb-4 px-4 border-b text-center font-medium">
+                    Action
                   </th>
                 </tr>
               </thead>
@@ -198,8 +204,16 @@ const DownloadsSubscriptions = () => {
                     <td className="py-3 px-4 border-b text-start font-medium text-[#000000]">
                       {data.file_name}
                     </td>
-                    <td className="py-3 px-4 border-b text-right text-[20px] font-medium text-[#00000066]">
+                    <td className="py-3 px-4 border-b text-center text-[20px] font-medium text-[#00000066]">
                       {format(new Date(data.downloaded_on), 'MMM dd, yyyy')}
+                    </td>
+                    <td className="py-3 text-center text-lg font-medium text-[#266CA8] border-b">
+                      <Link
+                        href={`/admin/allusers/${id}/files-details/${data._id}/`}
+                        className="border-b-blue-500 border-b font-semibold "
+                      >
+                        View Details
+                      </Link>
                     </td>
                   </tr>
                 ))}
