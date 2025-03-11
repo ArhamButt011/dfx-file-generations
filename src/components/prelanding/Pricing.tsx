@@ -57,7 +57,7 @@ const bilingPlans: DataItem[] = [
   },
   {
     id: 2,
-    desc: 'Pay Per Download',
+    desc: 'For Samll Teams',
     title: 'Basic',
     price: '',
     include: [
@@ -90,7 +90,7 @@ const bilingPlans: DataItem[] = [
   },
   {
     id: 3,
-    desc: 'Unlimited Plan',
+    desc: 'For Professionals',
     title: 'Premium',
     price: '',
     include: [
@@ -161,93 +161,95 @@ function Pricing() {
           together.
         </p>
       </motion.div>
-      <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 justify-stretch items-center mt-12">
-        {bilingPlans.map((item) => (
-          <motion.div
-            key={item.id}
-            initial={
-              item.id === 1
-                ? { opacity: 0, x: -50 }
-                : item.id === 2
-                ? { opacity: 0, y: 50 }
-                : item.id === 3
-                ? { opacity: 0, x: 50 }
-                : { opacity: 0 }
-            }
-            whileInView={{ opacity: 1, x: 0, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className={clsx(
-              'border p-6 rounded-3xl flex flex-col justify-between mx-auto w-full max-w-[386px]',
-              item.id === 1 && 'h-[550px]',
-              item.id === 2 && 'h-[600px]',
-              item.id === 3 && 'h-[550px]',
-            )}
-            style={{
-              background: item.backgroundColor,
-              color: item.textColor,
-            }}
-          >
-            <div>
-              <p
-                className="font-medium text-base"
-                style={{ color: item.smallTextColor }}
-              >
-                {item.desc}
-              </p>
-              <p className="font-semibold text-3xl">{item.title}</p>
-              <p className="mt-6">
-                <span
-                  className="text-4xl font-semibold"
-                  style={{ color: item.priceColor }}
-                >
-                  {item.price.includes('/')
-                    ? item.price.split('/')[0]
-                    : item.price}
-                </span>
-                {item.price.includes('/') && (
-                  <span
-                    className="text-base font-medium"
-                    style={{ color: item.smallTextColor }}
-                  >
-                    /{item.price.split('/')[1]}
-                  </span>
-                )}
-              </p>
-
-              <p className="font-semibold text-base mt-5 mb-2">
-                What&apos;s Included
-              </p>
-              {item.include.map((inc) => (
-                <div key={inc.id} className="flex items-start pb-2">
-                  <Image
-                    src={item.icon}
-                    alt=""
-                    width={24}
-                    height={24}
-                    className="flex-shrink-0"
-                  />
-                  <p
-                    className="font-medium text-base"
-                    style={{ color: item.smallTextColor }}
-                  >
-                    {inc.text}
-                  </p>
-                </div>
-              ))}
-            </div>
-            <Link
-              href="/user"
-              className="mt-4 py-2 px-4 rounded-full text-center"
+      <div className="w-full overflow-hidden">
+        <div className="w-full grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-2 justify-stretch items-center mt-12">
+          {bilingPlans.map((item) => (
+            <motion.div
+              key={item.id}
+              initial={
+                item.id === 1
+                  ? { opacity: 0, x: -50 }
+                  : item.id === 2
+                  ? { opacity: 0, y: 50 }
+                  : item.id === 3
+                  ? { opacity: 0, x: 50 }
+                  : { opacity: 0 }
+              }
+              whileInView={{ opacity: 1, x: 0, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              className={clsx(
+                'border p-6 rounded-3xl flex flex-col justify-between mx-auto w-full md:max-w-[386px] max-w-[350px]',
+                item.id === 1 && 'h-[550px]',
+                item.id === 2 && 'h-[600px]',
+                item.id === 3 && 'h-[550px]',
+              )}
               style={{
-                color: item.buttonTextColor,
-                background: item.buttonColor,
+                background: item.backgroundColor,
+                color: item.textColor,
               }}
             >
-              {item.buttonText}
-            </Link>
-          </motion.div>
-        ))}
+              <div>
+                <p
+                  className="font-medium text-base"
+                  style={{ color: item.smallTextColor }}
+                >
+                  {item.desc}
+                </p>
+                <p className="font-semibold text-3xl">{item.title}</p>
+                <p className="mt-6">
+                  <span
+                    className="text-4xl font-semibold"
+                    style={{ color: item.priceColor }}
+                  >
+                    {item.price.includes('/')
+                      ? item.price.split('/')[0]
+                      : item.price}
+                  </span>
+                  {item.price.includes('/') && (
+                    <span
+                      className="text-base font-medium"
+                      style={{ color: item.smallTextColor }}
+                    >
+                      /{item.price.split('/')[1]}
+                    </span>
+                  )}
+                </p>
+
+                <p className="font-semibold text-base mt-5 mb-2">
+                  What&apos;s Included
+                </p>
+                {item.include.map((inc) => (
+                  <div key={inc.id} className="flex items-start pb-2">
+                    <Image
+                      src={item.icon}
+                      alt=""
+                      width={24}
+                      height={24}
+                      className="flex-shrink-0"
+                    />
+                    <p
+                      className="font-medium text-base"
+                      style={{ color: item.smallTextColor }}
+                    >
+                      {inc.text}
+                    </p>
+                  </div>
+                ))}
+              </div>
+              <Link
+                href="/user"
+                className="mt-4 py-2 px-4 rounded-full text-center"
+                style={{
+                  color: item.buttonTextColor,
+                  background: item.buttonColor,
+                }}
+              >
+                {item.buttonText}
+              </Link>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </div>
   )
