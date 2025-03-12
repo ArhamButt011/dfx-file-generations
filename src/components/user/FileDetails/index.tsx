@@ -275,11 +275,9 @@ const FileDetails = () => {
                     />
                   </div>
                   <div
-                    className="w-full bg-center bg-contain bg-no-repeat rounded-xl overflow-hidden border mx-auto"
+                    className="md:w-75 md:h-75 xl:w-75 xl:h-75 w-65 h-65 bg-center bg-contain bg-no-repeat rounded-xl overflow-hidden border mx-auto"
                     style={{
                       backgroundImage: `url(${overlay})`,
-                      height: '20rem',
-                      width: '20rem',
                     }}
                   />
                 </div>
@@ -304,11 +302,9 @@ const FileDetails = () => {
                     />
                   </div>
                   <div
-                    className="w-64 h-64 bg-center bg-contain bg-no-repeat rounded-xl overflow-hidden border mx-auto"
+                    className="md:w-75 md:h-75 xl:w-75 xl:h-75 w-65 h-65 bg-center bg-contain bg-no-repeat rounded-xl overflow-hidden border mx-auto"
                     style={{
                       backgroundImage: `url(${outline})`,
-                      height: '20rem',
-                      width: '20rem',
                     }}
                   />
                 </div>
@@ -335,11 +331,9 @@ const FileDetails = () => {
                     />
                   </div>
                   <div
-                    className="w-full h-64 bg-center bg-contain bg-no-repeat rounded-xl overflow-hidden border mx-auto"
+                    className="md:w-75 md:h-75 xl:w-75 xl:h-75 w-65 h-65 bg-center bg-contain bg-no-repeat rounded-xl overflow-hidden border mx-auto"
                     style={{
                       backgroundImage: `url(${mask})`,
-                      height: '20rem',
-                      width: '20rem',
                     }}
                   />
                 </div>
@@ -347,8 +341,8 @@ const FileDetails = () => {
 
               {/* DXF File */}
               {dfxFile && (
-                <div className="flex flex-col">
-                  <h3 className="font-semibold text-lg mb-3 self-center w-full max-w-xs">
+                <div className="flex flex-col px-7 md:px-0">
+                  <h3 className="font-semibold text-lg mb-3 self-center w-full max-w-xs xl:pl-1">
                     DXF File
                   </h3>
                   <div className="flex items-center justify-between w-full max-w-xs bg-white px-8 py-3 rounded-full self-center">

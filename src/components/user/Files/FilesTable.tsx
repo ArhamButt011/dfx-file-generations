@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { format } from 'date-fns'
 import noDownloads from '/public/images/admin/noDownloads.svg'
 import searchIcon from '/public/images/searchIcon.svg'
@@ -45,14 +45,35 @@ function FilesTable() {
   const [fileName, setfileName] = useState('')
   const [isEditOpen, setIsEditOpen] = useState<boolean>(false)
   const [editLoading, setEditLoading] = useState(false)
-
-  console.log(downloads)
-  const handlePageChange = (newPage: number) => {
-    setCurrentPage(newPage)
-    console.log(currentPage)
-  }
+  const [openDropdown, setOpenDropdown] = useState<number | null>(null)
+  const dropdownRef = useRef<HTMLDivElement | null>(null)
   const { userData } = useAuth()
   const userId = userData?.id
+
+  const toggleDropdown = (index: number) => {
+    setOpenDropdown(openDropdown === index ? null : index)
+  }
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      dropdownRef.current &&
+      !(dropdownRef.current as HTMLDivElement).contains(event.target as Node)
+    ) {
+      setOpenDropdown(null)
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage)
+  }
+
   const fetchDownloads = useCallback(async () => {
     console.log(searchQuery)
 
@@ -225,7 +246,7 @@ function FilesTable() {
         <div className="w-full overflow-x-auto">
           <div className="w-full max-w-[200px] lg:max-w-full">
             <table className="w-full rounded-3xl whitespace-nowrap">
-              <thead className="bg-[#266CA8] rounded-3xl">
+              <thead className="bg-[#C6C9CB] rounded-3xl">
                 <tr className="text-[18.45px] text-white">
                   <th className="p-3 border-b text-start font-medium rounded-tl-3xl">
                     Sr No
@@ -242,7 +263,7 @@ function FilesTable() {
                 </tr>
               </thead>
               <tbody>
-                {downloads.map((data: Downloads, index: number) => (
+                {downloads.map((data, index) => (
                   <tr
                     key={index}
                     className={`text-primary text-[16.45px] ${
@@ -259,39 +280,71 @@ function FilesTable() {
                       #{(currentPage - 1) * 10 + index + 1}
                     </td>
                     <td className="py-4 px-4 text-center font-medium text-[19px] text-[#000000]">
-                      <div className="flex items-center justify-center gap-2">
-                        <>
-                          <span>{data.file_name}</span>
-                          <Image
-                            src={editImage}
-                            alt="edit"
-                            className="cursor-pointer"
-                            onClick={() => {
-                              return (
-                                setEditingFileId(data._id), setIsEditOpen(true)
-                              )
-                            }}
-                          />
-                        </>
-                      </div>
-                    </td>
+                      <span>{data.file_name}</span>
 
+                      {/* <div className="flex items-center justify-center gap-2">
+                        <span>{data.file_name}</span>
+                        <Image
+                          src={editImage}
+                          alt="edit"
+                          className="cursor-pointer"
+                          onClick={() => {
+                            setEditingFileId(data._id)
+                            setIsEditOpen(true)
+                          }}
+                        />
+                      </div> */}
+                    </td>
                     <td className="py-4 px-4 text-center text-lg font-medium">
                       {format(new Date(data.downloaded_on), 'MMM dd, yyyy')}
                     </td>
                     <td
-                      className={`py-4 px-4 text-center text-lg font-medium ${
+                      className={`py-4 px-4 text-center text-lg font-medium relative ${
                         index === downloads.length - 1
                           ? 'rounded-br-3xl border-0'
                           : 'border-r'
                       }`}
                     >
-                      <Link
-                        href={`/downloaded-files/${data._id}`}
-                        className="font-medium text-[16px] text-[#266CA8]"
+                      {/* Three-dot button */}
+                      <button
+                        onClick={() => toggleDropdown(index)}
+                        className="text-gray-600 hover:text-gray-800 focus:outline-none"
                       >
-                        View Detail
-                      </Link>
+                        ⋮
+                      </button>
+
+                      {/* Dropdown Menu */}
+                      {openDropdown === index && (
+                        <div
+                          ref={dropdownRef}
+                          className="absolute right-0 mt-2 w-32 bg-white border border-gray-200 shadow-md rounded-md z-50"
+                        >
+                          <ul className="py-1 text-gray-700">
+                            <li className="px-4 py-1 hover:bg-gray-100 cursor-pointer text-[16px] font-medium">
+                              <Link href={`/downloaded-files/${data._id}`}>
+                                View Detail
+                              </Link>
+                            </li>
+                            <li
+                              className="px-4 py-1 hover:bg-gray-100 cursor-pointer text-[16px] font-medium"
+                              onClick={() => {
+                                setEditingFileId(data._id)
+                                setIsEditOpen(true)
+                              }}
+                            >
+                              <div className="flex w-full justify-center">
+                                Edit
+                                <Image
+                                  src={editImage}
+                                  alt="edit"
+                                  width={20}
+                                  height={20}
+                                />
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                      )}
                     </td>
                   </tr>
                 ))}
