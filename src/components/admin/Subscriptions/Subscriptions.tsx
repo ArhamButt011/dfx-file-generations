@@ -188,7 +188,7 @@ const Subscriptions = () => {
                     ${user.charges}
                   </td>
                   <td
-                    className={`py-5 pl-10 text-center font-medium rounded-r-xl`}
+                    className={`py-5 pl-2 text-center font-medium rounded-r-xl`}
                   >
                     <span
                       className={`${
