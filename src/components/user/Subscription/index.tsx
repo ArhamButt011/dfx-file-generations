@@ -120,13 +120,14 @@ const Index: React.FC<SubscriptionProps> = ({
             <>
               <div className="flex justify-between">
                 <div>
-                  <p className="font-semibold text-xl">
-                    {subscriptions[0]?.plan_name} Plan{' '}
-                    <span className="font-medium text-xs bg-[#266CA81A] text-[#266CA8] px-2 py-1 rounded-full">
+                  <p className="font-semibold text-[29px] flex items-center gap-2">
+                    <div>{subscriptions[0]?.plan_name} Plan </div>
+
+                    <div className="font-medium text-[17px] bg-[#266CA81A] text-[#266CA8] px-2 py-[2px] rounded-full">
                       Monthly
-                    </span>
+                    </div>
                   </p>
-                  <p className="text-[16.33px] text-[#00000080] font-medium">
+                  <p className="text-[16.33px] text-[#00000080] font-medium mt-1">
                     {subscriptions[0]?.plan_name === 'Basic'
                       ? 'Our most popular plan for small teams.'
                       : ''}

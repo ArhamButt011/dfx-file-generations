@@ -1,8 +1,8 @@
 import Image from 'next/image'
-import Link from 'next/link'
 import React from 'react'
 import clsx from 'clsx'
 import { motion } from 'framer-motion'
+import { useRouter } from 'next/navigation'
 type included = {
   id: number
   text: string
@@ -38,6 +38,10 @@ const bilingPlans: DataItem[] = [
       },
       {
         id: 2,
+        text: 'Full access to DXF customization tools',
+      },
+      {
+        id: 2,
         text: 'No payment required',
       },
     ],
@@ -67,11 +71,11 @@ const bilingPlans: DataItem[] = [
       },
       {
         id: 3,
-        text: 'Cancel or modify anytime',
+        text: 'Secure payment processing',
       },
       {
         id: 4,
-        text: 'Secure payment processing',
+        text: 'Cancel or modify anytime',
       },
     ],
     buttonText: 'Get Started',
@@ -100,19 +104,20 @@ const bilingPlans: DataItem[] = [
       },
       {
         id: 3,
-        text: 'Batch image processing (up to 4 images per batch)',
+        text: 'Batch image processing',
       },
       {
         id: 4,
-        text: 'Advanced file management (organize, rename, and tag DXF files)',
+        text: 'Advanced file management',
       },
       {
         id: 5,
-        text: 'Automated cloud backup C sync',
+        text:
+          'Automated cloud file syncing (Google Drive, OneDrive, and Dropbox)',
       },
       {
         id: 6,
-        text: 'Customer Support',
+        text: 'Exclusive Customer Support',
       },
       {
         id: 7,
@@ -120,7 +125,7 @@ const bilingPlans: DataItem[] = [
       },
       {
         id: 8,
-        text: 'Secure payment processing',
+        text: 'And more...',
       },
     ],
     buttonText: 'Get Started',
@@ -136,9 +141,11 @@ const bilingPlans: DataItem[] = [
 ]
 
 function Pricing() {
+  const router = useRouter()
+
   return (
     <div
-      className="xl:max-w-[1200px] max-w-[90%] mx-auto md:py-20"
+      className="xl:max-w-[1200px] max-w-[90%] mx-auto md:py-20 mt-12 md:mt-0"
       id="pricing"
     >
       <motion.div
@@ -148,41 +155,36 @@ function Pricing() {
         transition={{ duration: 1 }}
         viewport={{ once: false }}
       >
-        <p className="font-bold md:text-[55px] text-[40px] text-center md:max-w-[80%] mx-auto">
+        <p className="font-bold md:text-[48px] text-[40px] text-center md:max-w-[80%] mx-auto leading-[44px] md:mb-6">
           <span className="text-[#266CAB]">Our </span> Pricing Plans
         </p>
-        <p className="text-center text-[#00000066] md:text-[29px] text-[23px] mx-auto font-medium md:max-w-[90%]">
+        <p className="text-center text-[#00000066] md:text-[24px] text-[21px] mx-auto font-medium md:max-w-[90%]">
           Choose a plan that fits your needs, and let&apos;s start designing
           together.
         </p>
       </motion.div>
-      <div>
-        <div className="flex md:flex-row flex-col justify-center md:justify-between xl:justify-center gap-4 mt-10 items-center">
+      <div className="w-full overflow-hidden">
+        <div className="w-full grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-2 justify-stretch items-center mt-12">
           {bilingPlans.map((item) => (
             <motion.div
               key={item.id}
-              // Set the initial animation state based on the item id
               initial={
                 item.id === 1
-                  ? { opacity: 0, x: -50 } // coming in from the left
+                  ? { opacity: 0, x: -50 }
                   : item.id === 2
-                  ? { opacity: 0, y: 50 } // coming in from the bottom
+                  ? { opacity: 0, y: 50 }
                   : item.id === 3
-                  ? { opacity: 0, x: -50 } // coming in from the right
+                  ? { opacity: 0, x: 50 }
                   : { opacity: 0 }
               }
-              // When in view, animate to these properties
               whileInView={{ opacity: 1, x: 0, y: 0 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
               className={clsx(
-                'border p-4 w-4/5 rounded-3xl flex flex-col justify-between',
-                item.id === 1 &&
-                  'h-[490px] lg:h-[540px] xl:h-[540px] md:w-1/3 xl:w-1/4 2xl:w-1/5',
-                item.id === 2 &&
-                  'h-[550px] lg:h-[600px] xl:h-[600px] md:w-1/2 xl:w-1/3 2xl:w-1/4',
-                item.id === 3 &&
-                  'h-[490px] lg:h-[540px] xl:h-[540px] md:w-1/3 xl:w-1/4 2xl:w-1/5',
+                'border p-6 rounded-3xl flex flex-col justify-between mx-auto w-full md:max-w-[386px] max-w-[350px]',
+                item.id === 1 && 'h-[600px]',
+                item.id === 2 && 'h-[650px]',
+                item.id === 3 && 'h-[600px]',
               )}
               style={{
                 background: item.backgroundColor,
@@ -191,8 +193,8 @@ function Pricing() {
             >
               <div>
                 <p
-                  className="font-medium text-base "
-                  style={{ color: `${item.smallTextColor}` }}
+                  className="font-medium text-base"
+                  style={{ color: item.smallTextColor }}
                 >
                   {item.desc}
                 </p>
@@ -230,23 +232,42 @@ function Pricing() {
                     />
                     <p
                       className="font-medium text-base"
-                      style={{ color: `${item.smallTextColor}` }}
+                      style={{ color: item.smallTextColor }}
                     >
                       {inc.text}
                     </p>
                   </div>
                 ))}
               </div>
-              <Link
-                href="/user"
+              <button
                 className="mt-4 py-2 px-4 rounded-full text-center"
                 style={{
-                  color: `${item.buttonTextColor}`,
-                  background: `${item.buttonColor}`,
+                  color: item.buttonTextColor,
+                  background: item.buttonColor,
+                  cursor:
+                    item.title === 'Coming Soon...' ? 'not-allowed' : 'pointer',
+                  opacity: item.title === 'Coming Soon...' ? 0.6 : 1,
+                }}
+                disabled={item.title === 'Coming Soon...'}
+                onClick={() => {
+                  if (item.title !== 'Coming Soon...') {
+                    router.push('/user')
+                  }
                 }}
               >
                 {item.buttonText}
-              </Link>
+              </button>
+              {/* <Link
+                href="/user"
+                className="mt-4 py-2 px-4 rounded-full text-center"
+                style={{
+                  color: item.buttonTextColor,
+                  background: item.buttonColor,
+                }}
+                disabled={item.title === 'Coming Soon...'}
+              >
+                {item.buttonText}
+              </Link> */}
             </motion.div>
           ))}
         </div>

@@ -290,7 +290,7 @@ function FilesTable() {
                       <div className="flex justify-center pl-3 gap-2">
                         <div>
                           <Link
-                            className="text-[#266CA8] text-lg"
+                            className="border-b-blue-500 border-b font-semibold "
                             href={`/downloaded-files/${data._id}`}
                           >
                             Detail
