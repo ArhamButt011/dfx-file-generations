@@ -100,7 +100,7 @@ const DXFDownloads = () => {
               <th className="pb-6 px-4 border-b text-start font-medium">
                 File Name
               </th>
-              <th className="pb-6 pl-12 border-b text-center font-medium">
+              <th className="pb-6 px-4 border-b text-start font-medium">
                 Downloaded By
               </th>
               <th className="pb-6 px-4 border-b text-center font-medium">
@@ -123,8 +123,8 @@ const DXFDownloads = () => {
                 <td className="py-3 px-4 text-start font-medium text-[19px] text-[#000000]">
                   {data.file_name}
                 </td>
-                <td className="py-3 px-4 font-medium">
-                  <div className="flex justify-center items-center gap-3">
+                <td className="py-3 px-4 font-medium text-start">
+                  <div className="flex justify-start items-center gap-3">
                     <div className="">
                       <div className="w-12 h-12 rounded-full overflow-hidden">
                         <Image
@@ -137,7 +137,7 @@ const DXFDownloads = () => {
                         />
                       </div>
                     </div>
-                    <div className="flex flex-col gap-0 w-[100px]">
+                    <div className="flex flex-col gap-0 max-w-xl">
                       <span className="font-semibold text-gray-800 text-[17px]">
                         {data.user_name}
                       </span>

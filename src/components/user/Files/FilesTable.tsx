@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { format } from 'date-fns'
 import noDownloads from '/public/images/admin/noDownloads.svg'
 import searchIcon from '/public/images/searchIcon.svg'
@@ -42,33 +42,11 @@ function FilesTable() {
   // const [userPlan, setUserPlan] = useState<UserPlan | null>(null)
   const [isBilingOpen, setIsBilingOpen] = useState(false)
   const [editingFileId, setEditingFileId] = useState<string | null>(null)
-  const [fileName, setfileName] = useState('')
+  const [fileName, setFileName] = useState('')
   const [isEditOpen, setIsEditOpen] = useState<boolean>(false)
   const [editLoading, setEditLoading] = useState(false)
-  const [openDropdown, setOpenDropdown] = useState<number | null>(null)
-  const dropdownRef = useRef<HTMLDivElement | null>(null)
   const { userData } = useAuth()
   const userId = userData?.id
-
-  const toggleDropdown = (index: number) => {
-    setOpenDropdown(openDropdown === index ? null : index)
-  }
-
-  const handleClickOutside = (event: MouseEvent) => {
-    if (
-      dropdownRef.current &&
-      !(dropdownRef.current as HTMLDivElement).contains(event.target as Node)
-    ) {
-      setOpenDropdown(null)
-    }
-  }
-
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
-  }, [])
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage)
@@ -91,7 +69,7 @@ function FilesTable() {
       const response = await fetch(
         `/api/admin/get-dxf-downloads/${userData?.id}?page=${currentPage}${searchParam}`,
       )
-
+      console.log('download-> ', downloads)
       if (response.ok) {
         const data = await response.json()
         setDownloads(data.downloads)
@@ -202,13 +180,16 @@ function FilesTable() {
   }
 
   const handleFileNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setfileName(e.target.value)
+    const updatedName = e.target.value.replace(/\.dxf$/, '') // Ensure ".dxf" is not included
+    setFileName(updatedName)
   }
 
+  // Set initial file name based on the selected file
   useEffect(() => {
-    const fileName =
-      downloads.find((item) => item._id === editingFileId)?.file_name || ''
-    setfileName(fileName)
+    const fileData = downloads.find((item) => item._id === editingFileId)
+    if (fileData) {
+      setFileName(fileData.file_name.replace(/\.dxf$/, '')) // Remove ".dxf" if present
+    }
   }, [editingFileId, downloads])
 
   const onEditClose = () => {
@@ -218,7 +199,7 @@ function FilesTable() {
     <div className="mt-1">
       <div className="mb-6 flex justify-between items-center lg:flex-row flex-col gap-2">
         <span>
-          <p className="font-medium text-3xl">Downloaded Files</p>
+          <p className="font-medium text-3xl">Files History</p>
         </span>
         <div>
           <div className="relative">
@@ -247,7 +228,7 @@ function FilesTable() {
           <div className="w-full max-w-[200px] lg:max-w-full">
             <table className="w-full rounded-3xl whitespace-nowrap">
               <thead className="bg-[#C6C9CB] rounded-3xl">
-                <tr className="text-[18.45px] text-white">
+                <tr className="text-[18.45px] text-black">
                   <th className="p-3 border-b text-start font-medium rounded-tl-3xl">
                     Sr No
                   </th>
@@ -280,7 +261,7 @@ function FilesTable() {
                       #{(currentPage - 1) * 10 + index + 1}
                     </td>
                     <td className="py-4 px-4 text-center font-medium text-[19px] text-[#000000]">
-                      <span>{data.file_name}</span>
+                      <span>{data.file_name.replace(/\.dxf$/, '')}.dxf</span>
 
                       {/* <div className="flex items-center justify-center gap-2">
                         <span>{data.file_name}</span>
@@ -305,46 +286,28 @@ function FilesTable() {
                           : 'border-r'
                       }`}
                     >
-                      {/* Three-dot button */}
-                      <button
-                        onClick={() => toggleDropdown(index)}
-                        className="text-gray-600 hover:text-gray-800 focus:outline-none"
-                      >
-                        ⋮
-                      </button>
-
                       {/* Dropdown Menu */}
-                      {openDropdown === index && (
-                        <div
-                          ref={dropdownRef}
-                          className="absolute right-0 mt-2 w-32 bg-white border border-gray-200 shadow-md rounded-md z-50"
-                        >
-                          <ul className="py-1 text-gray-700">
-                            <li className="px-4 py-1 hover:bg-gray-100 cursor-pointer text-[16px] font-medium">
-                              <Link href={`/downloaded-files/${data._id}`}>
-                                View Detail
-                              </Link>
-                            </li>
-                            <li
-                              className="px-4 py-1 hover:bg-gray-100 cursor-pointer text-[16px] font-medium"
-                              onClick={() => {
-                                setEditingFileId(data._id)
-                                setIsEditOpen(true)
-                              }}
-                            >
-                              <div className="flex w-full justify-center">
-                                Edit
-                                <Image
-                                  src={editImage}
-                                  alt="edit"
-                                  width={20}
-                                  height={20}
-                                />
-                              </div>
-                            </li>
-                          </ul>
+                      <div className="flex justify-center pl-3 gap-2">
+                        <div>
+                          <Link
+                            className="text-[#266CA8] text-lg"
+                            href={`/downloaded-files/${data._id}`}
+                          >
+                            Detail
+                          </Link>
                         </div>
-                      )}
+                        <Image
+                          src={editImage}
+                          alt="edit"
+                          width={25}
+                          height={25}
+                          className="cursor-pointer"
+                          onClick={() => {
+                            setEditingFileId(data._id)
+                            setIsEditOpen(true)
+                          }}
+                        />
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -415,7 +378,7 @@ function FilesTable() {
           )}
           <div className="flex items-center flex-col gap-3">
             <div className="flex justify-between items-center w-full mb-7">
-              <div className="text-[#000000] text-[34px] font-semibold text-center flex-grow">
+              <div className="text-[#000000] text-[22px] sm:text-[30px] font-semibold text-center flex-grow">
                 Edit File Name
               </div>
               <div>
@@ -423,6 +386,8 @@ function FilesTable() {
                   className="cursor-pointer"
                   src={blackCross}
                   alt="cross"
+                  width={30}
+                  height={30}
                   onClick={onEditClose}
                 />
               </div>
@@ -432,24 +397,34 @@ function FilesTable() {
               <label className="text-[#000000] font-semibold mb-2 text-[21.37px]">
                 File Name
               </label>
-              <div>
+              <div className="relative w-full">
                 <input
                   type="text"
                   placeholder="Enter File Name"
                   value={fileName}
                   onChange={handleFileNameChange}
-                  className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
+                  className="w-full px-4 py-4 mt-1 pr-16 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
                   required
                 />
+                {/* Non-editable .dxf extension at the right */}
+                <span className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500">
+                  .dxf
+                </span>
               </div>
             </div>
 
-            <div className="w-full mt-8">
+            <div className="w-full flex justify-between gap-10 mt-8">
+              <button
+                onClick={onEditClose}
+                className="font-normal text-[#266CA8] border border-[#266CA8] text-[16px] sm:text-[24.56px] bg-white rounded-full px-5 py-3 w-full"
+              >
+                Cancel
+              </button>
               <button
                 type="submit"
-                className="font-normal text-white text-[24.56px] bg-[#266CA8] rounded-full px-16 py-3 w-full"
+                className="font-normal text-white text-[16px] sm:text-[24.56px] bg-[#266CA8] rounded-full px-5 w-full"
               >
-                Continue
+                Save
               </button>
             </div>
           </div>

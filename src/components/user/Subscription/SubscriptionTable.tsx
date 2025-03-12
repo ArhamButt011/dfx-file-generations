@@ -45,7 +45,7 @@ const SubscriptionTable: React.FC<SubscriptionTableProps> = ({
             {/* Ensures the table has a minimum width */}
             <table className="w-full rounded-3xl whitespace-nowrap">
               <thead className="bg-[#C6C9CB] rounded-3xl">
-                <tr className="text-[18.45px] text-white">
+                <tr className="text-[18.45px] text-black">
                   <th className="p-3 border-b text-start font-medium rounded-tl-3xl">
                     Sr No
                   </th>
@@ -118,10 +118,10 @@ const SubscriptionTable: React.FC<SubscriptionTableProps> = ({
                         <span
                           className={`${
                             status === 'Current'
-                              ? 'text-[#266CA8] bg-[#E0E7ED] rounded-full px-5 py-2'
+                              ? 'text-[#000000] bg-[#CBF0FF] rounded-full px-5 py-2'
                               : status === 'Canceled'
-                              ? 'bg-[#DB9E9E] text-[#D32F2F] px-3 py-2 rounded-full'
-                              : 'bg-[#F9A0001A] text-[#F9A000] px-8 py-2 rounded-full'
+                              ? 'bg-[#FED3D1] text-[#000000] px-3 py-2 rounded-full'
+                              : 'bg-[#F9A0001A] text-[#000000] px-8 py-2 rounded-full'
                           }`}
                         >
                           {status}

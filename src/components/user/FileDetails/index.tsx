@@ -75,30 +75,6 @@ const FileDetails = () => {
     if (id) fetchFilesData()
   }, [id])
 
-  const getFileSize = async (url: string) => {
-    try {
-      const response = await fetch(url, { method: 'HEAD' })
-      const size = response.headers.get('Content-Length')
-      return size ? parseInt(size, 10) / 1024 : 0
-    } catch (err) {
-      Swal.fire({
-        title: 'Error',
-        text: err instanceof Error ? err.message : String(err),
-        icon: 'error',
-        showConfirmButton: false,
-        timer: 2000,
-        didOpen: () => {
-          const swalContainer = document.querySelector(
-            '.swal2-container',
-          ) as HTMLElement
-          if (swalContainer) {
-            swalContainer.style.setProperty('z-index', '100000', 'important')
-          }
-        },
-      })
-      return 0
-    }
-  }
   const handleDownload = async (url: string) => {
     if (!url) {
       console.error('No image URL provided for download.')
@@ -151,7 +127,30 @@ const FileDetails = () => {
       })
     }
   }
-
+  const getFileSize = async (url: string) => {
+    try {
+      const response = await fetch(url, { method: 'HEAD' })
+      const size = response.headers.get('Content-Length')
+      return size ? parseInt(size, 10) / 1024 : 0
+    } catch (err) {
+      Swal.fire({
+        title: 'Error',
+        text: err instanceof Error ? err.message : String(err),
+        icon: 'error',
+        showConfirmButton: false,
+        timer: 2000,
+        didOpen: () => {
+          const swalContainer = document.querySelector(
+            '.swal2-container',
+          ) as HTMLElement
+          if (swalContainer) {
+            swalContainer.style.setProperty('z-index', '100000', 'important')
+          }
+        },
+      })
+      return 0
+    }
+  }
   useEffect(() => {
     if (dfxFile) {
       getFileSize(dfxFile).then((size) => setFileSize(Number(size.toFixed(2))))
@@ -259,20 +258,25 @@ const FileDetails = () => {
               {/* Overlay Image */}
               {overlayUrl && (
                 <div className="text-center mx-auto">
-                  <div className="flex items-center justify-start gap-2 mb-2">
-                    <h3 className="font-semibold text-lg">Overlay Image</h3>
-                    <Image
-                      src={dltImage}
-                      alt="Delete"
-                      className="cursor-pointer w-7 h-7"
-                      onClick={() => handleDelete(idString, 'overlayImage')}
-                    />
-                    <Image
-                      src={downloadImg}
-                      alt="Download"
-                      className="cursor-pointer w-5 h-5"
-                      onClick={() => handleDownload(overlay)}
-                    />
+                  <div className="flex items-center justify-between mb-2">
+                    <div>
+                      <h3 className="font-semibold text-lg">Overlay Image</h3>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Image
+                        src={dltImage}
+                        alt="Delete"
+                        className="cursor-pointer w-7 h-7"
+                        onClick={() => handleDelete(idString, 'overlayImage')}
+                      />
+
+                      <Image
+                        src={downloadImg}
+                        alt="Download"
+                        className="cursor-pointer w-5 h-5"
+                        onClick={() => handleDownload(overlay)}
+                      />
+                    </div>
                   </div>
                   <div
                     className="md:w-75 md:h-75 xl:w-75 xl:h-75 w-65 h-65 bg-center bg-contain bg-no-repeat rounded-xl overflow-hidden border mx-auto"
@@ -286,20 +290,26 @@ const FileDetails = () => {
               {/* Outline Image */}
               {outlineUrl && (
                 <div className="text-center mx-auto">
-                  <div className="flex items-center justify-start gap-2 mb-2">
-                    <h3 className="font-semibold text-lg">Outline Of Object</h3>
-                    <Image
-                      src={dltImage}
-                      alt="Delete"
-                      className="cursor-pointer  w-7 h-7"
-                      onClick={() => handleDelete(idString, 'outlineImage')}
-                    />
-                    <Image
-                      src={downloadImg}
-                      alt="Download"
-                      className="cursor-pointer w-5 h-5"
-                      onClick={() => handleDownload(outline)}
-                    />
+                  <div className="flex items-center justify-between  mb-2">
+                    <div>
+                      <h3 className="font-semibold text-lg">
+                        Outline Of Object
+                      </h3>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Image
+                        src={dltImage}
+                        alt="Delete"
+                        className="cursor-pointer  w-7 h-7"
+                        onClick={() => handleDelete(idString, 'outlineImage')}
+                      />
+                      <Image
+                        src={downloadImg}
+                        alt="Download"
+                        className="cursor-pointer w-5 h-5"
+                        onClick={() => handleDownload(outline)}
+                      />
+                    </div>
                   </div>
                   <div
                     className="md:w-75 md:h-75 xl:w-75 xl:h-75 w-65 h-65 bg-center bg-contain bg-no-repeat rounded-xl overflow-hidden border mx-auto"
@@ -315,20 +325,24 @@ const FileDetails = () => {
               {/* Mask Image */}
               {maskUrl && (
                 <div className="text-center mx-auto">
-                  <div className="flex items-center justify-start gap-2 mb-2">
-                    <h3 className="font-semibold text-lg">Mask</h3>
-                    <Image
-                      src={dltImage}
-                      alt="Delete"
-                      className="cursor-pointer  w-7 h-7"
-                      onClick={() => handleDelete(idString, 'maskImage')}
-                    />
-                    <Image
-                      src={downloadImg}
-                      alt="Download"
-                      className="cursor-pointer w-5 h-5"
-                      onClick={() => handleDownload(mask)}
-                    />
+                  <div className="flex items-center justify-between mb-2">
+                    <div>
+                      <h3 className="font-semibold text-lg">Mask</h3>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Image
+                        src={dltImage}
+                        alt="Delete"
+                        className="cursor-pointer  w-7 h-7"
+                        onClick={() => handleDelete(idString, 'maskImage')}
+                      />
+                      <Image
+                        src={downloadImg}
+                        alt="Download"
+                        className="cursor-pointer w-5 h-5"
+                        onClick={() => handleDownload(mask)}
+                      />
+                    </div>
                   </div>
                   <div
                     className="md:w-75 md:h-75 xl:w-75 xl:h-75 w-65 h-65 bg-center bg-contain bg-no-repeat rounded-xl overflow-hidden border mx-auto"
