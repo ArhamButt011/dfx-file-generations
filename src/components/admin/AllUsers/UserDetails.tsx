@@ -1,5 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react'
+import backImage from '/public/images/user/GenerateDFX/backImage.svg'
 import { useParams, useRouter } from 'next/navigation'
 import Image from 'next/image'
 import userImage from '/public/images/userImage.svg'
@@ -11,6 +12,7 @@ import Modal from '@/components/UI/Modal'
 import { format } from 'date-fns'
 import { ObjectId } from 'mongodb'
 import Swal from 'sweetalert2'
+import Link from 'next/link'
 
 interface CardDetails {
   holder_name: string
@@ -104,6 +106,15 @@ const UserDetails: React.FC = () => {
 
   return (
     <>
+      <Link href={`/admin/allusers`}>
+        <Image
+          src={backImage}
+          height={27}
+          width={27}
+          alt="Back"
+          className="cursor-pointer mb-2"
+        />
+      </Link>
       <div className="flex justify-between bg-[#F5F5F5] rounded-2xl p-5 flex-col md:flex-row">
         <div className="flex flex-col md:flex-row gap-4">
           <div className="">

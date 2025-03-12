@@ -225,7 +225,7 @@ const menuGroups = [
           </svg>
         ),
 
-        label: 'DXF Downloads',
+        label: 'Files History',
         route: '/admin/dxf-downloads',
       },
       {

@@ -193,10 +193,10 @@ const Subscriptions = () => {
                     <span
                       className={`${
                         status === 'Current'
-                          ? 'text-[#266CA8] bg-[#E0E7ED] rounded-full px-5 py-2'
+                          ? 'text-[#000000] bg-[#CBF0FF] rounded-full px-5 py-2'
                           : status === 'Canceled'
-                          ? 'bg-[#DB9E9E] text-[#D32F2F] px-3 py-2 rounded-full'
-                          : 'bg-[#F9A0001A] text-[#F9A000] px-8 py-2 rounded-full'
+                          ? 'bg-[#FED3D1] text-[#000000] px-3 py-2 rounded-full'
+                          : 'bg-[#F9A0001A] text-[#000000] px-8 py-2 rounded-full'
                       }`}
                     >
                       {status}

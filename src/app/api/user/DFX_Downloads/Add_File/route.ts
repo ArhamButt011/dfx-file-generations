@@ -68,6 +68,9 @@ export async function POST(req: Request) {
         mask_url: mask_url,
         outline_url: outline_url,
         overlay_url: overlay_url,
+        admin_mask_url: mask_url,
+        admin_outline_url: outline_url,
+        admin_overlay_url: overlay_url,
         downloaded_on: formattedDate,
         downloaded_date: new Date(),
       })
