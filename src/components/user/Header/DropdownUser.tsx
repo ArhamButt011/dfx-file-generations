@@ -742,7 +742,6 @@ const DropdownUser = () => {
               <ClipLoader color="#007bff" size={50} />
             </div>
           )}
-          <div className="flex justify-between items-center w-full mb-7"></div>
           <div className="relative flex flex-col items-center">
             <Image
               src={WarningIcon}
