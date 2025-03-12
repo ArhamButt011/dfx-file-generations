@@ -6,6 +6,7 @@ import Modal from '@/components/UI/Modal'
 import dltCircle from '/public/images/admin/allusers/dltCircle.svg'
 import Swal from 'sweetalert2'
 import { useAuth } from '@/context/AuthContext'
+import upgradeImage from '/public/images/upgrade.svg'
 
 interface Subscription {
   order_id: string
@@ -125,6 +126,11 @@ const Index: React.FC<SubscriptionProps> = ({
                       Monthly
                     </span>
                   </p>
+                  <p className="text-[16.33px] text-[#00000080] font-medium">
+                    {subscriptions[0]?.plan_name === 'Basic'
+                      ? 'Our most popular plan for small teams.'
+                      : ''}
+                  </p>
                 </div>
                 <div>
                   <p className="font-medium">
@@ -149,7 +155,7 @@ const Index: React.FC<SubscriptionProps> = ({
             </>
           ) : subscriptions[0]?.status === 'active' &&
             subscriptions[0]?.plan_name === 'Free' ? (
-            <div className='font-semibold'>Free Trial Activated.</div>
+            <div className="font-semibold">Free Trial Activated.</div>
           ) : (
             <div>No subcription added yet</div>
           )}
@@ -179,7 +185,15 @@ const Index: React.FC<SubscriptionProps> = ({
                 className="font-medium text-[17.94px] text-[#FFFFFF] bg-[#266CA8] px-3 py-1 rounded-full"
                 onClick={() => setIsBilingOpen(true)}
               >
-                Upgrade Plan
+                <div className="flex gap-2 items-center">
+                  <Image
+                    src={upgradeImage}
+                    alt="upgrade"
+                    height={17}
+                    width={21}
+                  />
+                  Upgrade Plan
+                </div>
               </button>
             </div>
           </div>

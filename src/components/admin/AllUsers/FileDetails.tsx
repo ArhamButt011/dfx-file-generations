@@ -101,11 +101,9 @@ const FileDetails = () => {
                   <h3 className="font-semibold text-lg">Overlay Image</h3>
                 </div>
                 <div
-                  className="w-full bg-center bg-contain bg-no-repeat rounded-xl overflow-hidden border mx-auto"
+                  className="md:w-75 md:h-75 xl:w-75 xl:h-75 w-65 h-65 bg-center bg-contain bg-no-repeat rounded-xl overflow-hidden border mx-auto"
                   style={{
                     backgroundImage: `url(${overlay})`,
-                    height: '20rem',
-                    width: '20rem',
                   }}
                 />
               </div>
@@ -118,11 +116,9 @@ const FileDetails = () => {
                   <h3 className="font-semibold text-lg">Outline Of Object</h3>
                 </div>
                 <div
-                  className="w-64 h-64 bg-center bg-contain bg-no-repeat rounded-xl overflow-hidden border mx-auto"
+                  className="md:w-75 md:h-75 xl:w-75 xl:h-75 w-65 h-65 bg-center bg-contain bg-no-repeat rounded-xl overflow-hidden border mx-auto"
                   style={{
                     backgroundImage: `url(${outline})`,
-                    height: '20rem',
-                    width: '20rem',
                   }}
                 />
               </div>
@@ -137,11 +133,9 @@ const FileDetails = () => {
                   <h3 className="font-semibold text-lg">Mask</h3>
                 </div>
                 <div
-                  className="w-full h-64 bg-center bg-contain bg-no-repeat rounded-xl overflow-hidden border mx-auto"
+                  className="md:w-75 md:h-75 xl:w-75 xl:h-75 w-65 h-65 bg-center bg-contain bg-no-repeat rounded-xl overflow-hidden border mx-auto"
                   style={{
                     backgroundImage: `url(${mask})`,
-                    height: '20rem',
-                    width: '20rem',
                   }}
                 />
               </div>
