@@ -157,7 +157,7 @@ const Forgot: React.FC<ForgotProps> = ({ title, content }) => {
       )}
       {/* Left Form Section */}
       <div className="w-full bg-white flex items-center justify-center md:max-w-[60%] p-10 md:px-5">
-        <div className="md:max-w-[600px] w-full">
+        <div className="md:max-w-[500px] w-full">
           <div className="flex items-center md:mb-6 mb-10">
             <Image src={logo} alt="logo" width={360} height={55} priority />
           </div>
