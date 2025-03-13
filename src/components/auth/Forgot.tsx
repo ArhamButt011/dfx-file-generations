@@ -156,21 +156,21 @@ const Forgot: React.FC<ForgotProps> = ({ title, content }) => {
         </div>
       )}
       {/* Left Form Section */}
-      <div className="w-[100%] bg-white flex items-center justify-center md:w-[60%] p-6 md:p-0">
-        <div className="md:w-[70%] w-[100%]">
+      <div className="w-full bg-white flex items-center justify-center md:max-w-[60%] p-10 md:px-5">
+        <div className="md:max-w-[600px] w-full">
           <div className="flex items-center md:mb-6 mb-10">
             <Image src={logo} alt="logo" width={360} height={55} priority />
           </div>
-          <h1 className="text-[36px] font-bold mb-2 text-black xl:text-[50.04px]">
+          <h1 className="text-[28px] font-bold mb-2 text-black xl:text-[40px]">
             {title}
           </h1>
-          <p className="text-primary mb-6 text-lg xl:text-[21.56px]">
+          <p className="text-primary mb-6 text-[13px] xl:text-[18px]">
             {content}
           </p>
 
           <form action="" onSubmit={sendOTP}>
             <div className="mb-4">
-              <label className="block text-black font-semibold mb-1 text-lg xl:text-[23.8px]">
+              <label className="block text-black font-semibold mb-1 text-lg xl:text-[18px]">
                 Email Address
               </label>
               <input
@@ -178,7 +178,7 @@ const Forgot: React.FC<ForgotProps> = ({ title, content }) => {
                 placeholder="Enter Your Email Address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-4 mt-1 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
+                className="w-full px-4 py-4 mt-1 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full placeholder:text-sm"
                 required
               />
               <div className="flex justify-end mt-2 xl:mt-3">
@@ -189,7 +189,7 @@ const Forgot: React.FC<ForgotProps> = ({ title, content }) => {
                 ) : (
                   <button
                     type="submit"
-                    className="text-right mt-2 text-[#266CA8] underline text-[18px] xl:text-[20.78px] font-semibold cursor-pointer"
+                    className="text-right mt-2 text-[#266CA8] underline text-[14px] xl:text-[16px] font-semibold cursor-pointer"
                   >
                     {OTPSent ? 'Resend OTP' : 'Send OTP'}
                   </button>
@@ -241,7 +241,7 @@ const Forgot: React.FC<ForgotProps> = ({ title, content }) => {
 
             <button
               type="submit"
-              className="w-full bg-[#266CA8] text-white py-4 px-4 mt-12 xl:mt-16 font-semibold rounded-full hover:bg-[#005b97f0] transition duration-300 xl:text-[20px] text-[18px]"
+              className="w-full bg-[#266CA8] text-white py-4 px-4 mt-12 xl:mt-16 font-semibold rounded-full hover:bg-[#005b97f0] transition duration-300 xl:text-[16px] text-[14px]"
 
               //   disabled={loading}
             >

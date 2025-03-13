@@ -68,8 +68,6 @@ const DXFDownloads = () => {
     fetchDownloads()
   }, [fetchDownloads])
 
-  console.log('downloads-> ', downloads)
-
   return (
     <div>
       <Breadcrumb
@@ -161,7 +159,7 @@ const DXFDownloads = () => {
                   <Link
                     href={{
                       pathname: `/admin/dxf-downloads/${data._id}`,
-                      query: { source: 'allDxf', page: page }, // Example query params
+                      query: { source: 'allDxf', page: page },
                     }}
                     className="border-b-blue-500 border-b font-semibold"
                   >
