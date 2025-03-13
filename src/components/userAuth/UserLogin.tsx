@@ -776,9 +776,9 @@ const UserLogin = () => {
         </div>
       )}
       {/* Left Form Section */}
-      <div className="flex-1 bg-white flex md:items-center justify-center md:p-6  md:mt-0 mt-10">
+      <div className="w-full bg-white flex items-center justify-center md:max-w-[60%] p-6 md:px-5">
         {/* <div className="w-[60%] sm:w-[90%] md:p-6 md:pb-0 mx-5"> */}
-        <div className="w-[90%] sm:w-[95%] md:w-[90%]  lg:w-[90%] xl:w-[90%] 2xl:w-[60%] md:p-6 md:pb-0 mx-5">
+        <div className="md:max-w-[500px] w-full">
           <div className="flex items-center 2xl:mb-10 md:mb-5 sm:mb-5 mb-10">
             <Image src={logo} alt="logo" width={300} height={300} priority />
           </div>
