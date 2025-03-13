@@ -636,12 +636,12 @@ function Input() {
           {/* left */}
           <div className="bg-[#F2F2F2] md:w-1/2 rounded-b-2xl rounded-t-2xl">
             <div className="bg-[#C6C9CB] py-3 rounded-t-2xl">
-              <p className="text-[#000000] text-center font-medium text-2xl text-[#000000]">
+              <p className="text-[#000000] text-center font-medium text-[22px] sm:text-[24px] text-[#000000]">
                 Input Data
               </p>
             </div>
             <div className="p-5">
-              <p className="font-semibold text-2xl mb-5">Input Image</p>
+              {/* <p className="font-semibold text-2xl mb-5">Input Image</p> */}
               <form action="" onSubmit={handleSubmit}>
                 <div className="border border-dashed border-[#0000004D] rounded-3xl">
                   <div
@@ -724,7 +724,7 @@ function Input() {
                             width={44}
                             height={44}
                           />
-                          <p className="font-semibold text-xl text-center">
+                          <p className="font-semibold text-[14px] sm:text-[16px] text-center">
                             Drag & drop the image or{' '}
                             <span className="text-[#266CA8] underline cursor-pointer">
                               click

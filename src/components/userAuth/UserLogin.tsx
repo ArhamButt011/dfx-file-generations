@@ -799,7 +799,7 @@ const UserLogin = () => {
                 name="email"
                 value={loginForm.email}
                 onChange={handleLoginChange}
-                className="w-full px-4 py-3 mt-1 border text-black focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-[94.17px]"
+                className="w-full px-4 py-3 mt-1 border text-black focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-[94.17px] placeholder:text-sm"
                 required
                 readOnly
                 onFocus={(e) => e.target.removeAttribute('readonly')}
@@ -816,7 +816,7 @@ const UserLogin = () => {
                   value={loginForm.password}
                   name="password"
                   onChange={handleLoginChange}
-                  className="w-full px-4 py-3 mt-1 pr-10 border text-black focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-[94.17px]"
+                  className="w-full px-4 py-3 mt-1 pr-10 border text-black focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-[94.17px] placeholder:text-sm"
                   required
                   readOnly
                   onFocus={(e) => e.target.removeAttribute('readonly')}
@@ -835,7 +835,7 @@ const UserLogin = () => {
                 </button>
                 <p className="text-right mt-2">
                   <span
-                    className=" underline text-[#266CAB] md:text-xl text-xs cursor-pointer"
+                    className="underline text-[#266CAB] md:text-xl text-xs cursor-pointer"
                     onClick={() => setIsForgetOpen(true)}
                   >
                     {' '}
@@ -851,7 +851,7 @@ const UserLogin = () => {
             >
               Login
             </button>
-            <p className="font-[550] md:text-xl text-[12px] text-center text-black mb-5">
+            <p className="font-[550] md:text-[18px] text-[12px] text-center text-black mb-5">
               Don&apos;t have an account?{' '}
               <span
                 className=" underline text-[#266CAB] cursor-pointer"
@@ -904,10 +904,10 @@ const UserLogin = () => {
       >
         <div>
           <div className="text-center">
-            <p className="font-[550] md:text-3xl text-2xl text-black">
+            <p className="font-[550] md:text-2xl text-xl text-black">
               Create Account
             </p>
-            <p className="font-medium md:text-xl text-sm text-[#00000080]">
+            <p className="font-medium md:text-[16px] text-[14px] text-[#00000080]">
               Create your account with Lumashape by providing the following
               information
             </p>
@@ -926,7 +926,7 @@ const UserLogin = () => {
                 required
                 value={newAccountFormData.name}
                 placeholder="Enter First Name"
-                className="border border-[#0000001A] w-full mt-1 p-3 rounded-full focus:outline-none focus:ring-2 focus:ring-[#005B97] text-black"
+                className="border border-[#0000001A] w-full mt-1 p-3 rounded-full focus:outline-none focus:ring-2 focus:ring-[#005B97] text-black placeholder:text-sm"
                 onChange={handleSignupChange}
               />
             </div>
@@ -942,7 +942,7 @@ const UserLogin = () => {
                 required
                 value={newAccountFormData.lastName}
                 placeholder="Enter Last Name"
-                className="border text-black border-[#0000001A] w-full mt-1 p-3 rounded-full focus:outline-none focus:ring-2 focus:ring-[#005B97]"
+                className="placeholder:text-sm border text-black border-[#0000001A] w-full mt-1 p-3 rounded-full focus:outline-none focus:ring-2 focus:ring-[#005B97]"
                 onChange={handleSignupChange}
               />
             </div>
@@ -959,7 +959,7 @@ const UserLogin = () => {
                 required
                 value={newAccountFormData.email}
                 placeholder="Enter Email Address"
-                className="border text-black border-[#0000001A] w-full mt-1 p-3 rounded-full focus:outline-none focus:ring-2 focus:ring-[#005B97]"
+                className=" placeholder:text-sm border text-black border-[#0000001A] w-full mt-1 p-3 rounded-full focus:outline-none focus:ring-2 focus:ring-[#005B97]"
                 onChange={handleSignupChange}
                 readOnly
                 onFocus={(e) => e.target.removeAttribute('readonly')}
@@ -975,7 +975,7 @@ const UserLogin = () => {
                   placeholder="Enter Password"
                   value={newAccountFormData.password}
                   onChange={handleSignupChange}
-                  className="w-full border-[#0000001A] mt-1 p-3 pr-10 border text-black focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
+                  className="placeholder:text-sm w-full border-[#0000001A] mt-1 p-3 pr-10 border text-black focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
                   required
                   minLength={8}
                   readOnly
@@ -1004,7 +1004,7 @@ const UserLogin = () => {
                   placeholder="Confirm Password"
                   value={newAccountFormData.confirm}
                   onChange={handleSignupChange}
-                  className="w-full border-[#0000001A] mt-1 p-3 pr-10 border text-black focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
+                  className="placeholder:text-sm w-full border-[#0000001A] mt-1 p-3 pr-10 border text-black focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
                   required
                   minLength={8}
                 />
@@ -1171,18 +1171,18 @@ const UserLogin = () => {
         }
       >
         <div>
-          <div className="text-center">
+          <div className="text-center mt-2">
             <p className="font-[550] md:text-3xl text-2xl cursor-pointer">
               Forgot Password
             </p>
-            <p className="font-medium md:text-xl text-sm text-[#00000080]">
+            <p className="font-medium md:text-[16px] text-[14px] text-[#00000080]">
               Please enter the email address so that we can verify your account
             </p>
           </div>
 
           <form action="" onSubmit={sendOTP}>
             <div className="mb-4">
-              <label className="block text-black font-[550] mb-1">
+              <label className="block text-black font-[550] mb-1 text-lg xl:text-[18px]">
                 Email Address
               </label>
               <input
@@ -1190,7 +1190,7 @@ const UserLogin = () => {
                 placeholder="Enter Your Email Address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full p-3 mt-1 border text-black focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-[94.17px]"
+                className="w-full p-3 mt-1 border text-black focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-[94.17px] placeholder:text-sm"
                 required
               />
               <div className="flex justify-end">
@@ -1288,7 +1288,7 @@ const UserLogin = () => {
 
             <button
               type="submit"
-              className="w-full bg-[#005B97] text-white p-3 md:mt-10 mt-10 font-bold rounded-[94.17px] hover:bg-[#005b97f0] transition duration-300"
+              className="w-full bg-[#005B97] xl:text-[16px] text-[14px] text-white p-3 md:mt-10 mt-10 font-bold rounded-[94.17px] hover:bg-[#005b97f0] transition duration-300"
               //   disabled={loading}
             >
               Verify

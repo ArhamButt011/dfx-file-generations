@@ -241,7 +241,7 @@ const Forgot: React.FC<ForgotProps> = ({ title, content }) => {
 
             <button
               type="submit"
-              className="w-full bg-[#266CA8] text-white py-4 px-4 mt-12 xl:mt-16 font-semibold rounded-full hover:bg-[#005b97f0] transition duration-300 xl:text-[16px] text-[14px]"
+              className="w-full bg-[#266CA8] text-white py-4 px-4 mt-12 xl:mt-16  font-semibold rounded-full hover:bg-[#005b97f0] transition duration-300 xl:text-[16px] text-[14px]"
 
               //   disabled={loading}
             >

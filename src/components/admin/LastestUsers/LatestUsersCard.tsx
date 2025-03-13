@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import userImage from '/public/images/admin/dashboard/user.svg'
+import userImage from '/public/images/admin/emptyUser.svg'
 import '@/components/admin/LastestUsers/LatestUsers.css'
 import { useEffect, useState } from 'react'
 

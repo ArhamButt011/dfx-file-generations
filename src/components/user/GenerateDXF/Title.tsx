@@ -56,10 +56,9 @@ function Title() {
           </p>
           <p className="font-medium text-lg sm:text-xl text-[#00000080] text-left mt-2">
             You have successfully activated your free trial on{' '}
-            <span className="text-black font-medium">{format(
-                        new Date(userPlan.added_on),
-                        'MMM dd, yyyy',
-                      )}</span>{' '}
+            <span className="text-black font-medium">
+              {format(new Date(userPlan.added_on), 'MMM dd, yyyy')}
+            </span>{' '}
             and it will end on{' '}
             <span className="text-black font-medium">{userPlan.expiry_on}</span>
             .
@@ -89,7 +88,7 @@ function Title() {
         </div>
       )}
 
-      <p className="font-semibold text-2xl sm:text-3xl mt-6 text-center sm:text-left">
+      <p className="font-semibold text-[22px] sm:text-[24px] mt-6 text-center sm:text-left">
         Generate DXF
       </p>
 
