@@ -224,8 +224,8 @@ function FilesTable() {
           <ClipLoader color="#007bff" size={50} />
         </div>
       ) : downloads.length > 0 ? (
-        <div className="w-full overflow-x-auto">
-          <div className="w-full max-w-[200px] lg:max-w-full">
+        <div className="w-full overflow-x-auto grid grid-cols-1">
+          <div className="w-full  sm:max-w-full">
             <table className="w-full rounded-3xl whitespace-nowrap">
               <thead className="bg-[#C6C9CB] rounded-3xl">
                 <tr className="text-[18.45px] text-black">
@@ -290,7 +290,7 @@ function FilesTable() {
                       <div className="flex justify-center pl-3 gap-2">
                         <div>
                           <Link
-                            className="border-b-blue-500 border-b font-semibold "
+                            className="border-b-blue-500 border-b font-semibold text-[#266CA8]"
                             href={`/downloaded-files/${data._id}`}
                           >
                             Detail

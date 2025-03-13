@@ -2,7 +2,12 @@ import Image from 'next/image'
 import React, { useCallback, useEffect, useState } from 'react'
 import noSubscriptions from '/public/images/admin/allusers/noSubscriptions.svg'
 import { format } from 'date-fns'
-import { useParams } from 'next/navigation'
+import {
+  useParams,
+  useSearchParams,
+  useRouter,
+  usePathname,
+} from 'next/navigation'
 import { ClipLoader } from 'react-spinners'
 import noDownloads from '/public/images/admin/allusers/nodownloads.svg'
 import searchIcon from '/public/images/searchIcon.svg'
@@ -34,18 +39,31 @@ const DownloadsSubscriptions = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [totalSubscriptions, setTotalSubscriptions] = useState(0)
   const [totalPages, setTotalPages] = useState(1)
-
   const [downloadsSearchQuerry, setDownloadsSearchQuerry] = useState('')
   const [downloads, setDownloads] = useState<Downloads[]>([])
-  const [downloadsCurrentPage, setDownloadsCurrentPage] = useState(1)
+  // const [downloadsCurrentPage, setDownloadsCurrentPage] = useState(1)
   const [totalDownloads, setTotalDownloads] = useState(0)
   const [totalDownloadsPages, setTotalDownloadsPages] = useState(1)
+  const searchParams = useSearchParams()
+  const source = searchParams.get('source') || 'defaultSource'
+  const page = searchParams.get('page') || '1'
+  const fileSource = searchParams.get('fileSource') || 'fileDetails'
+  const filePage = Number(searchParams.get('filePage')) || 1
+  const { id } = useParams()
+  const router = useRouter()
+  const pathname = usePathname()
 
-  const handleDownloadsPageChange = (newPage: number) => {
-    setDownloadsCurrentPage(newPage)
+  // Handle Pagination Click
+  const handlePagination = (newPage: number) => {
+    router.push(
+      `${pathname}?source=${source}&page=${page}&fileSource=${fileSource}&filePage=${newPage}`,
+    )
   }
 
-  const { id } = useParams()
+  // const handleDownloadsPageChange = (newPage: number) => {
+  //   setDownloadsCurrentPage(newPage)
+  // }
+
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage)
   }
@@ -67,7 +85,7 @@ const DownloadsSubscriptions = () => {
         ? `&search=${encodeURIComponent(downloadsSearchQuerry)}`
         : ''
       const response = await fetch(
-        `/api/admin/get-dxf-downloads/${id}?page=${downloadsCurrentPage}${searchParam}`,
+        `/api/admin/get-dxf-downloads/${id}?page=${filePage}${searchParam}`,
       )
 
       if (response.ok) {
@@ -83,7 +101,7 @@ const DownloadsSubscriptions = () => {
     } finally {
       setLoadingTable(false)
     }
-  }, [id, downloadsCurrentPage, downloadsSearchQuerry])
+  }, [id, filePage, downloadsSearchQuerry])
 
   useEffect(() => {
     fetchDownloads()
@@ -209,7 +227,15 @@ const DownloadsSubscriptions = () => {
                     </td>
                     <td className="py-3 text-center text-lg font-medium text-[#266CA8] border-b">
                       <Link
-                        href={`/admin/allusers/${id}/files-details/${data._id}/`}
+                        href={{
+                          pathname: `/admin/allusers/${id}/files-details/${data._id}`,
+                          query: {
+                            source,
+                            page,
+                            fileSource: 'fileDetails',
+                            filePage: filePage,
+                          },
+                        }}
                         className="border-b-blue-500 border-b font-semibold "
                       >
                         View Details
@@ -236,12 +262,10 @@ const DownloadsSubscriptions = () => {
           downloads.length === 0 ? null : (
             <div className="mt-4 flex justify-end items-center gap-4 text-gray-800">
               <button
-                onClick={() =>
-                  handleDownloadsPageChange(downloadsCurrentPage - 1)
-                }
-                disabled={downloadsCurrentPage === 1}
+                onClick={() => handlePagination(filePage - 1)}
+                disabled={filePage === 1}
                 className={`px-4 py-2 rounded-md ${
-                  downloadsCurrentPage === 1
+                  filePage === 1
                     ? 'bg-gray-300 cursor-not-allowed'
                     : 'bg-blue-500 text-white hover:bg-blue-600'
                 }`}
@@ -249,15 +273,13 @@ const DownloadsSubscriptions = () => {
                 Previous
               </button>
               <span>
-                Page {downloadsCurrentPage} of {totalDownloadsPages}
+                Page {filePage} of {totalDownloadsPages}
               </span>
               <button
-                onClick={() =>
-                  handleDownloadsPageChange(downloadsCurrentPage + 1)
-                }
-                disabled={downloadsCurrentPage === totalDownloadsPages}
+                onClick={() => handlePagination(filePage + 1)}
+                disabled={filePage === totalDownloadsPages}
                 className={`px-4 py-2 rounded-md ${
-                  downloadsCurrentPage === totalDownloadsPages
+                  filePage === totalDownloadsPages
                     ? 'bg-gray-300 cursor-not-allowed'
                     : 'bg-blue-500 text-white hover:bg-blue-600'
                 }`}

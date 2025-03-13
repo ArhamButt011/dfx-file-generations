@@ -9,13 +9,13 @@ import useLocalStorage from '@/components/admin/hooks/useLocalStorage'
 import SidebarItem from './SidebarItem'
 import ClickOutside from '@/components/admin/ClickOutside'
 import logo from '/public/images/user/home/sidebarLogo.svg'
-import WhiteGenerateIcon from '/public/images/user/sidebar/whiteGenerateIcon.svg'
-import GrayGenerateIcon from '/public/images/user/sidebar/grayGenerateIcon.svg'
-import WhiteDownloadIcon from '/public/images/user/sidebar/whiteDownloadIcon.svg'
-import GrayDownloadIcon from '/public/images/user/sidebar/GrayDownloadIcon.svg'
-import WhiteSubscriptionIcon from '/public/images/user/sidebar/whiteSubscriptionIcon.svg'
-import GraySubscriptionIcon from '/public/images/user/sidebar/GraySubcriptionIcon.svg'
-import GrayInstructionsIcon from '/public/images/user/sidebar/grayInstructionsIcon.svg'
+// import WhiteGenerateIcon from '/public/images/user/sidebar/whiteGenerateIcon.svg'
+// import GrayGenerateIcon from '/public/images/user/sidebar/grayGenerateIcon.svg'
+// import WhiteDownloadIcon from '/public/images/user/sidebar/whiteDownloadIcon.svg'
+// import GrayDownloadIcon from '/public/images/user/sidebar/GrayDownloadIcon.svg'
+// import WhiteSubscriptionIcon from '/public/images/user/sidebar/whiteSubscriptionIcon.svg'
+// import GraySubscriptionIcon from '/public/images/user/sidebar/GraySubcriptionIcon.svg'
+// import GrayInstructionsIcon from '/public/images/user/sidebar/grayInstructionsIcon.svg'
 import { useAuth } from '@/context/AuthContext'
 import user from '/public/images/admin/dashboard/user.svg'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -47,31 +47,195 @@ interface UserPlan {
   expiry_date: string
 }
 
+// const menuGroups = [
+//   {
+//     menuItems: [
+//       {
+//         Whiteicon: GrayInstructionsIcon,
+//         Grayicon: GrayInstructionsIcon,
+//         label: 'Instructions',
+//         route: '/instructions',
+//       },
+//       {
+//         Whiteicon: WhiteGenerateIcon,
+//         Grayicon: GrayGenerateIcon,
+//         label: 'Generate DXF',
+//         route: '/Generate_DXF',
+//       },
+//       {
+//         Whiteicon: WhiteDownloadIcon,
+//         Grayicon: GrayDownloadIcon,
+//         label: 'Files History',
+//         route: '/downloaded-files',
+//       },
+
+//       {
+//         Whiteicon: WhiteSubscriptionIcon,
+//         Grayicon: GraySubscriptionIcon,
+//         label: 'Manage Subscription ',
+//         route: '/subscription',
+//       },
+//     ],
+//   },
+// ]
 const menuGroups = [
   {
     menuItems: [
       {
-        Whiteicon: GrayInstructionsIcon,
-        Grayicon: GrayInstructionsIcon,
+        icon: (
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 20 21"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M20 10.5625C20 16.0853 15.5228 20.5625 10 20.5625C4.47715 20.5625 0 16.0853 0 10.5625C0 5.03965 4.47715 0.5625 10 0.5625C15.5228 0.5625 20 5.03965 20 10.5625ZM10 16.3125C10.4142 16.3125 10.75 15.9767 10.75 15.5625V9.5625C10.75 9.14829 10.4142 8.8125 10 8.8125C9.58579 8.8125 9.25 9.14829 9.25 9.5625V15.5625C9.25 15.9767 9.58579 16.3125 10 16.3125ZM10 5.5625C10.5523 5.5625 11 6.01022 11 6.5625C11 7.11478 10.5523 7.5625 10 7.5625C9.44771 7.5625 9 7.11478 9 6.5625C9 6.01022 9.44771 5.5625 10 5.5625Z"
+              fill="#797979"
+            />
+          </svg>
+        ),
+        iconNotActive: (
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 20 21"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M20 10.5625C20 16.0853 15.5228 20.5625 10 20.5625C4.47715 20.5625 0 16.0853 0 10.5625C0 5.03965 4.47715 0.5625 10 0.5625C15.5228 0.5625 20 5.03965 20 10.5625ZM10 16.3125C10.4142 16.3125 10.75 15.9767 10.75 15.5625V9.5625C10.75 9.14829 10.4142 8.8125 10 8.8125C9.58579 8.8125 9.25 9.14829 9.25 9.5625V15.5625C9.25 15.9767 9.58579 16.3125 10 16.3125ZM10 5.5625C10.5523 5.5625 11 6.01022 11 6.5625C11 7.11478 10.5523 7.5625 10 7.5625C9.44771 7.5625 9 7.11478 9 6.5625C9 6.01022 9.44771 5.5625 10 5.5625Z"
+              fill="white"
+            />
+          </svg>
+        ),
+
         label: 'Instructions',
         route: '/instructions',
       },
       {
-        Whiteicon: WhiteGenerateIcon,
-        Grayicon: GrayGenerateIcon,
+        icon: (
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 17 17"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M0.385032 4.93833C-0.059204 5.86496 0.0967397 6.94873 0.408627 9.11628L0.637761 10.7087C1.0384 13.493 1.23871 14.8852 2.20457 15.7169C3.17042 16.5485 4.58688 16.5485 7.41981 16.5485H9.2381C12.071 16.5485 13.4875 16.5485 14.4533 15.7169C15.4192 14.8852 15.6195 13.493 16.0201 10.7087L16.2493 9.11628C16.5612 6.94873 16.7171 5.86496 16.2729 4.93833C15.8286 4.0117 14.8831 3.44844 12.992 2.32193L11.8537 1.64386C10.1364 0.620871 9.27775 0.109375 8.32895 0.109375C7.38016 0.109375 6.5215 0.620871 4.80419 1.64386L3.66591 2.32193C1.77482 3.44845 0.829268 4.0117 0.385032 4.93833ZM5.24669 13.2605C5.24669 12.9201 5.5227 12.6441 5.86316 12.6441H10.7949C11.1354 12.6441 11.4114 12.9201 11.4114 13.2605C11.4114 13.601 11.1354 13.877 10.7949 13.877H5.86316C5.5227 13.877 5.24669 13.601 5.24669 13.2605Z"
+              fill="#797979"
+            />
+          </svg>
+        ),
+        iconNotActive: (
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 17 18"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M0.765891 5.47349C0.321655 6.40012 0.477599 7.48389 0.789486 9.65143L1.01862 11.2439C1.41926 14.0282 1.61957 15.4203 2.58543 16.252C3.55128 17.0837 4.96774 17.0837 7.80067 17.0837H9.61896C12.4519 17.0837 13.8683 17.0837 14.8342 16.252C15.8001 15.4203 16.0004 14.0282 16.401 11.2439L16.6301 9.65144C16.942 7.48389 17.098 6.40012 16.6537 5.47349C16.2095 4.54686 15.2639 3.9836 13.3728 2.85708L12.2346 2.17902C10.5173 1.15603 9.65861 0.644531 8.70981 0.644531C7.76102 0.644531 6.90236 1.15603 5.18505 2.17902L4.04677 2.85709C2.15568 3.9836 1.21013 4.54686 0.765891 5.47349ZM5.62755 13.7957C5.62755 13.4552 5.90355 13.1792 6.24402 13.1792H11.1758C11.5162 13.1792 11.7922 13.4552 11.7922 13.7957C11.7922 14.1361 11.5162 14.4122 11.1758 14.4122H6.24402C5.90355 14.4122 5.62755 14.1361 5.62755 13.7957Z"
+              fill="white"
+            />
+          </svg>
+        ),
+
         label: 'Generate DXF',
         route: '/Generate_DXF',
       },
       {
-        Whiteicon: WhiteDownloadIcon,
-        Grayicon: GrayDownloadIcon,
+        icon: (
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 18 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M13 0L18 4.999V19.009C17.9995 19.272 17.8946 19.5241 17.7085 19.7099C17.5223 19.8957 17.27 20 17.007 20H0.993C0.730378 19.9982 0.479017 19.8931 0.293218 19.7075C0.107418 19.5219 0.00209465 19.2706 0 19.008V0.992C0 0.444 0.445 0 0.993 0H13ZM10 7H8V13H13V11H10V7Z"
+              fill="black"
+              fill-opacity="0.5"
+            />
+          </svg>
+        ),
+        iconNotActive: (
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 18 21"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M13 0.271484L18 5.27048V19.2805C17.9995 19.5435 17.8946 19.7956 17.7085 19.9813C17.5223 20.1671 17.27 20.2715 17.007 20.2715H0.993C0.730378 20.2697 0.479017 20.1646 0.293218 19.979C0.107418 19.7934 0.00209465 19.5421 0 19.2795V1.26348C0 0.715484 0.445 0.271484 0.993 0.271484H13ZM10 7.27148H8V13.2715H13V11.2715H10V7.27148Z"
+              fill="white"
+            />
+          </svg>
+        ),
+
         label: 'Files History',
         route: '/downloaded-files',
       },
-
       {
-        Whiteicon: WhiteSubscriptionIcon,
-        Grayicon: GraySubscriptionIcon,
+        icon: (
+          <svg
+            width="19"
+            height="18"
+            viewBox="0 0 21 17"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M18.8577 5.09503C18.804 5.09163 18.7455 5.09165 18.6848 5.09168L18.6697 5.09168H16.2906C14.3296 5.09168 12.6516 6.63528 12.6516 8.64823C12.6516 10.6612 14.3296 12.2048 16.2906 12.2048H18.6697L18.6848 12.2048C18.7455 12.2048 18.804 12.2048 18.8577 12.2014C19.6543 12.1511 20.3587 11.5278 20.4179 10.6572C20.4218 10.6001 20.4218 10.5385 20.4217 10.4815L20.4217 10.466V6.83044L20.4217 6.81496C20.4218 6.75792 20.4218 6.69638 20.4179 6.63929C20.3587 5.76865 19.6543 5.14532 18.8577 5.09503ZM16.0796 9.59663C16.5845 9.59663 16.9937 9.17201 16.9937 8.64822C16.9937 8.12443 16.5845 7.69981 16.0796 7.69981C15.5747 7.69981 15.1655 8.12443 15.1655 8.64822C15.1655 9.17201 15.5747 9.59663 16.0796 9.59663Z"
+              fill="black"
+              fill-opacity="0.5"
+            />
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M18.6842 13.6274C18.8256 13.6237 18.9326 13.7547 18.8942 13.8909C18.7038 14.5665 18.4017 15.1424 17.9168 15.6274C17.207 16.3371 16.307 16.6521 15.1951 16.8016C14.1146 16.9469 12.7341 16.9468 10.9911 16.9468H8.9873C7.24434 16.9468 5.8638 16.9469 4.78335 16.8016C3.67141 16.6521 2.77142 16.3371 2.06166 15.6274C1.3519 14.9176 1.03692 14.0176 0.887423 12.9057C0.742161 11.8252 0.742173 10.4447 0.742188 8.70173V8.59472C0.742173 6.85176 0.742161 5.47122 0.887423 4.39078C1.03692 3.27884 1.3519 2.37884 2.06166 1.66908C2.77142 0.959326 3.67141 0.644341 4.78335 0.494845C5.8638 0.349583 7.24434 0.349595 8.98729 0.34961L10.9911 0.34961C12.7341 0.349595 14.1146 0.349583 15.1951 0.494845C16.307 0.644341 17.207 0.959325 17.9168 1.66908C18.4017 2.15399 18.7038 2.72988 18.8942 3.40557C18.9326 3.54173 18.8256 3.67272 18.6842 3.66906L16.2905 3.66906C13.6002 3.66906 11.2289 5.79436 11.2289 8.64823C11.2289 11.5021 13.6002 13.6274 16.2905 13.6274L18.6842 13.6274ZM4.29874 4.14326C3.90589 4.14326 3.58743 4.46172 3.58743 4.85457C3.58743 5.24742 3.90589 5.56588 4.29874 5.56588H8.09239C8.48523 5.56588 8.8037 5.24742 8.8037 4.85457C8.8037 4.46172 8.48523 4.14326 8.09239 4.14326H4.29874Z"
+              fill="black"
+              fill-opacity="0.5"
+            />
+          </svg>
+        ),
+        iconNotActive: (
+          <svg
+            width="19"
+            height="18"
+            viewBox="0 0 21 18"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M18.8577 5.65753C18.804 5.65413 18.7455 5.65415 18.6848 5.65418L18.6697 5.65418H16.2906C14.3296 5.65418 12.6516 7.19778 12.6516 9.21073C12.6516 11.2237 14.3296 12.7673 16.2906 12.7673H18.6697L18.6848 12.7673C18.7455 12.7673 18.804 12.7673 18.8577 12.7639C19.6543 12.7136 20.3587 12.0903 20.4179 11.2197C20.4218 11.1626 20.4218 11.101 20.4217 11.044L20.4217 11.0285V7.39294L20.4217 7.37746C20.4218 7.32042 20.4218 7.25888 20.4179 7.20179C20.3587 6.33115 19.6543 5.70782 18.8577 5.65753ZM16.0796 10.1591C16.5845 10.1591 16.9937 9.73451 16.9937 9.21072C16.9937 8.68693 16.5845 8.26231 16.0796 8.26231C15.5747 8.26231 15.1655 8.68693 15.1655 9.21072C15.1655 9.73451 15.5747 10.1591 16.0796 10.1591Z"
+              fill="white"
+            />
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M18.6842 14.1899C18.8256 14.1862 18.9326 14.3172 18.8942 14.4534C18.7038 15.129 18.4017 15.7049 17.9168 16.1899C17.207 16.8996 16.307 17.2146 15.1951 17.3641C14.1146 17.5094 12.7341 17.5093 10.9911 17.5093H8.9873C7.24434 17.5093 5.8638 17.5094 4.78335 17.3641C3.67141 17.2146 2.77142 16.8996 2.06166 16.1899C1.3519 15.4801 1.03692 14.5801 0.887423 13.4682C0.742161 12.3877 0.742173 11.0072 0.742188 9.26423V9.15722C0.742173 7.41426 0.742161 6.03372 0.887423 4.95328C1.03692 3.84134 1.3519 2.94134 2.06166 2.23158C2.77142 1.52183 3.67141 1.20684 4.78335 1.05735C5.8638 0.912083 7.24434 0.912095 8.98729 0.91211L10.9911 0.91211C12.7341 0.912095 14.1146 0.912083 15.1951 1.05734C16.307 1.20684 17.207 1.52182 17.9168 2.23158C18.4017 2.71649 18.7038 3.29238 18.8942 3.96807C18.9326 4.10423 18.8256 4.23522 18.6842 4.23156L16.2905 4.23156C13.6002 4.23156 11.2289 6.35686 11.2289 9.21073C11.2289 12.0646 13.6002 14.1899 16.2905 14.1899L18.6842 14.1899ZM4.29874 4.70576C3.90589 4.70576 3.58743 5.02422 3.58743 5.41707C3.58743 5.80992 3.90589 6.12838 4.29874 6.12838H8.09239C8.48523 6.12838 8.8037 5.80992 8.8037 5.41707C8.8037 5.02422 8.48523 4.70576 8.09239 4.70576H4.29874Z"
+              fill="white"
+            />
+          </svg>
+        ),
         label: 'Manage Subscription ',
         route: '/subscription',
       },
@@ -542,7 +706,7 @@ SidebarProps) => {
                   <svg
                     style={{
                       transform: dropdownOpen
-                        ? 'rotate(180deg)'
+                        ? 'rotate(360deg)'
                         : 'rotate(270deg)',
                     }}
                     className="fill-current sm:block transition-transform duration-300"
@@ -567,7 +731,7 @@ SidebarProps) => {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
                       transition={{ duration: 0.2 }}
-                      className="absolute bottom-15 right-0 mt-4 flex w-50 flex-col rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark"
+                      className="absolute -bottom-86 sm:bottom-15 right-0 mt-4 flex w-50 flex-col rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark"
                     >
                       <div className=" flex justify-center flex-col items-center py-3">
                         <span className="h-18 w-18 text-center rounded-full">
@@ -591,7 +755,7 @@ SidebarProps) => {
                         </span>
                         <span className="text-center lg:block">
                           <span className="block text-lg font-semibold text-black dark:text-white">
-                            {userData?.username}
+                            {userData?.username} {userData?.lastName}
                           </span>
                           <span className="block  text-center text-xs font-normal text-[#00000066]">
                             {userData?.email}

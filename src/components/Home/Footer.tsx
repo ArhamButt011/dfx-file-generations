@@ -26,14 +26,29 @@ function Footer() {
               workflow and take tool organization to the next level. Start your
               free trial today!
             </p>
-            <div className="flex justify-between max-w-[190px] items-center mt-10 ">
-              <Image
-                className="w-5"
-                src="/images/user/home/social media/linkedin.svg"
-                alt="Flowbite Logo"
-                width={30}
-                height={20}
-              />
+            <div className="flex gap-6 max-w-[190px] items-center mt-10">
+              <div>
+                <a href="https://www.linkedin.com/company/lumashape">
+                  <Image
+                    className="w-5"
+                    src="/images/user/home/social media/linkedin.svg"
+                    alt="Flowbite Logo"
+                    width={30}
+                    height={20}
+                  />
+                </a>
+              </div>
+              <div className="self-end">
+                <a href="https://m.youtube.com/@Lumashape">
+                  <Image
+                    className="w-5"
+                    src="/images/user/home/social media/youtube.svg"
+                    alt="Flowbite Logo"
+                    width={30}
+                    height={20}
+                  />
+                </a>
+              </div>
               {/* <Image
                                 className=" z-50"
                                 src="/images/user/home/social media/instagram.svg"

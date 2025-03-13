@@ -1,4 +1,4 @@
-import { useParams } from 'next/navigation'
+import { useParams, useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import backImage from '/public/images/user/GenerateDFX/backImage.svg'
 import noDownloads from '/public/images/admin/noDownloads.svg'
@@ -31,6 +31,10 @@ const FileDetails = () => {
   const [dfxFile, setDfxFile] = useState('')
   const [fileSize, setFileSize] = useState<number | null>(null)
   const [fileName, setFileName] = useState('')
+  const searchParams = useSearchParams()
+  const source = searchParams.get('source') || 'allUsers'
+  const page = searchParams.get('page') || '1'
+  const filePage = searchParams.get('filePage') || '1'
 
   useEffect(() => {
     const fetchFilesData = async () => {
@@ -181,7 +185,12 @@ const FileDetails = () => {
   return (
     <div>
       <div className="flex items-center gap-2">
-        <Link href={`/admin/allusers/${userId}/`}>
+        <Link
+          href={{
+            pathname: `/admin/allusers/${userId}`,
+            query: { source, page, fileSource: 'fileDetails', filePage },
+          }}
+        >
           <Image
             src={backImage}
             height={27}

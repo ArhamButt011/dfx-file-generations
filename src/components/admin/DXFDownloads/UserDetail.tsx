@@ -5,6 +5,7 @@ import email from '/public/images/admin/email.jpg'
 import Image from 'next/image'
 import backImage from '/public/images/user/GenerateDFX/backImage.svg'
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 
 interface UserData {
   _id: string
@@ -20,6 +21,9 @@ interface UserDetailsProps {
 
 const UserDetails: React.FC<UserDetailsProps> = ({ userId }) => {
   const [userData, setUserData] = useState<UserData | null>(null)
+  const searchParams = useSearchParams()
+  const source = searchParams.get('source') || 'defaultSource'
+  const page = searchParams.get('page') || '1'
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -43,7 +47,12 @@ const UserDetails: React.FC<UserDetailsProps> = ({ userId }) => {
   return (
     <>
       <div className="flex items-center gap-2">
-        <Link href="/admin/dxf-downloads">
+        <Link
+          href={{
+            pathname: '/admin/dxf-downloads',
+            query: { source, page },
+          }}
+        >
           <Image
             src={backImage}
             height={27}

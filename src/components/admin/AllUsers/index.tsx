@@ -7,6 +7,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import userImage from '/public/images/admin/emptyUser.svg'
 import searchIcon from '/public/images/searchIcon.svg'
+import { useSearchParams, useRouter } from 'next/navigation'
+
 interface User {
   _id: string
   name: string
@@ -22,11 +24,19 @@ const AllUsers = () => {
   const [searchQuery, setSearchQuery] = useState('')
   const [loadingTable, setLoadingTable] = useState(false)
   const [users, setUsers] = useState<User[]>([])
-  const [currentPage, setCurrentPage] = useState(1)
+  // const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const page = Number(searchParams.get('page')) || 1
 
+  // const handlePageChange = (newPage: number) => {
+  //   setCurrentPage(newPage)
+  // }
   const handlePageChange = (newPage: number) => {
-    setCurrentPage(newPage)
+    const params = new URLSearchParams(searchParams)
+    params.set('page', newPage.toString())
+    router.push(`?${params.toString()}`)
   }
 
   const fetchUsers = useCallback(async () => {
@@ -37,7 +47,7 @@ const AllUsers = () => {
         ? `&search=${encodeURIComponent(searchQuery)}`
         : ''
       const response = await fetch(
-        `/api/admin/get-users/?page=${currentPage}${searchParam}`,
+        `/api/admin/get-users/?page=${page}${searchParam}`,
       )
 
       if (response.ok) {
@@ -54,11 +64,11 @@ const AllUsers = () => {
     } finally {
       setLoadingTable(false)
     }
-  }, [currentPage, searchQuery])
+  }, [page, searchQuery])
 
   useEffect(() => {
     fetchUsers()
-  }, [currentPage, fetchUsers, searchQuery])
+  }, [page, fetchUsers, searchQuery])
 
   return (
     <div>
@@ -152,7 +162,10 @@ const AllUsers = () => {
                 </td>
                 <td className="py-3 px-4 text-center text-lg font-medium rounded-r-xl text-[#266CA8]">
                   <Link
-                    href={`/admin/allusers/${user._id}`}
+                    href={{
+                      pathname: `/admin/allusers/${user._id}`,
+                      query: { source: 'allUsers', page: page },
+                    }}
                     className="border-b-blue-500 border-b font-semibold "
                   >
                     View Details
@@ -175,7 +188,7 @@ const AllUsers = () => {
         </div>
       )}
 
-      {loadingTable || totalPages === 0 || users.length === 0 ? null : (
+      {/* {loadingTable || totalPages === 0 || users.length === 0 ? null : (
         <div className="mt-4 flex justify-end items-center gap-4 text-gray-800">
           <button
             onClick={() => handlePageChange(currentPage - 1)}
@@ -196,6 +209,35 @@ const AllUsers = () => {
             disabled={currentPage === totalPages}
             className={`px-4 py-2 rounded-md ${
               currentPage === totalPages
+                ? 'bg-gray-300 cursor-not-allowed'
+                : 'bg-blue-500 text-white hover:bg-blue-600'
+            }`}
+          >
+            Next
+          </button>
+        </div>
+      )} */}
+      {loadingTable || totalPages === 0 || users.length === 0 ? null : (
+        <div className="mt-4 flex justify-end items-center gap-4 text-gray-800">
+          <button
+            onClick={() => handlePageChange(page - 1)}
+            disabled={page === 1}
+            className={`px-4 py-2 rounded-md ${
+              page === 1
+                ? 'bg-gray-300 cursor-not-allowed'
+                : 'bg-blue-500 text-white hover:bg-blue-600'
+            }`}
+          >
+            Previous
+          </button>
+          <span>
+            Page {page} of {totalPages}
+          </span>
+          <button
+            onClick={() => handlePageChange(page + 1)}
+            disabled={page === totalPages}
+            className={`px-4 py-2 rounded-md ${
+              page === totalPages
                 ? 'bg-gray-300 cursor-not-allowed'
                 : 'bg-blue-500 text-white hover:bg-blue-600'
             }`}
