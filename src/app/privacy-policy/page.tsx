@@ -4,31 +4,33 @@ import logo from '/public/images/user/home/user_login.svg'
 
 const PrivacyPolicy = () => {
   return (
-    <div className="md:p-12 p-5 md:max-w-screen-2xl  mx-auto py-16 text-gray-800">
+    <div className="md:p-12 p-5 md:max-w-screen-lg mx-auto py-16 text-gray-800">
       <div className="flex items-center mb-20">
         <Image src={logo} alt="LUMASHAPE Logo" height={73} width={400} />
       </div>
-      <h1 className="text-[55px] font-bold mb-4">Privacy Policy</h1>
-      <p className="mb-4 text-[27px] text-[#00000080] font-medium">
+      <h1 className="text-[32px] sm:text-[40px] font-bold mb-4">
+        Privacy Policy
+      </h1>
+      <p className="mb-4 sm:text-[20px] text-[16px] font-medium">
         This Privacy Policy describes how Lumashape collects, uses, and shares
         information when you use our web application. By using the web app, you
         agree to the collection and use of information in accordance with this
         Privacy Policy.
       </p>
 
-      <h2 className="text-[36px] font-semibold mt-10">1. Introduction</h2>
-      <ul className="list-disc pl-8 mb-4 mt-3">
-        <li className="text-[27px] text-[#00000080] font-medium">
+      <h2 className="text-[26px] font-semibold mt-10">1. Introduction</h2>
+      <ul className="list-none pl-8 mb-4 mt-3">
+        <li className="sm:text-[20px] text-[16px] font-medium">
           Welcome to Lumashape! Your privacy is important to us. This Privacy
           Policy explains how we collect, use, and protect your information when
           you use our services.
         </li>
       </ul>
 
-      <h2 className="text-[36px] font-semibold mt-10">
+      <h2 className="text-[26px] font-semibold mt-10">
         2. Information We Collect
       </h2>
-      <ul className="list-disc pl-6 mb-4 text-[27px] text-[#00000080] font-medium mt-3">
+      <ul className="list-none pl-6 mb-4 sm:text-[20px] text-[16px] font-medium mt-3">
         <li>We collect the following data when you use our services:</li>
         <ul className="pl-6">
           <li>
@@ -40,11 +42,10 @@ const PrivacyPolicy = () => {
           </li>
         </ul>
       </ul>
-
-      <h2 className="text-[36px] font-semibold mt-10">
+      <h2 className="text-[26px] font-semibold mt-10">
         3. How We Use Your Information
       </h2>
-      <ul className="list-disc pl-6 mb-4 text-[27px] text-[#00000080] font-medium mt-3">
+      <ul className="list-none pl-6 mb-4 sm:text-[20px] text-[16px] font-medium mt-3">
         <li>We use the collected data to:</li>
         <ul className="pl-6">
           <li>- Provide and improve our services</li>
@@ -56,17 +57,17 @@ const PrivacyPolicy = () => {
         </ul>
       </ul>
 
-      <h2 className="text-[36px] font-semibold mt-10">4. Data Sharing</h2>
-      <ul className="list-disc pl-6 mb-4 text-[27px] text-[#00000080] font-medium mt-3">
+      <h2 className="text-[26px] font-semibold mt-10">4. Data Sharing</h2>
+      <ul className="list-none pl-6 mb-4 sm:text-[20px] text-[16px] font-medium mt-3">
         <li>
           We do not share, sell, or rent your personal data to third parties.
         </li>
       </ul>
 
-      <h2 className="text-[36px] font-semibold mt-10">
+      <h2 className="text-[26px] font-semibold mt-10">
         5. Data Retention & Deletion
       </h2>
-      <ul className="list-disc pl-6 mb-4 text-[27px] text-[#00000080] font-medium mt-3">
+      <ul className="list-none pl-6 mb-4 sm:text-[20px] text-[16px] font-medium mt-3">
         <li>
           You may delete your account and payment information at any time. Upon
           deletion, we will remove your data from our systems, except for
@@ -74,16 +75,16 @@ const PrivacyPolicy = () => {
         </li>
       </ul>
 
-      <h2 className="text-[36px] font-semibold mt-10">6. Security Measures</h2>
-      <ul className="list-disc pl-6 mb-4 text-[27px] text-[#00000080] font-medium mt-3">
+      <h2 className="text-[26px] font-semibold mt-10">6. Security Measures</h2>
+      <ul className="list-none pl-6 mb-4 sm:text-[20px] text-[16px] font-medium mt-3">
         <li>
           We implement industry-standard security measures to protect your data
           from unauthorized access, alteration, or loss.
         </li>
       </ul>
 
-      <h2 className="text-[36px] font-semibold mt-10">7. Your Rights</h2>
-      <ul className="list-disc pl-6 mb-4 text-[27px] text-[#00000080] font-medium mt-3">
+      <h2 className="text-[26px] font-semibold mt-10">7. Your Rights</h2>
+      <ul className="list-none pl-6 mb-4 sm:text-[20px] text-[16px] font-medium mt-3">
         <li>As a user, you have the right to:</li>
         <ul className="pl-6">
           <li>- Access and update your data.</li>
@@ -91,18 +92,18 @@ const PrivacyPolicy = () => {
         </ul>
       </ul>
 
-      <h2 className="text-[36px] font-semibold mt-10">8. Legal Compliance</h2>
-      <ul className="list-disc pl-6 mb-4 text-[27px] text-[#00000080] font-medium mt-3">
+      <h2 className="text-[26px] font-semibold mt-10">8. Legal Compliance</h2>
+      <ul className="list-none pl-6 mb-4 sm:text-[20px] text-[16px] font-medium mt-3">
         <li>
           Lumashape operates in the USA and complies with applicable USA data
           privacy laws.
         </li>
       </ul>
 
-      <h2 className="text-[36px] font-semibold mt-10">
+      <h2 className="text-[26px] font-semibold mt-10">
         9. Contact Information
       </h2>
-      <ul className="list-disc pl-6 mb-4 text-[27px] text-[#00000080] font-medium mt-3">
+      <ul className="list-none sm:text-[20px] text-[16px] pl-6 mb-4 font-medium mt-3">
         <li>
           If you have any questions, contact us at:{' '}
           <a
@@ -122,14 +123,14 @@ const PrivacyPolicy = () => {
           className="mt-8"
         />
       </div>
-      <div className="mt-5 font-normal pt-4 text-[23px] text-[#0000004D] flex gap-4">
-        <a href="/privacy-policy" className="border-b h-7">
+      <div className="mt-5 font-normal pt-4 sm:text-[16px] text-[14px] text-[#266CA8] flex gap-4">
+        <a href="/privacy-policy" className="border-b border-[#266CA8] h-7">
           Privacy Policy
         </a>
-        <a href="/Terms&Condition" className="border-b h-7">
+        <a href="/Terms&Condition" className="border-b border-[#266CA8] h-7">
           Terms and Conditions
         </a>
-        <a href="/Contact_Us" className="border-b h-7">
+        <a href="/Contact_Us" className="border-b border-[#266CA8] h-7">
           Contact Us
         </a>
       </div>
