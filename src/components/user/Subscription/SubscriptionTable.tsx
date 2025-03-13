@@ -33,14 +33,16 @@ const SubscriptionTable: React.FC<SubscriptionTableProps> = ({
   console.log(subscriptions)
   return (
     <div className="mt-14">
-      <p className="font-semibold text-3xl mb-10">Subscription History</p>
+      <p className="font-semibold sm:text-4xl text-3xl mb-10">
+        Subscription History
+      </p>
       {loadingTable ? (
         <div className="flex items-center justify-center bg-opacity-50 z-[1000] mt-20 h-50">
           <ClipLoader color="#007bff" size={50} />
         </div>
       ) : subscriptions.length > 0 ? (
-        <div className="w-full overflow-x-auto">
-          <div className="w-full max-w-[200px] sm:max-w-full">
+        <div className="w-full overflow-x-auto grid grid-cols-1">
+          <div className="w-full  sm:max-w-full">
             {' '}
             {/* Ensures the table has a minimum width */}
             <table className="w-full rounded-3xl whitespace-nowrap">

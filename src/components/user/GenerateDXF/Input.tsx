@@ -636,7 +636,7 @@ function Input() {
           {/* left */}
           <div className="bg-[#F2F2F2] md:w-1/2 rounded-b-2xl rounded-t-2xl">
             <div className="bg-[#C6C9CB] py-3 rounded-t-2xl">
-              <p className="text-white text-center font-medium text-2xl text-[#000000]">
+              <p className="text-[#000000] text-center font-medium text-2xl text-[#000000]">
                 Input Data
               </p>
             </div>
@@ -909,7 +909,7 @@ function Input() {
           {/* right */}
           <div className="bg-[#F2F2F2] md:w-1/2 rounded-b-2xl rounded-t-2xl">
             <div className="bg-[#C6C9CB] py-3 rounded-t-2xl text-[#000000]">
-              <p className="text-white text-center font-medium text-2xl">
+              <p className="text-[#000000] text-center font-medium text-2xl">
                 Output Data
               </p>
             </div>

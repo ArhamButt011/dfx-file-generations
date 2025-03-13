@@ -9,6 +9,7 @@ import { ObjectId } from 'mongodb'
 import { ClipLoader } from 'react-spinners'
 import searchIcon from '/public/images/searchIcon.svg'
 import Link from 'next/link'
+import { useSearchParams, useRouter } from 'next/navigation'
 
 interface Download {
   _id: string
@@ -24,12 +25,17 @@ const DXFDownloads = () => {
   const [loadingTable, setLoadingTable] = useState<boolean>(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [downloads, setDownloads] = useState<Download[]>([])
-  const [currentPage, setCurrentPage] = useState(1)
+  // const [currentPage, setCurrentPage] = useState(1)
   const [totalDXFDownloads, setTotalDownloads] = useState(0)
   const [totalPages, setTotalPages] = useState(1)
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const page = Number(searchParams.get('page')) || 1
 
   const handlePageChange = (newPage: number) => {
-    setCurrentPage(newPage)
+    const params = new URLSearchParams(searchParams)
+    params.set('page', newPage.toString())
+    router.push(`?${params.toString()}`)
   }
 
   const fetchDownloads = useCallback(async () => {
@@ -40,7 +46,7 @@ const DXFDownloads = () => {
         ? `&search=${encodeURIComponent(searchQuery)}`
         : ''
       const response = await fetch(
-        `/api/admin/get-downloads/?page=${currentPage}${searchParam}`,
+        `/api/admin/get-downloads/?page=${page}${searchParam}`,
       )
 
       if (response.ok) {
@@ -56,7 +62,7 @@ const DXFDownloads = () => {
     } finally {
       setLoadingTable(false)
     }
-  }, [currentPage, searchQuery])
+  }, [page, searchQuery])
 
   useEffect(() => {
     fetchDownloads()
@@ -67,9 +73,9 @@ const DXFDownloads = () => {
   return (
     <div>
       <Breadcrumb
-        pageName="DXF Downloads"
+        pageName="Files History"
         totalContent={totalDXFDownloads}
-        totalText="Total DXF Downloads"
+        totalText="Total DXF Imported"
         rightContent={
           <div className="relative">
             <Image
@@ -118,7 +124,7 @@ const DXFDownloads = () => {
                 className="text-primary bg-[#F5F5F5] text-[16.45px]"
               >
                 <td className="py-3 px-4 text-start font-medium rounded-l-xl">
-                  #{(currentPage - 1) * 10 + (index + 1)}
+                  #{(page - 1) * 10 + (index + 1)}
                 </td>
                 <td className="py-3 px-4 text-start font-medium text-[19px] text-[#000000]">
                   {data.file_name}
@@ -148,13 +154,16 @@ const DXFDownloads = () => {
                   </div>
                 </td>
 
-                <td className="py-3 px-4 text-center text-lg font-medium rounded-r-xl">
+                <td className="py-3 px-4 text-center text-lg font-medium">
                   {format(new Date(data.downloaded_on), 'MMM dd, yyyy')}
                 </td>
                 <td className="py-3 px-4 text-center text-lg font-medium rounded-r-xl text-[#266CA8]">
                   <Link
-                    href={`/admin/dxf-downloads/${data._id}`}
-                    className="border-b-blue-500 border-b font-semibold "
+                    href={{
+                      pathname: `/admin/dxf-downloads/${data._id}`,
+                      query: { source: 'allDxf', page: page }, // Example query params
+                    }}
+                    className="border-b-blue-500 border-b font-semibold"
                   >
                     View Details
                   </Link>
@@ -175,7 +184,7 @@ const DXFDownloads = () => {
           />
         </div>
       )}
-      {loadingTable || totalPages === 0 || downloads.length === 0 ? null : (
+      {/* {loadingTable || totalPages === 0 || downloads.length === 0 ? null : (
         <div className="mt-4 flex justify-end items-center gap-4 text-gray-800">
           <button
             onClick={() => handlePageChange(currentPage - 1)}
@@ -200,6 +209,36 @@ const DXFDownloads = () => {
                 : 'bg-blue-500 text-white hover:bg-blue-600'
             }`}
           >
+            Next
+          </button>
+        </div>
+      )} */}
+      {loadingTable || totalPages === 0 || downloads.length === 0 ? null : (
+        <div className="mt-4 flex justify-end items-center gap-4 text-gray-800">
+          <button
+            onClick={() => handlePageChange(page - 1)}
+            disabled={page === 1}
+            className={`px-4 py-2 rounded-md ${
+              page === 1
+                ? 'bg-gray-300 cursor-not-allowed'
+                : 'bg-blue-500 text-white hover:bg-blue-600'
+            }`}
+          >
+            Previous
+          </button>
+          <span>
+            Page {page} of {totalPages}
+          </span>
+          <button
+            onClick={() => handlePageChange(page + 1)}
+            disabled={page === totalPages}
+            className={`px-4 py-2 rounded-md ${
+              page === totalPages
+                ? 'bg-gray-300 cursor-not-allowed'
+                : 'bg-blue-500 text-white hover:bg-blue-600'
+            }`}
+          >
+            {' '}
             Next
           </button>
         </div>

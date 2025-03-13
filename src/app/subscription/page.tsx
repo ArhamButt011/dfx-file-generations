@@ -78,6 +78,7 @@ function Page() {
       <Index
         subscriptions={subscriptions}
         setSubscriptions={setSubscriptions}
+        loadingTable={loadingTable}
       />
       <SubscriptionTable
         subscriptions={subscriptions}

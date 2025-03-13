@@ -22,11 +22,13 @@ interface Subscription {
 
 interface SubscriptionProps {
   subscriptions: Subscription[]
+  loadingTable: boolean
   setSubscriptions: React.Dispatch<React.SetStateAction<Subscription[]>>
 }
 const Index: React.FC<SubscriptionProps> = ({
   subscriptions,
   setSubscriptions,
+  loadingTable,
 }) => {
   const [isBilingOpen, setIsBilingOpen] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
@@ -108,13 +110,13 @@ const Index: React.FC<SubscriptionProps> = ({
 
   return (
     <div>
-      <p className="font-semibold text-4xl">Subscription Plan</p>
-      <p className="font-medium text-lg text-[#00000080] mt-1">
+      <p className="font-semibold sm:text-4xl text-3xl">Subscription Plan</p>
+      <p className="font-medium sm:text-lg text-md text-[#00000080] mt-1">
         Manage your subscription and payment details
       </p>
       <div className="flex mt-5 w-full justify-between gap-10">
         {/* left */}
-        <div className="border rounded-2xl p-5 w-full">
+        <div className="border rounded-2xl sm:p-5 px-4 py-5 w-full">
           {subscriptions[0]?.status === 'active' &&
           subscriptions[0]?.plan_name !== 'Free' ? (
             <>
@@ -123,7 +125,7 @@ const Index: React.FC<SubscriptionProps> = ({
                   <p className="font-semibold text-[29px] flex items-center gap-2">
                     <div>{subscriptions[0]?.plan_name} Plan </div>
 
-                    <div className="font-medium text-[17px] bg-[#266CA81A] text-[#266CA8] px-2 py-[2px] rounded-full">
+                    <div className="font-medium text-[13px] sm:text-[17px] bg-[#266CA81A] text-[#266CA8] px-2 py-[2px] rounded-full">
                       Monthly
                     </div>
                   </p>
@@ -134,11 +136,13 @@ const Index: React.FC<SubscriptionProps> = ({
                   </p>
                 </div>
                 <div>
-                  <p className="font-medium">
-                    <span className="text-4xl">
+                  <p className="flex items-end">
+                    <span className="text-3xl sm:text-4xl font-medium">
                       ${subscriptions[0]?.charges}
                     </span>{' '}
-                    <span className="text-base text-[#00000066]">/month</span>
+                    <span className="text-base text-[#00000066] sm:text-[17px] text-[13px]">
+                      /Month
+                    </span>
                   </p>
                 </div>
               </div>
@@ -164,39 +168,41 @@ const Index: React.FC<SubscriptionProps> = ({
           <div className="flex items-center justify-end gap-4">
             {subscriptions[0]?.status === 'active' &&
             subscriptions[0]?.plan_name !== 'Free' ? (
-              <div className="flex justify-center">
+              <div className="flex justify-center items-center">
                 <p
-                  className="font-semibold text-[#266CA8] text-[19.83px] underline cursor-pointer"
+                  className="font-semibold text-[#266CA8] text-[16.94px] text-[13px] underline cursor-pointer"
                   onClick={() => setIsOpen(true)}
                 >
                   Cancel Subscription
                 </p>
-                <Image
+                <img
                   src="/images/user/subscription/diagonalArrow.svg"
                   alt="arrow"
-                  width={25}
-                  height={25}
+                  className="sm:w-[25px] sm:h-[25px] w-[16px] h-[16px]"
                 />
               </div>
             ) : (
               ''
             )}
-            <div>
-              <button
-                className="font-medium text-[17.94px] text-[#FFFFFF] bg-[#266CA8] px-3 py-1 rounded-full"
-                onClick={() => setIsBilingOpen(true)}
-              >
-                <div className="flex gap-2 items-center">
-                  <Image
-                    src={upgradeImage}
-                    alt="upgrade"
-                    height={17}
-                    width={21}
-                  />
-                  Upgrade Plan
-                </div>
-              </button>
-            </div>
+            {!loadingTable && (
+              <div>
+                <button
+                  className="font-medium text-[13px] sm:text-[17.94px]  text-[#FFFFFF] bg-[#266CA8] px-3 py-1 rounded-full"
+                  onClick={() => setIsBilingOpen(true)}
+                >
+                  <div className="flex gap-2 items-center">
+                    <Image
+                      src={upgradeImage}
+                      alt="upgrade"
+                      width={21}
+                      height={17}
+                      className="sm:h-[17px] sm:w-[21px] h-[12px] w-[16px]"
+                    />
+                    Upgrade Plan
+                  </div>
+                </button>
+              </div>
+            )}
           </div>
         </div>
         {/* right */}

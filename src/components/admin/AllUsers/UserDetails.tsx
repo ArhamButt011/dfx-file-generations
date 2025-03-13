@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import backImage from '/public/images/user/GenerateDFX/backImage.svg'
-import { useParams, useRouter } from 'next/navigation'
+import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import userImage from '/public/images/userImage.svg'
 import email from '/public/images/admin/email.jpg'
@@ -34,6 +34,9 @@ const UserDetails: React.FC = () => {
   const [userData, setUserData] = useState<UserData | null>(null)
   const { id } = useParams<{ id: string }>()
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const source = searchParams.get('source') || 'defaultSource'
+  const page = searchParams.get('page') || '1'
 
   const onClose = () => {
     setIsOpen(false)
@@ -106,7 +109,12 @@ const UserDetails: React.FC = () => {
 
   return (
     <>
-      <Link href={`/admin/allusers`}>
+      <Link
+        href={{
+          pathname: '/admin/allusers',
+          query: { source, page },
+        }}
+      >
         <Image
           src={backImage}
           height={27}
