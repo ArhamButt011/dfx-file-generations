@@ -4,7 +4,7 @@ import backImage from '/public/images/user/GenerateDFX/backImage.svg'
 import Link from 'next/link'
 import dltImage from '/public/images/user/delete.svg'
 import downloadImg from '/public/images/user/download.svg'
-import { useParams } from 'next/navigation'
+import { useParams, useSearchParams } from 'next/navigation'
 import Swal from 'sweetalert2'
 import axios from 'axios'
 import { ClipLoader } from 'react-spinners'
@@ -30,6 +30,9 @@ const FileDetails = () => {
   const [fileName, setFileName] = useState('')
   const [fileSize, setFileSize] = useState<number | null>(null)
   const [outline, setOutline] = useState('')
+  const searchParams = useSearchParams()
+  const source = searchParams.get('source') || 'defaultSource'
+  const page = searchParams.get('page') || '1'
 
   useEffect(() => {
     const fetchFilesData = async () => {
@@ -237,7 +240,12 @@ const FileDetails = () => {
           {/* Header Section */}
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center gap-2">
-              <Link href="/downloaded-files">
+              <Link
+                href={{
+                  pathname: '/downloaded-files',
+                  query: { source, page },
+                }}
+              >
                 <Image
                   src={backImage}
                   height={27}

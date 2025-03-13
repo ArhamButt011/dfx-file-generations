@@ -104,7 +104,7 @@ const AllUsers = () => {
           <thead>
             <tr className="text-[18.45px] text-gray-600">
               <th className="pb-4 px-4 border-b text-start font-medium">
-                User Name
+                Name
               </th>
               <th className="pb-4 px-4 border-b text-center font-medium">
                 Email Address

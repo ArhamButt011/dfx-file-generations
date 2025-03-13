@@ -84,15 +84,15 @@ const Login: React.FC<LoginProps> = ({ title, content }) => {
   }
 
   return (
-    <div className="flex flex-col w-full md:flex-row">
+    <div className="flex flex-col w-full md:flex-row w-full">
       {loading && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[1000]">
           <ClipLoader color="#007bff" size={50} />
         </div>
       )}
       {/* Left Form Section */}
-      <div className="w-[100%] bg-white flex items-center justify-center md:w-[60%] p-6 md:p-0">
-        <div className="md:w-[70%] w-[100%]">
+      <div className="w-full bg-white flex items-center justify-center md:max-w-[60%] p-6 md:px-5">
+        <div className="md:max-w-[600px] w-full">
           <div className="flex items-center md:mb-6 mb-10 justify-start w-full">
             <Image src={logo} alt="logo" width={360} height={55} priority />
           </div>

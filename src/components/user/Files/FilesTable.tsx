@@ -13,6 +13,7 @@ import Link from 'next/link'
 import axios from 'axios'
 import Swal from 'sweetalert2'
 import Modal from '@/components/UI/Modal'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 interface Downloads {
   _id: string
@@ -36,7 +37,7 @@ function FilesTable() {
   // const [loadingTable, setLoadingTable] = useState<boolean>(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [downloads, setDownloads] = useState<Downloads[]>([])
-  const [currentPage, setCurrentPage] = useState(1)
+  // const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
   const [loading, setLoading] = useState<boolean>(false)
   // const [userPlan, setUserPlan] = useState<UserPlan | null>(null)
@@ -47,16 +48,23 @@ function FilesTable() {
   const [editLoading, setEditLoading] = useState(false)
   const { userData } = useAuth()
   const userId = userData?.id
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const page = Number(searchParams.get('page')) || 1
 
+  // const handlePageChange = (newPage: number) => {
+  //   setCurrentPage(newPage)
+  // }
   const handlePageChange = (newPage: number) => {
-    setCurrentPage(newPage)
+    const params = new URLSearchParams(searchParams)
+    params.set('page', newPage.toString())
+    router.push(`?${params.toString()}`)
   }
 
   const fetchDownloads = useCallback(async () => {
     console.log(searchQuery)
 
     if (!userData) {
-      console.log('userData', userData)
       return
     }
     setLoading(true)
@@ -67,9 +75,8 @@ function FilesTable() {
         ? `&search=${encodeURIComponent(searchQuery)}`
         : ''
       const response = await fetch(
-        `/api/admin/get-dxf-downloads/${userData?.id}?page=${currentPage}${searchParam}`,
+        `/api/admin/get-dxf-downloads/${userData?.id}?page=${page}${searchParam}`,
       )
-      console.log('download-> ', downloads)
       if (response.ok) {
         const data = await response.json()
         setDownloads(data.downloads)
@@ -82,11 +89,11 @@ function FilesTable() {
     } finally {
       setLoading(false)
     }
-  }, [userData?.id, searchQuery, currentPage])
+  }, [userData?.id, searchQuery, page])
 
   useEffect(() => {
     fetchDownloads()
-  }, [userData?.id, currentPage, searchQuery])
+  }, [userData?.id, page, searchQuery])
 
   useEffect(() => {
     async function fetchUserPlan() {
@@ -180,7 +187,7 @@ function FilesTable() {
   }
 
   const handleFileNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const updatedName = e.target.value.replace(/\.dxf$/, '') // Ensure ".dxf" is not included
+    const updatedName = e.target.value.replace(/\.dxf$/, '')
     setFileName(updatedName)
   }
 
@@ -188,7 +195,7 @@ function FilesTable() {
   useEffect(() => {
     const fileData = downloads.find((item) => item._id === editingFileId)
     if (fileData) {
-      setFileName(fileData.file_name.replace(/\.dxf$/, '')) // Remove ".dxf" if present
+      setFileName(fileData.file_name.replace(/\.dxf$/, ''))
     }
   }, [editingFileId, downloads])
 
@@ -258,7 +265,7 @@ function FilesTable() {
                           : 'border-l'
                       }`}
                     >
-                      #{(currentPage - 1) * 10 + index + 1}
+                      #{(page - 1) * 10 + index + 1}
                     </td>
                     <td className="py-4 px-4 text-center font-medium text-[19px] text-[#000000]">
                       <span>{data.file_name.replace(/\.dxf$/, '')}.dxf</span>
@@ -291,7 +298,10 @@ function FilesTable() {
                         <div>
                           <Link
                             className="border-b-blue-500 border-b font-semibold text-[#266CA8]"
-                            href={`/downloaded-files/${data._id}`}
+                            href={{
+                              pathname: `/downloaded-files/${data._id}`,
+                              query: { source: 'downloads', page: page },
+                            }}
                           >
                             Detail
                           </Link>
@@ -328,7 +338,7 @@ function FilesTable() {
         </div>
       )}
 
-      {loading || totalPages === 0 || downloads.length === 0 ? null : (
+      {/* {loading || totalPages === 0 || downloads.length === 0 ? null : (
         <div className="mt-4 flex justify-end items-center gap-4 text-gray-800">
           <button
             onClick={() => handlePageChange(currentPage - 1)}
@@ -349,6 +359,35 @@ function FilesTable() {
             disabled={currentPage === totalPages}
             className={`px-4 py-2 rounded-md ${
               currentPage === totalPages
+                ? 'bg-gray-300 cursor-not-allowed'
+                : 'bg-blue-500 text-white hover:bg-blue-600'
+            }`}
+          >
+            Next
+          </button>
+        </div>
+      )} */}
+      {loading || totalPages === 0 || downloads.length === 0 ? null : (
+        <div className="mt-4 flex justify-end items-center gap-4 text-gray-800">
+          <button
+            onClick={() => handlePageChange(page - 1)}
+            disabled={page === 1}
+            className={`px-4 py-2 rounded-md ${
+              page === 1
+                ? 'bg-gray-300 cursor-not-allowed'
+                : 'bg-blue-500 text-white hover:bg-blue-600'
+            }`}
+          >
+            Previous
+          </button>
+          <span>
+            Page {page} of {totalPages}
+          </span>
+          <button
+            onClick={() => handlePageChange(page + 1)}
+            disabled={page === totalPages}
+            className={`px-4 py-2 rounded-md ${
+              page === totalPages
                 ? 'bg-gray-300 cursor-not-allowed'
                 : 'bg-blue-500 text-white hover:bg-blue-600'
             }`}

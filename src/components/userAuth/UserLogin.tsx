@@ -782,10 +782,10 @@ const UserLogin = () => {
           <div className="flex items-center 2xl:mb-10 md:mb-5 sm:mb-5 mb-10">
             <Image src={logo} alt="logo" width={300} height={300} priority />
           </div>
-          <h1 className="md:text-[40px] text-[28px] font-medium text-black -mb-5">
+          <h1 className="md:text-[36px] text-[22px] font-medium text-black -mb-5">
             Effortless & Efficient
           </h1>
-          <p className="font-[550] md:text-[55px] text-[39px] md:mt-0  2xl:mb-15 mt-5 sm:mb-2 mb-5 text-black">
+          <p className="font-[550] md:text-[46px] text-[32px] md:mt-0  2xl:mb-15 mt-5 sm:mb-2 mb-5 text-black">
             <span className="text-[#266CAB]">DXF</span> File Creation
           </p>
           <form onSubmit={handleLogin}>
@@ -847,11 +847,11 @@ const UserLogin = () => {
 
             <button
               type="submit"
-              className="w-full text-xl bg-[#005B97] text-white py-3 px-4 2xl:mt-18 md:mt-11 2xl:mb-6 md:mb-3 mb-3 mt-10 font-bold rounded-3xl hover:bg-[#005b97f0] transition duration-300"
+              className="w-full xl:text-[20px] text-[16px] bg-[#005B97] text-white py-3 px-4 2xl:mt-18 md:mt-11 2xl:mb-6 md:mb-3 mb-3 mt-10 font-bold rounded-3xl hover:bg-[#005b97f0] transition duration-300"
             >
               Login
             </button>
-            <p className="font-[550] md:text-xl text-sm text-center text-black mb-5">
+            <p className="font-[550] md:text-xl text-[12px] text-center text-black mb-5">
               Don&apos;t have an account?{' '}
               <span
                 className=" underline text-[#266CAB] cursor-pointer"
