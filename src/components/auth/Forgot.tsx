@@ -189,7 +189,7 @@ const Forgot: React.FC<ForgotProps> = ({ title, content }) => {
                 ) : (
                   <button
                     type="submit"
-                    className="text-right mt-2 text-[#266CA8] underline text-[14px] xl:text-[16px] font-semibold cursor-pointer"
+                    className="text-right mt-1 text-[#266CA8] underline md:text-lg text-xs cursor-pointer cursor-pointer font-medium"
                   >
                     {OTPSent ? 'Resend OTP' : 'Send OTP'}
                   </button>

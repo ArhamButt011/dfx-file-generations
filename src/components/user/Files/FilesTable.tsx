@@ -206,19 +206,23 @@ function FilesTable() {
     <div className="mt-1">
       <div className="mb-6 flex justify-between items-center lg:flex-row flex-col gap-2">
         <span>
-          <p className="font-medium text-3xl">Files History</p>
+          <p className="font-semibold text-[22px] sm:text-[24px] mt-6 text-center sm:text-left">
+            Files History
+          </p>
         </span>
         <div>
           <div className="relative">
             <Image
               src={searchIcon}
               alt="searchIcon"
+              width={14}
+              height={14}
               className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 opacity-60"
             />
             <input
               type="text"
               placeholder="Search..."
-              className="pl-10 pr-10 py-2 rounded-xl border text-gray-800 text-[18px] focus:outline-none focus:ring-2 focus:ring-[#005B97]"
+              className="pl-8 pr-10 py-2 rounded-xl border text-gray-800 text-[18px] focus:outline-none focus:ring-2 focus:ring-[#005B97] placeholder:text-sm text-sm text-sm"
               value={searchQuery || ''}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -235,7 +239,7 @@ function FilesTable() {
           <div className="w-full  sm:max-w-full">
             <table className="w-full rounded-3xl whitespace-nowrap">
               <thead className="bg-[#C6C9CB] rounded-3xl">
-                <tr className="text-[18.45px] text-black">
+                <tr className="md:text-[16px] text-[14px] text-black">
                   <th className="p-3 border-b text-start font-medium rounded-tl-3xl">
                     Sr No
                   </th>
@@ -254,7 +258,7 @@ function FilesTable() {
                 {downloads.map((data, index) => (
                   <tr
                     key={index}
-                    className={`text-primary text-[16.45px] ${
+                    className={`text-primary text-[14px] md:text-[16px] ${
                       index % 2 !== 0 ? 'bg-[#F2F2F2]' : 'bg-white'
                     }`}
                   >
@@ -267,7 +271,7 @@ function FilesTable() {
                     >
                       #{(page - 1) * 10 + index + 1}
                     </td>
-                    <td className="py-4 px-4 text-center font-medium text-[19px] text-[#000000]">
+                    <td className="py-4 px-4 text-center font-medium text-[14px] md:text-[16px] text-[#000000]">
                       <span>{data.file_name.replace(/\.dxf$/, '')}.dxf</span>
 
                       {/* <div className="flex items-center justify-center gap-2">
@@ -283,11 +287,11 @@ function FilesTable() {
                         />
                       </div> */}
                     </td>
-                    <td className="py-4 px-4 text-center text-lg font-medium">
+                    <td className="py-4 px-4 text-center text-[14px] md:text-[16px] font-medium">
                       {format(new Date(data.downloaded_on), 'MMM dd, yyyy')}
                     </td>
                     <td
-                      className={`py-4 px-4 text-center text-lg font-medium relative ${
+                      className={`py-4 px-4 text-center text-[14px] md:text-[16px] font-medium relative ${
                         index === downloads.length - 1
                           ? 'rounded-br-3xl border-0'
                           : 'border-r'
@@ -314,8 +318,8 @@ function FilesTable() {
                           }}
                         >
                           <svg
-                            width="25"
-                            height="25"
+                            width="23"
+                            height="23"
                             viewBox="0 0 13 13"
                             fill="none"
                             xmlns="http://www.w3.org/2000/svg"

@@ -33,7 +33,7 @@ const SubscriptionTable: React.FC<SubscriptionTableProps> = ({
   console.log(subscriptions)
   return (
     <div className="mt-14">
-      <p className="font-semibold sm:text-4xl text-3xl mb-10">
+      <p className="font-semibold text-[20px] sm:text-[24px] text-left sm:mb-6 mb-4">
         Subscription History
       </p>
       {loadingTable ? (
@@ -47,7 +47,7 @@ const SubscriptionTable: React.FC<SubscriptionTableProps> = ({
             {/* Ensures the table has a minimum width */}
             <table className="w-full rounded-3xl whitespace-nowrap">
               <thead className="bg-[#C6C9CB] rounded-3xl">
-                <tr className="text-[18.45px] text-black">
+                <tr className="md:text-[16px] text-[14px] text-black">
                   <th className="p-3 border-b text-start font-medium rounded-tl-3xl">
                     Sr No
                   </th>
@@ -75,7 +75,7 @@ const SubscriptionTable: React.FC<SubscriptionTableProps> = ({
                   return (
                     <tr
                       key={index}
-                      className={`text-primary text-[16.45px] ${
+                      className={`text-primary text-[14px] md:text-[16px] ${
                         index % 2 !== 0 ? 'bg-[#F2F2F2]' : 'bg-white'
                       }`}
                     >
@@ -88,22 +88,22 @@ const SubscriptionTable: React.FC<SubscriptionTableProps> = ({
                       >
                         #{index + 1}
                       </td>
-                      <td className="py-4 px-4 text-center font-medium text-[19px] text-[#000000]">
+                      <td className="py-4 px-4 text-center font-medium text-[14px] md:text-[16px] text-[#000000]">
                         {data.plan_name}
                       </td>
-                      <td className="py-4 px-4 text-center text-lg font-medium">
+                      <td className="py-4 px-4 text-center text-[14px] md:text-[16px] font-medium">
                         {data.duration}
                       </td>
-                      <td className="py-4 px-4 text-center text-lg font-medium text-[#266CA8]">
+                      <td className="py-4 px-4 text-center text-[14px] md:text-[16px] font-medium text-[#266CA8]">
                         ${data.charges}
                       </td>
-                      <td className="py-4 px-4 text-center text-lg font-medium">
+                      <td className="py-4 px-4 text-center text-[14px] md:text-[16px] font-medium">
                         {data.added_on
                           ? format(new Date(data.added_on), 'MMM dd, yyyy')
                           : 'N/A'}
                       </td>
                       <td
-                        className={`py-4 px-4 text-center text-lg font-medium
+                        className={`py-4 px-4 text-center text-[14px] md:text-[16px] font-medium
                        `}
                       >
                         {data.expiry_on
@@ -111,14 +111,14 @@ const SubscriptionTable: React.FC<SubscriptionTableProps> = ({
                           : 'N/A'}
                       </td>
                       <td
-                        className={`py-5 pl-0 text-center font-medium${
+                        className={`py-4 px-4 text-center text-[14px] md:text-[16px] font-medium relative ${
                           index === subscriptions.length - 1
-                            ? 'rounded-br-3xl border-0'
+                            ? 'rounded-br-3xl'
                             : 'border-r'
                         }`}
                       >
                         <span
-                          className={`${
+                          className={`text-[12px] md:text-[14px] ${
                             status === 'Current'
                               ? 'text-[#000000] bg-[#CBF0FF] rounded-full px-5 py-2'
                               : status === 'Canceled'
