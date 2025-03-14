@@ -105,7 +105,7 @@ function footer() {
               </div>
               <a
                 href="mailto:sam.peterson@lumashape.com"
-                className="text-[22px] text-[#266CA8] underline"
+                className="text-[18px] text-[#266CA8] underline"
               >
                 sam.peterson@lumashape.com
               </a>
@@ -185,7 +185,7 @@ function footer() {
           />
           <a
             href="mailto:sam.peterson@lumashape.com"
-            className="text-[16px] text-[#266CA8] underline"
+            className="text-[14px] text-[#266CA8] underline"
           >
             sam.peterson@lumashape.com
           </a>
@@ -212,7 +212,7 @@ function footer() {
           </a>
         </div>
         <div className="">
-          <p className="font-normal text-base text-[12px] text-[#22222280]">
+          <p className="font-normal text-[14px] md:text-[16px] text-[#22222280]">
             Lumashape LLC | © 2025 | All Rights Reserved
           </p>
         </div>
