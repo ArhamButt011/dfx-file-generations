@@ -12,11 +12,11 @@ function Choose() {
         transition={{ duration: 1 }}
         viewport={{ once: false }}
       >
-        <p className="font-bold md:text-[48px] text-[40px] text-center mb-3 md:mb-5 leading-[44px]">
+        <p className="font-semibold md:text-[40px] text-[34px] text-center w-full mb-5 leading-[43.3px] md:leading-[50.2px]">
           Why <span className="text-[#266CAB]">Choose</span> Our DXF Generator?
         </p>
 
-        <p className="text-center text-[#00000066] md:text-[24px] text-[21px] mx-auto font-medium max-w-[90%]">
+        <p className="text-center text-[#00000066] sm:text-[20px] text-[16px] mx-auto font-medium max-w-[90%]">
           Effortlessly create precise DXF files for custom tool drawer inserts
           with our fast, reliable, and cost-effective software—designed to
           streamline your workflow.
@@ -82,10 +82,10 @@ function Choose() {
               />
             </defs>
           </svg>
-          <p className="leading-[38.22px] font-bold text-[30px] md:text-[32.57px] text-center md:w-[70%] w-[50%] mt-5 mb-2">
+          <p className="leading-[38.22px] font-bold text-[26px] md:text-[30px] text-center md:w-[70%] w-[50%] mt-5 mb-2">
             AI-Powered Precision
           </p>
-          <p className="text-center text-[#00000066] text-[21px] mx-auto font-medium max-w-[80%]">
+          <p className="text-center text-[#00000066] sm:text-[18px] text-[16px] mx-auto font-medium max-w-[80%]">
             Our advanced AI detects and converts tool contours into accurate DXF
             files — no manual tracing or CAD work needed.
           </p>
@@ -151,10 +151,10 @@ function Choose() {
             </defs>
           </svg>
 
-          <p className="font-bold text-[30px] md:text-[32.57px] text-center w-[80%] mt-5 mb-2 leading-[38.22px]">
+          <p className="font-bold text-[26px] md:text-[30px] text-center w-[80%] mt-5 mb-2 leading-[38.22px]">
             Production-Ready Outputs
           </p>
-          <p className="text-center text-[#00000066] text-[21px] mx-auto font-medium max-w-[80%]">
+          <p className="text-center text-[#00000066] sm:text-[18px] text-[16px]  mx-auto font-medium max-w-[80%]">
             Generate ready-to-cut DXF files of the exact tool layout shown in
             the input image, perfectly sized to fit specified drawer dimensions.
             Or scan individual tools to import into CAD and create custom
@@ -176,10 +176,10 @@ function Choose() {
             width={120}
             height={100}
           />
-          <p className="font-bold text-[30px] md:text-[32.57px]  text-center w-[80%] mt-5 mb-2">
+          <p className="font-bold text-[26px] md:text-[30px]  text-center w-[80%] mt-5 mb-2">
             Customer Support
           </p>
-          <p className="text-center text-[#00000066] text-[21px] mx-auto font-medium max-w-[80%]">
+          <p className="text-center text-[#00000066] sm:text-[18px] text-[16px]  mx-auto font-medium max-w-[80%]">
             Support comes directly from the developers behind the software,
             ensuring fast, expert assistance.
           </p>

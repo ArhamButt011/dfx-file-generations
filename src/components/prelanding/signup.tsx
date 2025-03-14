@@ -50,10 +50,10 @@ function Signup() {
         </div>
       )}
       <div className="md:max-w-[1328px] max-w-[90%] mx-auto">
-        <h1 className="md:text-[49.23px] text-[34.23px] text-center font-bold mt-10 mb-5">
+        <h1 className="md:text-[40px] text-[34px] text-center font-bold mt-10 mb-5 leading-[43.3px] md:leading-[50.2px]">
           Get Updated Or Support New Ideas!!
         </h1>
-        <p className="md:text-[24px] text-[21px] text-center font-medium text-[#00000066] max-w-[700px] mx-auto">
+        <p className="md:text-[20px] text-[16px] text-center font-medium text-[#00000066] max-w-[700px] mx-auto">
           Stay in the loop as we get ready to launch Lumashape! Sign up with
           your email below for exclusive updates and early access.
         </p>

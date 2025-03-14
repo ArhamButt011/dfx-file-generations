@@ -153,10 +153,10 @@ function Pricing() {
         transition={{ duration: 1 }}
         viewport={{ once: false }}
       >
-        <p className="font-bold md:text-[48px] text-[40px] text-center md:max-w-[80%] mx-auto leading-[44px] md:mb-6">
+        <p className="font-bold md:text-[40px] text-[34px] text-center md:max-w-[80%] mx-auto leading-[44px] md:mb-6">
           <span className="text-[#266CAB]">Our </span> Pricing Plans
         </p>
-        <p className="text-center text-[#00000066] md:text-[24px] text-[21px] mx-auto font-medium md:max-w-[90%]">
+        <p className="text-center text-[#00000066] md:text-[20px] text-[16px] mx-auto font-medium md:max-w-[90%]">
           Choose a plan that fits your needs, and let&apos;s start designing
           together.
         </p>

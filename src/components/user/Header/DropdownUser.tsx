@@ -540,12 +540,12 @@ const DropdownUser = () => {
           )}
           <div className="flex items-center flex-col gap-3">
             <div className="flex justify-between items-center w-full mb-7">
-              <div className="text-[#000000] text-[34px] font-semibold text-center flex-grow">
+              <div className="text-[#000000] font-semibold text-[22px] sm:text-[24px] font-semibold text-center flex-grow">
                 Edit Profile
               </div>
               <div>
                 <Image
-                  className="cursor-pointer"
+                  className="cursor-pointer sm:w-[28px] sm:h-[28px]  w-[25px] h-[25px]"
                   src={blackCross}
                   alt="cross"
                   onClick={onEditClose}
@@ -564,7 +564,7 @@ const DropdownUser = () => {
               <Image
                 src={EditIcon}
                 alt="editImage"
-                className="absolute top-0 right-0 transform"
+                className="absolute top-0 right-0 transform w-[40px] h-[40px]"
                 onClick={handleImageClick}
               />
               <input
