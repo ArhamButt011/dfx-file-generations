@@ -4,6 +4,7 @@ import React from 'react'
 import { motion } from 'framer-motion'
 
 import 'aos/dist/aos.css'
+import Text from '../UI/Text'
 function Hero() {
   return (
     <div className="xl:max-w-[1200px] max-w-[90%] flex flex-col items-center justify-center mx-auto">
@@ -15,18 +16,21 @@ function Hero() {
         transition={{ duration: 0.8 }}
         viewport={{ once: false }}
       >
-        <p className="font-bold md:text-[55px] text-[40px] text-center  md:leading-none leading-[45px]">
+        <Text as="h1" className="text-center  md:leading-none leading-[45px]">
           Effortless DXF File Creation with AI Precision
-        </p>
-        <p className="text-center text-[#00000066] md:text-[29px] text-[23px] mx-auto font-medium md:max-w-[90%] mt-5">
+        </Text>
+        <Text
+          as="p1"
+          className="text-center text-[#00000066] mx-auto font-medium md:max-w-[90%] mt-5"
+        >
           Effortlessly create precise DXF files for manufacturing custom tool
           drawer inserts with AI-powered automation. Simplify your workflow and
           take tool organization to the next level. Start your free trial today!
-        </p>
+        </Text>
         <div className="my-10 flex justify-center">
           <Link
             href="/user"
-            className="bg-[#266CA8] text-white rounded-full mt-2 flex justify-center h-[10%] px-3 py-4 text-center p-5 font-medium md:text-2xl text-xl"
+            className="bg-[#266CA8] text-white rounded-full mt-2 flex justify-center sm:w-[240px] w-[170px] h-[10%] px-3 py-4 text-center p-5 font-medium md:text-xl text-sm"
           >
             Try LumaShape Now
           </Link>
@@ -54,18 +58,21 @@ function Hero() {
           transition={{ duration: 1 }}
           viewport={{ once: false }}
         >
-          <p className="font-bold md:text-[55px] text-[40px] text-center">
+          <Text as="h2" className="text-center mb-3">
             Why <span className="text-[#266CAB]">Choose</span> Our DXF
             Generator?
-          </p>
-          <p className="text-center text-[#00000066] md:text-[29px] text-[23px] mx-auto font-medium max-w-[90%]">
+          </Text>
+          <Text
+            as="p1"
+            className="text-center text-[#00000066] mx-auto font-medium max-w-[90%]"
+          >
             Simplify the creation of DXF files with precision and ease. Designed
             for both hobbyists and professionals, our software eliminates
             tedious manual design work, delivers accurate files ready for
             manufacturing custom tool drawer inserts, and saves you time and
             effort. Choose a fast, reliable, and cost-effective solution that
             streamlines your workflow and puts you in control.
-          </p>
+          </Text>
         </motion.div>
         <div className="flex md:flex-row flex-col pt-20 justify-between items-start ">
           {/* AI powered */}
@@ -83,13 +90,16 @@ function Hero() {
               width={120}
               height={100}
             />
-            <p className="font-bold text-[30px] text-center md:w-[70%] w-[50%] mt-5">
+            <Text as="h3" className="text-center md:w-[70%] w-[50%] mt-5 mb-2">
               AI-Powered Precision
-            </p>
-            <p className="text-center text-[#00000066] text-[21px] mx-auto font-medium max-w-[80%]">
-              OOur advanced AI detects and converts tool contours into accurate
+            </Text>
+            <Text
+              as="p1"
+              className="text-center text-[#00000066] mx-auto font-medium max-w-[80%]"
+            >
+              Our advanced AI detects and converts tool contours into accurate
               DXF files — no manual tracing or CAD work needed.
-            </p>
+            </Text>
           </motion.div>
 
           {/* custom offset */}
@@ -107,15 +117,18 @@ function Hero() {
               width={120}
               height={100}
             />
-            <p className="font-bold text-[30px] text-center w-[80%] mt-5">
+            <Text as="h3" className="font-bold text-center w-[80%] mt-5 mb-2">
               Production-Ready Outputs
-            </p>
-            <p className="text-center text-[#00000066] text-[21px] mx-auto font-medium max-w-[70%]">
+            </Text>
+            <Text
+              as="p1"
+              className="text-center text-[#00000066] mx-auto max-w-[70%]"
+            >
               Generate ready-to-cut DXF files of the exact tool layout shown in
               the input image, perfectly sized to fit specified drawer
               dimensions. Or scan individual tools to import into CAD and create
               custom layouts
-            </p>
+            </Text>
           </motion.div>
           {/* access Anytime */}
           <motion.div
@@ -132,13 +145,19 @@ function Hero() {
               width={120}
               height={100}
             />
-            <p className="font-bold text-[30px] text-center w-[80%] mt-5">
+            <Text
+              as="h3"
+              className="font-bold text-[30px] text-center w-[80%] mt-5 mb-2"
+            >
               Customer Support
-            </p>
-            <p className="text-center text-[#00000066] text-[21px] mx-auto font-medium max-w-[80%]">
+            </Text>
+            <Text
+              as="p1"
+              className="text-center text-[#00000066] text-[21px] mx-auto font-medium max-w-[80%]"
+            >
               Support comes directly from the developers behind the software,
               ensuring fast, expert assistance.
-            </p>
+            </Text>
           </motion.div>
         </div>
       </div>

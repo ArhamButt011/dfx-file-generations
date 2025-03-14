@@ -4,7 +4,7 @@ import React from 'react'
 import { useTabContext } from '@/context/TabContsxt'
 import Text from '../UI/Text'
 import Link from 'next/link'
-function Footer() {
+function ContactUsFooter() {
   const { setActiveTab } = useTabContext()
   const handleTabChange = (tab: string) => {
     setActiveTab(tab)
@@ -69,7 +69,7 @@ function Footer() {
               </defs>
             </svg>
             <Text
-              as="h3"
+              as="p1"
               className="font-medium text-[#22222280] max-w-[490px] md:mt-10 mt-8"
             >
               Effortlessly create precise DXF files for manufacturing custom
@@ -129,97 +129,37 @@ function Footer() {
               Quick Links
             </p>
             <div className="text-[#22222280] font-medium md:text-lg text-sm space-y-4 flex flex-col pl-1">
+              <Link href="/">Home</Link>
+              <Link href="/">Benefits</Link>
+              <Link href="/">Samples</Link>
+              <Link href="/">Working</Link>
+              <Link href="/">Pricing</Link>
+              <Link href="/">FAQ&apos;s</Link>
               <a
-                href="#home"
+                href="#contact"
                 onClick={(e) => {
                   e.preventDefault()
-                  handleTabChange('/home')
-                  document.getElementById('home')?.scrollIntoView({
+                  handleTabChange('/contact')
+                  document.getElementById('contact')?.scrollIntoView({
                     behavior: 'smooth',
                     block: 'start',
                   })
                 }}
               >
-                Home
+                Contact Us
               </a>
-              <a
-                href="#benefits"
-                onClick={(e) => {
-                  e.preventDefault()
-                  handleTabChange('/benefits')
-                  document.getElementById('benefits')?.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start',
-                  })
-                }}
-              >
-                Benefits
-              </a>
-              <a
-                href="#sample"
-                onClick={(e) => {
-                  e.preventDefault()
-                  handleTabChange('/sample')
-                  document.getElementById('sample')?.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start',
-                  })
-                }}
-              >
-                Samples
-              </a>
-              <a
-                href="#working"
-                onClick={(e) => {
-                  e.preventDefault()
-                  handleTabChange('/working')
-                  document.getElementById('working')?.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start',
-                  })
-                }}
-              >
-                Working
-              </a>
-              <a
-                href="#pricing"
-                onClick={(e) => {
-                  e.preventDefault()
-                  handleTabChange('/pricing')
-                  document.getElementById('pricing')?.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start',
-                  })
-                }}
-              >
-                Pricing
-              </a>
-              <a
-                href="#faqs"
-                onClick={(e) => {
-                  e.preventDefault()
-                  handleTabChange('/faqs')
-                  document.getElementById('faqs')?.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start',
-                  })
-                }}
-              >
-                FAQ&apos;s
-              </a>
-              <Link href="Contact_Us">Contact Us</Link>
             </div>
           </div>
         </div>
         <hr className="my-5" />
         <div className="flex justify-center items-center h-full w-full text-center md:ps-14">
-          <p className="text-center font-normal text-[14px] md:text-[16px] text-[#22222280]">
+          <Text as="p" className="text-center font-normal text-[#22222280]">
             Lumashape LLC | © 2025 | All Rights Reserved
-          </p>
+          </Text>
         </div>
       </div>
     </div>
   )
 }
 
-export default Footer
+export default ContactUsFooter
