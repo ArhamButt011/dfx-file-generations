@@ -23,7 +23,7 @@ function page() {
           and conditions. Do not continue to use Lumashape if you do not agree
           to all of the terms and conditions stated on this page.
         </p>
-        <ol className="list-decimal md:pl-5 mt-5 md:mx-10 mx-5 [&>li::marker]:font-bold md:[&>li::marker]:text-[26px]">
+        <ol className="list-decimal md:pl-5 mt-5 md:mx-10 mx-5 [&>li::marker]:font-bold [&>li::marker]:text-[26px]">
           <li>
             <h2 className="text-[26px] font-semibold mt-10">
               Acceptance of Terms
@@ -159,17 +159,23 @@ function page() {
               height={100}
             />
           </div>
-          <div className="mt-5 font-normal pt-4 sm:text-[16px] text-[14px] text-[#266CA8] flex gap-4">
-            <a href="/privacy-policy" className="border-b border-[#266CA8] h-5">
+          <div className="mt-5 font-normal pt-4 sm:text-[16px] text-[12px] text-[#266CA8] flex gap-4">
+            <a
+              href="/privacy-policy"
+              className="border-b border-[#266CA8] md:h-5 h-4"
+            >
               Privacy Policy
             </a>
             <a
               href="/Terms&Condition"
-              className="border-b border-[#266CA8] h-5"
+              className="border-b border-[#266CA8] md:h-5 h-4"
             >
               Terms and Conditions
             </a>
-            <a href="/Contact_Us" className="border-b border-[#266CA8] h-5">
+            <a
+              href="/Contact_Us"
+              className="border-b border-[#266CA8] md:h-5 h-4"
+            >
               Contact Us
             </a>
           </div>

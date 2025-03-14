@@ -696,7 +696,7 @@ SidebarProps) => {
                   )}
 
                   <span className="lg:hidden text-left">
-                    <span className="block text-lg font-semibold text-black dark:text-white">
+                    <span className="block text-[14px] font-semibold text-black dark:text-white">
                       {userData?.username} {userData?.lastName}
                     </span>
                     <span className="block text-xs font-normal text-[#00000066]">
@@ -710,7 +710,7 @@ SidebarProps) => {
                         : 'rotate(270deg)',
                     }}
                     className="fill-current sm:block transition-transform duration-300"
-                    width="15"
+                    width="12"
                     height="14"
                     viewBox="0 0 12 8"
                     fill="none"
@@ -754,7 +754,7 @@ SidebarProps) => {
                           )}
                         </span>
                         <span className="text-center lg:block">
-                          <span className="block text-lg font-semibold text-black dark:text-white">
+                          <span className="block text-[14px] font-semibold text-black dark:text-white mt-2">
                             {userData?.username} {userData?.lastName}
                           </span>
                           <span className="block  text-center text-xs font-normal text-[#00000066]">

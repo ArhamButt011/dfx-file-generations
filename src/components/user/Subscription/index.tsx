@@ -111,8 +111,10 @@ const Index: React.FC<SubscriptionProps> = ({
 
   return (
     <div>
-      <p className="font-semibold sm:text-4xl text-3xl">Subscription Plan</p>
-      <p className="font-medium sm:text-lg text-md text-[#00000080] mt-1">
+      <p className="font-semibold text-[22px] sm:text-[26px] mt-6 text-left">
+        Subscription Plan
+      </p>
+      <p className="font-medium sm:text-[16px] text-[14px] text-[#00000080] mt-1">
         Manage your subscription and payment details
       </p>
       <div className="flex mt-5 w-full justify-between gap-10">
@@ -123,14 +125,14 @@ const Index: React.FC<SubscriptionProps> = ({
             <>
               <div className="flex justify-between">
                 <div>
-                  <p className="font-semibold text-[29px] flex items-center gap-2">
+                  <p className="font-semibold text-[19px] sm:text-[24px] flex items-center md:gap-2 gap-1">
                     <div>{subscriptions[0]?.plan_name} Plan </div>
 
-                    <div className="font-medium text-[13px] sm:text-[17px] bg-[#266CA81A] text-[#266CA8] px-2 py-[2px] rounded-full">
+                    <div className="font-medium text-[12px] sm:text-[16px] bg-[#266CA81A] text-[#266CA8] px-2 py-[2px] rounded-full">
                       Monthly
                     </div>
                   </p>
-                  <p className="text-[16.33px] text-[#00000080] font-medium mt-1">
+                  <p className="text-[14px] sm:text-[16px] text-[#00000080] font-medium mt-1">
                     {subscriptions[0]?.plan_name === 'Basic'
                       ? 'Our most popular plan for small teams.'
                       : ''}
@@ -138,16 +140,16 @@ const Index: React.FC<SubscriptionProps> = ({
                 </div>
                 <div>
                   <p className="flex items-end">
-                    <span className="text-3xl sm:text-4xl font-medium">
+                    <span className="text-[19px] sm:text-[24px] font-medium">
                       ${subscriptions[0]?.charges}
                     </span>{' '}
-                    <span className="text-base text-[#00000066] sm:text-[17px] text-[13px]">
+                    <span className="text-[#00000066] sm:text-[16px] text-[13px] mb-[1px] sm:mb-[0px]">
                       /Month
                     </span>
                   </p>
                 </div>
               </div>
-              <p className="font-medium text-base text-[#00000080] mt-10">
+              <p className="font-medium sm:text-[16px] text-[14px] text-[#00000080] mt-10">
                 Next Renewal Date:{' '}
                 <span className="text-black">
                   {subscriptions[0]?.expiry_on
@@ -161,9 +163,13 @@ const Index: React.FC<SubscriptionProps> = ({
             </>
           ) : subscriptions[0]?.status === 'active' &&
             subscriptions[0]?.plan_name === 'Free' ? (
-            <div className="font-semibold">Free Trial Activated.</div>
+            <div className="font-semibold sm:text-[16px] text-[14px]">
+              Free Trial Activated.
+            </div>
           ) : (
-            <div>No subcription added yet</div>
+            <div className="font-semibold sm:text-[16px] text-[14px]">
+              No subcription added yet
+            </div>
           )}
           <div className="-mx-5 border-t border-[#0000001A] my-5"></div>
           <div className="flex items-center justify-end gap-4">
@@ -171,7 +177,7 @@ const Index: React.FC<SubscriptionProps> = ({
             subscriptions[0]?.plan_name !== 'Free' ? (
               <div className="flex justify-center items-center">
                 <p
-                  className="font-semibold text-[#266CA8] text-[16.94px] text-[13px] underline cursor-pointer"
+                  className="font-semibold text-[#266CA8] sm:text-[16px] text-[14px] underline cursor-pointer"
                   onClick={() => setIsOpen(true)}
                 >
                   Cancel Subscription
@@ -179,7 +185,7 @@ const Index: React.FC<SubscriptionProps> = ({
                 <img
                   src="/images/user/subscription/diagonalArrow.svg"
                   alt="arrow"
-                  className="sm:w-[25px] sm:h-[25px] w-[16px] h-[16px]"
+                  className="sm:w-[22px] sm:h-[22px] w-[18px] h-[18px]"
                 />
               </div>
             ) : (
@@ -191,13 +197,13 @@ const Index: React.FC<SubscriptionProps> = ({
                   className="font-medium text-[13px] sm:text-[17.94px]  text-[#FFFFFF] bg-[#266CA8] px-3 py-1 rounded-full"
                   onClick={() => setIsBilingOpen(true)}
                 >
-                  <div className="flex gap-2 items-center">
+                  <div className="flex gap-1 sm:gap-2 items-center sm:text-[16px] text-[14px]">
                     <Image
                       src={upgradeImage}
                       alt="upgrade"
-                      width={21}
+                      width={18}
                       height={17}
-                      className="sm:h-[17px] sm:w-[21px] h-[12px] w-[16px]"
+                      className="sm:h-[17px] sm:w-[18px] h-[12px] w-[15px]"
                     />
                     Upgrade Plan
                   </div>

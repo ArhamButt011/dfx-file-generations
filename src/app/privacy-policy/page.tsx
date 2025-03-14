@@ -121,14 +121,20 @@ const PrivacyPolicy = () => {
           className="mt-8"
         />
       </div>
-      <div className="mt-5 font-normal pt-4 sm:text-[16px] text-[14px] text-[#266CA8] flex gap-4">
-        <a href="/privacy-policy" className="border-b border-[#266CA8] h-5">
+      <div className="mt-5 font-normal pt-4 sm:text-[16px] text-[12px] text-[#266CA8] flex gap-4">
+        <a
+          href="/privacy-policy"
+          className="border-b border-[#266CA8] md:h-5 h-4"
+        >
           Privacy Policy
         </a>
-        <a href="/Terms&Condition" className="border-b border-[#266CA8] h-5">
+        <a
+          href="/Terms&Condition"
+          className="border-b border-[#266CA8] md:h-5 h-4"
+        >
           Terms and Conditions
         </a>
-        <a href="/Contact_Us" className="border-b border-[#266CA8] h-5">
+        <a href="/Contact_Us" className="border-b border-[#266CA8] md:h-5 h-4">
           Contact Us
         </a>
       </div>

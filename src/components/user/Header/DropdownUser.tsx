@@ -414,7 +414,7 @@ const DropdownUser = () => {
                   )}
                 </span>
                 <span className="hidden text-center lg:block mt-4">
-                  <span className="block text-lg font-semibold text-black dark:text-white">
+                  <span className="block text-[14px] font-semibold text-black dark:text-white">
                     {userData?.username} {userData?.lastName}
                   </span>
                   <span className="block  text-center text-xs font-normal text-[#00000066]">
@@ -426,7 +426,7 @@ const DropdownUser = () => {
                 <li>
                   <Link
                     href="#"
-                    className="flex items-center gap-2 text-sm font-medium duration-300 ease-in-out hover:text-[#266CA8] lg:text-base cursor-pointer"
+                    className="flex items-center gap-2 text-[14px] font-medium duration-300 ease-in-out hover:text-[#266CA8] lg:text-base cursor-pointer"
                     onClick={handleEditClick}
                   >
                     <svg

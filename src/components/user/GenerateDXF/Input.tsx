@@ -636,7 +636,7 @@ function Input() {
           {/* left */}
           <div className="bg-[#F2F2F2] md:w-1/2 rounded-b-2xl rounded-t-2xl">
             <div className="bg-[#C6C9CB] py-3 rounded-t-2xl">
-              <p className="text-[#000000] text-center font-medium text-[22px] sm:text-[24px] text-[#000000]">
+              <p className="text-[#000000] text-center font-medium text-[16px] sm:text-[20px] text-[#000000]">
                 Input Data
               </p>
             </div>
@@ -849,16 +849,16 @@ function Input() {
                 </div>
                 {/* contour */}
                 <div className="mt-10 ">
-                  <p className="font-semibold text-2xl">
+                  <p className="font-semibold md:text-[20px] text-[16px]">
                     Contour Offset Parameter{' '}
-                    <span className="font-medium text-xl text-[#00000080]">
+                    <span className="font-medium text-[14px] sm:text-[16px] text-[#00000080]">
                       (inches)
                     </span>
                   </p>
                   <input
                     type="text"
                     inputMode="decimal" // Hint to show a numeric keypad on mobile devices
-                    className="border rounded-full w-full p-3 my-5 bg-[#F2F2F2]"
+                    className="border rounded-full w-full p-3 my-5 bg-[#F2F2F2] placeholder:text-sm text-sm"
                     placeholder="0"
                     value={contour}
                     required
@@ -882,7 +882,7 @@ function Input() {
                   <div className="flex justify-between gap-4 my-8">
                     <button
                       type="reset"
-                      className="w-1/2 bg-white p-3 rounded-full text-[#00000080] font-medium text-2xl"
+                      className="w-1/2 bg-white p-3 rounded-full text-[#00000080] font-medium xl:text-[18px] text-[14px]"
                       onClick={() => {
                         setContour('')
                         setImage('')
@@ -897,7 +897,7 @@ function Input() {
                     </button>
                     <button
                       type="submit"
-                      className="w-1/2 bg-[#266CA8] p-3 rounded-full text-white font-medium text-2xl"
+                      className="w-1/2 bg-[#266CA8] p-3 rounded-full text-white font-medium xl:text-[18px] text-[14px]"
                     >
                       Submit
                     </button>
@@ -909,7 +909,7 @@ function Input() {
           {/* right */}
           <div className="bg-[#F2F2F2] md:w-1/2 rounded-b-2xl rounded-t-2xl">
             <div className="bg-[#C6C9CB] py-3 rounded-t-2xl text-[#000000]">
-              <p className="text-[#000000] text-center font-medium text-2xl">
+              <p className="text-[#000000] text-center font-medium text-[16px] sm:text-[20px]">
                 Output Data
               </p>
             </div>
