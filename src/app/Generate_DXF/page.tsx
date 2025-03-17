@@ -6,6 +6,7 @@ import Input from '@/components/user/GenerateDXF/Input'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/context/AuthContext'
 import axios from 'axios'
+import withAuth from '@/hoc/withAuth'
 
 function Page() {
   const { userData, logout } = useAuth()
@@ -44,4 +45,4 @@ function Page() {
   )
 }
 
-export default Page
+export default withAuth(Page, ['user'])
