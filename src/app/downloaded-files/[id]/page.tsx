@@ -3,6 +3,7 @@ import React from 'react'
 import DefaultLayout from '@/components/user/Layout/DefaultLayout'
 // import { useAuth } from '@/context/AuthContext'
 import FileDetails from '@/components/user/FileDetails'
+import withAuth from '@/hoc/withAuth'
 
 const page = () => {
   // const { userData } = useAuth()
@@ -17,4 +18,4 @@ const page = () => {
   )
 }
 
-export default page
+export default withAuth(page, ['user'])

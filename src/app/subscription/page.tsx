@@ -6,6 +6,7 @@ import { useAuth } from '@/context/AuthContext'
 import axios from 'axios'
 import DefaultLayout from '@/components/user/Layout/DefaultLayout'
 import SubscriptionTable from '@/components/user/Subscription/SubscriptionTable'
+import withAuth from '@/hoc/withAuth'
 
 interface Subscriptions {
   order_id: string
@@ -88,4 +89,4 @@ function Page() {
   )
 }
 
-export default Page
+export default withAuth(Page, ['user'])

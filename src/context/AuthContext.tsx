@@ -7,7 +7,7 @@ import React, {
   useEffect,
   ReactNode,
 } from 'react'
-import { useRouter } from 'next/navigation' // Import useRouter for navigation
+import { useRouter } from 'next/navigation'
 
 interface UserData {
   id: string
