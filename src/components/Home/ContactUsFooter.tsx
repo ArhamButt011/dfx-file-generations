@@ -153,7 +153,7 @@ function ContactUsFooter() {
         </div>
         <hr className="my-5" />
         <div className="flex justify-center items-center h-full w-full text-center md:ps-14">
-          <Text as="p" className="text-center font-normal text-[#22222280]">
+          <Text className="text-center font-normal text-[#22222280]">
             Lumashape LLC | © 2025 | All Rights Reserved
           </Text>
         </div>

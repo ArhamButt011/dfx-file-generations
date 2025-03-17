@@ -1,6 +1,7 @@
 'use client'
 import Image from 'next/image'
 import React, { useState } from 'react'
+import Text from '../UI/Text'
 
 type AccordionItem = {
   id: number
@@ -56,12 +57,14 @@ function FAQ() {
       className="xl:max-w-[1200px] max-w-[90%] mx-auto mt-10 md:mt-0"
       id="faqs"
     >
-      <p
-        className="font-bold md:text-[55px] text-[40px] text-center md:max-w-[80%] mx-auto"
+      <Text
+        as="h2"
+        className="text-center md:max-w-[80%] mx-auto mb-5 leading-[45px] md:leading-[56.69px]"
         data-aos="fade-up"
       >
-        <span className="text-[#266CAB]">Frequently </span>Asked Questions
-      </p>
+        <span className="text-[#266CAB]">Frequently </span>
+        Asked Questions
+      </Text>
       {/* <p className='text-center text-[#00000066] md:text-[29px] text-[23px] mx-auto font-medium max-w-[90%]'>Everything you need to know about DXF image generator with spaces and how it works? Here are all of your answers</p> */}
 
       {/* questions */}
@@ -69,18 +72,18 @@ function FAQ() {
         {accordionData.map(({ id, question, answer }) => (
           <div
             key={id}
-            className=" bg-[#F2F2F299] md:px-10 px-5 rounded-lg"
+            className="bg-[#F2F2F299] md:px-10 px-5 rounded-lg"
             data-aos="fade-up"
           >
             <button
               onClick={() => toggleAccordion(id)}
               className="w-full flex justify-between items-center py-5 text-slate-800"
             >
-              <span className="font-semibold md:text-3xl text-sm text-left">
+              <Text as="h5" className="font-semibold text-left flex-1">
                 {question}
-              </span>
+              </Text>
               <span
-                className={`text-slate-800 transition-transform duration-300 ${
+                className={`text-slate-800 transition-transform duration-300 flex-shrink-0 ${
                   openAccordionId === id ? 'rotate-90' : 'rotate-0'
                 }`}
               >
@@ -89,7 +92,7 @@ function FAQ() {
                   alt="arrow"
                   width={50}
                   height={10}
-                  className="w-10 h-10"
+                  className="md:w-9 md:h-9 h-7 w-7"
                 />
               </span>
             </button>
@@ -99,9 +102,7 @@ function FAQ() {
                 openAccordionId === id ? 'max-h-40' : 'max-h-0'
               }`}
             >
-              <div className="pb-5 md:text-2xl text-xs text-[#0000004D]">
-                {answer}
-              </div>
+              <Text className="pb-5">{answer}</Text>
             </div>
           </div>
         ))}

@@ -3,6 +3,7 @@ import React from 'react'
 import clsx from 'clsx'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
+import Text from '../UI/Text'
 type included = {
   id: number
   text: string
@@ -155,13 +156,19 @@ function Pricing() {
         transition={{ duration: 1 }}
         viewport={{ once: false }}
       >
-        <p className="font-bold md:text-[48px] text-[40px] text-center md:max-w-[80%] mx-auto leading-[44px] md:mb-6">
+        <Text
+          as="h2"
+          className="font-bold text-center md:max-w-[80%] mx-auto leading-[44px] mb-3"
+        >
           <span className="text-[#266CAB]">Our </span> Pricing Plans
-        </p>
-        <p className="text-center text-[#00000066] md:text-[24px] text-[21px] mx-auto font-medium md:max-w-[90%]">
+        </Text>
+        <Text
+          as="p1"
+          className="text-center text-[#00000066] mx-auto font-medium md:max-w-[90%]"
+        >
           Choose a plan that fits your needs, and let&apos;s start designing
           together.
-        </p>
+        </Text>
       </motion.div>
       <div className="w-full overflow-hidden">
         <div className="w-full grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-2 justify-stretch items-center mt-12">

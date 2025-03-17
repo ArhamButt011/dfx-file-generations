@@ -84,8 +84,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const logout = () => {
     localStorage.removeItem('token')
     localStorage.removeItem('selectedMenu')
-    sessionStorage.removeItem('billingTriggered');
-    sessionStorage.clear();
+    sessionStorage.removeItem('billingTriggered')
+    sessionStorage.clear()
     setUserData(null)
     setIsLoggedIn(false)
   }
