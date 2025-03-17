@@ -145,15 +145,12 @@ function Hero() {
               width={120}
               height={100}
             />
-            <Text
-              as="h3"
-              className="font-bold text-[30px] text-center w-[80%] mt-5 mb-2"
-            >
+            <Text as="h3" className="font-bold text-center w-[80%] mt-5 mb-2">
               Customer Support
             </Text>
             <Text
               as="p1"
-              className="text-center text-[#00000066] text-[21px] mx-auto font-medium max-w-[80%]"
+              className="text-center text-[#00000066] mx-auto font-medium max-w-[80%]"
             >
               Support comes directly from the developers behind the software,
               ensuring fast, expert assistance.

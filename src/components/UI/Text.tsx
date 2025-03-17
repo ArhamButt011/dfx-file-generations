@@ -22,7 +22,7 @@ const Text = forwardRef<HTMLHeadingElement | HTMLParagraphElement, Props>(
       return (
         <h1
           ref={ref}
-          className={cn('font-bold sm:text-[46px] text-[34px]', className)}
+          className={cn('font-bold sm:text-[44px] text-[34px]', className)}
           onClick={onClick}
           id={id}
         >
@@ -35,7 +35,7 @@ const Text = forwardRef<HTMLHeadingElement | HTMLParagraphElement, Props>(
       return (
         <h2
           ref={ref}
-          className={cn('font-bold text-[34px] sm:text-[40px]', className)}
+          className={cn('font-bold text-[30px] sm:text-[36px]', className)}
           id={id}
           onClick={onClick}
         >
@@ -48,7 +48,7 @@ const Text = forwardRef<HTMLHeadingElement | HTMLParagraphElement, Props>(
       return (
         <h3
           ref={ref}
-          className={cn('font-bold text-[26px] sm:text-[30px]', className)}
+          className={cn('font-bold text-[22px] sm:text-[26px]', className)}
           id={id}
           onClick={onClick}
         >
@@ -61,7 +61,19 @@ const Text = forwardRef<HTMLHeadingElement | HTMLParagraphElement, Props>(
       return (
         <h4
           ref={ref}
-          className={cn('font-medium text-[16px] sm:text-[18px]', className)}
+          className={cn('font-bold text-[20px] sm:text-[26px]', className)}
+          id={id}
+          onClick={onClick}
+        >
+          {children}
+        </h4>
+      )
+    }
+    if (as === 'h5') {
+      return (
+        <h4
+          ref={ref}
+          className={cn('text-[16px] sm:text-[20px]', className)}
           id={id}
           onClick={onClick}
         >

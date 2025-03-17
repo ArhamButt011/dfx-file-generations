@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import React from 'react'
 import { motion } from 'framer-motion'
+import Text from '../UI/Text'
 type DataItem = {
   id: number
   title?: string
@@ -53,7 +54,7 @@ const stepImages = ['one', 'two', 'three']
 function Working() {
   return (
     <div
-      className="xl:max-w-[1200px] max-w-[90%] mx-auto  md:py-0  pb-20"
+      className="xl:max-w-[1200px] max-w-[90%] mx-auto  md:py-0 pb-2"
       id="working"
     >
       <motion.div
@@ -63,15 +64,18 @@ function Working() {
         transition={{ duration: 1 }}
         viewport={{ once: false }}
       >
-        <p className="font-bold md:text-[55px] text-[40px] text-center max-w-[80%] mx-auto">
+        <Text as="h2" className="text-center max-w-[80%] mx-auto mb-1">
           <span className="text-[#266CAB]">How </span>It Works
-        </p>
-        <p className="text-center text-[#00000066] md:text-[29px] text-[23px] mx-auto font-medium md:max-w-[90%]">
+        </Text>
+        <Text
+          as="p1"
+          className="text-center text-[#00000066] mx-auto md:max-w-[90%]"
+        >
           Our DXF Generator simplifies the file creation process, offering an
           intuitive and user-friendly experience powered by advanced AI
-        </p>
+        </Text>
       </motion.div>
-      <div className="relative hidden md:grid [grid-template-columns:2fr_auto_2fr] gap-10 mt-10 items-start">
+      <div className="relative hidden md:grid [grid-template-columns:2fr_auto_2fr] gap-10 mt-16 items-start ">
         {/* Continuous vertical line that spans from just below image 1 to just above image 3 */}
         <div
           className="absolute left-1/2 transform -translate-x-1/2 lg:bottom-[28%] md:bottom-[20%] bg-[#0000001A] "
@@ -98,10 +102,12 @@ function Working() {
                 />
               ) : (
                 <div className="text-left w-full">
-                  <p className="font-semibold text-4xl">{item.title}</p>
-                  <p className="font-medium md:text-2xl text-base text-[#00000066]">
+                  <Text as="h4" className="font-semibold mb-1">
+                    {item.title}
+                  </Text>
+                  <Text as="p1" className="font-medium text-[#00000066]">
                     {item.description}
-                  </p>
+                  </Text>
                 </div>
               )}
             </motion.div>
@@ -142,12 +148,12 @@ function Working() {
                 />
               ) : (
                 <div className="text-left w-full">
-                  <p className="font-semibold text-4xl">
+                  <Text as="h4" className="font-semibold mb-1">
                     {data.right[index]?.title}
-                  </p>
-                  <p className="font-medium md:text-2xl text-base text-[#00000066]">
+                  </Text>
+                  <Text as="p1" className="font-medium text-[#00000066]">
                     {data.right[index]?.description}
-                  </p>
+                  </Text>
                 </div>
               )}
             </motion.div>
@@ -157,7 +163,7 @@ function Working() {
 
       <div className="flex gap-[10px] justify-center mx-auto mt-10 md:hidden">
         {/* line */}
-        <div className="flex flex-col  -ml-5">
+        <div className="flex flex-col -ml-5">
           {[
             { img: '/images/user/home/one.svg', indices: [1, 2] },
             { img: '/images/user/home/two.svg', indices: [3, 4] },
@@ -202,10 +208,15 @@ function Working() {
                       )}
                       {item.title && (
                         <div className="my-3">
-                          <p className="font-semibold text-xl">{item.title}</p>
-                          <p className="font-medium text-base text-[#00000066] max-w-[500px]">
+                          <Text as="h4" className="font-semibold mb-1">
+                            {item.title}
+                          </Text>
+                          <Text
+                            as="p1"
+                            className="font-medium text-base text-[#00000066] max-w-[500px]"
+                          >
                             {item.description}
-                          </p>
+                          </Text>
                         </div>
                       )}
                     </div>
