@@ -8,6 +8,7 @@ import { ObjectId } from 'mongodb'
 import searchIcon from '/public/images/searchIcon.svg'
 import { format } from 'date-fns'
 import { ClipLoader } from 'react-spinners'
+import Text from '@/components/UI/Text'
 interface Subscriptions {
   _id: ObjectId
   user_id: ObjectId
@@ -47,7 +48,6 @@ const Subscriptions = () => {
 
       if (response.ok) {
         const data = await response.json()
-        console.log('subscriptions-> ', data)
         setSubscriptions(data.allSubscriptions)
         setTotalPages(data.totalPages)
         setTotalSubscription(data.totalSubscriptions)
@@ -86,12 +86,12 @@ const Subscriptions = () => {
             <Image
               src={searchIcon}
               alt="searchIcon"
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4"
             />
             <input
               type="text"
               placeholder="Search..."
-              className="pl-10 pr-10 py-3 rounded-xl border text-gray-800 text-[18px] focus:outline-none focus:ring-2 focus:ring-[#005B97]"
+              className="pl-10 pr-10 py-[7px] text-sm rounded-xl border text-gray-800 text-[18px] focus:outline-none focus:ring-2 focus:ring-[#005B97] placeholder:text-sm"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -104,11 +104,14 @@ const Subscriptions = () => {
           <ClipLoader color="#007bff" size={50} />
         </div>
       ) : subscriptions && subscriptions.length > 0 ? (
-        <table className="min-w-full border-separate border-spacing-y-3">
+        <table className="min-w-full border-separate border-spacing-y-1">
           <thead>
             <tr className="text-[18.45px] text-gray-600">
               <th className="pb-6 px-4 border-b text-start font-medium">
                 Sr No
+              </th>
+              <th className="pb-6 pl-12 border-b text-start font-medium">
+                Added By
               </th>
               <th className="pb-6 px-4 border-b text-start font-medium">
                 Plan name
@@ -116,9 +119,7 @@ const Subscriptions = () => {
               <th className="pb-6 px-4 border-b text-start font-medium">
                 Duration
               </th>
-              <th className="pb-6 pl-20 border-b text-start font-medium">
-                Added By
-              </th>
+
               <th className="pb-6 px-4 border-b text-start font-medium">
                 Added On
               </th>
@@ -144,12 +145,6 @@ const Subscriptions = () => {
                   <td className="py-3 px-4 text-start font-medium rounded-l-xl">
                     #{(currentPage - 1) * 10 + (index + 1)}
                   </td>
-                  <td className="py-3 px-4 text-start text-[19px] font-medium text-[#000000]">
-                    {user.plan_name}
-                  </td>
-                  <td className="py-3 px-4 text-start font-medium">
-                    {user.duration}
-                  </td>
                   <td className="py-3 px-4 text-start font-medium">
                     <div className="flex justify-start align-center gap-3">
                       <div>
@@ -165,27 +160,34 @@ const Subscriptions = () => {
                         </div>
                       </div>
                       <div className="flex flex-col gap-0">
-                        <span className="font-semibold text-gray-800 text-[17px]">
-                          {user.user_name}
-                        </span>
-                        <span className="text-gray-500 text-[13px] font-medium">
-                          {user.email}
-                        </span>
+                        <Text className="text-gray-800">{user.user_name}</Text>
+                        <Text className="text-[6px]">{user.email}</Text>
                       </div>
                     </div>
                   </td>
-                  <td className="py-3 px-4 text-start font-medium">
-                    {user?.added_on
-                      ? format(new Date(user.added_on), 'MMM dd, yyyy')
-                      : 'N/A'}
+                  <td className="py-3 px-4 text-start font-medium text-[#000000]">
+                    <Text>{user.plan_name}</Text>
                   </td>
                   <td className="py-3 px-4 text-start font-medium">
-                    {user?.expiry_on
-                      ? format(new Date(user.expiry_on), 'MMM dd, yyyy')
-                      : 'N/A'}
+                    <Text>{user.duration}</Text>
                   </td>
-                  <td className="py-3 px-4 text-center text-[21px] font-medium text-[#266CA8]">
-                    ${user.charges}
+
+                  <td className="py-3 px-4 text-start font-medium">
+                    <Text>
+                      {user?.added_on
+                        ? format(new Date(user.added_on), 'MMM dd, yyyy')
+                        : 'N/A'}
+                    </Text>
+                  </td>
+                  <td className="py-3 px-4 text-start font-medium">
+                    <Text>
+                      {user?.expiry_on
+                        ? format(new Date(user.expiry_on), 'MMM dd, yyyy')
+                        : 'N/A'}
+                    </Text>
+                  </td>
+                  <td className="py-3 px-4 text-center font-medium text-[#266CA8]">
+                    <Text>${user.charges}</Text>
                   </td>
                   <td
                     className={`py-5 pl-2 text-center font-medium rounded-r-xl`}

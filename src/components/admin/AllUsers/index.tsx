@@ -87,7 +87,7 @@ const AllUsers = () => {
             <input
               type="text"
               placeholder="Search user..."
-              className="pl-10 pr-10 py-1 rounded-xl border text-gray-800 text-[18px] focus:outline-none focus:ring-2 focus:ring-[#005B97] placeholder:text-sm"
+              className="pl-10 pr-10 py-[7px] text-sm rounded-xl border text-gray-800 text-[18px] focus:outline-none focus:ring-2 focus:ring-[#005B97] placeholder:text-sm"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
