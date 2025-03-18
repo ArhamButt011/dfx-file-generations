@@ -83,25 +83,85 @@ function ContactUsFooter() {
               Quick Links
             </p>
             <div className="text-[#22222280] font-medium md:text-lg text-sm space-y-4 flex flex-col pl-1">
-              <Link href="/">Home</Link>
-              <Link href="/">Benefits</Link>
-              <Link href="/">Samples</Link>
-              <Link href="/">Working</Link>
-              <Link href="/">Pricing</Link>
-              <Link href="/">FAQ&apos;s</Link>
               <a
-                href="#contact"
+                href="#home"
                 onClick={(e) => {
                   e.preventDefault()
-                  handleTabChange('/contact')
-                  document.getElementById('contact')?.scrollIntoView({
+                  handleTabChange('/home')
+                  document.getElementById('home')?.scrollIntoView({
                     behavior: 'smooth',
                     block: 'start',
                   })
                 }}
               >
-                Contact Us
+                Home
               </a>
+              <a
+                href="#benefits"
+                onClick={(e) => {
+                  e.preventDefault()
+                  handleTabChange('/benefits')
+                  document.getElementById('benefits')?.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start',
+                  })
+                }}
+              >
+                Benefits
+              </a>
+              <a
+                href="#sample"
+                onClick={(e) => {
+                  e.preventDefault()
+                  handleTabChange('/sample')
+                  document.getElementById('sample')?.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start',
+                  })
+                }}
+              >
+                Samples
+              </a>
+              <a
+                href="#working"
+                onClick={(e) => {
+                  e.preventDefault()
+                  handleTabChange('/working')
+                  document.getElementById('working')?.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start',
+                  })
+                }}
+              >
+                Working
+              </a>
+              <a
+                href="#pricing"
+                onClick={(e) => {
+                  e.preventDefault()
+                  handleTabChange('/pricing')
+                  document.getElementById('pricing')?.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start',
+                  })
+                }}
+              >
+                Pricing
+              </a>
+              <a
+                href="#faqs"
+                onClick={(e) => {
+                  e.preventDefault()
+                  handleTabChange('/faqs')
+                  document.getElementById('faqs')?.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start',
+                  })
+                }}
+              >
+                FAQ&apos;s
+              </a>
+              <Link href="Contact_Us">Contact Us</Link>
             </div>
           </div>
         </div>

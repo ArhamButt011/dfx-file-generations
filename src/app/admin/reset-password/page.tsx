@@ -1,6 +1,5 @@
 'use client'
 import ResetPassword from '@/components/auth/ResetPassword'
-import withAuth from '@/hoc/withAuth'
 import React from 'react'
 
 // Defining types for the page component
@@ -15,4 +14,4 @@ const Page: React.FC = () => {
   )
 }
 
-export default withAuth(Page, ['admin'])
+export default Page

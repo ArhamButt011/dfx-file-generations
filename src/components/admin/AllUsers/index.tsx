@@ -8,6 +8,7 @@ import Link from 'next/link'
 import userImage from '/public/images/admin/emptyUser.svg'
 import searchIcon from '/public/images/searchIcon.svg'
 import { useSearchParams, useRouter } from 'next/navigation'
+import Text from '@/components/UI/Text'
 
 interface User {
   _id: string
@@ -75,18 +76,18 @@ const AllUsers = () => {
       <Breadcrumb
         pageName="All Users"
         totalContent={totalUsers}
-        totalText="Total Users"
+        totalText="User Count"
         rightContent={
           <div className="relative">
             <Image
               src={searchIcon}
               alt="searchIcon"
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4"
             />
             <input
               type="text"
               placeholder="Search user..."
-              className="pl-10 pr-10 py-3 rounded-xl border text-gray-800 text-[18px] focus:outline-none focus:ring-2 focus:ring-[#005B97]"
+              className="pl-10 pr-10 py-1 rounded-xl border text-gray-800 text-[18px] focus:outline-none focus:ring-2 focus:ring-[#005B97] placeholder:text-sm"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -100,7 +101,7 @@ const AllUsers = () => {
           <ClipLoader color="#007bff" size={50} />
         </div>
       ) : users && users.length > 0 ? (
-        <table className="min-w-full border-separate border-spacing-y-3">
+        <table className="min-w-full border-separate border-spacing-y-1">
           <thead>
             <tr className="text-[18.45px] text-gray-600">
               <th className="pb-4 px-4 border-b text-start font-medium">
@@ -129,7 +130,7 @@ const AllUsers = () => {
                 <td className="py-3 px-4 text-start text-lg font-medium rounded-l-xl">
                   <div className="flex justify-start items-center gap-3">
                     <div>
-                      <div className="w-12 h-12 rounded-full overflow-hidden">
+                      <div className="w-8 h-8 rounded-full overflow-hidden">
                         <Image
                           src={user?.image ? user.image : userImage}
                           alt="userImage"
@@ -141,24 +142,26 @@ const AllUsers = () => {
                       </div>
                     </div>
                     <div>
-                      <span className="font-semibold text-gray-800 text-[22px]">
+                      <Text className="text-[#000000]">
                         {user.name} {user.lastName}
-                      </span>
+                      </Text>
                       {/* <span className="text-gray-500 text-[14.3px]">
                         #{index + 1}
                       </span> */}
                     </div>
                   </div>
                 </td>
-                <td className="py-3 px-4 text-center text-lg font-medium">
-                  {user.email}
+                <td className="py-3 px-4 text-center">
+                  <Text>{user.email}</Text>
                 </td>
-                <td className="py-3 pr-4 pl-8 text-center text-lg font-medium">
-                  {format(new Date(user.createdAt), 'MMM dd, yyyy')}
+                <td className="py-3 pr-4 pl-8 text-center">
+                  <Text>
+                    {format(new Date(user.createdAt), 'MMM dd, yyyy')}
+                  </Text>
                 </td>
 
-                <td className="py-3 px-4 text-center text-lg font-medium ">
-                  {user.downloadsCount}
+                <td className="py-3 px-4 text-center font-medium ">
+                  <Text>{user.downloadsCount}</Text>
                 </td>
                 <td className="py-3 px-4 text-center text-lg font-medium rounded-r-xl text-[#266CA8]">
                   <Link
@@ -166,9 +169,9 @@ const AllUsers = () => {
                       pathname: `/admin/allusers/${user._id}`,
                       query: { source: 'allUsers', page: page },
                     }}
-                    className="border-b-blue-500 border-b font-semibold "
+                    className="border-b-blue-500 border-b"
                   >
-                    View Details
+                    <Text>View Details</Text>
                   </Link>
                 </td>
               </tr>

@@ -1,6 +1,5 @@
 'use client'
 import Forgot from '@/components/auth/Forgot'
-import withAuth from '@/hoc/withAuth'
 import React from 'react'
 
 const Page: React.FC = () => {
@@ -14,4 +13,4 @@ const Page: React.FC = () => {
   )
 }
 
-export default withAuth(Page, ['admin'])
+export default Page
