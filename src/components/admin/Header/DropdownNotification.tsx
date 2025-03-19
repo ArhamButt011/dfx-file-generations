@@ -9,6 +9,7 @@ import '@/components/admin/Header/DropdownNotifications.css'
 import { formatDistanceToNowStrict } from 'date-fns'
 import { database, ref, onValue, update } from '@/firebase'
 import { useNotification } from '@/context/NotificationContext'
+import Text from '@/components/UI/Text'
 
 interface Notification {
   message: string
@@ -94,7 +95,7 @@ const DropdownNotification = () => {
                 <li key={index}>
                   <div className="flex flex-col gap-2.5 border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4">
                     <div className="flex gap-4 items-start">
-                      <div className="w-[60px] h-[60px] rounded-full overflow-hidden flex-shrink-0">
+                      <div className="w-[45px] h-[45px] rounded-full overflow-hidden flex-shrink-0">
                         <Image
                           src={data?.image ? data.image : userImage}
                           width={60}
@@ -106,17 +107,17 @@ const DropdownNotification = () => {
 
                       <div className="flex flex-col">
                         <p
-                          className="font-medium text-[21.94px]"
+                          className="font-medium text-[14px] sm:text-[16px]"
                           dangerouslySetInnerHTML={{ __html: data.message }}
                         />
-                        <span className="text-[17.94px] text-[#00000066]">
+                        <Text className="text-[17.94px] text-[#00000066]">
                           {data.createdAt
                             ? formatDistanceToNowStrict(
                                 new Date(data.createdAt),
                                 { addSuffix: true },
                               )
                             : 'Unknown time'}
-                        </span>
+                        </Text>
                       </div>
                     </div>
                   </div>

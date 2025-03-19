@@ -86,12 +86,14 @@ const Subscriptions = () => {
             <Image
               src={searchIcon}
               alt="searchIcon"
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4"
+              width={14}
+              height={14}
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 opacity-60"
             />
             <input
               type="text"
               placeholder="Search..."
-              className="pl-10 pr-10 py-[7px] text-sm rounded-xl border text-gray-800 text-[18px] focus:outline-none focus:ring-2 focus:ring-[#005B97] placeholder:text-sm"
+              className="pl-8 pr-10 py-2 rounded-xl border text-gray-800 text-[18px] focus:outline-none focus:ring-2 focus:ring-[#005B97] placeholder:text-sm text-sm text-sm"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -148,7 +150,7 @@ const Subscriptions = () => {
                   <td className="py-3 px-4 text-start font-medium">
                     <div className="flex justify-start align-center gap-3">
                       <div>
-                        <div className="w-12 h-12 rounded-full overflow-hidden">
+                        <div className="w-10 h-10 rounded-full overflow-hidden">
                           <Image
                             src={user?.image ? user.image : userImage}
                             alt="userImage"
@@ -161,7 +163,7 @@ const Subscriptions = () => {
                       </div>
                       <div className="flex flex-col gap-0">
                         <Text className="text-gray-800">{user.user_name}</Text>
-                        <Text className="text-[6px]">{user.email}</Text>
+                        <span className="text-[13px]">{user.email}</span>
                       </div>
                     </div>
                   </td>

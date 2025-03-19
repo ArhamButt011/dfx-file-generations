@@ -28,20 +28,25 @@ function Input() {
   const [contour, setContour] = useState<string>(
     () => sessionStorage.getItem('contour') || '',
   )
-  const [boundaryLength, setBoundaryLength] = useState<string>(
-    () => sessionStorage.getItem('boundaryLength') || '',
-  )
+  const [boundaryLength, setBoundaryLength] = useState<number>(() => {
+    const storedValue = sessionStorage.getItem('boundaryLength')
+    return storedValue ? parseFloat(storedValue) : 0
+  })
+
   const [drawerId, setDrawerId] = useState<string>(
     () => sessionStorage.getItem('drawerId') || '',
   )
-  const [boundaryWidth, setBoundaryWidth] = useState<string>(
-    () => sessionStorage.getItem('boundaryWidth') || '',
-  )
+
+  const [boundaryWidth, setBoundaryWidth] = useState<number>(() => {
+    const storedValue = sessionStorage.getItem('boundaryWidth')
+    return storedValue ? parseFloat(storedValue) : 0
+  })
 
   const [dragging, setDragging] = useState<boolean>(false)
   const [isProcessingOpen, setisProcessingOpen] = useState<boolean>(false)
   const [fingerCut, setFingerCut] = useState('No')
   const [boundaryContour, setBoundaryContour] = useState('No')
+  const [includeDrawerId, setIncludeDrawerId] = useState('No')
   const [unit, setUnit] = useState<string>(
     () => sessionStorage.getItem('unit') || 'mm',
   )
@@ -164,6 +169,16 @@ function Input() {
   }, [isMagnifierActive])
 
   useEffect(() => {
+    if (includeDrawerId === 'No') {
+      setDrawerId('')
+    }
+    if (boundaryContour === 'No') {
+      setBoundaryLength(0)
+      setBoundaryWidth(0)
+    }
+  }, [includeDrawerId, boundaryContour])
+
+  useEffect(() => {
     const isBillingTriggered = sessionStorage.getItem('billingTriggered')
 
     if (
@@ -183,8 +198,8 @@ function Input() {
     sessionStorage.setItem('dxf_file', dfxFile)
     sessionStorage.setItem('image', image)
     sessionStorage.setItem('contour', contour)
-    sessionStorage.setItem('boundaryLength', boundaryLength)
-    sessionStorage.setItem('boundaryWidth', boundaryWidth)
+    sessionStorage.setItem('boundaryLength', boundaryLength.toString())
+    sessionStorage.setItem('boundaryWidth', boundaryWidth.toString())
     sessionStorage.setItem('drawerId', drawerId)
     sessionStorage.setItem('overlayUrl', overlayUrl)
     sessionStorage.setItem('maskUrl', maskUrl)
@@ -204,9 +219,11 @@ function Input() {
     setDfxFile(sessionStorage.getItem('dxf_file') ?? '')
     setImage(sessionStorage.getItem('image') ?? '')
     setContour(sessionStorage.getItem('contour') ?? '')
-    setBoundaryLength(sessionStorage.getItem('boundaryLength') ?? '')
+    setBoundaryLength(
+      parseFloat(sessionStorage.getItem('boundaryLength') ?? '0'),
+    )
     setDrawerId(sessionStorage.getItem('drawerId') ?? '')
-    setBoundaryWidth(sessionStorage.getItem('boundaryWidth') ?? '')
+    setBoundaryWidth(parseFloat(sessionStorage.getItem('boundaryWidth') ?? '0'))
     setUnit(sessionStorage.getItem('unit') ?? '')
     setIsProcessed(JSON.parse(sessionStorage.getItem('isProcessed') || 'false'))
   }, [])
@@ -937,14 +954,13 @@ function Input() {
                   </Text>
                   <input
                     type="text"
-                    inputMode="decimal" // Hint to show a numeric keypad on mobile devices
+                    inputMode="decimal"
                     className="border rounded-full w-full p-3 my-5 bg-[#F2F2F2] placeholder:text-sm text-sm"
                     placeholder="0"
                     value={contour}
                     required
                     onChange={(e) => {
                       const value = e.target.value
-                      // Allow only positive decimals with up to four digits after the decimal point
                       if (/^\d*\.?\d{0,4}$/.test(value)) {
                         setContour(value)
                       }
@@ -972,7 +988,7 @@ function Input() {
                         {fingerCut === 'Yes' ? (
                           <span className="text-white">✔</span>
                         ) : (
-                          <span className="text-[#266CA8]">✔</span>
+                          ''
                         )}
                       </div>
                       <Text className="">Include Finger clearance cut</Text>
@@ -992,85 +1008,120 @@ function Input() {
                         {boundaryContour === 'Yes' ? (
                           <span className="text-white">✔</span>
                         ) : (
-                          <span className="text-[#266CA8]">✔</span>
+                          ''
                         )}
                       </div>
-                      <Text className="">Include Boundary Contour</Text>
+                      <Text className="">
+                        Include Boundary Contour
+                        <span>{unit === 'mm' ? 'mm' : 'inches'}</span>
+                      </Text>
                     </label>
                   </div>
 
-                  <div className="flex gap-4">
-                    <div className="relative w-full">
+                  {boundaryContour === 'Yes' ? (
+                    <div className="flex gap-4">
+                      <div className="relative w-full">
+                        <input
+                          type="text"
+                          inputMode="decimal"
+                          className="border rounded-full w-full p-3 mt-5 bg-[#F2F2F2] placeholder:text-sm text-sm"
+                          placeholder="Length"
+                          value={boundaryLength === 0 ? '' : boundaryLength}
+                          required={boundaryContour === 'Yes'}
+                          onChange={(e) => {
+                            const value = e.target.value
+                            if (/^\d*\.?\d{0,4}$/.test(value)) {
+                              setBoundaryLength(
+                                value === '' ? 0 : parseFloat(value),
+                              )
+                            }
+                          }}
+                          onBlur={() => {
+                            if (boundaryLength !== 0) {
+                              setBoundaryLength(
+                                parseFloat(boundaryLength.toFixed(4)),
+                              )
+                            }
+                          }}
+                        />
+
+                        <span className="absolute right-4 top-1/2 transform text-sm">
+                          {unit === 'mm' ? 'mm' : 'inches'}
+                        </span>
+                      </div>
+                      <div className="relative w-full">
+                        <input
+                          type="text"
+                          inputMode="decimal"
+                          className="border rounded-full w-full p-3 pr-10 mt-5 bg-[#F2F2F2] placeholder:text-sm text-sm"
+                          placeholder="Width"
+                          value={boundaryWidth === 0 ? '' : boundaryWidth}
+                          required={boundaryContour === 'Yes'}
+                          onChange={(e) => {
+                            const value = e.target.value
+                            if (/^\d*\.?\d{0,4}$/.test(value)) {
+                              setBoundaryWidth(
+                                value === '' ? 0 : parseFloat(value),
+                              )
+                            }
+                          }}
+                          onBlur={() => {
+                            if (boundaryWidth !== 0) {
+                              setBoundaryWidth(
+                                parseFloat(boundaryWidth.toFixed(4)),
+                              )
+                            }
+                          }}
+                        />
+                        <span className="absolute right-4 top-1/2 transform text-sm">
+                          {unit === 'mm' ? 'mm' : 'inches'}
+                        </span>
+                      </div>
+                    </div>
+                  ) : (
+                    ''
+                  )}
+                  <div className="mt-4 max-w-sm">
+                    <label className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        checked={includeDrawerId === 'Yes'}
+                        onChange={() =>
+                          setIncludeDrawerId(
+                            includeDrawerId === 'Yes' ? 'No' : 'Yes',
+                          )
+                        }
+                        className="peer hidden"
+                      />
+                      <div className="w-5 h-5 border border-[#266CA8] rounded cursor-pointer flex items-center justify-center peer-checked:bg-[#266CA8] peer-checked:border-transparent">
+                        {includeDrawerId === 'Yes' ? (
+                          <span className="text-white">✔</span>
+                        ) : (
+                          ''
+                        )}
+                      </div>
+                      <Text className="">Include Drawer ID</Text>
+                    </label>
+                  </div>
+
+                  {includeDrawerId === 'Yes' ? (
+                    <div className="mt-3">
                       <input
                         type="text"
                         inputMode="decimal"
-                        className="border rounded-full w-full p-3 my-5 bg-[#F2F2F2] placeholder:text-sm text-sm"
-                        placeholder="Length"
-                        value={boundaryLength}
-                        required
+                        className="border rounded-full w-full p-3 mt-1 bg-[#F2F2F2] placeholder:text-sm text-sm"
+                        placeholder="Enter Drawer id"
+                        value={drawerId}
+                        maxLength={20}
+                        required={includeDrawerId === 'Yes'}
                         onChange={(e) => {
-                          const value = e.target.value
-                          // Allow only positive decimals with up to four digits after the decimal point
-                          if (/^\d*\.?\d{0,4}$/.test(value)) {
-                            setBoundaryLength(value)
-                          }
-                        }}
-                        onBlur={() => {
-                          if (boundaryLength !== '') {
-                            const parsed = parseFloat(boundaryLength)
-                            if (!isNaN(parsed)) {
-                              setBoundaryLength(parsed.toString())
-                            }
-                          }
+                          setDrawerId(e.target.value)
                         }}
                       />
-                      <span className="absolute right-4 top-1/2 transform -translate-y-1/2 text-sm">
-                        {unit === 'mm' ? 'mm' : 'inches'}
-                      </span>
                     </div>
-                    <div className="relative w-full">
-                      <input
-                        type="text"
-                        inputMode="decimal"
-                        className="border rounded-full w-full p-3 pr-10 my-5 bg-[#F2F2F2] placeholder:text-sm text-sm"
-                        placeholder="Width"
-                        value={boundaryWidth}
-                        required
-                        onChange={(e) => {
-                          const value = e.target.value
-                          // Allow only positive decimals with up to four digits after the decimal point
-                          if (/^\d*\.?\d{0,4}$/.test(value)) {
-                            setBoundaryWidth(value)
-                          }
-                        }}
-                        onBlur={() => {
-                          if (boundaryWidth !== '') {
-                            const parsed = parseFloat(boundaryWidth)
-                            if (!isNaN(parsed)) {
-                              setBoundaryWidth(parsed.toString())
-                            }
-                          }
-                        }}
-                      />
-                      <span className="absolute right-4 top-1/2 transform -translate-y-1/2 text-sm">
-                        {unit === 'mm' ? 'mm' : 'inches'}
-                      </span>
-                    </div>
-                  </div>
-                  <div>
-                    <input
-                      type="text"
-                      inputMode="decimal"
-                      className="border rounded-full w-full p-3 mt-1 bg-[#F2F2F2] placeholder:text-sm text-sm"
-                      placeholder="Enter Drawer id (optional)"
-                      value={drawerId}
-                      maxLength={20}
-                      onChange={(e) => {
-                        const value = e.target.value
-                        setDrawerId(value)
-                      }}
-                    />
-                  </div>
+                  ) : (
+                    ''
+                  )}
 
                   <div className="flex justify-between gap-4 my-8">
                     <button
@@ -1078,8 +1129,8 @@ function Input() {
                       className="w-1/2 bg-white p-3 rounded-full text-[#00000080] font-medium xl:text-[18px] text-[14px]"
                       onClick={() => {
                         setContour('')
-                        setBoundaryWidth('')
-                        setBoundaryLength('')
+                        setBoundaryWidth(0)
+                        setBoundaryLength(0)
                         setImage('')
                         setOverlay('')
                         setMask('')
@@ -1089,6 +1140,7 @@ function Input() {
                         setFingerCut('No')
                         setBoundaryContour('No')
                         setUnit('mm')
+                        setDrawerId('')
                       }}
                     >
                       Clear

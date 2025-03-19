@@ -82,12 +82,14 @@ const AllUsers = () => {
             <Image
               src={searchIcon}
               alt="searchIcon"
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4"
+              width={14}
+              height={14}
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 opacity-60"
             />
             <input
               type="text"
               placeholder="Search user..."
-              className="pl-10 pr-10 py-[7px] text-sm rounded-xl border text-gray-800 text-[18px] focus:outline-none focus:ring-2 focus:ring-[#005B97] placeholder:text-sm"
+              className="pl-8 pr-10 py-2 rounded-xl border text-gray-800 text-[18px] focus:outline-none focus:ring-2 focus:ring-[#005B97] placeholder:text-sm text-sm text-sm"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -163,16 +165,18 @@ const AllUsers = () => {
                 <td className="py-3 px-4 text-center font-medium ">
                   <Text>{user.downloadsCount}</Text>
                 </td>
-                <td className="py-3 px-4 text-center text-lg font-medium rounded-r-xl text-[#266CA8]">
-                  <Link
-                    href={{
-                      pathname: `/admin/allusers/${user._id}`,
-                      query: { source: 'allUsers', page: page },
-                    }}
-                    className="border-b-blue-500 border-b"
-                  >
-                    <Text>View Details</Text>
-                  </Link>
+                <td className="py-3 px-4 text-center font-medium rounded-r-xl text-[#266CA8]">
+                  <Text>
+                    <Link
+                      href={{
+                        pathname: `/admin/allusers/${user._id}`,
+                        query: { source: 'allUsers', page: page },
+                      }}
+                      className="border-b-[#266CA8] border-b"
+                    >
+                      View Details
+                    </Link>
+                  </Text>
                 </td>
               </tr>
             ))}

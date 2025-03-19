@@ -20,6 +20,7 @@ import axios, { AxiosError } from 'axios'
 import Swal from 'sweetalert2'
 import { ClipLoader } from 'react-spinners'
 import { useNotification } from '@/context/NotificationContext'
+import Text from '@/components/UI/Text'
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false)
@@ -357,9 +358,9 @@ const DropdownUser = () => {
           href="#"
         >
           <span className="hidden text-right lg:block">
-            <span className="block text-[20.94px] font-medium text-black dark:text-white">
+            <Text className="block text-black dark:text-white">
               {userData?.username}
-            </span>
+            </Text>
             {/* <span className="block text-xs">UX Designer</span> */}
           </span>
 

@@ -2,6 +2,7 @@
 import { ApexOptions } from 'apexcharts'
 import React, { useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
+import Text from '@/components/UI/Text'
 
 const ReactApexChart = dynamic(() => import('react-apexcharts'), {
   ssr: false,
@@ -167,19 +168,19 @@ const ChartOne: React.FC = () => {
         <div className="flex w-full flex-wrap gap-3 sm:gap-5">
           <div className="flex min-w-47.5">
             <div className="w-full">
-              <p className="font-semibold text-black text-[26px]">
+              <Text as="h5" className="font-semibold text-black">
                 Subscription Payment
-              </p>
+              </Text>
             </div>
           </div>
         </div>
         <div className="flex w-full max-w-45 justify-end">
           <div className="inline-flex items-center rounded-md gap-5 bg-whiter p-1.5 dark:bg-meta-4">
-            <p className="font-semibold text-[33.56px] text-black text-2xl">
+            <Text as="p1" className="font-semibold text-black text-[24px]">
               ${formatNumber(totalPayment)}
-            </p>
-            <p
-              className={`rounded-lg p-2 text-[16.07px] font-medium ${
+            </Text>
+            <Text
+              className={`rounded-lg px-2 py-1 text-[16.07px] font-medium ${
                 currMonthAvg > prevMonthAvg
                   ? 'text-[#F5704B] bg-[#F5704B1A]'
                   : 'text-[#D7890C] bg-[#F5704B1A]'
@@ -189,7 +190,7 @@ const ChartOne: React.FC = () => {
               {formatNumber(
                 currMonthAvg > prevMonthAvg ? currMonthAvg : prevMonthAvg,
               )}
-            </p>
+            </Text>
           </div>
         </div>
       </div>

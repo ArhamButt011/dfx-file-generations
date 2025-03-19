@@ -6,6 +6,7 @@ import Image from 'next/image'
 import backImage from '/public/images/user/GenerateDFX/backImage.svg'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
+import Text from '@/components/UI/Text'
 
 interface UserData {
   _id: string
@@ -61,9 +62,9 @@ const UserDetails: React.FC<UserDetailsProps> = ({ userId }) => {
             className="cursor-pointer"
           />
         </Link>
-        <h2 className="text-lg sm:text-2xl font-semibold">
+        <Text as="h3" className="font-semibold">
           Downloaded Files Details
-        </h2>
+        </Text>
       </div>
       <div className="flex justify-between p-5 flex-col md:flex-row">
         <div className="flex flex-col md:flex-row gap-4">
@@ -77,16 +78,16 @@ const UserDetails: React.FC<UserDetailsProps> = ({ userId }) => {
             />
           </div>
           <div className="flex justify-center flex-col">
-            <h1 className="text-[32.6px] font-semibold text-[#000000]">
+            <Text as="h3" className="font-semibold text-[#000000]">
               {userData?.name} {userData?.lastName}
-            </h1>
+            </Text>
             <div className="flex items-center gap-2 mt-2">
               <span>
-                <Image src={email} alt="email" width={23} height={18} />
+                <Image src={email} alt="email" width={20} height={17} />
               </span>
-              <span className="text-primary text-[18.84px] font-medium">
+              <Text as="p1" className="text-primary font-medium">
                 {userData?.email}
-              </span>
+              </Text>
             </div>
           </div>
         </div>
