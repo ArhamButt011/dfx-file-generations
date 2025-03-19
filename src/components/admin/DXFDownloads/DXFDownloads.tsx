@@ -10,6 +10,7 @@ import { ClipLoader } from 'react-spinners'
 import searchIcon from '/public/images/searchIcon.svg'
 import Link from 'next/link'
 import { useSearchParams, useRouter } from 'next/navigation'
+import Text from '@/components/UI/Text'
 
 interface Download {
   _id: string
@@ -79,12 +80,14 @@ const DXFDownloads = () => {
             <Image
               src={searchIcon}
               alt="searchIcon"
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+              width={14}
+              height={14}
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 opacity-60"
             />
             <input
               type="text"
               placeholder="Search..."
-              className="pl-10 pr-10 py-3 rounded-xl border text-gray-800 text-[18px] focus:outline-none focus:ring-2 focus:ring-[#005B97]"
+              className="pl-8 pr-10 py-2 rounded-xl border text-gray-800 text-[18px] focus:outline-none focus:ring-2 focus:ring-[#005B97] placeholder:text-sm text-sm text-sm"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -99,7 +102,7 @@ const DXFDownloads = () => {
       ) : downloads && downloads?.length > 0 ? (
         <table className="min-w-full border-separate border-spacing-y-3">
           <thead>
-            <tr className="text-[18.45px] text-gray-600">
+            <tr className="sm:text-[18.45px] text-gray-600">
               <th className="pb-6 border-b text-start font-medium">Sr No</th>
               <th className="pb-6 px-4 border-b text-start font-medium">
                 File Name
@@ -117,20 +120,17 @@ const DXFDownloads = () => {
           </thead>
           <tbody>
             {downloads.map((data, index) => (
-              <tr
-                key={index}
-                className="text-primary bg-[#F5F5F5] text-[16.45px]"
-              >
-                <td className="py-3 px-4 text-start font-medium rounded-l-xl">
-                  #{(page - 1) * 10 + (index + 1)}
+              <tr key={index} className="text-primary bg-[#F5F5F5]">
+                <td className="py-3 px-4 text-start rounded-l-xl">
+                  <Text>#{(page - 1) * 10 + (index + 1)}</Text>
                 </td>
-                <td className="py-3 px-4 text-start font-medium text-[19px] text-[#000000]">
-                  {data.file_name}
+                <td className="py-3 px-4 text-start text-[#000000]">
+                  <Text>{data.file_name}</Text>
                 </td>
                 <td className="py-3 px-4 font-medium text-start">
                   <div className="flex justify-start items-center gap-3">
                     <div className="">
-                      <div className="w-12 h-12 rounded-full overflow-hidden">
+                      <div className="w-10 h-10 rounded-full overflow-hidden">
                         <Image
                           src={data?.image ? data.image : userImage}
                           alt="userImage"
@@ -142,29 +142,31 @@ const DXFDownloads = () => {
                       </div>
                     </div>
                     <div className="flex flex-col gap-0 max-w-xl">
-                      <span className="font-semibold text-gray-800 text-[17px]">
-                        {data.user_name}
-                      </span>
-                      <span className="text-gray-500 text-[13px] font-medium">
+                      <Text className="text-gray-800">{data.user_name}</Text>
+                      <span className="text-[13px] text-gray-500 font-medium">
                         {data.email}
                       </span>
                     </div>
                   </div>
                 </td>
 
-                <td className="py-3 px-4 text-center text-lg font-medium">
-                  {format(new Date(data.downloaded_on), 'MMM dd, yyyy')}
+                <td className="py-3 px-4 text-center font-medium">
+                  <Text>
+                    {format(new Date(data.downloaded_on), 'MMM dd, yyyy')}
+                  </Text>
                 </td>
-                <td className="py-3 px-4 text-center text-lg font-medium rounded-r-xl text-[#266CA8]">
-                  <Link
-                    href={{
-                      pathname: `/admin/dxf-downloads/${data._id}`,
-                      query: { source: 'allDxf', page: page },
-                    }}
-                    className="border-b-blue-500 border-b font-semibold"
-                  >
-                    View Details
-                  </Link>
+                <td className="py-3 px-4 text-center font-medium rounded-r-xl text-[#266CA8]">
+                  <Text>
+                    <Link
+                      href={{
+                        pathname: `/admin/dxf-downloads/${data._id}`,
+                        query: { source: 'allDxf', page: page },
+                      }}
+                      className="border-b-[#266CA8] border-b"
+                    >
+                      View Details
+                    </Link>
+                  </Text>
                 </td>
               </tr>
             ))}

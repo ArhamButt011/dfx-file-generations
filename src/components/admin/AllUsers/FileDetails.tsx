@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { ClipLoader } from 'react-spinners'
 import downloadImg from '/public/images/user/download.svg'
 import Swal from 'sweetalert2'
+import Text from '@/components/UI/Text'
 
 interface FilesData {
   user_id: string
@@ -199,9 +200,9 @@ const FileDetails = () => {
             className="cursor-pointer"
           />
         </Link>
-        <h2 className="text-lg sm:text-2xl font-semibold">
+        <Text as="h3" className="font-semibold">
           Downloaded Files Details
-        </h2>
+        </Text>
       </div>
       {loading ? (
         <div className="flex items-center justify-center bg-opacity-50 z-[1000] mt-20 h-[50vh]">

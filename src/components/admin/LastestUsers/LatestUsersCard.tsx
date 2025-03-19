@@ -3,6 +3,7 @@ import Image from 'next/image'
 import userImage from '/public/images/admin/emptyUser.svg'
 import '@/components/admin/LastestUsers/LatestUsers.css'
 import { useEffect, useState } from 'react'
+import Text from '@/components/UI/Text'
 
 export type LatestUser = {
   _id: number
@@ -32,9 +33,9 @@ const LastestUsersCard = () => {
 
   return (
     <div className="col-span-12 rounded-xl border border-stroke pt-5 bg-bodydark xl:col-span-4 h-[450px]">
-      <h4 className="mb-6 px-7.5 text-xl font-semibold text-black dark:text-white">
+      <Text as="h5" className="mb-6 px-7.5 font-semibold text-black">
         Latest Added Users
-      </h4>
+      </Text>
 
       {/* Scrollable container for user list */}
       <div className="modal-body-custom h-[375px] overflow-y-auto">

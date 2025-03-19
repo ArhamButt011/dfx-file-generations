@@ -9,6 +9,7 @@ import subscriptions from '/public/images/admin/dashboard/subscriptions.svg'
 import downloads from '/public/images/admin/dashboard/Download.svg'
 import Image from 'next/image'
 import { ApexOptions } from 'apexcharts'
+import Text from '@/components/UI/Text'
 
 const ChartThree = dynamic(() => import('../Charts/ChartThree'), {
   ssr: false,
@@ -262,7 +263,9 @@ const Dashboard: React.FC = () => {
 
   return (
     <>
-      <h1 className="text-[35.45px] font-semibold mb-3">Dashboard</h1>
+      <Text as="h3" className="font-semibold mb-3">
+        Dashboard
+      </Text>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5">
         <CardDataStats
           title="Total Users"

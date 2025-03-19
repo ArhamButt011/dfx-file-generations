@@ -13,6 +13,7 @@ import { format } from 'date-fns'
 import { ObjectId } from 'mongodb'
 import Swal from 'sweetalert2'
 import Link from 'next/link'
+import Text from '@/components/UI/Text'
 
 interface CardDetails {
   holder_name: string
@@ -135,25 +136,25 @@ const UserDetails: React.FC = () => {
             />
           </div>
           <div className="flex justify-center flex-col">
-            <h1 className="text-[32.6px] font-semibold text-[#000000]">
+            <Text as="h3" className="font-semibold text-[#000000]">
               {userData?.name} {userData?.lastName}
-            </h1>
+            </Text>
             <div className="flex items-center gap-2 mt-2">
               <span>
-                <Image src={email} alt="email" width={23} height={18} />
+                <Image src={email} alt="email" width={20} height={17} />
               </span>
-              <span className="text-primary text-[18.84px] font-medium">
+              <Text as="p1" className="text-primary font-medium">
                 {userData?.email}
-              </span>
+              </Text>
             </div>
-            <p className="mt-2">
-              <span className="text-primary text-[18.27px] font-medium">
+            <p className="mt-2 flex gap-2">
+              <Text as="p1" className="text-primary">
                 Added On:{' '}
-              </span>
-              <span className="text-[#000000] text-[18.27px] font-normal">
+              </Text>
+              <Text as="p1" className="text-[#000000] font-normal">
                 {userData &&
                   format(new Date(userData?.createdAt), 'MMM dd, yyyy')}
-              </span>
+              </Text>
             </p>
             {/* {userData && userData?.cards.length > 0 ? (
               <div className="flex gap-2 bg-white rounded-lg px-2 py-2 mt-4">

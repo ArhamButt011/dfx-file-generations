@@ -12,6 +12,7 @@ import { ClipLoader } from 'react-spinners'
 import noDownloads from '/public/images/admin/allusers/nodownloads.svg'
 import searchIcon from '/public/images/searchIcon.svg'
 import Link from 'next/link'
+import Text from '@/components/UI/Text'
 
 interface Subscriptions {
   _id: string
@@ -167,24 +168,26 @@ const DownloadsSubscriptions = () => {
         <div>
           <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h1 className="text-[27.42px] font-semibold text-[#000000]">
+              <Text as="h3" className="font-semibold text-[#000000]">
                 DXF Downloads
-              </h1>
-              <p className="mt-2 font-medium text-[17.28px] text-primary">
+              </Text>
+              <Text className="mt-2 font-medium text-primary">
                 Total DXF Downloads: {totalDownloads && totalDownloads}
-              </p>
+              </Text>
             </div>
             <div>
               <div className="relative">
                 <Image
                   src={searchIcon}
                   alt="searchIcon"
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                  width={14}
+                  height={14}
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 opacity-60"
                 />
                 <input
                   type="text"
                   placeholder="Search..."
-                  className="pl-10 pr-10 py-2 rounded-xl border text-gray-800 text-[18px] focus:outline-none focus:ring-2 focus:ring-[#005B97]"
+                  className="pl-8 pr-10 py-2 rounded-xl border text-gray-800 text-[18px] focus:outline-none focus:ring-2 focus:ring-[#005B97] placeholder:text-sm text-sm text-sm"
                   value={downloadsSearchQuerry || ''}
                   onChange={(e) => setDownloadsSearchQuerry(e.target.value)}
                 />
@@ -215,31 +218,35 @@ const DownloadsSubscriptions = () => {
               </thead>
               <tbody>
                 {downloads.map((data: Downloads, index) => (
-                  <tr key={index} className="text-[22px]">
+                  <tr key={index}>
                     <td className="py-5 px-4 border-b text-start font-medium text-[#00000066]">
-                      #{index + 1}
+                      <Text>#{index + 1}</Text>
                     </td>
                     <td className="py-3 px-4 border-b text-start font-medium text-[#000000]">
-                      {data.file_name}
+                      <Text>{data.file_name}</Text>
                     </td>
                     <td className="py-3 px-4 border-b text-center text-[20px] font-medium text-[#00000066]">
-                      {format(new Date(data.downloaded_on), 'MMM dd, yyyy')}
+                      <Text>
+                        {format(new Date(data.downloaded_on), 'MMM dd, yyyy')}
+                      </Text>
                     </td>
-                    <td className="py-3 text-center text-lg font-medium text-[#266CA8] border-b">
-                      <Link
-                        href={{
-                          pathname: `/admin/allusers/${id}/files-details/${data._id}`,
-                          query: {
-                            source,
-                            page,
-                            fileSource: 'fileDetails',
-                            filePage: filePage,
-                          },
-                        }}
-                        className="border-b-blue-500 border-b font-semibold "
-                      >
-                        View Details
-                      </Link>
+                    <td className="py-3 text-center font-medium text-[#266CA8] border-b">
+                      <Text>
+                        <Link
+                          href={{
+                            pathname: `/admin/allusers/${id}/files-details/${data._id}`,
+                            query: {
+                              source,
+                              page,
+                              fileSource: 'fileDetails',
+                              filePage: filePage,
+                            },
+                          }}
+                          className="border-b-[#266CA8] border-b"
+                        >
+                          View Details
+                        </Link>
+                      </Text>
                     </td>
                   </tr>
                 ))}
@@ -293,24 +300,26 @@ const DownloadsSubscriptions = () => {
         <div>
           <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h1 className="text-[27.42px] font-semibold text-[#000000]">
+              <Text as="h3" className="font-semibold text-[#000000]">
                 Subscriptions
-              </h1>
-              <p className="mt-2 font-medium text-[17.28px] text-primary">
+              </Text>
+              <Text className="mt-2 font-medium text-primary">
                 Total subscriptions added: {totalSubscriptions}
-              </p>
+              </Text>
             </div>
             <div>
               <div className="relative">
                 <Image
                   src={searchIcon}
                   alt="searchIcon"
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                  width={14}
+                  height={14}
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 opacity-60"
                 />
                 <input
                   type="text"
                   placeholder="Search..."
-                  className="pl-10 pr-10 py-2 rounded-xl border text-gray-800 text-[18px] focus:outline-none focus:ring-2 focus:ring-[#005B97]"
+                  className="pl-8 pr-10 py-2 rounded-xl border text-gray-800 text-[18px] focus:outline-none focus:ring-2 focus:ring-[#005B97] placeholder:text-sm text-sm text-sm"
                   value={searchQuery || ''}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -352,28 +361,29 @@ const DownloadsSubscriptions = () => {
                 {subscriptions.map((data, index) => {
                   const status = getStatus(data?.expiry_on, data?.status)
                   return (
-                    <tr
-                      key={index}
-                      className="text-primary bg-[#F5F5F5] text-[16px]"
-                    >
+                    <tr key={index} className="text-primary bg-[#F5F5F5]">
                       <td className="py-5 px-4 text-start font-medium rounded-l-xl">
-                        #{index + 1}
+                        <Text>#{index + 1}</Text>
                       </td>
-                      <td className="py-5 px-4 text-center font-medium text-black text-[19px]">
-                        {data?.plan_name}
+                      <td className="py-5 px-4 text-center font-medium text-black">
+                        <Text>{data?.plan_name}</Text>
                       </td>
                       <td className="py-5 px-4 text-center font-medium">
-                        {data?.duration}
+                        <Text>{data?.duration}</Text>
                       </td>
                       <td className="py-5 px-4 text-center font-medium ">
-                        {format(new Date(data?.added_on), 'MMM dd, yyyy')}
+                        <Text>
+                          {format(new Date(data?.added_on), 'MMM dd, yyyy')}
+                        </Text>
                       </td>
                       <td className="py-5 px-4 text-center font-medium ">
-                        {format(new Date(data?.expiry_on), 'MMM dd, yyyy')}
+                        <Text>
+                          {format(new Date(data?.expiry_on), 'MMM dd, yyyy')}
+                        </Text>
                       </td>
 
-                      <td className="py-5 px-4 text-center text-[19px] font-medium text-[#266CA8]">
-                        ${data?.charges}
+                      <td className="py-5 px-4 text-center font-medium text-[#266CA8]">
+                        <Text>${data?.charges}</Text>
                       </td>
                       <td
                         className={`py-5 pl-10 text-center font-medium rounded-r-xl`}
