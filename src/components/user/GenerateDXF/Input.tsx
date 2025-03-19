@@ -1011,9 +1011,12 @@ function Input() {
                           ''
                         )}
                       </div>
-                      <Text className="">
-                        Include Boundary Contour
-                        <span>{unit === 'mm' ? 'mm' : 'inches'}</span>
+
+                      <Text>
+                        Include Boundary Contour{' '}
+                        <span className="font-medium text-[14px] sm:text-[16px] text-[#00000080]">
+                          {unit === 'mm' ? '(mm)' : '(inches)'}
+                        </span>
                       </Text>
                     </label>
                   </div>
