@@ -10,11 +10,15 @@ import Modal from '@/components/UI/Modal'
 import Swal from 'sweetalert2'
 import axios, { AxiosError } from 'axios'
 import blackCross from '/public/images/blackCross.svg'
-import eye from '/public/images/admin/eye.svg'
+// import eye from '/public/images/admin/eye.svg'
 import WarningIcon from '/public/images/user/warning.svg'
 import EditIcon from '/public/images/editIcon.svg'
 import { FaEye } from 'react-icons/fa'
 import { ClipLoader } from 'react-spinners'
+import Button from '@/components/UI/Button'
+import Text from '@/components/UI/Text'
+import { LuEyeClosed } from 'react-icons/lu'
+import Label from '@/components/UI/Label'
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false)
@@ -226,7 +230,7 @@ const DropdownUser = () => {
       })
 
       const data = await response.json()
-      console.log(data)
+      console.log('edit data->', data)
 
       if (data.status === 'success') {
         const newToken = data?.token
@@ -241,6 +245,7 @@ const DropdownUser = () => {
           email: prevData?.email || '',
           role: prevData?.role || '',
           username: data.data.name,
+          lastName: data.data.lastName,
           image: data.data.image,
         }))
 
@@ -540,12 +545,15 @@ const DropdownUser = () => {
           )}
           <div className="flex items-center flex-col gap-3">
             <div className="flex justify-between items-center w-full mb-7">
-              <div className="text-[#000000] font-semibold text-[22px] sm:text-[24px] font-semibold text-center flex-grow">
+              <Text
+                as="h3"
+                className="text-[#000000] font-semibold text-center flex-grow"
+              >
                 Edit Profile
-              </div>
+              </Text>
               <div>
                 <Image
-                  className="cursor-pointer sm:w-[28px] sm:h-[28px]  w-[25px] h-[25px]"
+                  className="cursor-pointer sm:w-[30px] sm:h-[30px]  w-[25px] h-[25px]"
                   src={blackCross}
                   alt="cross"
                   onClick={onEditClose}
@@ -575,43 +583,36 @@ const DropdownUser = () => {
                 onChange={handleFileChange}
               />
             </div>
-            <div className="w-full">
-              <label className="text-[#000000] font-semibold mb-2 text-[21.37px]">
-                First Name
-              </label>
+            <div className="w-full mb-3">
+              <Label>First Name</Label>
               <div>
                 <input
                   type="text"
                   placeholder="Enter First Name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
+                  className="w-full px-4 sm:text-sm text-xs sm:py-3 py-2 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full placeholder:text-sm placeholder:text-xs"
                   required
                 />
               </div>
             </div>
             <div className="w-full">
-              <label className="text-[#000000] font-semibold mb-2 text-[21.37px]">
-                Last Name
-              </label>
+              <Label>Last Name</Label>
               <div>
                 <input
                   type="text"
                   placeholder="Enter Last Name"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
-                  className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
+                  className="w-full px-4 sm:text-sm text-xs sm:py-3 py-2 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full placeholder:text-sm placeholder:text-xs"
                   required
                 />
               </div>
             </div>
             <div className="w-full mt-8">
-              <button
-                type="submit"
-                className="font-normal text-white text-[24.56px] bg-[#266CA8] rounded-full px-16 py-3 w-full"
-              >
+              <Button type="submit" className="px-16 w-full">
                 Continue
-              </button>
+              </Button>
             </div>
           </div>
         </form>
@@ -626,13 +627,13 @@ const DropdownUser = () => {
             </div>
           )}
           <div className="flex justify-between items-center w-full mb-7">
-            <p className="text-[#000000] text-[30px] font-medium text-center flex-grow">
+            <Text as="h3" className="text-[#000000] text-center flex-grow">
               Change Password
-            </p>
+            </Text>
             <div>
               <Image
-                className="cursor-pointer"
                 src={blackCross}
+                className="cursor-pointer sm:w-[30px] sm:h-[30px]  w-[25px] h-[25px]"
                 alt="cross"
                 onClick={onPasswordClose}
               />
@@ -640,16 +641,14 @@ const DropdownUser = () => {
           </div>
           <form onSubmit={handleUpdatePassword}>
             <div className="mb-2 relative">
-              <label className="text-[#000000] font-medium mb-2 text-[20px]">
-                Old Password
-              </label>
-              <div className="relative">
+              <Label>Old Password</Label>
+              <div className="relative mb-4">
                 <input
                   type={showOldPassword ? 'text' : 'password'}
                   placeholder="Enter Old Password"
                   value={oldPassword}
                   onChange={(e) => setOldPassword(e.target.value)}
-                  className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
+                  className="w-full px-4 sm:text-sm text-xs sm:py-3 py-2 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full placeholder:text-sm placeholder:text-xs"
                   required
                 />
                 <button
@@ -661,22 +660,20 @@ const DropdownUser = () => {
                   {showOldPassword ? (
                     <FaEye size={20} className="text-[#005B97] mr-3" />
                   ) : (
-                    <Image alt="eye" src={eye} className="mr-3" />
+                    <LuEyeClosed size={20} className="text-[#005B97] mr-2" />
                   )}
                 </button>
               </div>
             </div>
             <div className="mb-2 relative">
-              <label className="text-[#000000] font-medium text-[20px]">
-                New Password
-              </label>
-              <div className="relative">
+              <Label>New Password</Label>
+              <div className="relative mb-4">
                 <input
                   type={showNewPassword ? 'text' : 'password'}
                   placeholder="Enter new Password"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
+                  className="w-full px-4 sm:text-sm text-xs sm:py-3 py-2 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full placeholder:text-sm placeholder:text-xs"
                   required
                   minLength={8}
                 />
@@ -687,25 +684,23 @@ const DropdownUser = () => {
                   style={{ transform: 'translateY(-40%)' }}
                 >
                   {showNewPassword ? (
-                    <FaEye size={20} className="text-[#005B97] mr-3" />
+                    <FaEye size={20} className="text-[#005B97] mr-2" />
                   ) : (
-                    <Image alt="eye" src={eye} className="mr-3" />
+                    <LuEyeClosed size={20} className="text-[#005B97] mr-2" />
                   )}
                 </button>
               </div>
             </div>
             <div className="mb-2 relative">
-              <label className="text-[#000000] font-medium mb-1 text-[20px]">
-                Confirm New Password
-              </label>
-              <div className="relative">
+              <Label>Confirm New Password</Label>
+              <div className="relative mb-4">
                 <input
                   type={showConfirmPassword ? 'text' : 'password'}
                   placeholder="Enter new Password"
                   name="password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
+                  className="w-full px-4 sm:text-sm text-xs sm:py-3 py-2 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full placeholder:text-sm placeholder:text-xs"
                   required
                   minLength={8}
                 />
@@ -716,27 +711,24 @@ const DropdownUser = () => {
                   style={{ transform: 'translateY(-40%)' }}
                 >
                   {showConfirmPassword ? (
-                    <FaEye size={20} className="text-[#005B97] mr-3" />
+                    <FaEye size={20} className="text-[#005B97] mr-2" />
                   ) : (
-                    <Image alt="eye" src={eye} className="mr-3" />
+                    <LuEyeClosed size={20} className="text-[#005B97] mr-2" />
                   )}
                 </button>
               </div>
             </div>
             <div>
-              <button
-                type="submit"
-                className="font-normal text-white text-[23px] bg-[#266CA8] rounded-full px-16 py-3 w-full mt-5"
-              >
+              <Button type="submit" className="px-16 w-full mt-5">
                 Update
-              </button>
+              </Button>
             </div>
           </form>
         </div>
       </Modal>
       {/* delete */}
       <Modal isOpen={isDeleteOpen} onClose={onEditClose} buttonContent="">
-        <div className="flex items-center flex-col gap-10">
+        <div className="flex items-center flex-col gap-8">
           {loading && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[100000]">
               <ClipLoader color="#007bff" size={50} />
@@ -746,34 +738,35 @@ const DropdownUser = () => {
             <Image
               src={WarningIcon}
               alt="userImage"
-              className="rounded-full w-36 h-36 object-cover"
+              className="rounded-full w-30 h-30 object-cover"
               onClick={handleImageClick}
               width={200}
               height={200}
             />
-            <div className="text-[#000000] text-[34px] font-semibold text-center flex-grow">
+            <Text
+              as="h3"
+              className="text-[#000000] font-semibold text-center flex-grow"
+            >
               <span className="text-[#266CA8]">Delete</span> Your Account?
-            </div>
+            </Text>
 
-            <p className="text-center text-[#777777] font-medium text-lg sm:text-2xl">
+            <Text className="text-center text-[#777777]">
               Are you sure you want to delete your account? All your downloaded
               files and subscription data will be lost
-            </p>
+            </Text>
           </div>
 
-          <div className="w-full flex gap-10">
-            <button
+          <div className="w-full flex gap-10 max-w-sm">
+            {/* <button
               onClick={() => setIsDeleteOpen(false)}
               className="font-normal text-[#266CA8] border border-[#266CA8] text-[16px] sm:text-[24.56px] bg-white rounded-full p-5 w-full "
             >
               Cancel
-            </button>
-            <button
-              onClick={handleDelete}
-              className="font-normal text-white text-[16px] sm:text-[24.56px] bg-[#266CA8] rounded-full p-5  w-full"
-            >
-              Yes I&apos;m Sure
-            </button>
+            </button> */}
+            <Button variant="outlined" onClick={() => setIsDeleteOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleDelete}>Yes I&apos;m Sure</Button>
           </div>
         </div>
       </Modal>

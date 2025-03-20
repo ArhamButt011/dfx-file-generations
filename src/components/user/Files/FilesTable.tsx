@@ -14,6 +14,9 @@ import axios from 'axios'
 import Swal from 'sweetalert2'
 import Modal from '@/components/UI/Modal'
 import { useRouter, useSearchParams } from 'next/navigation'
+import Text from '@/components/UI/Text'
+import Label from '@/components/UI/Label'
+import Button from '@/components/UI/Button'
 
 interface Downloads {
   _id: string
@@ -448,12 +451,15 @@ function FilesTable() {
           )}
           <div className="flex items-center flex-col gap-3">
             <div className="flex justify-between items-center w-full mb-7">
-              <div className="text-[#000000] text-[22px] sm:text-[30px] font-semibold text-center flex-grow">
+              <Text
+                as="h3"
+                className="text-[#000000] font-semibold text-center flex-grow"
+              >
                 Edit File Name
-              </div>
+              </Text>
               <div>
                 <Image
-                  className="cursor-pointer"
+                  className="cursor-pointer sm:w-[30px] sm:h-[30px]  w-[25px] h-[25px]"
                   src={blackCross}
                   alt="cross"
                   width={30}
@@ -464,38 +470,28 @@ function FilesTable() {
             </div>
 
             <div className="w-full">
-              <label className="text-[#000000] font-semibold mb-2 text-[21.37px]">
-                File Name
-              </label>
+              <Label>File Name</Label>
               <div className="relative w-full">
                 <input
                   type="text"
                   placeholder="Enter File Name"
                   value={fileName}
                   onChange={handleFileNameChange}
-                  className="w-full px-4 py-4 mt-1 pr-16 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
+                  className="w-full px-4 sm:text-sm text-xs sm:py-3 py-2 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full placeholder:text-sm placeholder:text-xs"
                   required
                 />
                 {/* Non-editable .dxf extension at the right */}
-                <span className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500">
+                <span className="absolute right-4 top-1/2 transform -translate-y-1/2 mt-[3px] text-gray-500">
                   .dxf
                 </span>
               </div>
             </div>
 
             <div className="w-full flex justify-between gap-10 mt-8">
-              <button
-                onClick={onEditClose}
-                className="font-normal text-[#266CA8] border border-[#266CA8] text-[16px] sm:text-[24.56px] bg-white rounded-full px-5 py-3 w-full"
-              >
+              <Button onClick={onEditClose} variant="outlined" className="">
                 Cancel
-              </button>
-              <button
-                type="submit"
-                className="font-normal text-white text-[16px] sm:text-[24.56px] bg-[#266CA8] rounded-full px-5 w-full"
-              >
-                Save
-              </button>
+              </Button>
+              <Button type="submit">Save</Button>
             </div>
           </div>
         </form>

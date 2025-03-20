@@ -24,11 +24,14 @@ import userImages from '/public/images/userImage.svg'
 import Swal from 'sweetalert2'
 import axios, { AxiosError } from 'axios'
 import blackCross from '/public/images/blackCross.svg'
-import eye from '/public/images/admin/eye.svg'
 import WarningIcon from '/public/images/user/warning.svg'
 import EditIcon from '/public/images/editIcon.svg'
 import { FaEye } from 'react-icons/fa'
 import { ClipLoader } from 'react-spinners'
+import Label from '@/components/UI/Label'
+import { LuEyeClosed } from 'react-icons/lu'
+import Button from '@/components/UI/Button'
+import Text from '@/components/UI/Text'
 
 interface SidebarProps {
   sidebarOpen: boolean
@@ -158,16 +161,19 @@ const menuGroups = [
       {
         icon: (
           <svg
-            width="18"
-            height="18"
-            viewBox="0 0 18 20"
+            width="20"
+            height="20"
+            viewBox="0 0 28 29"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              d="M13 0L18 4.999V19.009C17.9995 19.272 17.8946 19.5241 17.7085 19.7099C17.5223 19.8957 17.27 20 17.007 20H0.993C0.730378 19.9982 0.479017 19.8931 0.293218 19.7075C0.107418 19.5219 0.00209465 19.2706 0 19.008V0.992C0 0.444 0.445 0 0.993 0H13ZM10 7H8V13H13V11H10V7Z"
-              fill="black"
-              fill-opacity="0.5"
+              d="M16.333 3.35547C16.4104 3.35547 16.4846 3.3862 16.5392 3.4409C16.5939 3.49559 16.6247 3.56978 16.6247 3.64714V10.2353C16.6247 10.7183 17.0167 11.1103 17.4997 11.1103H22.7497C22.827 11.1103 22.9012 11.141 22.9559 11.1957C23.0106 11.2504 23.0413 11.3246 23.0413 11.402V22.8971C23.0413 23.748 22.7033 24.5641 22.1016 25.1658C21.5 25.7674 20.6839 26.1055 19.833 26.1055H8.16634C7.31544 26.1055 6.49939 25.7674 5.89771 25.1658C5.29603 24.5641 4.95801 23.748 4.95801 22.8971V6.5638C4.95801 5.7129 5.29603 4.89685 5.89771 4.29517C6.49939 3.69349 7.31544 3.35547 8.16634 3.35547H16.333Z"
+              fill="#797979"
+            />
+            <path
+              d="M18.767 3.80719C18.6002 3.67302 18.375 3.80952 18.375 4.02419V9.06769C18.375 9.22869 18.5057 9.35936 18.6667 9.35936H22.5143C22.652 9.35936 22.7383 9.21469 22.659 9.10269L19.1427 4.20619C19.0354 4.05735 18.9091 3.92321 18.767 3.80719Z"
+              fill="#797979"
             />
           </svg>
         ),
@@ -175,12 +181,16 @@ const menuGroups = [
           <svg
             width="18"
             height="18"
-            viewBox="0 0 18 21"
+            viewBox="0 0 28 29"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              d="M13 0.271484L18 5.27048V19.2805C17.9995 19.5435 17.8946 19.7956 17.7085 19.9813C17.5223 20.1671 17.27 20.2715 17.007 20.2715H0.993C0.730378 20.2697 0.479017 20.1646 0.293218 19.979C0.107418 19.7934 0.00209465 19.5421 0 19.2795V1.26348C0 0.715484 0.445 0.271484 0.993 0.271484H13ZM10 7.27148H8V13.2715H13V11.2715H10V7.27148Z"
+              d="M16.333 3.35547C16.4104 3.35547 16.4846 3.3862 16.5392 3.4409C16.5939 3.49559 16.6247 3.56978 16.6247 3.64714V10.2353C16.6247 10.7183 17.0167 11.1103 17.4997 11.1103H22.7497C22.827 11.1103 22.9012 11.141 22.9559 11.1957C23.0106 11.2504 23.0413 11.3246 23.0413 11.402V22.8971C23.0413 23.748 22.7033 24.5641 22.1016 25.1658C21.5 25.7674 20.6839 26.1055 19.833 26.1055H8.16634C7.31544 26.1055 6.49939 25.7674 5.89771 25.1658C5.29603 24.5641 4.95801 23.748 4.95801 22.8971V6.5638C4.95801 5.7129 5.29603 4.89685 5.89771 4.29517C6.49939 3.69349 7.31544 3.35547 8.16634 3.35547H16.333Z"
+              fill="white"
+            />
+            <path
+              d="M18.767 3.80719C18.6002 3.67302 18.375 3.80952 18.375 4.02419V9.06769C18.375 9.22869 18.5057 9.35936 18.6667 9.35936H22.5143C22.652 9.35936 22.7383 9.21469 22.659 9.10269L19.1427 4.20619C19.0354 4.05735 18.9091 3.92321 18.767 3.80719Z"
               fill="white"
             />
           </svg>
@@ -465,6 +475,7 @@ SidebarProps) => {
       formData.append('file', file)
     }
     formData.append('name', name)
+    formData.append('lastName', lastName)
     formData.append('id', id)
     setLoading(true)
 
@@ -490,6 +501,7 @@ SidebarProps) => {
           email: prevData?.email || '',
           role: prevData?.role || '',
           username: data.data.name,
+          lastName: data.data.lastName,
           image: data.data.image,
         }))
 
@@ -538,6 +550,7 @@ SidebarProps) => {
       })
     } finally {
       setLoading(false)
+      setIsEditOpen(false)
     }
   }
 
@@ -892,14 +905,14 @@ SidebarProps) => {
               <ClipLoader color="#007bff" size={50} />
             </div>
           )}
-          <div className="flex items-center flex-col gap-8">
+          <div className="flex items-center flex-col gap-6">
             <div className="flex justify-between items-center w-full mb-7">
-              <div className="text-[#000000] text-[34px] font-semibold text-center flex-grow">
+              <Text as="h3" className="text-[#000000] text-center flex-grow">
                 Edit Profile
-              </div>
+              </Text>
               <div>
                 <Image
-                  className="cursor-pointer"
+                  className="cursor-pointer sm:w-[30px] sm:h-[30px]  w-[25px] h-[25px]"
                   src={blackCross}
                   alt="cross"
                   onClick={onEditClose}
@@ -930,42 +943,33 @@ SidebarProps) => {
               />
             </div>
             <div className="w-full">
-              <label className="text-[#000000] font-semibold mb-2 text-[21.37px]">
-                First Name
-              </label>
+              <Label>First Name</Label>
               <div>
                 <input
                   type="text"
                   placeholder="Enter First Name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
+                  className="w-full px-4 sm:text-sm text-xs sm:py-3 py-3 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full placeholder:text-sm placeholder:text-xs"
                   required
                 />
               </div>
             </div>
             <div className="w-full">
-              <label className="text-[#000000] font-semibold mb-2 text-[21.37px]">
-                Last Name
-              </label>
+              <Label>Last Name</Label>
               <div>
                 <input
                   type="text"
                   placeholder="Enter Last Name"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
-                  className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
+                  className="w-full px-4 sm:text-sm text-xs sm:py-3 py-3 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full placeholder:text-sm placeholder:text-xs"
                   required
                 />
               </div>
             </div>
-            <div className="w-full mt-10">
-              <button
-                type="submit"
-                className="font-normal text-white text-[24.56px] bg-[#266CA8] rounded-full px-16 py-3 w-full"
-              >
-                Continue
-              </button>
+            <div className="w-full mt-4">
+              <Button type="submit">Continue</Button>
             </div>
           </div>
         </form>
@@ -980,12 +984,12 @@ SidebarProps) => {
             </div>
           )}
           <div className="flex justify-between items-center w-full mb-7">
-            <p className="text-[#000000] text-[30px] font-medium text-center flex-grow">
+            <Text as="h3" className="text-[#000000] text-center flex-grow">
               Change Password
-            </p>
+            </Text>
             <div>
               <Image
-                className="cursor-pointer"
+                className="cursor-pointer sm:w-[30px] sm:h-[30px]  w-[25px] h-[25px]"
                 src={blackCross}
                 alt="cross"
                 onClick={onPasswordClose}
@@ -993,17 +997,15 @@ SidebarProps) => {
             </div>
           </div>
           <form onSubmit={handleUpdatePassword}>
-            <div className="mb-2 relative">
-              <label className="text-[#000000] font-medium mb-2 text-[20px]">
-                Old Password
-              </label>
+            <div className="mb-3 relative">
+              <Label>Old Password</Label>
               <div className="relative">
                 <input
                   type={showOldPassword ? 'text' : 'password'}
                   placeholder="Enter Old Password"
                   value={oldPassword}
                   onChange={(e) => setOldPassword(e.target.value)}
-                  className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
+                  className="w-full px-4 sm:text-sm text-xs sm:py-3 py-3 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full placeholder:text-sm placeholder:text-xs"
                   required
                 />
                 <button
@@ -1015,22 +1017,20 @@ SidebarProps) => {
                   {showOldPassword ? (
                     <FaEye size={20} className="text-[#005B97] mr-3" />
                   ) : (
-                    <Image alt="eye" src={eye} className="mr-3" />
+                    <LuEyeClosed size={20} className="text-[#005B97] mr-2" />
                   )}
                 </button>
               </div>
             </div>
-            <div className="mb-2 relative">
-              <label className="text-[#000000] font-medium text-[20px]">
-                New Password
-              </label>
+            <div className="mb-3 relative">
+              <Label> New Password</Label>
               <div className="relative">
                 <input
                   type={showNewPassword ? 'text' : 'password'}
                   placeholder="Enter new Password"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
+                  className="w-full px-4 sm:text-sm text-xs sm:py-3 py-3 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full placeholder:text-sm placeholder:text-xs"
                   required
                 />
                 <button
@@ -1040,17 +1040,15 @@ SidebarProps) => {
                   style={{ transform: 'translateY(-40%)' }}
                 >
                   {showNewPassword ? (
-                    <FaEye size={20} className="text-[#005B97] mr-3" />
+                    <FaEye size={20} className="text-[#005B97] mr-2" />
                   ) : (
-                    <Image alt="eye" src={eye} className="mr-3" />
+                    <LuEyeClosed size={20} className="text-[#005B97] mr-2" />
                   )}
                 </button>
               </div>
             </div>
-            <div className="mb-2 relative">
-              <label className="text-[#000000] font-medium mb-1 text-[20px]">
-                Confirm New Password
-              </label>
+            <div className="mb-8 relative">
+              <Label>Confirm New Password</Label>
               <div className="relative">
                 <input
                   type={showConfirmPassword ? 'text' : 'password'}
@@ -1058,7 +1056,7 @@ SidebarProps) => {
                   name="password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
+                  className="w-full px-4 sm:text-sm text-xs sm:py-3 py-3 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full placeholder:text-sm placeholder:text-xs"
                   required
                 />
                 <button
@@ -1068,20 +1066,15 @@ SidebarProps) => {
                   style={{ transform: 'translateY(-40%)' }}
                 >
                   {showConfirmPassword ? (
-                    <FaEye size={20} className="text-[#005B97] mr-3" />
+                    <FaEye size={20} className="text-[#005B97] mr-2" />
                   ) : (
-                    <Image alt="eye" src={eye} className="mr-3" />
+                    <LuEyeClosed size={20} className="text-[#005B97] mr-2" />
                   )}
                 </button>
               </div>
             </div>
             <div>
-              <button
-                type="submit"
-                className="font-normal text-white text-[23px] bg-[#266CA8] rounded-full px-16 py-3 w-full mt-5"
-              >
-                Update
-              </button>
+              <Button type="submit">Update</Button>
             </div>
           </form>
         </div>
@@ -1094,7 +1087,6 @@ SidebarProps) => {
               <ClipLoader color="#007bff" size={50} />
             </div>
           )}
-          <div className="flex justify-between items-center w-full mb-7"></div>
           <div className="relative flex flex-col items-center">
             <Image
               src={WarningIcon}
@@ -1104,29 +1096,29 @@ SidebarProps) => {
               width={200}
               height={200}
             />
-            <div className="text-[#000000] text-[21px] font-semibold text-center flex-grow">
+            <Text
+              as="h3"
+              className="text-[#000000] font-semibold text-center flex-grow"
+            >
               <span className="text-[#266CA8]">Delete</span> Your Account?
-            </div>
+            </Text>
 
-            <p className="text-center text-[#777777] font-medium text-sm">
+            <Text className="text-center text-[#777777]">
               Are you sure you want to delete your account? All your downloaded
               files and subscription data will be lost
-            </p>
+            </Text>
           </div>
 
-          <div className="w-full flex gap-10">
-            <button
-              onClick={() => setIsDeleteOpen(false)}
-              className="font-normal text-[#266CA8] border border-[#266CA8] text-[14px] bg-white rounded-full p-5  w-full"
-            >
+          <div className="w-full flex gap-10 max-w-xs">
+            <Button variant="outlined" onClick={() => setIsDeleteOpen(false)}>
               Cancel
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={handleDelete}
               className="font-normal text-white text-[14.56px] bg-[#266CA8] rounded-full p-5  w-full"
             >
               Yes I&apos;m Sure
-            </button>
+            </Button>
           </div>
         </div>
       </Modal>

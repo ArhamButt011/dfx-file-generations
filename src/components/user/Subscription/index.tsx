@@ -7,6 +7,8 @@ import dltCircle from '/public/images/admin/allusers/dltCircle.svg'
 import Swal from 'sweetalert2'
 import { useAuth } from '@/context/AuthContext'
 import upgradeImage from '/public/images/upgrade.svg'
+import Text from '@/components/UI/Text'
+import Button from '@/components/UI/Button'
 
 interface Subscription {
   order_id: string
@@ -261,28 +263,22 @@ const Index: React.FC<SubscriptionProps> = ({
       <Modal isOpen={isOpen} onClose={onClose} buttonContent="">
         <div className="flex items-center flex-col">
           <Image src={dltCircle} alt="dltCircle" className="" />
-          <p className="text-[#000000] text-[29px] font-medium">
+          <Text as="h3" className=" font-medium">
             Cancel Subscription?
-          </p>
-          <p className="font-medium text-primary text-[21px] text-center">
+          </Text>
+          <Text className="text-primary text-center mt-1">
             Are you sure you want to Cancel This Subscription??
-          </p>
-          <div className="flex gap-10 mt-5">
-            <button
-              className="font-normal text-[22.48px] rounded-full text-[#266CA8] border border-[#266CA8] px-16 py-3"
-              onClick={() => onClose()}
-            >
+          </Text>
+          <div className="w-full flex gap-10 mt-5 max-w-sm">
+            <Button variant="outlined" onClick={() => onClose()}>
               No
-            </button>
-            <button
-              className={`font-normal text-white text-[22.48px] bg-[#266CA8] rounded-full px-16 py-3 ${
-                loading ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
+            </Button>
+            <Button
               onClick={() => cancelSubscription(subscription_id)}
               disabled={loading}
             >
               {loading ? 'Processing...' : 'Yes'}
-            </button>
+            </Button>
           </div>
         </div>
       </Modal>
