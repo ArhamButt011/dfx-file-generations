@@ -1015,7 +1015,7 @@ SidebarProps) => {
                   style={{ transform: 'translateY(-40%)' }}
                 >
                   {showOldPassword ? (
-                    <FaEye size={20} className="text-[#005B97] mr-3" />
+                    <FaEye size={20} className="text-[#005B97] mr-2" />
                   ) : (
                     <LuEyeClosed size={20} className="text-[#005B97] mr-2" />
                   )}

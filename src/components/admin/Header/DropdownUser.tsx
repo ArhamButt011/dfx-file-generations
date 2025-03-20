@@ -12,7 +12,6 @@ import { useAuth } from '@/context/AuthContext'
 import Modal from '@/components/UI/Modal'
 import dltCircle from '/public/images/admin/allusers/dltCircle.svg'
 import { FaEye } from 'react-icons/fa'
-import eye from '/public/images/admin/eye.svg'
 import blackCross from '/public/images/blackCross.svg'
 import EditIcon from '/public/images/editIcon.svg'
 import userImages from '/public/images/userImage.svg'
@@ -21,6 +20,9 @@ import Swal from 'sweetalert2'
 import { ClipLoader } from 'react-spinners'
 import { useNotification } from '@/context/NotificationContext'
 import Text from '@/components/UI/Text'
+import Button from '@/components/UI/Button'
+import Label from '@/components/UI/Label'
+import { LuEyeClosed } from 'react-icons/lu'
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false)
@@ -467,25 +469,17 @@ const DropdownUser = () => {
       <Modal isOpen={isOpen} onClose={onClose} buttonContent="">
         <div className="flex items-center flex-col">
           <Image src={dltCircle} alt="dltCircle" className="" />
-          <p className="text-[#000000] text-[29px] font-medium">
+          <Text as="h3" className="text-[#000000] font-medium">
             Account Logout
-          </p>
-          <p className="font-medium text-primary text-[21px]">
+          </Text>
+          <Text className="font-medium text-primary text-[21px]">
             Are you sure you want to logout your account??
-          </p>
-          <div className="flex gap-10 mt-5">
-            <button
-              className="font-normal text-[22.48px] rounded-full text-[#266CA8] border border-[#266CA8] px-16 py-3"
-              onClick={() => onClose()}
-            >
+          </Text>
+          <div className="flex gap-10 mt-5 w-full max-w-sm">
+            <Button variant="outlined" onClick={() => onClose()}>
               Cancel
-            </button>
-            <button
-              onClick={handleLogout}
-              className="font-normal text-white text-[22.48px] bg-[#266CA8] rounded-full px-16 py-3"
-            >
-              Yes, I am
-            </button>
+            </Button>
+            <Button onClick={handleLogout}>Yes, I am</Button>
           </div>
         </div>
       </Modal>
@@ -500,12 +494,12 @@ const DropdownUser = () => {
             </div>
           )}
           <div className="flex justify-between items-center w-full mb-7">
-            <p className="text-[#000000] text-[30px] font-medium text-center flex-grow">
+            <Text as="h3" className="text-[#000000] text-center flex-grow">
               Change Password
-            </p>
+            </Text>
             <div>
               <Image
-                className="cursor-pointer"
+                className="cursor-pointer sm:w-[30px] sm:h-[30px]  w-[25px] h-[25px]"
                 src={blackCross}
                 alt="cross"
                 onClick={onPasswordClose}
@@ -515,16 +509,14 @@ const DropdownUser = () => {
 
           <form onSubmit={handleUpdatePassword}>
             <div className="mb-2 relative">
-              <label className="text-[#000000] font-medium mb-2 text-[20px]">
-                Old Password
-              </label>
+              <Label>Old Password</Label>
               <div className="relative">
                 <input
                   type={showOldPassword ? 'text' : 'password'}
                   placeholder="Enter Old Password"
                   value={oldPassword}
                   onChange={(e) => setOldPassword(e.target.value)}
-                  className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
+                  className="w-full px-4 sm:text-sm text-xs sm:py-3 py-3 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full placeholder:text-sm placeholder:text-xs"
                   required
                 />
                 <button
@@ -534,24 +526,22 @@ const DropdownUser = () => {
                   style={{ transform: 'translateY(-40%)' }}
                 >
                   {showOldPassword ? (
-                    <FaEye size={20} className="text-[#005B97] mr-3" />
+                    <FaEye size={20} className="text-[#005B97] mr-2" />
                   ) : (
-                    <Image alt="eye" src={eye} className="mr-3" />
+                    <LuEyeClosed size={20} className="text-[#005B97] mr-2" />
                   )}
                 </button>
               </div>
             </div>
             <div className="mb-2 relative">
-              <label className="text-[#000000] font-medium text-[20px]">
-                New Password
-              </label>
+              <Label>New Password</Label>
               <div className="relative">
                 <input
                   type={showNewPassword ? 'text' : 'password'}
                   placeholder="Enter new Password"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
+                  className="w-full px-4 sm:text-sm text-xs sm:py-3 py-3 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full placeholder:text-sm placeholder:text-xs"
                   required
                   minLength={8}
                 />
@@ -562,17 +552,15 @@ const DropdownUser = () => {
                   style={{ transform: 'translateY(-40%)' }}
                 >
                   {showNewPassword ? (
-                    <FaEye size={20} className="text-[#005B97] mr-3" />
+                    <FaEye size={20} className="text-[#005B97] mr-2" />
                   ) : (
-                    <Image alt="eye" src={eye} className="mr-3" />
+                    <LuEyeClosed size={20} className="text-[#005B97] mr-2" />
                   )}
                 </button>
               </div>
             </div>
-            <div className="mb-2 relative">
-              <label className="text-[#000000] font-medium mb-1 text-[20px]">
-                Confirm New Password
-              </label>
+            <div className="mb-14 relative">
+              <Label>Confirm New Password</Label>
               <div className="relative">
                 <input
                   type={showConfirmPassword ? 'text' : 'password'}
@@ -580,7 +568,7 @@ const DropdownUser = () => {
                   name="password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
+                  className="w-full px-4 sm:text-sm text-xs sm:py-3 py-3 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full placeholder:text-sm placeholder:text-xs"
                   required
                   minLength={8}
                 />
@@ -591,20 +579,15 @@ const DropdownUser = () => {
                   style={{ transform: 'translateY(-40%)' }}
                 >
                   {showConfirmPassword ? (
-                    <FaEye size={20} className="text-[#005B97] mr-3" />
+                    <FaEye size={20} className="text-[#005B97] mr-2" />
                   ) : (
-                    <Image alt="eye" src={eye} className="mr-3" />
+                    <LuEyeClosed size={20} className="text-[#005B97] mr-2" />
                   )}
                 </button>
               </div>
             </div>
             <div>
-              <button
-                type="submit"
-                className="font-normal text-white text-[23px] bg-[#266CA8] rounded-full px-16 py-3 w-full mt-5"
-              >
-                Update
-              </button>
+              <Button type="submit">Update</Button>
             </div>
           </form>
         </div>
@@ -621,12 +604,15 @@ const DropdownUser = () => {
         <form onSubmit={handleSubmit}>
           <div className="flex items-center flex-col gap-10">
             <div className="flex justify-between items-center w-full mb-7">
-              <div className="text-[#000000] text-[34px] font-semibold text-center flex-grow">
+              <Text
+                as="h3"
+                className="text-[#000000] font-semibold text-center flex-grow"
+              >
                 Edit Profile
-              </div>
+              </Text>
               <div>
                 <Image
-                  className="cursor-pointer"
+                  className="cursor-pointer sm:w-[30px] sm:h-[30px]  w-[25px] h-[25px]"
                   src={blackCross}
                   alt="cross"
                   onClick={onEditClose}
@@ -657,24 +643,22 @@ const DropdownUser = () => {
               />
             </div>
             <div className="mb-2 w-full">
-              <label className="text-[#000000] font-semibold mb-2 text-[21.37px]">
-                Name
-              </label>
+              <Label> Name</Label>
               <div>
                 <input
                   type="text"
                   placeholder="Enter User Name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
+                  className="w-full px-4 sm:text-sm text-xs sm:py-3 py-3 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full placeholder:text-sm placeholder:text-xs"
                   required
                 />
               </div>
             </div>
-            <div className="w-full mt-24">
-              <button className="font-normal text-white text-[24.56px] bg-[#266CA8] rounded-full px-16 py-3 w-full">
+            <div className="w-full mt-8">
+              <Button type="submit" className="px-16 w-full">
                 Continue
-              </button>
+              </Button>
             </div>
           </div>
         </form>
