@@ -32,6 +32,7 @@ function Input() {
     const storedValue = sessionStorage.getItem('boundaryLength')
     return storedValue ? parseFloat(storedValue) : 0
   })
+  const [showFullName, setShowFullName] = useState(false)
 
   const [drawerId, setDrawerId] = useState<string>(
     () => sessionStorage.getItem('drawerId') || '',
@@ -695,8 +696,8 @@ function Input() {
                     onDrop={handleDrop}
                     onDragOver={handleDragOver}
                     onDragLeave={handleDragLeave}
-                    className={`bg-[#F2F2F2]  rounded-t-3xl relative flex flex-col justify-center items-center 
-    ${dragging ? 'border-blue-500' : 'border-gray-300'} 
+                    className={`bg-[#F2F2F2]  rounded-t-3xl relative flex flex-col justify-center items-center
+    ${dragging ? 'border-blue-500' : 'border-gray-300'}
     border-dashed rounded-2xl  text-center`}
                     style={{
                       minHeight: image ? '100px' : '400px',
@@ -824,7 +825,7 @@ function Input() {
                       viewBox="0 0 36 36"
                       fill="currentColor"
                       xmlns="http://www.w3.org/2000/svg"
-                      className={`w-10 h-10 cursor-pointer transition-colors duration-300 
+                      className={`w-10 h-10 cursor-pointer transition-colors duration-300
         ${
           clicked ? 'text-[#266CA8]' : 'text-[#00000066] hover:text-[#266CA8]'
         }`}
@@ -1319,16 +1320,30 @@ function Input() {
 
                   <div className="relative h-64">
                     <p className="font-semibold text-2xl mb-5">DXF File</p>
-                    <p className="bg-white p-3 rounded-full flex justify-between">
-                      <span>{dfxFile.split('/').pop()}</span>
-                      <span className="flex">
-                        <p className="font-medium text-lg"> {fileSize}kb</p>
-                        <Image
+                    <p className="bg-white py-3 px-5 rounded-full flex justify-between items-center">
+                      {/* File Name with Clickable Truncate */}
+                      <span
+                        className="relative max-w-[60%] cursor-pointer"
+                        onClick={() => setShowFullName(!showFullName)}
+                      >
+                        {showFullName ? (
+                          <span className="">{dfxFile.split('/').pop()}</span>
+                        ) : (
+                          <span className="truncate block overflow-hidden text-ellipsis">
+                            {dfxFile.split('/').pop()}
+                          </span>
+                        )}
+                      </span>
+
+                      {/* File Size & Download Icon */}
+                      <span className="flex items-center">
+                        <span>{fileSize}kb</span>
+                        <img
                           className="cursor-pointer"
                           src="/images/user/GenerateDFX/download.svg"
                           alt="download"
-                          width={30}
-                          height={30}
+                          width={26}
+                          height={26}
                           onClick={() => handleDownloadDXF(dfxFile)}
                         />
                       </span>

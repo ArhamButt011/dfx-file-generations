@@ -14,6 +14,7 @@ import { ObjectId } from 'mongodb'
 import Swal from 'sweetalert2'
 import Link from 'next/link'
 import Text from '@/components/UI/Text'
+import Button from '@/components/UI/Button'
 
 interface CardDetails {
   holder_name: string
@@ -203,19 +204,17 @@ const UserDetails: React.FC = () => {
       <Modal isOpen={isOpen} onClose={onClose} buttonContent="">
         <div className="flex items-center flex-col">
           <Image src={dltCircle} alt="dltCircle" className="" />
-          <p className="text-[#000000] text-[29px] font-medium">Delete User?</p>
-          <p className="font-medium text-primary text-[21px]">
+          <Text as="h3" className="text-[#000000] text-center flex-grow">
+            Delete User?
+          </Text>
+          <Text className="font-medium text-primary text-[21px]">
             Are you sure you want to Delete This User??
-          </p>
-          <div className="flex gap-10 mt-5">
-            <button
-              className="font-normal text-[22.48px] rounded-full text-[#266CA8] border border-[#266CA8] px-16 py-3"
-              onClick={() => onClose()}
-            >
+          </Text>
+          <div className="flex gap-10 mt-5 w-full max-w-sm">
+            <Button variant="outlined" onClick={() => onClose()}>
               Cancel
-            </button>
-            <button
-              className="font-normal text-white text-[22.48px] bg-[#266CA8] rounded-full px-16 py-3"
+            </Button>
+            <Button
               onClick={() => {
                 if (id) {
                   onDelete(id)
@@ -224,7 +223,7 @@ const UserDetails: React.FC = () => {
               }}
             >
               Yes, I am
-            </button>
+            </Button>
           </div>
         </div>
       </Modal>
