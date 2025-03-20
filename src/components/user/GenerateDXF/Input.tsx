@@ -8,6 +8,8 @@ import { useAuth } from '@/context/AuthContext'
 import Subscribe from '../Subscription/Subscribe'
 import { PulseLoader } from 'react-spinners'
 import Text from '@/components/UI/Text'
+import { LuEyeClosed } from 'react-icons/lu'
+import { FaEye } from 'react-icons/fa'
 // import { useSearchParams } from 'next/navigation'
 interface UserPlan {
   plan_name: string
@@ -25,9 +27,14 @@ function Input() {
     () => sessionStorage.getItem('image') || '',
   )
   const { userData } = useAuth()
-  const [contour, setContour] = useState<string>(
-    () => sessionStorage.getItem('contour') || '',
-  )
+  // const [contour, setContour] = useState<string>(
+  //   () => sessionStorage.getItem('contour') || '',
+  // )
+  const [contour, setContour] = useState<number>(() => {
+    const storedValue = sessionStorage.getItem('contour')
+    return storedValue ? parseFloat(storedValue) : 0
+  })
+
   const [boundaryLength, setBoundaryLength] = useState<number>(() => {
     const storedValue = sessionStorage.getItem('boundaryLength')
     return storedValue ? parseFloat(storedValue) : 0
@@ -37,6 +44,7 @@ function Input() {
   const [drawerId, setDrawerId] = useState<string>(
     () => sessionStorage.getItem('drawerId') || '',
   )
+  const [showDrawerId, setShowDrawerId] = useState(false)
 
   const [boundaryWidth, setBoundaryWidth] = useState<number>(() => {
     const storedValue = sessionStorage.getItem('boundaryWidth')
@@ -46,8 +54,10 @@ function Input() {
   const [dragging, setDragging] = useState<boolean>(false)
   const [isProcessingOpen, setisProcessingOpen] = useState<boolean>(false)
   const [fingerCut, setFingerCut] = useState('No')
+  const [contourOffset, setContourOffset] = useState('No')
+
   const [boundaryContour, setBoundaryContour] = useState('No')
-  const [includeDrawerId, setIncludeDrawerId] = useState('No')
+  // const [includeDrawerId, setIncludeDrawerId] = useState('No')
   const [unit, setUnit] = useState<string>(
     () => sessionStorage.getItem('unit') || 'mm',
   )
@@ -170,14 +180,14 @@ function Input() {
   }, [isMagnifierActive])
 
   useEffect(() => {
-    if (includeDrawerId === 'No') {
-      setDrawerId('')
-    }
+    // if (includeDrawerId === 'No') {
+    //   setDrawerId('')
+    // }
     if (boundaryContour === 'No') {
       setBoundaryLength(0)
       setBoundaryWidth(0)
     }
-  }, [includeDrawerId, boundaryContour])
+  }, [boundaryContour])
 
   useEffect(() => {
     const isBillingTriggered = sessionStorage.getItem('billingTriggered')
@@ -192,13 +202,17 @@ function Input() {
     }
   }, [userPlan])
 
+  console.log(boundaryLength, boundaryWidth, unit)
+
   useEffect(() => {
     sessionStorage.setItem('overlay', overlay)
     sessionStorage.setItem('mask', mask)
     sessionStorage.setItem('preview', preview)
     sessionStorage.setItem('dxf_file', dfxFile)
     sessionStorage.setItem('image', image)
-    sessionStorage.setItem('contour', contour)
+    // sessionStorage.setItem('contour', contour)
+    sessionStorage.setItem('contour', contour.toString())
+
     sessionStorage.setItem('boundaryLength', boundaryLength.toString())
     sessionStorage.setItem('boundaryWidth', boundaryWidth.toString())
     sessionStorage.setItem('drawerId', drawerId)
@@ -219,7 +233,8 @@ function Input() {
     setPreview(sessionStorage.getItem('preview') ?? '')
     setDfxFile(sessionStorage.getItem('dxf_file') ?? '')
     setImage(sessionStorage.getItem('image') ?? '')
-    setContour(sessionStorage.getItem('contour') ?? '')
+    // setContour(sessionStorage.getItem('contour') ?? '')
+    setContour(parseFloat(sessionStorage.getItem('contour') ?? '0'))
     setBoundaryLength(
       parseFloat(sessionStorage.getItem('boundaryLength') ?? '0'),
     )
@@ -897,7 +912,25 @@ function Input() {
                 </div>
                 {/* contour */}
                 <div className="mt-10 ">
-                  <div className="flex items-center justify-between mb-5">
+                  <label className="flex items-center space-x-2 mb-3">
+                    <input
+                      type="checkbox"
+                      checked={fingerCut === 'Yes'}
+                      onChange={() =>
+                        setFingerCut(fingerCut === 'Yes' ? 'No' : 'Yes')
+                      }
+                      className="peer hidden"
+                    />
+                    <div className="w-5 h-5 border border-[#266CA8] rounded cursor-pointer flex items-center justify-center peer-checked:bg-[#266CA8] peer-checked:border-transparent">
+                      {fingerCut === 'Yes' ? (
+                        <span className="text-white">✔</span>
+                      ) : (
+                        ''
+                      )}
+                    </div>
+                    <Text className="">Include Finger clearance cut</Text>
+                  </label>
+                  {/* <div className="flex items-center justify-between mb-5">
                     <Text className="font-semibold">Contour Dimension</Text>
                     <div className="flex gap-8">
                       <label className="flex items-center space-x-1 cursor-pointer">
@@ -946,37 +979,72 @@ function Input() {
                         <span className="text-gray-700">Inch</span>
                       </label>
                     </div>
-                  </div>
-                  <Text className="font-semibold">
+                  </div> */}
+                  {/* <Text className="font-semibold">
                     Contour Offset Parameter{' '}
                     <span className="font-medium text-[14px] sm:text-[16px] text-[#00000080]">
                       {unit === 'mm' ? '(mm)' : '(inches)'}
                     </span>
-                  </Text>
-                  <input
-                    type="text"
-                    inputMode="decimal"
-                    className="border rounded-full w-full p-3 my-5 bg-[#F2F2F2] placeholder:text-sm text-sm"
-                    placeholder="0"
-                    value={contour}
-                    required
-                    onChange={(e) => {
-                      const value = e.target.value
-                      if (/^\d*\.?\d{0,4}$/.test(value)) {
-                        setContour(value)
+                  </Text> */}
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      checked={contourOffset === 'Yes'}
+                      onChange={() =>
+                        setContourOffset(contourOffset === 'Yes' ? 'No' : 'Yes')
                       }
-                    }}
-                    onBlur={() => {
-                      if (contour !== '') {
-                        const parsed = parseFloat(contour)
-                        if (!isNaN(parsed)) {
-                          setContour(parsed.toString())
-                        }
-                      }
-                    }}
-                  />
+                      className="peer hidden"
+                    />
+                    <div className="w-5 h-5 border border-[#266CA8] rounded cursor-pointer flex items-center justify-center peer-checked:bg-[#266CA8] peer-checked:border-transparent">
+                      {contourOffset === 'Yes' ? (
+                        <span className="text-white">✔</span>
+                      ) : (
+                        ''
+                      )}
+                    </div>
+                    <Text className="">Contour Offset Parameter</Text>
+                  </label>
+                  {contourOffset === 'Yes' ? (
+                    <div className="relative flex items-center border rounded-full w-full p-3 mt-5 bg-[#F2F2F2]">
+                      {/* Numeric Input */}
+                      <input
+                        type="text"
+                        inputMode="decimal"
+                        className="bg-transparent placeholder:text-sm text-sm flex-grow outline-none"
+                        placeholder="0"
+                        value={contour}
+                        required={contourOffset === 'Yes'}
+                        onChange={(e) => {
+                          const value = e.target.value
+                          if (/^\d*\.?\d{0,4}$/.test(value)) {
+                            setContour(value === '' ? 0 : parseFloat(value))
+                          }
+                        }}
+                        onBlur={() => {
+                          if (contour !== 0) {
+                            setContour(parseFloat(contour.toFixed(4)))
+                          }
+                        }}
+                      />
+
+                      {/* Unit Selector Dropdown */}
+                      <div className="relative">
+                        <select
+                          className="bg-transparent text-gray-500 text-sm outline-none cursor-pointer"
+                          value={unit}
+                          onChange={(e) => setUnit(e.target.value)}
+                        >
+                          <option value="mm">mm</option>
+                          <option value="inches">inches</option>
+                        </select>
+                      </div>
+                    </div>
+                  ) : (
+                    ''
+                  )}
+
                   <div className="space-y-4 max-w-sm">
-                    <label className="flex items-center space-x-2">
+                    {/* <label className="flex items-center space-x-2">
                       <input
                         type="checkbox"
                         checked={fingerCut === 'Yes'}
@@ -993,8 +1061,8 @@ function Input() {
                         )}
                       </div>
                       <Text className="">Include Finger clearance cut</Text>
-                    </label>
-                    <label className="flex items-center space-x-2">
+                    </label> */}
+                    <label className="flex items-center space-x-2 mt-3">
                       <input
                         type="checkbox"
                         checked={boundaryContour === 'Yes'}
@@ -1024,11 +1092,12 @@ function Input() {
 
                   {boundaryContour === 'Yes' ? (
                     <div className="flex gap-4">
-                      <div className="relative w-full">
+                      <div className="relative flex items-center border rounded-full w-full p-3 mt-5 bg-[#F2F2F2]">
+                        {/* Numeric Input */}
                         <input
                           type="text"
                           inputMode="decimal"
-                          className="border rounded-full w-full p-3 mt-5 bg-[#F2F2F2] placeholder:text-sm text-sm"
+                          className="bg-transparent placeholder:text-sm text-sm flex-grow outline-none"
                           placeholder="Length"
                           value={boundaryLength === 0 ? '' : boundaryLength}
                           required={boundaryContour === 'Yes'}
@@ -1049,15 +1118,23 @@ function Input() {
                           }}
                         />
 
-                        <span className="absolute right-4 top-1/2 transform text-sm">
-                          {unit === 'mm' ? 'mm' : 'inches'}
-                        </span>
+                        {/* Unit Selector Dropdown */}
+                        <div className="relative">
+                          <select
+                            className="bg-transparent text-gray-500 text-sm outline-none cursor-pointer"
+                            value={unit}
+                            onChange={(e) => setUnit(e.target.value)}
+                          >
+                            <option value="mm">mm</option>
+                            <option value="inches">inches</option>
+                          </select>
+                        </div>
                       </div>
-                      <div className="relative w-full">
+                      <div className="relative flex items-center border rounded-full w-full p-3 mt-5 bg-[#F2F2F2]">
                         <input
                           type="text"
                           inputMode="decimal"
-                          className="border rounded-full w-full p-3 pr-10 mt-5 bg-[#F2F2F2] placeholder:text-sm text-sm"
+                          className="bg-transparent placeholder:text-sm text-sm flex-grow outline-none"
                           placeholder="Width"
                           value={boundaryWidth === 0 ? '' : boundaryWidth}
                           required={boundaryContour === 'Yes'}
@@ -1077,15 +1154,25 @@ function Input() {
                             }
                           }}
                         />
-                        <span className="absolute right-4 top-1/2 transform text-sm">
+                        {/* <span className="absolute right-4 top-1/2 transform text-sm">
                           {unit === 'mm' ? 'mm' : 'inches'}
-                        </span>
+                        </span> */}
+                        <div className="relative">
+                          <select
+                            className="bg-transparent text-gray-500 text-sm outline-none cursor-pointer"
+                            value={unit}
+                            onChange={(e) => setUnit(e.target.value)}
+                          >
+                            <option value="mm">mm</option>
+                            <option value="inches">inches</option>
+                          </select>
+                        </div>
                       </div>
                     </div>
                   ) : (
                     ''
                   )}
-                  <div className="mt-4 max-w-sm">
+                  {/* <div className="mt-4 max-w-sm">
                     <label className="flex items-center space-x-2">
                       <input
                         type="checkbox"
@@ -1106,9 +1193,9 @@ function Input() {
                       </div>
                       <Text className="">Include Drawer ID</Text>
                     </label>
-                  </div>
+                  </div> */}
 
-                  {includeDrawerId === 'Yes' ? (
+                  {/* {includeDrawerId === 'Yes' ? (
                     <div className="mt-3">
                       <input
                         type="text"
@@ -1125,14 +1212,43 @@ function Input() {
                     </div>
                   ) : (
                     ''
-                  )}
+                  )} */}
+                  <div className="mt-3 relative">
+                    <input
+                      type={showDrawerId ? 'text' : 'password'}
+                      inputMode="decimal"
+                      className="border rounded-full w-full p-3 mt-1 bg-[#F2F2F2] placeholder:text-sm text-sm"
+                      placeholder="Enter Drawer id"
+                      value={drawerId}
+                      maxLength={20}
+                      // required={includeDrawerId === 'Yes'}
+                      onChange={(e) => {
+                        setDrawerId(e.target.value)
+                      }}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowDrawerId(!showDrawerId)}
+                      className="absolute inset-y-0 right-3 top-1/2 transform text-gray-500"
+                      style={{ transform: 'translateY(-43%)' }}
+                    >
+                      {showDrawerId ? (
+                        <FaEye size={20} className="text-[#005B97] mr-2 " />
+                      ) : (
+                        <LuEyeClosed
+                          size={20}
+                          className="text-[#005B97] mr-2"
+                        />
+                      )}
+                    </button>
+                  </div>
 
                   <div className="flex justify-between gap-4 my-8">
                     <button
                       type="reset"
                       className="w-1/2 bg-white p-3 rounded-full text-[#00000080] font-medium xl:text-[18px] text-[14px]"
                       onClick={() => {
-                        setContour('')
+                        setContour(0)
                         setBoundaryWidth(0)
                         setBoundaryLength(0)
                         setImage('')
@@ -1142,6 +1258,7 @@ function Input() {
                         setDfxFile('')
                         setIsProcessed(false)
                         setFingerCut('No')
+                        setContourOffset('No')
                         setBoundaryContour('No')
                         setUnit('mm')
                         setDrawerId('')
