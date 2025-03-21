@@ -196,7 +196,7 @@ const menuGroups = [
           </svg>
         ),
 
-        label: 'Files History',
+        label: 'Downloaded Files',
         route: '/downloaded-files',
       },
       {

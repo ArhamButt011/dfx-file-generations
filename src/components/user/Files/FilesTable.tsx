@@ -210,7 +210,7 @@ function FilesTable() {
       <div className="mb-6 flex justify-between items-center lg:flex-row flex-col gap-2">
         <span>
           <p className="font-semibold text-[22px] sm:text-[24px] mt-6 text-center sm:text-left">
-            Files History
+            Downloaded Files
           </p>
         </span>
         <div>
