@@ -65,6 +65,7 @@ function Input() {
     JSON.parse(sessionStorage.getItem('isProcessed') || 'false'),
   )
   const [base64, setBase64] = useState<string>('')
+
   const [overlayUrl, setOverlayUrl] = useState<string>(
     () => sessionStorage.getItem('overlayUrl') || '',
   )
@@ -1273,7 +1274,7 @@ function Input() {
                       type="reset"
                       className="w-1/2 bg-white p-3 rounded-full text-[#00000080] font-medium xl:text-[18px] text-[14px]"
                       onClick={() => {
-                        setContour('')
+                        setContour('0')
                         setBoundaryWidth(0)
                         setBoundaryLength(0)
                         setImage('')
