@@ -67,7 +67,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         if (axios.isAxiosError(error) && error.response?.status === 401) {
           logout()
           setTimeout(() => {
-            router.push('/admin')
+            router.push('/user')
           }, 0)
         }
       }
