@@ -27,13 +27,13 @@ function Input() {
     () => sessionStorage.getItem('image') || '',
   )
   const { userData } = useAuth()
-  // const [contour, setContour] = useState<string>(
-  //   () => sessionStorage.getItem('contour') || '',
-  // )
-  const [contour, setContour] = useState<number>(() => {
-    const storedValue = sessionStorage.getItem('contour')
-    return storedValue ? parseFloat(storedValue) : 0
-  })
+  const [contour, setContour] = useState<string>(
+    () => sessionStorage.getItem('contour') || '0',
+  )
+  // const [contour, setContour] = useState<number>(() => {
+  //   const storedValue = sessionStorage.getItem('contour')
+  //   return storedValue ? parseFloat(storedValue) : 0
+  // })
 
   const [boundaryLength, setBoundaryLength] = useState<number>(() => {
     const storedValue = sessionStorage.getItem('boundaryLength')
@@ -59,7 +59,7 @@ function Input() {
   const [boundaryContour, setBoundaryContour] = useState('No')
   // const [includeDrawerId, setIncludeDrawerId] = useState('No')
   const [unit, setUnit] = useState<string>(
-    () => sessionStorage.getItem('unit') || 'mm',
+    () => sessionStorage.getItem('unit') || '',
   )
   const [isProcessed, setIsProcessed] = useState<boolean>(
     JSON.parse(sessionStorage.getItem('isProcessed') || 'false'),
@@ -233,8 +233,8 @@ function Input() {
     setPreview(sessionStorage.getItem('preview') ?? '')
     setDfxFile(sessionStorage.getItem('dxf_file') ?? '')
     setImage(sessionStorage.getItem('image') ?? '')
-    // setContour(sessionStorage.getItem('contour') ?? '')
-    setContour(parseFloat(sessionStorage.getItem('contour') ?? '0'))
+    setContour(sessionStorage.getItem('contour') ?? '')
+    // setContour(parseFloat(sessionStorage.getItem('contour') ?? '0'))
     setBoundaryLength(
       parseFloat(sessionStorage.getItem('boundaryLength') ?? '0'),
     )
@@ -524,18 +524,6 @@ function Input() {
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
-      console.log(
-        'filename-> ',
-        file_name,
-        'url-> ',
-        url,
-        'maskUrl-> ',
-        maskUrl,
-        'overlayUrl-> ',
-        overlayUrl,
-        'outlineUrl-> ',
-        outlineUrl,
-      )
 
       // Send API request after file is downloaded
       const res = await fetch('/api/user/DFX_Downloads/Add_File', {
@@ -1013,16 +1001,19 @@ function Input() {
                         className="bg-transparent placeholder:text-sm text-sm flex-grow outline-none"
                         placeholder="0"
                         value={contour}
-                        required={contourOffset === 'Yes'}
+                        required
                         onChange={(e) => {
                           const value = e.target.value
                           if (/^\d*\.?\d{0,4}$/.test(value)) {
-                            setContour(value === '' ? 0 : parseFloat(value))
+                            setContour(value)
                           }
                         }}
                         onBlur={() => {
-                          if (contour !== 0) {
-                            setContour(parseFloat(contour.toFixed(4)))
+                          if (contour !== '') {
+                            const parsed = parseFloat(contour)
+                            if (!isNaN(parsed)) {
+                              setContour(parsed.toString())
+                            }
                           }
                         }}
                       />
@@ -1034,6 +1025,7 @@ function Input() {
                           value={unit}
                           onChange={(e) => setUnit(e.target.value)}
                         >
+                          <option value="">select unit</option>
                           <option value="mm">mm</option>
                           <option value="inches">inches</option>
                         </select>
@@ -1080,13 +1072,39 @@ function Input() {
                           ''
                         )}
                       </div>
-
                       <Text>
                         Include Boundary Contour{' '}
-                        <span className="font-medium text-[14px] sm:text-[16px] text-[#00000080]">
-                          {unit === 'mm' ? '(mm)' : '(inches)'}
-                        </span>
+                        {/* <span className="font-medium text-[14px] sm:text-[16px] text-[#00000080]">
+                          {unit === 'mm'
+                            ? '(mm)'
+                            : unit === 'inches'
+                            ? '(inches)'
+                            : ''}
+                        </span> */}
                       </Text>
+                      <div className="relative">
+                        <select
+                          className="bg-transparent text-gray-500 text-sm outline-none cursor-pointer"
+                          value={unit}
+                          onChange={(e) => setUnit(e.target.value)}
+                          required={boundaryContour === 'Yes'}
+                        >
+                          <option value="">(select unit)</option>
+                          <option value="mm">mm</option>
+                          <option value="inches">inches</option>
+                        </select>
+                      </div>
+
+                      {/* <Text>
+                        Include Boundary Contour{' '}
+                        <span className="font-medium text-[14px] sm:text-[16px] text-[#00000080]">
+                          {unit === 'mm'
+                            ? '(mm)'
+                            : unit === 'inches'
+                            ? '(inches)'
+                            : ''}
+                        </span>
+                      </Text> */}
                     </label>
                   </div>
 
@@ -1103,7 +1121,7 @@ function Input() {
                           required={boundaryContour === 'Yes'}
                           onChange={(e) => {
                             const value = e.target.value
-                            if (/^\d*\.?\d{0,4}$/.test(value)) {
+                            if (/^(\d+\.?\d*|\.\d+)?$/.test(value)) {
                               setBoundaryLength(
                                 value === '' ? 0 : parseFloat(value),
                               )
@@ -1119,16 +1137,18 @@ function Input() {
                         />
 
                         {/* Unit Selector Dropdown */}
-                        <div className="relative">
+                        {/* <div className="relative">
                           <select
                             className="bg-transparent text-gray-500 text-sm outline-none cursor-pointer"
                             value={unit}
                             onChange={(e) => setUnit(e.target.value)}
+                            required={boundaryContour === 'Yes'}
                           >
+                            <option value="">select unit</option>
                             <option value="mm">mm</option>
                             <option value="inches">inches</option>
                           </select>
-                        </div>
+                        </div> */}
                       </div>
                       <div className="relative flex items-center border rounded-full w-full p-3 mt-5 bg-[#F2F2F2]">
                         <input
@@ -1157,16 +1177,18 @@ function Input() {
                         {/* <span className="absolute right-4 top-1/2 transform text-sm">
                           {unit === 'mm' ? 'mm' : 'inches'}
                         </span> */}
-                        <div className="relative">
+                        {/* <div className="relative">
                           <select
                             className="bg-transparent text-gray-500 text-sm outline-none cursor-pointer"
                             value={unit}
                             onChange={(e) => setUnit(e.target.value)}
+                            required={boundaryContour === 'Yes'}
                           >
+                            <option value="">select unit</option>
                             <option value="mm">mm</option>
                             <option value="inches">inches</option>
                           </select>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   ) : (
@@ -1213,42 +1235,45 @@ function Input() {
                   ) : (
                     ''
                   )} */}
-                  <div className="mt-3 relative">
-                    <input
-                      type={showDrawerId ? 'text' : 'password'}
-                      inputMode="decimal"
-                      className="border rounded-full w-full p-3 mt-1 bg-[#F2F2F2] placeholder:text-sm text-sm"
-                      placeholder="Enter Drawer id"
-                      value={drawerId}
-                      maxLength={20}
-                      // required={includeDrawerId === 'Yes'}
-                      onChange={(e) => {
-                        setDrawerId(e.target.value)
-                      }}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowDrawerId(!showDrawerId)}
-                      className="absolute inset-y-0 right-3 top-1/2 transform text-gray-500"
-                      style={{ transform: 'translateY(-43%)' }}
-                    >
-                      {showDrawerId ? (
-                        <FaEye size={20} className="text-[#005B97] mr-2 " />
-                      ) : (
-                        <LuEyeClosed
-                          size={20}
-                          className="text-[#005B97] mr-2"
-                        />
-                      )}
-                    </button>
-                  </div>
-
+                  {boundaryContour === 'Yes' ? (
+                    <div className="mt-3 relative">
+                      <input
+                        type={showDrawerId ? 'text' : 'password'}
+                        inputMode="decimal"
+                        className="border rounded-full w-full p-3 mt-1 bg-[#F2F2F2] placeholder:text-sm text-sm"
+                        placeholder="Enter Drawer id"
+                        value={drawerId}
+                        maxLength={20}
+                        // required={includeDrawerId === 'Yes'}
+                        onChange={(e) => {
+                          setDrawerId(e.target.value)
+                        }}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowDrawerId(!showDrawerId)}
+                        className="absolute inset-y-0 right-3 top-1/2 transform text-gray-500"
+                        style={{ transform: 'translateY(-43%)' }}
+                      >
+                        {showDrawerId ? (
+                          <FaEye size={20} className="text-[#005B97] mr-2 " />
+                        ) : (
+                          <LuEyeClosed
+                            size={20}
+                            className="text-[#005B97] mr-2"
+                          />
+                        )}
+                      </button>
+                    </div>
+                  ) : (
+                    ''
+                  )}
                   <div className="flex justify-between gap-4 my-8">
                     <button
                       type="reset"
                       className="w-1/2 bg-white p-3 rounded-full text-[#00000080] font-medium xl:text-[18px] text-[14px]"
                       onClick={() => {
-                        setContour(0)
+                        setContour('')
                         setBoundaryWidth(0)
                         setBoundaryLength(0)
                         setImage('')
@@ -1260,7 +1285,7 @@ function Input() {
                         setFingerCut('No')
                         setContourOffset('No')
                         setBoundaryContour('No')
-                        setUnit('mm')
+                        setUnit('')
                         setDrawerId('')
                       }}
                     >
