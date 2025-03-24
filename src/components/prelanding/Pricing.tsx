@@ -57,7 +57,7 @@ const bilingPlans: DataItem[] = [
   },
   {
     id: 2,
-    desc: 'For Samll Teams',
+    desc: 'For Small Teams',
     title: 'Basic',
     price: '',
     include: [
