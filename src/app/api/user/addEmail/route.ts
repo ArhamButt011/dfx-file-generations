@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import clientPromise from '@/lib/mongodb'
-import GetConnectedEmail from '@/lib/get-connected-emial'
+// import GetConnectedEmail from '@/lib/get-connected-emial'
 
 export async function POST(req: Request) {
   try {
@@ -30,9 +30,8 @@ export async function POST(req: Request) {
       email: normalizedEmail,
       createdAt: new Date(),
     })
-    console.log('emial user->> ', email)
 
-    await GetConnectedEmail(email)
+    // await GetConnectedEmail(email)
 
     return NextResponse.json(
       { message: 'Email Added Successfully' },
