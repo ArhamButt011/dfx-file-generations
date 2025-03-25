@@ -105,7 +105,7 @@ export async function POST(req: Request) {
           { _id: existingFreePlan._id },
           {
             $set: {
-              status: 'expired',
+              status: 'Past',
               expiry_on: nowUTC.toISOString(),
               expiry_date: nowUTC,
             },
@@ -120,7 +120,7 @@ export async function POST(req: Request) {
         subscription_id,
         charges: total,
         duration: 'Monthly',
-        status: 'active',
+        status: 'Current',
         added_on: nowUTC.toISOString(),
         expiry_on: expiryUTC.toISOString(),
         added_date: nowUTC,
@@ -168,7 +168,6 @@ export async function POST(req: Request) {
     const expiryOn = formatDateToISO(cancelingDate)
     const expiryDate = new Date(cancelingDate * 1000)
 
-    console.log('expiryDate, expiryDate->   ', expiryOn, expiryDate)
     try {
       const client = await clientPromise
       const db = client.db('DFXFileGeneration')
@@ -176,10 +175,11 @@ export async function POST(req: Request) {
       await db.collection('all-subscriptions').updateOne(
         {
           subscription_id: subscriptionId,
+          status: 'Current',
         },
         {
           $set: {
-            status: 'canceled',
+            status: 'Canceled',
             expiry_on: expiryOn,
             expiry_date: expiryDate,
           },
@@ -188,6 +188,78 @@ export async function POST(req: Request) {
 
       return NextResponse.json({ received: true })
     } catch (err) {
+      return NextResponse.json(
+        { error: 'Database update failed', err },
+        { status: 500 },
+      )
+    }
+  } else if (event.type === 'invoice.payment_succeeded') {
+    const invoice = event.data.object as Stripe.Invoice
+    const subscriptionId = invoice.subscription as string
+    const customerId = invoice.customer as string
+    const invoiceId = invoice.id
+    const total = invoice.amount_paid / 100
+    const billingReason = invoice.billing_reason
+    const startDate = new Date(invoice.lines.data[0].period.start * 1000)
+    const endDate = new Date(invoice.lines.data[0].period.end * 1000)
+
+    try {
+      const client = await clientPromise
+      const db = client.db('DFXFileGeneration')
+
+      // Fetch user_id and plan_name using subscription_id
+      const existingSubscription = await db
+        .collection('all-subscriptions')
+        .findOne({
+          subscription_id: subscriptionId,
+        })
+
+      if (!existingSubscription) {
+        return NextResponse.json(
+          { error: 'Subscription not found' },
+          { status: 404 },
+        )
+      }
+
+      const user_id = existingSubscription.user_id
+      const plan_name = existingSubscription.plan_name
+
+      if (billingReason === 'subscription_cycle') {
+        console.log(`Subscription Renewal: ${subscriptionId}`)
+
+        await db.collection('all-subscriptions').updateOne(
+          { subscription_id: subscriptionId, status: 'Current' },
+          {
+            $set: {
+              status: 'Past',
+              expiry_on: startDate.toISOString(),
+              expiry_date: startDate,
+            },
+          },
+        )
+      } else if (billingReason === 'subscription_create') {
+        console.log(`New Subscription Created: ${subscriptionId}`)
+        return NextResponse.json({ received: true })
+      }
+
+      await db.collection('all-subscriptions').insertOne({
+        user_id,
+        customer_id: customerId,
+        plan_name,
+        subscription_id: subscriptionId,
+        charges: total,
+        duration: 'Monthly',
+        status: 'Current',
+        added_on: startDate.toISOString(),
+        expiry_on: endDate.toISOString(),
+        added_date: startDate,
+        expiry_date: endDate,
+        invoice_id: invoiceId,
+      })
+
+      return NextResponse.json({ received: true })
+    } catch (err) {
+      console.error('Database update failed:', err)
       return NextResponse.json(
         { error: 'Database update failed', err },
         { status: 500 },

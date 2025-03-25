@@ -65,15 +65,15 @@ const Subscriptions = () => {
     fetchSubscriptions()
   }, [fetchSubscriptions])
 
-  const getStatus = (expiryDate: string, status: string): string => {
-    if (status === 'canceled') {
-      return 'Canceled'
-    } else {
-      const currentDate = new Date()
-      const expiryDateObj = new Date(expiryDate)
-      return currentDate < expiryDateObj ? 'Current' : 'Past'
-    }
-  }
+  // const getStatus = (expiryDate: string, status: string): string => {
+  //   if (status === 'canceled') {
+  //     return 'Canceled'
+  //   } else {
+  //     const currentDate = new Date()
+  //     const expiryDateObj = new Date(expiryDate)
+  //     return currentDate < expiryDateObj ? 'Current' : 'Past'
+  //   }
+  // }
 
   return (
     <div>
@@ -138,7 +138,7 @@ const Subscriptions = () => {
           </thead>
           <tbody>
             {subscriptions.map((user, index) => {
-              const status = getStatus(user?.expiry_on, user?.status)
+              // const status = getStatus(user?.expiry_on, user?.status)
               return (
                 <tr
                   key={index}
@@ -195,15 +195,15 @@ const Subscriptions = () => {
                     className={`py-5 pl-2 text-center font-medium rounded-r-xl`}
                   >
                     <span
-                      className={`${
-                        status === 'Current'
+                      className={`text-[12px] md:text-[14px] ${
+                        user?.status === 'Current'
                           ? 'text-[#000000] bg-[#CBF0FF] rounded-full px-5 py-2'
-                          : status === 'Canceled'
+                          : user?.status === 'Canceled'
                           ? 'bg-[#FED3D1] text-[#000000] px-3 py-2 rounded-full'
                           : 'bg-[#F9A0001A] text-[#000000] px-8 py-2 rounded-full'
                       }`}
                     >
-                      {status}
+                      {user.status}
                     </span>
                   </td>
                 </tr>

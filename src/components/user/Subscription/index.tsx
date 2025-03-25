@@ -60,10 +60,11 @@ const Index: React.FC<SubscriptionProps> = ({
         })
         setSubscriptions((prevSubscriptions) =>
           prevSubscriptions.map((subscription) =>
-            subscription.subscription_id === subscriptionId
+            subscription.subscription_id === subscriptionId &&
+            subscription.status === 'Current'
               ? {
                   ...subscription,
-                  status: 'canceled',
+                  status: 'Canceled',
                   expiry_on: new Date().toISOString(),
                 }
               : subscription,
@@ -107,7 +108,7 @@ const Index: React.FC<SubscriptionProps> = ({
   }
 
   const activeSubscriptions = subscriptions.filter(
-    (sub) => sub.status === 'active',
+    (sub) => sub.status === 'Current',
   )
   const subscription_id = activeSubscriptions[0]?.subscription_id ?? null
 
@@ -122,7 +123,7 @@ const Index: React.FC<SubscriptionProps> = ({
       <div className="flex mt-5 w-full justify-between gap-10">
         {/* left */}
         <div className="border rounded-2xl sm:p-5 px-4 py-5 w-full">
-          {subscriptions[0]?.status === 'active' &&
+          {subscriptions[0]?.status === 'Current' &&
           subscriptions[0]?.plan_name !== 'Free' ? (
             <>
               <div className="flex justify-between">
@@ -175,8 +176,9 @@ const Index: React.FC<SubscriptionProps> = ({
           )}
           <div className="-mx-5 border-t border-[#0000001A] my-5"></div>
           <div className="flex items-center justify-end gap-4">
-            {subscriptions[0]?.status === 'active' &&
-            subscriptions[0]?.plan_name !== 'Free' ? (
+            {subscriptions.some(
+              (sub) => sub.status === 'Current' && sub.plan_name !== 'Free',
+            ) && (
               <div className="flex justify-center items-center">
                 <p
                   className="font-semibold text-[#266CA8] sm:text-[16px] text-[14px] underline cursor-pointer"
@@ -190,9 +192,8 @@ const Index: React.FC<SubscriptionProps> = ({
                   className="sm:w-[22px] sm:h-[22px] w-[18px] h-[18px]"
                 />
               </div>
-            ) : (
-              ''
             )}
+
             {!loadingTable && (
               <div>
                 <button

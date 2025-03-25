@@ -68,15 +68,15 @@ const DownloadsSubscriptions = () => {
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage)
   }
-  const getStatus = (expiryDate: string, status: string): string => {
-    if (status === 'canceled') {
-      return 'Canceled'
-    } else {
-      const currentDate = new Date()
-      const expiryDateObj = new Date(expiryDate)
-      return currentDate < expiryDateObj ? 'Current' : 'Past'
-    }
-  }
+  // const getStatus = (expiryDate: string, status: string): string => {
+  //   if (status === 'canceled') {
+  //     return 'Canceled'
+  //   } else {
+  //     const currentDate = new Date()
+  //     const expiryDateObj = new Date(expiryDate)
+  //     return currentDate < expiryDateObj ? 'Current' : 'Past'
+  //   }
+  // }
 
   const fetchDownloads = useCallback(async () => {
     try {
@@ -359,7 +359,7 @@ const DownloadsSubscriptions = () => {
               </thead>
               <tbody>
                 {subscriptions.map((data, index) => {
-                  const status = getStatus(data?.expiry_on, data?.status)
+                  // const status = getStatus(data?.expiry_on, data?.status)
                   return (
                     <tr key={index} className="text-primary bg-[#F5F5F5]">
                       <td className="py-5 px-4 text-start font-medium rounded-l-xl">
@@ -389,15 +389,15 @@ const DownloadsSubscriptions = () => {
                         className={`py-5 pl-10 text-center font-medium rounded-r-xl`}
                       >
                         <span
-                          className={`${
-                            status === 'Current'
+                          className={`text-[12px] md:text-[14px] ${
+                            data?.status === 'Current'
                               ? 'text-[#000000] bg-[#CBF0FF] rounded-full px-5 py-2'
-                              : status === 'Canceled'
+                              : data?.status === 'Canceled'
                               ? 'bg-[#FED3D1] text-[#000000] px-3 py-2 rounded-full'
                               : 'bg-[#F9A0001A] text-[#000000] px-8 py-2 rounded-full'
                           }`}
                         >
-                          {status}
+                          {data.status}
                         </span>
                       </td>
                     </tr>
