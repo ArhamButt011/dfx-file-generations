@@ -34,11 +34,11 @@ export async function POST(req: Request) {
     }
     const subscriptionsCollection = db.collection('all-subscriptions')
     const latestSubscription = await subscriptionsCollection.findOne(
-      { user_id: new ObjectId(userId), status: 'active' },
+      { user_id: new ObjectId(userId), status: 'Current' },
       { sort: { added_on: -1 } },
     )
     let plan = ''
-    if (latestSubscription?.status === 'active') {
+    if (latestSubscription?.status === 'Current') {
       plan = latestSubscription?.plan_name
     }
 
