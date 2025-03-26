@@ -32,7 +32,6 @@ const GetConnectedEmail = async (email: string) => {
     tls: {
       ciphers: 'SSLv3',
     },
-    debug: true, // Enable debugging
   })
 
   const logoUrl = `${process.env.NEXT_PUBLIC_BASE_URL ?? ''}mailLogo.jpg`
