@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 const isAppUnderDevelopment = true // Change to false when app is ready
 
 export function middleware(req: NextRequest) {
-  const { pathname, origin } = req.nextUrl
+  const { pathname } = req.nextUrl
 
   console.log('Middleware executed for:', pathname) // Debugging log
 
