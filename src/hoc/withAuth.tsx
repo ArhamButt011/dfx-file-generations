@@ -11,18 +11,38 @@ const withAuth = <P extends object>(
     const router = useRouter()
 
     useEffect(() => {
-      if (userData) {
-        if (userData.role === 'admin' && !allowedRoles.includes('admin')) {
-          router.push('/admin/dashboard') // Redirect Admin if accessing user pages
-        } else if (userData.role === 'user' && !allowedRoles.includes('user')) {
-          router.push('/Generate_DXF') // Redirect User if accessing admin pages
+      if (!isAuthenticated || !userData) {
+        if (window.location.pathname.startsWith('/admin')) {
+          router.replace('/admin') // Redirect unauthenticated users to admin login
+        } else {
+          router.replace('/user') // Redirect unauthenticated users to user login
         }
+        return
+      }
+
+      // Block users from accessing any /admin routes
+      if (
+        userData.role === 'user' &&
+        window.location.pathname.startsWith('/admin')
+      ) {
+        router.replace('/Generate_DXF') // Redirect users trying to access admin routes
+      }
+
+      // Block admins from accessing user routes
+      if (userData.role === 'admin' && !allowedRoles.includes('admin')) {
+        router.replace('/admin/dashboard') // Redirect admins trying to access user routes
       }
     }, [userData, isAuthenticated, router])
 
-    return userData && allowedRoles.includes(userData.role) ? (
-      <WrappedComponent {...props} />
-    ) : null
+    if (
+      !isAuthenticated ||
+      !userData ||
+      !allowedRoles.includes(userData.role)
+    ) {
+      return null
+    }
+
+    return <WrappedComponent {...props} />
   }
 }
 

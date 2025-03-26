@@ -5,12 +5,25 @@ const FreeTrialEmail = async (email: string, name: string, expiry: string) => {
     throw new Error('Missing required email environment variables.')
   }
 
+  // const transporter = nodemailer.createTransport({
+  //   service: 'gmail',
+  //   auth: {
+  //     user: process.env.EMAIL_USER,
+  //     pass: process.env.EMAIL_PASS,
+  //   },
+  // })
   const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: 'smtp.office365.com',
+    port: 587,
+    secure: false,
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
     },
+    tls: {
+      ciphers: 'SSLv3',
+    },
+    debug: true,
   })
 
   const logoUrl = `${process.env.NEXT_PUBLIC_BASE_URL ?? ''}mailLogo.jpg`
@@ -27,14 +40,14 @@ const FreeTrialEmail = async (email: string, name: string, expiry: string) => {
         <p>For the next 7 days, enjoy full access to AI-powered DXF file creation and experience how Lumashape simplifies custom tool drawer insert design with unmatched precision and ease.</p>
         <p style="margin-top: 30px;">Your Free trial will expire on <strong>${expiry}</strong>. Upgrade anytime to continue enjoying these powerful features after your trial ends.</p>
         <p style="margin-top: 30px;">If you have any questions or need assistance, please contact our support team at 
-          <a href="mailto:support@lumashape.com" style="color: #266CA8;">support@lumashape.com</a>
+          <a href="mailto:sam.peterson@lumashape.com" style="color: #266CA8;">sam.peterson@lumashape.com</a>
         </p>
         <p>Thank you for joining us & we hope you have a great experience on the app!</p>
       </div>
       <p style="margin-top: 60px;">
         <a href="https://www.lumashape.com" style="color: #000000; text-decoration: none;">www.lumashape.com</a>  
         <span style="color: #000000;"> | </span>     
-        <a href="mailto:support@lumashape.com" style="color: #000000;">support@lumashape.com</a>
+        <a href="mailto:sam.peterson@lumashape.com" style="color: #000000;">sam.peterson@lumashape.com</a>
       </p>
     </div>
   `

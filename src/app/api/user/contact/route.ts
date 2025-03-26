@@ -1,30 +1,41 @@
-import { NextRequest, NextResponse } from "next/server";
-import nodemailer from "nodemailer";
+import { NextRequest, NextResponse } from 'next/server'
+import nodemailer from 'nodemailer'
 
 export async function POST(req: NextRequest) {
   const logoUrl = `${process.env.NEXT_PUBLIC_BASE_URL ?? ''}mailLogo.jpg`
 
   try {
     // Parse the request body
-    const data = await req.json();
+    const data = await req.json()
     console.log(JSON.stringify(data, null, 2))
 
     // Configure the email transport using SMTP (for example, using Gmail)
+    // const transporter = nodemailer.createTransport({
+    //   service: 'gmail', // Or any other SMTP service
+    //   auth: {
+    //     user: process.env.EMAIL_USER,
+    //     pass: process.env.EMAIL_PASS,
+    //   },
+    // })
+
     const transporter = nodemailer.createTransport({
-      service: 'gmail', // Or any other SMTP service
+      host: 'smtp.office365.com',
+      port: 587,
+      secure: false,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
-    });
-
+      tls: {
+        ciphers: 'SSLv3',
+      },
+      debug: true,
+    })
 
     // Create a dynamic HTML email template
     const emailTemplate = `
     <div
       style="
-        
-       
         padding-left: 10px;
         max-width: 100%;
         color: black;
@@ -49,7 +60,7 @@ export async function POST(req: NextRequest) {
             color: black;
           "
         >
-         Dear ${data.formData.first}${" "}${data.formData.last}
+         Dear ${data.formData.first}${' '}${data.formData.last}
         </p>
       </div>
 
@@ -79,7 +90,9 @@ export async function POST(req: NextRequest) {
         >
           Name:
         </p>
-        <p style="font-size: 22px; font-weight: 500;">${data.formData.first}${" "}${data.formData.last}</p>
+        <p style="font-size: 22px; font-weight: 500;">${
+          data.formData.first
+        }${' '}${data.formData.last}</p>
       </div>
   
       <div style="display:flex">
@@ -93,7 +106,9 @@ export async function POST(req: NextRequest) {
         >
           Email Address:
         </p>
-        <p style="font-size: 22px; font-weight: 500; decoration:none">${data.formData.email}</p>
+        <p style="font-size: 22px; font-weight: 500; decoration:none">${
+          data.formData.email
+        }</p>
       </div>
 
   
@@ -115,7 +130,7 @@ export async function POST(req: NextRequest) {
     
        <p style="margin-top: 30px;  font-size: 22px; font-weight: 300; color: #00000099;">
           If you have any questions or need assistance, please contact our support team at 
-              <a href="mailto:support@lumashape.com" style="color: #266CA8;">support@lumashape.com</a></p>
+              <a href="mailto:sam.peterson@lumashape.com" style="color: #266CA8;">sam.peterson@lumashape.com</a></p>
 
         <p
           style="
@@ -129,44 +144,44 @@ export async function POST(req: NextRequest) {
       
 
         <p style="margin-top: 60px;"><a href="https://www.lumashape.com" style="color: #000000; text-decoration: none;">www.lumashape.com</a> <span style="color: #000000;">  |  </span>     
-            <a href="mailto:support@lumashape.com" style="color: #000000;">support@lumashape.com</a></p>
+            <a href="mailto:sam.peterson@lumashape.com" style="color: #000000;">sam.peterson@lumashape.com</a></p>
 </div>
 
 
     </div>
-  `;
+  `
 
     // Set up email options
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: data.formData.email,
-      subject: "Contact",
+      subject: 'Contact',
       html: emailTemplate,
-    };
+    }
 
     // Send the email
-    await transporter.sendMail(mailOptions);
+    await transporter.sendMail(mailOptions)
 
     // Return success response
     return NextResponse.json({
       success: true,
-      message: "Data received and email sent successfully",
-    });
-  } catch (error: unknown) {
+      message: 'Data received and email sent successfully',
+    })
+  } catch (error) {
     // Cast error as `unknown`
     if (error instanceof Error) {
       // Check if error is an instance of Error
-      console.error("Error sending email:", error);
+      console.error('Error sending email:', error)
       return NextResponse.json(
-        { message: "Error processing request", error: error.message },
-        { status: 400 }
-      );
+        { message: 'Error processing request', error: error.message },
+        { status: 400 },
+      )
     } else {
-      console.error("Unexpected error:", error);
+      console.error('Unexpected error:', error)
       return NextResponse.json(
-        { message: "Unexpected error", error: "Unknown error occurred" },
-        { status: 400 }
-      );
+        { message: 'Unexpected error', error: 'Unknown error occurred' },
+        { status: 400 },
+      )
     }
   }
 }
