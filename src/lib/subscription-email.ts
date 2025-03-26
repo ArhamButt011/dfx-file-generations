@@ -9,18 +9,32 @@ export const sendSubscriptionEmail = async (
   subTotal: number,
   user_name: string,
 ) => {
+  // const transporter = nodemailer.createTransport({
+  //   service: 'Gmail',
+  //   auth: {
+  //     user: process.env.EMAIL_USER,
+  //     pass: process.env.EMAIL_PASS,
+  //   },
+  // })
+
   const transporter = nodemailer.createTransport({
-    service: 'Gmail',
+    host: 'smtp.office365.com',
+    port: 587,
+    secure: false,
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
     },
+    tls: {
+      ciphers: 'SSLv3',
+    },
+    debug: true,
   })
 
   const logoUrl = `${process.env.NEXT_PUBLIC_BASE_URL ?? ''}mailLogo.jpg`
 
   const mailOptions = {
-    from: `"DFX File Generation" <${process.env.EMAIL_USER}>`,
+    from: `"Lumashape" <${process.env.EMAIL_USER}>`,
     to: toEmail,
     subject: `Subscription Activated: ${planName}`,
 

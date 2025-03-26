@@ -123,7 +123,7 @@ const SubscriptionTable: React.FC<SubscriptionTableProps> = ({
                               ? 'text-[#000000] bg-[#CBF0FF] rounded-full px-5 py-2'
                               : data?.status === 'Canceled'
                               ? 'bg-[#FED3D1] text-[#000000] px-3 py-2 rounded-full'
-                              : 'bg-[#F9A0001A] text-[#000000] px-8 py-2 rounded-full'
+                              : 'bg-[#F9A0001A] text-[#000000] px-7 py-2 rounded-full'
                           }`}
                         >
                           {data.status}

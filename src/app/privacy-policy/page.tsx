@@ -105,7 +105,7 @@ const PrivacyPolicy = () => {
         <li>
           If you have any questions, contact us at:{' '}
           <a
-            href="mailto:support@lumashape.com"
+            href="mailto:sam.peterson@lumashape.com"
             className="text-[#266CA8] border-b border-[#266CA8]"
           >
             sam.peterson@lumashape.com
