@@ -8,8 +8,8 @@ import { useAuth } from '@/context/AuthContext'
 import Subscribe from '../Subscription/Subscribe'
 import { PulseLoader } from 'react-spinners'
 import Text from '@/components/UI/Text'
-import { LuEyeClosed } from 'react-icons/lu'
-import { FaEye } from 'react-icons/fa'
+// import { LuEyeClosed } from 'react-icons/lu'
+// import { FaEye } from 'react-icons/fa'
 // import { useSearchParams } from 'next/navigation'
 interface UserPlan {
   plan_name: string
@@ -44,7 +44,7 @@ function Input() {
   const [drawerId, setDrawerId] = useState<string>(
     () => sessionStorage.getItem('drawerId') || '',
   )
-  const [showDrawerId, setShowDrawerId] = useState(false)
+  // const [showDrawerId, setShowDrawerId] = useState(false)
 
   const [boundaryWidth, setBoundaryWidth] = useState<number>(() => {
     const storedValue = sessionStorage.getItem('boundaryWidth')
@@ -354,8 +354,10 @@ function Input() {
         title: 'Error!',
         text: 'Please upload image.',
         icon: 'error',
+        timer: undefined,
         showConfirmButton: false,
-        timer: 2000,
+        // confirmButtonText: 'Close',
+        showCloseButton: true,
         didOpen: () => {
           const swalContainer = document.querySelector(
             '.swal2-container',
@@ -435,7 +437,8 @@ function Input() {
         text: err instanceof Error ? err.message : String(err),
         icon: 'error',
         showConfirmButton: false,
-        timer: 2000,
+        showCloseButton: true,
+        timer: undefined,
         didOpen: () => {
           const swalContainer = document.querySelector(
             '.swal2-container',
@@ -652,7 +655,8 @@ function Input() {
           text: 'No image found in clipboard. Copy an image first!',
           icon: 'error',
           showConfirmButton: false,
-          timer: 2000,
+          timer: undefined,
+          showCloseButton: true,
           didOpen: () => {
             const swalContainer = document.querySelector(
               '.swal2-container',
@@ -1240,7 +1244,8 @@ function Input() {
                   {boundaryContour === 'Yes' ? (
                     <div className="mt-3 relative">
                       <input
-                        type={showDrawerId ? 'text' : 'password'}
+                        // type={showDrawerId ? 'text' : 'password'}
+                        type="text"
                         inputMode="decimal"
                         className="border rounded-full w-full p-3 mt-1 bg-[#F2F2F2] placeholder:text-sm text-sm"
                         placeholder="Enter Drawer id"
@@ -1251,7 +1256,7 @@ function Input() {
                           setDrawerId(e.target.value)
                         }}
                       />
-                      <button
+                      {/* <button
                         type="button"
                         onClick={() => setShowDrawerId(!showDrawerId)}
                         className="absolute inset-y-0 right-3 top-1/2 transform text-gray-500"
@@ -1265,7 +1270,7 @@ function Input() {
                             className="text-[#005B97] mr-2"
                           />
                         )}
-                      </button>
+                      </button> */}
                     </div>
                   ) : (
                     ''
