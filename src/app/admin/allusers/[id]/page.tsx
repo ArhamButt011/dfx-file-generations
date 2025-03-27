@@ -2,6 +2,7 @@
 import React from 'react'
 import UserDetails from '@/components/admin/AllUsers/UserDetails'
 import DefaultLayout from '@/components/admin/Layouts/DefaultLayout'
+import withAuth from '@/hoc/withAuth'
 
 // interface User {
 //   id: string
@@ -20,4 +21,4 @@ const page = () => {
   )
 }
 
-export default page
+export default withAuth(page, ['admin'])

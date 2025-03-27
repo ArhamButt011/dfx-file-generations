@@ -1,24 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { useAuth } from '@/context/AuthContext';
-import Subscribe from '../Subscription/Subscribe';
+import React, { useEffect, useState } from 'react'
+import { useAuth } from '@/context/AuthContext'
+import Subscribe from '../Subscription/Subscribe'
+import { format } from 'date-fns'
 
 interface UserPlan {
-  plan_name: string;
-  duration: number;
-  user_id: string;
-  added_on: string;
-  expiry_on: string;
-  charges: number;
-  added_date: string;
-  expiry_date: string;
+  plan_name: string
+  duration: number
+  user_id: string
+  added_on: string
+  expiry_on: string
+  charges: number
+  added_date: string
+  expiry_date: string
 }
 
 function Title() {
-  const [userPlan, setUserPlan] = useState<UserPlan | null>(null);
-  const [isBilingOpen, setIsBilingOpen] = useState(false); // Use the correct spelling
+  const [userPlan, setUserPlan] = useState<UserPlan | null>(null)
+  const [isBilingOpen, setIsBilingOpen] = useState(false) // Use the correct spelling
 
-  const { userData } = useAuth();
-  const userId = userData?.id;
+  const { userData } = useAuth()
+  const userId = userData?.id
 
   useEffect(() => {
     async function fetchUserPlan() {
@@ -27,23 +28,23 @@ function Title() {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ user_id: userId }),
-        });
+        })
 
-        const data = await response.json();
+        const data = await response.json()
         if (data?.subscription) {
-          setUserPlan(data.subscription);
+          setUserPlan(data.subscription)
         }
       } catch (error) {
-        console.error('Error fetching user plan:', error);
+        console.error('Error fetching user plan:', error)
       }
     }
 
     if (userId) {
-      fetchUserPlan();
+      fetchUserPlan()
     }
-  }, [userId]);
+  }, [userId])
 
-  const isTrialExpired = userPlan && new Date(userPlan.expiry_date) < new Date();
+  const isTrialExpired = userPlan && new Date(userPlan.expiry_date) < new Date()
 
   return (
     <div>
@@ -55,8 +56,12 @@ function Title() {
           </p>
           <p className="font-medium text-lg sm:text-xl text-[#00000080] text-left mt-2">
             You have successfully activated your free trial on{' '}
-            <span className="text-black font-medium">{userPlan.added_on}</span> and it will end on{' '}
-            <span className="text-black font-medium">{userPlan.expiry_on}</span>.
+            <span className="text-black font-medium">
+              {format(new Date(userPlan.added_on), 'MMM dd, yyyy')}
+            </span>{' '}
+            and it will end on{' '}
+            <span className="text-black font-medium">{userPlan.expiry_on}</span>
+            .
           </p>
         </div>
       )}
@@ -83,15 +88,19 @@ function Title() {
         </div>
       )}
 
-      <p className="font-semibold text-2xl sm:text-3xl mt-6 text-center sm:text-left">
+      <p className="font-semibold text-[22px] sm:text-[24px] mt-6 text-center sm:text-left">
         Generate DXF
       </p>
 
       {/* Render the subscription modal when needed */}
-      {isBilingOpen && <Subscribe isBilingOpen={isBilingOpen} setIsBilingOpen={setIsBilingOpen} />}
-
+      {isBilingOpen && (
+        <Subscribe
+          isBilingOpen={isBilingOpen}
+          setIsBilingOpen={setIsBilingOpen}
+        />
+      )}
     </div>
-  );
+  )
 }
 
-export default Title;
+export default Title

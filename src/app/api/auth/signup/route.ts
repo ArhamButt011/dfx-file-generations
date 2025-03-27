@@ -71,7 +71,6 @@ export async function POST(req: Request) {
     await addNotification(userId, '', 'user_registration')
 
     await EmailService(email, randomOTP.toString())
-    //adding notifications
 
     return NextResponse.json(
       { message: 'User created successfully' },

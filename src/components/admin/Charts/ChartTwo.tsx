@@ -1,6 +1,7 @@
 import { ApexOptions } from 'apexcharts'
 import React, { useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
+import Text from '@/components/UI/Text'
 
 const ReactApexChart = dynamic(() => import('react-apexcharts'), {
   ssr: false,
@@ -108,9 +109,12 @@ const ChartTwo: React.FC = () => {
     <div className="col-span-12 rounded-xl border border-stroke bg-bodydark p-7.5 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-8">
       <div className="mb-4 justify-between gap-4 sm:flex">
         <div>
-          <h4 className="text-xl font-semibold text-black dark:text-white">
+          <Text
+            as="h5"
+            className="text-xl font-semibold text-black dark:text-white"
+          >
             DXF Downloads
-          </h4>
+          </Text>
         </div>
       </div>
 

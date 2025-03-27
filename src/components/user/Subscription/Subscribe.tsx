@@ -7,6 +7,7 @@ const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!,
 )
 import { useAuth } from '@/context/AuthContext'
+import { useState } from 'react'
 
 type included = {
   id: number
@@ -17,7 +18,7 @@ type DataItem = {
   id: number
   desc: string
   price_id: string
-  title: string
+  plan_name: string
   price: string
   include: included[]
   buttonText: string
@@ -26,9 +27,9 @@ type DataItem = {
 const bilingPlans: DataItem[] = [
   {
     id: 1,
-    desc: 'Free Plan',
-    title: 'Free Trial',
-    price: '$0.00/month',
+    desc: '',
+    plan_name: 'Free Trial',
+    price: 'Free',
     price_id: '',
     include: [
       {
@@ -44,36 +45,10 @@ const bilingPlans: DataItem[] = [
   },
   {
     id: 2,
-    desc: 'Pay Per Download',
-    title: 'Basic',
-    price: '$20.00',
-    price_id: 'price_1QwMSZLPfX4joK3zUDF3sbax',
-    include: [
-      {
-        id: 1,
-        text: 'Free upload and preview',
-      },
-      {
-        id: 2,
-        text: 'Purchase DXF files individually for $10 per download.',
-      },
-      {
-        id: 3,
-        text: 'No commitment or subscription',
-      },
-      {
-        id: 4,
-        text: 'Secure payment processing',
-      },
-    ],
-    buttonText: 'Get Started',
-  },
-  {
-    id: 3,
-    desc: 'Unlimited Plan',
-    title: 'Premium',
-    price: '$50.00/Month',
-    price_id: 'price_1QwM6PLPfX4joK3zKgOIQBsp',
+    desc: 'For Small Teams',
+    plan_name: 'Basic',
+    price: '$50/Month',
+    price_id: process.env.NEXT_PUBLIC_STRIPE_BASIC_PRICE_ID!,
     include: [
       {
         id: 1,
@@ -81,7 +56,7 @@ const bilingPlans: DataItem[] = [
       },
       {
         id: 2,
-        text: 'Exclusive customer support ',
+        text: 'Full access to DXF customization tools',
       },
       {
         id: 3,
@@ -94,45 +69,82 @@ const bilingPlans: DataItem[] = [
     ],
     buttonText: 'Get Started',
   },
+  {
+    id: 3,
+    desc: 'For Professionals',
+    plan_name: 'Coming Soon...',
+    price: '$100/Month',
+    price_id: process.env.NEXT_PUBLIC_STRIPE_PREMIUM_PRICE_ID!,
+    include: [
+      {
+        id: 1,
+        text: 'Unlimited DXF downloads',
+      },
+      {
+        id: 2,
+        text: 'Full access to DXF customization tools',
+      },
+      {
+        id: 3,
+        text: 'Batch image processing (up to 4 images per batch)',
+      },
+      {
+        id: 4,
+        text: 'Advanced file management (organize, rename, and tag DXF files)',
+      },
+      {
+        id: 5,
+        text: 'Automated cloud backup C sync',
+      },
+      {
+        id: 6,
+        text: 'Customer Support',
+      },
+      {
+        id: 7,
+        text: 'Cancel or modify anytime',
+      },
+      {
+        id: 8,
+        text: 'Secure payment processing',
+      },
+    ],
+    buttonText: 'Get Started',
+  },
 ]
 type SubscribeProps = {
   isBilingOpen: boolean
   setIsBilingOpen: (open: boolean) => void
+  // planName: string
 }
 
-// function handleSkiporFree(item: DataItem) {
-//     const { userData } = useAuth();
-//     const bilingDate= new Date();
-
-//     const subscriptionData = {
-//         userid: userData?._id,
-//         plan: item.title,
-//         charges:  item.price.split("/")[0],
-//         duration: item.price.split("/")[1],
-//         bilingDate,
-//         ExpiryDate: bilingDate.getDate() + 7,
-
-//     };
-
-//     console.log(subscriptionData);
-// }
-
-function Subscribe({ isBilingOpen, setIsBilingOpen }: SubscribeProps) {
+function Subscribe({
+  isBilingOpen,
+  setIsBilingOpen,
+}: // planName,
+SubscribeProps) {
   // const [isBilingOpen, setIsBilingOpen] = useState<boolean>(false);
   //   const router = useRouter()
   const { userData } = useAuth()
+  const [processingPlanId, setProcessingPlanId] = useState<number | null>(null)
 
   const onClose = () => {
     setIsBilingOpen(false)
   }
+  const handleSubscribe = async (
+    price_id: string,
+    plan_name: string,
+    planId: number,
+  ) => {
+    if (!userData?.id) return
+    setProcessingPlanId(planId)
 
-  const handleSubscribe = async (price_id: string) => {
     try {
       const res = await axios.post('/api/user/checkout', {
         price_id: price_id,
         user_id: userData?.id,
+        plan_name: plan_name,
       })
-      console.log('subscription reponse-> ', res)
 
       if (!res.data.sessionId) throw new Error('Missing sessionId from API')
 
@@ -142,77 +154,99 @@ function Subscribe({ isBilingOpen, setIsBilingOpen }: SubscribeProps) {
       await stripe.redirectToCheckout({ sessionId: res.data.sessionId })
     } catch (error) {
       console.error('Checkout Error:', error)
+    } finally {
+      setProcessingPlanId(null)
     }
   }
 
   return (
     // <div>
-    <BilingModal
-      isOpen={isBilingOpen}
-      onClose={onClose}
-      buttonContent={
-        <p className="text-[#266CA8] font-semibold text-2xl">Skip</p>
-      }
-    >
-      <div>
-        <div className="text-center">
-          <p className="font-semibold text-3xl">
-            Choose Your Subscription Plan
-          </p>
-          <p className="font-medium text-xl text-[#00000080]">
-            Choose a plan that fits your needs, and let&apos;s start designing
-            together.
-          </p>
-        </div>
-        <div className="flex flex-wrap justify-center gap-4 mt-10">
-          {bilingPlans.map((item) => (
-            <div
-              key={item.id}
-              className="border p-4 w-full md:w-[48%] lg:max-w-[32%] rounded-2xl flex flex-col justify-between"
-            >
-              <div>
-                <p className="font-medium text-base text-[#22222280]">
-                  {item.desc}
-                </p>
-                <p className="font-semibold text-3xl">{item.title}</p>
-                <p className="mt-6">
-                  <span className="text-4xl font-semibold text-[#266CA8]">
-                    {item.price.split('/')[0]}
-                  </span>
-                  <span className="text-base text-[#22222280] font-medium">
-                    /{item.price.split('/')[1]}
-                  </span>
-                </p>
-                <p className="font-semibold text-base mt-5">
-                  What&apos;s Included
-                </p>
-                {item.include.map((inc) => (
-                  <div key={inc.id} className="flex items-center gap-2">
-                    <Image
-                      src="/images/user/AuthScreens/Check Circle.svg"
-                      alt=""
-                      width={24}
-                      height={24}
-                      className="flex-shrink-0"
-                    />
-                    <p className="font-medium text-base text-[#22222280]">
-                      {inc.text}
-                    </p>
-                  </div>
-                ))}
-              </div>
-              <button
-                className="mt-4 bg-[#266CA8] text-white py-2 px-4 rounded-full"
-                onClick={() => handleSubscribe(item.price_id)}
-                // disabled={loadingId === item.id}
+    <>
+      <BilingModal
+        isOpen={isBilingOpen}
+        onClose={onClose}
+        buttonContent={
+          <p className="text-[#266CA8] font-semibold text-2xl">Skip</p>
+        }
+      >
+        <div>
+          <div className="md:text-center">
+            <p className="font-semibold md:text-3xl text-2xl sm:w-full w-[50%]">
+              Choose Your Subscription Plan
+            </p>
+            <p className="font-medium md:text-xl text-lg text-[#00000080]">
+              Choose a plan that fits your needs, and let&apos;s start designing
+              together.
+            </p>
+          </div>
+          <div className="flex sm:flex-row flex-col justify-center gap-4 mt-10">
+            {bilingPlans.map((item) => (
+              <div
+                key={item.id}
+                className="border p-4 w-full md:w-[48%] lg:max-w-[32%] rounded-2xl flex flex-col justify-between h-[590px] sm:h-auto"
               >
-                {item.buttonText}
-              </button>
-            </div>
-          ))}
+                <div>
+                  <p className="font-medium text-base text-[#22222280]">
+                    {item.desc}
+                  </p>
+                  <p className="font-semibold text-3xl">{item.plan_name}</p>
+                  <p className="mt-6">
+                    <span className="text-4xl font-semibold text-[#266CA8]">
+                      {item.price.split('/')[0]}
+                    </span>
+                    <span className="text-base text-[#22222280] font-medium">
+                      {item.price !== 'Free' && '/'}
+                      {item.price.split('/')[1]}
+                    </span>
+                  </p>
+                  <p className="font-semibold text-base mt-5">
+                    What&apos;s Included
+                  </p>
+                  {item.include.map((inc) => (
+                    <div key={inc.id} className="flex items-start gap-2">
+                      <Image
+                        src="/images/user/AuthScreens/Check Circle.svg"
+                        alt=""
+                        width={24}
+                        height={24}
+                        className="flex-shrink-0"
+                      />
+                      <p className="font-medium text-base text-[#22222280]">
+                        {inc.text}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+                {item.plan_name !== 'Free Trial' && (
+                  <button
+                    className={`mt-4 py-2 px-4 rounded-full ${
+                      item.plan_name === userData?.subscription ||
+                      processingPlanId === item.id ||
+                      item.plan_name === 'Coming Soon...'
+                        ? 'bg-[#266CA8] text-white cursor-not-allowed opacity-70'
+                        : 'bg-[#266CA8] text-white cursor-pointer'
+                    }`}
+                    onClick={() =>
+                      handleSubscribe(item.price_id, item.plan_name, item.id)
+                    }
+                    disabled={
+                      item.plan_name === userData?.subscription ||
+                      processingPlanId === item.id ||
+                      item.plan_name === 'Coming Soon...'
+                    }
+                  >
+                    {processingPlanId === item.id
+                      ? 'Processing...'
+                      : item.buttonText}
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-    </BilingModal>
+      </BilingModal>
+    </>
+
     // </div>
   )
 }

@@ -8,7 +8,8 @@ import logo from '/public/images/user/home/logo.svg'
 import RightSection from './common'
 import Swal from 'sweetalert2'
 import { ClipLoader } from 'react-spinners'
-import eye from '/public/images/admin/eye.svg'
+// import eye from '/public/images/admin/eye.svg'
+import { LuEyeClosed } from 'react-icons/lu'
 
 interface ResetProps {
   title: string
@@ -97,21 +98,21 @@ const ResetPassword: React.FC<ResetProps> = ({ title, content }) => {
         </div>
       )}
       {/* Left Form Section */}
-      <div className="w-[100%] bg-white flex items-center justify-center md:w-[60%] p-6 md:p-0">
-        <div className="md:w-[70%] w-[100%]">
+      <div className="w-full bg-white flex items-center justify-center md:max-w-[60%] p-6 md:px-5">
+        <div className="md:max-w-[500px] w-full">
           <div className="flex items-center md:mb-6 mb-10">
             <Image src={logo} alt="logo" width={360} height={55} priority />
           </div>
-          <h1 className="text-[36px] font-bold mb-2 text-black xl:text-[50.04px]">
+          <h1 className="text-[28px] font-bold mb-2 text-black xl:text-[40px]">
             {title}
           </h1>
-          <p className="text-primary mb-6 text-lg xl:text-[21.56px]">
+          <p className="text-primary mb-6 text-[13px] xl:text-[18px]">
             {content}
           </p>
 
           <form onSubmit={handleResetPasswordSubmit}>
             <div className="mb-8 relative">
-              <label className="block text-black font-semibold mb-1 text-lg xl:text-[23.8px]">
+              <label className="block text-black font-semibold mb-1 text-lg xl:text-[18px]">
                 New Password
               </label>
               <div className="relative">
@@ -121,7 +122,7 @@ const ResetPassword: React.FC<ResetProps> = ({ title, content }) => {
                   placeholder="Enter Password"
                   value={ResetFormData.password}
                   onChange={handleResetPassword}
-                  className="w-full px-4 py-4 mt-1 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
+                  className="w-full px-4 py-4 mt-1 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full placeholder:text-sm"
                   required
                   minLength={8}
                 />
@@ -132,15 +133,15 @@ const ResetPassword: React.FC<ResetProps> = ({ title, content }) => {
                   style={{ transform: 'translateY(-42%)' }}
                 >
                   {showNewPassword ? (
-                    <FaEye size={20} className="text-[#005B97] mr-3" />
+                    <FaEye size={20} className="text-[#005B97] mr-2" />
                   ) : (
-                    <Image alt="eye" src={eye} className="mr-3" />
+                    <LuEyeClosed size={20} className="text-[#005B97] mr-2" />
                   )}
                 </button>
               </div>
             </div>
             <div className="mb-2 relative">
-              <label className="block text-black font-semibold mb-1 text-lg xl:text-[23.8px]">
+              <label className="block text-black font-semibold mb-1 text-lg xl:text-[18px]">
                 Confirm New Password
               </label>
               <div className="relative">
@@ -150,7 +151,7 @@ const ResetPassword: React.FC<ResetProps> = ({ title, content }) => {
                   placeholder="Enter Password"
                   value={ResetFormData.confirm}
                   onChange={handleResetPassword}
-                  className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
+                  className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full placeholder:text-sm"
                   required
                   minLength={8}
                 />
@@ -163,9 +164,9 @@ const ResetPassword: React.FC<ResetProps> = ({ title, content }) => {
                   style={{ transform: 'translateY(-42%)' }}
                 >
                   {showConfirmNewPassword ? (
-                    <FaEye size={20} className="text-[#005B97] mr-3" />
+                    <FaEye size={20} className="text-[#005B97] mr-2" />
                   ) : (
-                    <Image alt="eye" src={eye} className="mr-3" />
+                    <LuEyeClosed size={20} className="text-[#005B97] mr-2" />
                   )}
                 </button>
               </div>
@@ -175,7 +176,7 @@ const ResetPassword: React.FC<ResetProps> = ({ title, content }) => {
               //   className={`w-full bg-[#005B97] text-white py-2 px-4 mt-20 font-bold rounded-full hover:bg-[#005b97f0] transition duration-300 ${
               //     loading ? 'opacity-50 cursor-not-allowed' : ''
               //   }`}
-              className="w-full bg-[#266CA8] text-white py-4 px-4 mt-12 xl:mt-16 font-semibold rounded-full hover:bg-[#005b97f0] transition duration-300 xl:text-[20px] text-[18px]"
+              className="w-full bg-[#266CA8] text-white py-4 px-4 mt-12 xl:mt-16 font-semibold rounded-full hover:bg-[#005b97f0] transition duration-300 xl:text-[16px] text-[14px]"
               //   disabled={loading}
             >
               Continue

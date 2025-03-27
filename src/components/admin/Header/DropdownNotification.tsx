@@ -9,6 +9,7 @@ import '@/components/admin/Header/DropdownNotifications.css'
 import { formatDistanceToNowStrict } from 'date-fns'
 import { database, ref, onValue, update } from '@/firebase'
 import { useNotification } from '@/context/NotificationContext'
+import Text from '@/components/UI/Text'
 
 interface Notification {
   message: string
@@ -83,7 +84,7 @@ const DropdownNotification = () => {
           <Image src={notification} alt="notifications" />
         </Link>
         {dropdownOpen && (
-          <div className="absolute lg:-right-6.4 xl:-right-7 2xl:-right-11 mt-5 flex h-[92.2vh] w-75 flex-col rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark sm:-right-5 sm:w-[470px]">
+          <div className="absolute -right-4  lg:-right-6.4 xl:-right-7 2xl:-right-11 mt-5 flex h-[92.2vh] w-75 flex-col rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark sm:-right-5 sm:w-[470px]">
             <div className="px-4.5 py-3">
               <h5 className="text-[27.94px] font-semibold text-[#000000]">
                 Notifications
@@ -93,29 +94,30 @@ const DropdownNotification = () => {
               {notifications?.map((data, index) => (
                 <li key={index}>
                   <div className="flex flex-col gap-2.5 border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4">
-                    <div className="flex gap-4">
-                      <span className="h-15 w-15 overflow-hidden rounded-full">
+                    <div className="flex gap-4 items-start">
+                      <div className="w-[45px] h-[45px] rounded-full overflow-hidden flex-shrink-0">
                         <Image
                           src={data?.image ? data.image : userImage}
                           width={60}
-                          height={50}
+                          height={60}
                           alt="userImage"
-                          className="rounded-full mt-1"
+                          className="object-cover w-full h-full"
                         />
-                      </span>
+                      </div>
+
                       <div className="flex flex-col">
                         <p
-                          className="font-medium text-[21.94px]"
+                          className="font-medium text-[14px] sm:text-[16px]"
                           dangerouslySetInnerHTML={{ __html: data.message }}
                         />
-                        <span className="text-[17.94px] text-[#00000066]">
+                        <Text className="text-[17.94px] text-[#00000066]">
                           {data.createdAt
                             ? formatDistanceToNowStrict(
                                 new Date(data.createdAt),
                                 { addSuffix: true },
                               )
                             : 'Unknown time'}
-                        </span>
+                        </Text>
                       </div>
                     </div>
                   </div>

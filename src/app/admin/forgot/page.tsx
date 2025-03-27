@@ -1,3 +1,4 @@
+'use client'
 import Forgot from '@/components/auth/Forgot'
 import React from 'react'
 

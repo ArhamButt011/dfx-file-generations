@@ -8,32 +8,45 @@ export async function GET() {
 
     const subscriptionsCollection = db.collection('all-subscriptions')
 
-    const basicCount = await subscriptionsCollection.countDocuments({
-      plan_name: 'Basic',
-    })
-    const freeCount = await subscriptionsCollection.countDocuments({
-      plan_name: 'Free',
-    })
-    const premiumCount = await subscriptionsCollection.countDocuments({
-      plan_name: 'Premium',
+    const aggregationPipeline = [
+      {
+        $group: {
+          _id: '$plan_name',
+          count: { $sum: 1 },
+        },
+      },
+    ]
+
+    const subscriptionData = await subscriptionsCollection
+      .aggregate(aggregationPipeline)
+      .toArray()
+
+    const subscriptionCounts: Record<string, number> = {
+      Basic: 0,
+      Free: 0,
+      Premium: 0,
+    }
+
+    subscriptionData.forEach(({ _id, count }) => {
+      if (_id in subscriptionCounts) {
+        subscriptionCounts[_id] = count
+      }
     })
 
-    const totalSubscriptions = basicCount + freeCount + premiumCount
+    const { Basic, Free, Premium } = subscriptionCounts
+    const totalSubscriptions = Basic + Free + Premium
 
     const calculatePercentage = (count: number, total: number): number =>
       total > 0 ? parseFloat(((count / total) * 100).toFixed(2)) : 0
 
-    const subscriptionPercentages = [
-      calculatePercentage(basicCount, totalSubscriptions),
-      calculatePercentage(freeCount, totalSubscriptions),
-      calculatePercentage(premiumCount, totalSubscriptions),
-    ]
-    const subscriptionCount = [basicCount, freeCount, premiumCount]
-
     return NextResponse.json({
       success: true,
-      subscriptionsPercentage: subscriptionPercentages,
-      subscriptions: subscriptionCount,
+      subscriptionsPercentage: [
+        calculatePercentage(Basic, totalSubscriptions),
+        calculatePercentage(Free, totalSubscriptions),
+        calculatePercentage(Premium, totalSubscriptions),
+      ],
+      subscriptions: [Basic, Free, Premium],
       totalSubscriptions,
     })
   } catch (error) {

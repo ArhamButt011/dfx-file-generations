@@ -7,6 +7,9 @@ import Swal from 'sweetalert2'
 import { useAuth } from '@/context/AuthContext'
 import Subscribe from '../Subscription/Subscribe'
 import { PulseLoader } from 'react-spinners'
+import Text from '@/components/UI/Text'
+import { LuEyeClosed } from 'react-icons/lu'
+import { FaEye } from 'react-icons/fa'
 // import { useSearchParams } from 'next/navigation'
 interface UserPlan {
   plan_name: string
@@ -20,17 +23,71 @@ interface UserPlan {
 }
 
 function Input() {
-  const [image, setImage] = useState<string>('')
+  const [image, setImage] = useState<string>(
+    () => sessionStorage.getItem('image') || '',
+  )
   const { userData } = useAuth()
-  const [contour, setContour] = useState<string>('')
+  const [contour, setContour] = useState<string>(
+    () => sessionStorage.getItem('contour') || '0',
+  )
+  // const [contour, setContour] = useState<number>(() => {
+  //   const storedValue = sessionStorage.getItem('contour')
+  //   return storedValue ? parseFloat(storedValue) : 0
+  // })
+
+  const [boundaryLength, setBoundaryLength] = useState<number>(() => {
+    const storedValue = sessionStorage.getItem('boundaryLength')
+    return storedValue ? parseFloat(storedValue) : 0
+  })
+  const [showFullName, setShowFullName] = useState(false)
+
+  const [drawerId, setDrawerId] = useState<string>(
+    () => sessionStorage.getItem('drawerId') || '',
+  )
+  const [showDrawerId, setShowDrawerId] = useState(false)
+
+  const [boundaryWidth, setBoundaryWidth] = useState<number>(() => {
+    const storedValue = sessionStorage.getItem('boundaryWidth')
+    return storedValue ? parseFloat(storedValue) : 0
+  })
+
   const [dragging, setDragging] = useState<boolean>(false)
   const [isProcessingOpen, setisProcessingOpen] = useState<boolean>(false)
-  const [isProcessed, setIsProcessed] = useState<boolean>(false)
+  const [fingerCut, setFingerCut] = useState('No')
+  const [contourOffset, setContourOffset] = useState('No')
+
+  const [boundaryContour, setBoundaryContour] = useState('No')
+  // const [includeDrawerId, setIncludeDrawerId] = useState('No')
+  const [unit, setUnit] = useState<string>(
+    () => sessionStorage.getItem('unit') || '',
+  )
+  const [isProcessed, setIsProcessed] = useState<boolean>(
+    JSON.parse(sessionStorage.getItem('isProcessed') || 'false'),
+  )
   const [base64, setBase64] = useState<string>('')
-  const [overlay, setOverlay] = useState<string>('')
-  const [mask, setMask] = useState<string>('')
-  const [preview, setPreview] = useState<string>('')
-  const [dfxFile, setDfxFile] = useState<string>('')
+
+  const [overlayUrl, setOverlayUrl] = useState<string>(
+    () => sessionStorage.getItem('overlayUrl') || '',
+  )
+  const [maskUrl, setMaskUrl] = useState<string>(
+    () => sessionStorage.getItem('maskUrl') || '',
+  )
+  const [outlineUrl, setOutlineUrl] = useState<string>(
+    () => sessionStorage.getItem('outlineUrl') || '',
+  )
+
+  const [overlay, setOverlay] = useState<string>(
+    () => sessionStorage.getItem('overlay') || '',
+  )
+  const [mask, setMask] = useState<string>(
+    () => sessionStorage.getItem('mask') || '',
+  )
+  const [preview, setPreview] = useState<string>(
+    () => sessionStorage.getItem('preview') || '',
+  )
+  const [dfxFile, setDfxFile] = useState<string>(
+    () => sessionStorage.getItem('dxf_file') || '',
+  )
   const [fileSize, setFileSize] = useState<number | null>(null)
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const imgRef = useRef<HTMLImageElement>(null)
@@ -123,20 +180,70 @@ function Input() {
     }
   }, [isMagnifierActive])
 
-  // const handleMouseMove = (e: React.MouseEvent) => {
+  useEffect(() => {
+    // if (includeDrawerId === 'No') {
+    //   setDrawerId('')
+    // }
+    if (boundaryContour === 'No') {
+      setBoundaryLength(0)
+      setBoundaryWidth(0)
+    }
+  }, [boundaryContour])
 
-  //   if (!isMagnifierActive || !imgRef.current) return;
+  useEffect(() => {
+    const isBillingTriggered = sessionStorage.getItem('billingTriggered')
 
-  //   const img = imgRef.current.getBoundingClientRect();
-  //   const width = img.width;
-  //   const height = img.height;
-  //   let x = e.clientX - img.left;
-  //   let y = e.clientY - img.top;
-  //   // Ensure the lens stays inside the image
-  //   x = Math.max(100 / 2, Math.min(x, width - 100 / 2));
-  //   y = Math.max(100 / 2, Math.min(y, height - 100 / 2));
-  //   setLensPos({ x, y, visible: true });
-  // };
+    if (
+      isBillingTriggered != 'true' &&
+      userPlan &&
+      new Date(userPlan.expiry_date) < new Date()
+    ) {
+      setIsBilingOpen(true)
+      sessionStorage.setItem('billingTriggered', 'true') // Mark that the effect has run
+    }
+  }, [userPlan])
+
+  console.log(boundaryLength, boundaryWidth, unit)
+
+  useEffect(() => {
+    sessionStorage.setItem('overlay', overlay)
+    sessionStorage.setItem('mask', mask)
+    sessionStorage.setItem('preview', preview)
+    sessionStorage.setItem('dxf_file', dfxFile)
+    sessionStorage.setItem('image', image)
+    // sessionStorage.setItem('contour', contour)
+    sessionStorage.setItem('contour', contour.toString())
+
+    sessionStorage.setItem('boundaryLength', boundaryLength.toString())
+    sessionStorage.setItem('boundaryWidth', boundaryWidth.toString())
+    sessionStorage.setItem('drawerId', drawerId)
+    sessionStorage.setItem('overlayUrl', overlayUrl)
+    sessionStorage.setItem('maskUrl', maskUrl)
+    sessionStorage.setItem('outlineUrl', outlineUrl)
+    sessionStorage.setItem('isProcessed', JSON.stringify(isProcessed))
+    sessionStorage.setItem('unit', unit)
+  }, [overlay, image, contour, boundaryLength, boundaryWidth, drawerId, unit])
+
+  useEffect(() => {
+    console.log('image', sessionStorage.getItem('contour'))
+    setOverlayUrl(sessionStorage.getItem('overlayUrl') ?? '')
+    setOutlineUrl(sessionStorage.getItem('outlineUrl') ?? '')
+    setMaskUrl(sessionStorage.getItem('maskUrl') ?? '')
+    setOverlay(sessionStorage.getItem('overlay') ?? '')
+    setMask(sessionStorage.getItem('mask') ?? '')
+    setPreview(sessionStorage.getItem('preview') ?? '')
+    setDfxFile(sessionStorage.getItem('dxf_file') ?? '')
+    setImage(sessionStorage.getItem('image') ?? '')
+    setContour(sessionStorage.getItem('contour') ?? '')
+    // setContour(parseFloat(sessionStorage.getItem('contour') ?? '0'))
+    setBoundaryLength(
+      parseFloat(sessionStorage.getItem('boundaryLength') ?? '0'),
+    )
+    setDrawerId(sessionStorage.getItem('drawerId') ?? '')
+    setBoundaryWidth(parseFloat(sessionStorage.getItem('boundaryWidth') ?? '0'))
+    setUnit(sessionStorage.getItem('unit') ?? '')
+    setIsProcessed(JSON.parse(sessionStorage.getItem('isProcessed') || 'false'))
+  }, [])
 
   const onClose = () => {
     setisProcessingOpen(false)
@@ -152,13 +259,21 @@ function Input() {
       // Validate file type
       if (file.type.startsWith('image/')) {
         const reader = new FileReader()
-        reader.readAsDataURL(file)
+
         reader.onload = (event) => {
-          setImage(event.target?.result as string)
-          if (typeof reader.result === 'string') {
-            setBase64(reader.result)
+          if (event.target?.result) {
+            const result = event.target.result as string
+            setImage(result)
+
+            const cleanBase64 = result.replace(
+              /^data:image\/[a-zA-Z]+;base64,/,
+              '',
+            )
+            setBase64(cleanBase64)
+            console.log(cleanBase64)
           }
         }
+
         reader.readAsDataURL(file)
       } else {
         Swal.fire({
@@ -216,20 +331,23 @@ function Input() {
       added_on: new Date().toISOString(),
       expiry_on: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
       charges: 0,
+      status: 'Current',
       added_date: Date.now(),
       expiry_date: Date.now() + 7 * 24 * 60 * 60 * 1000,
     }
+    setisProcessingOpen(true)
+    if (!userPlan) {
+      const res = await fetch('/api/user/subscription', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
 
-    const res = await fetch('/api/user/subscription', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    })
-
-    if (!res.ok) {
-      throw new Error('Failed to create subscription')
+      if (!res.ok) {
+        throw new Error('Failed to create subscription')
+      }
     }
     if (!image || contour === undefined || contour === null) {
       Swal.fire({
@@ -247,43 +365,67 @@ function Input() {
           }
         },
       })
+      setisProcessingOpen(false)
       return
     }
 
-    //pass data to AI api
-    setisProcessingOpen(true)
     try {
-      const res = await fetch(
-        'https://046f-192-241-155-184.ngrok-free.app/predict',
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            image_path_or_base64: base64,
-            offset_inches: contour,
-          }),
-        },
-      )
+      const res = await fetch('https://dxf.lumashape.com/predict', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          image_path_or_base64: base64,
+          offset_value: contour,
+          finger_clearance: fingerCut,
+          add_boundary: boundaryContour,
+          boundary_length: boundaryLength,
+          boundary_width: boundaryWidth,
+          annotation_text: drawerId,
+          offset_unit: unit,
+        }),
+      })
 
       if (!res.ok) {
-        // If the response is not OK, throw an error with the message from the server response
-
+        console.log(res)
         const data = await res.json()
-        throw new Error(data.message || 'An error occurred')
+        throw new Error(
+          data.detail + ' or Invalid Image' || 'An error occurred',
+        )
       }
 
-      // If the response is OK, parse the JSON data
-      // , scaling_factor
       const {
         output_image_url,
         outlines_url,
         dxf_file,
         mask_url,
       } = await res.json()
-      setMask(mask_url)
+      setOverlayUrl(output_image_url)
+      setOutlineUrl(outlines_url)
+      setMaskUrl(mask_url)
+
+      // Function to convert image URL to Base64
+      const convertToBase64 = async (url: string): Promise<string> => {
+        const response = await fetch(url)
+        const blob = await response.blob()
+        return new Promise((resolve) => {
+          const reader = new FileReader()
+          reader.onloadend = () => resolve(reader.result as string) // Explicitly cast to string
+          reader.readAsDataURL(blob)
+        })
+      }
+
+      // Convert images to base64
+      const [maskBase64, overlayBase64, previewBase64] = await Promise.all([
+        convertToBase64(mask_url),
+        convertToBase64(output_image_url),
+        convertToBase64(outlines_url),
+      ])
+
+      // Save the base64 images
+      setMask(maskBase64)
       setDfxFile(dxf_file)
-      setPreview(outlines_url)
-      setOverlay(output_image_url)
+      setPreview(previewBase64)
+      setOverlay(overlayBase64)
       setIsProcessed(true)
     } catch (err) {
       // Catch any error in the try block and log it
@@ -307,46 +449,57 @@ function Input() {
     }
   }
 
-  const handleDownload = (url: string) => {
+  const handleDownload = async (url: string) => {
     if (!url) {
       console.error('No image URL provided for download.')
       return
     }
 
+    // Check if user's plan is expired
     if (userPlan && new Date(userPlan.expiry_date) < new Date()) {
       setIsBilingOpen(true)
       return
     }
 
-    fetch(url)
-      .then((response) => response.blob()) // Convert image URL to a blob
-      .then((blob) => {
-        const blobUrl = window.URL.createObjectURL(blob)
-        const link = document.createElement('a')
-        link.href = blobUrl
-        link.download = url.split('/').pop() || 'downloaded_image' // Extract filename or fallback
-        document.body.appendChild(link)
-        link.click()
-        document.body.removeChild(link)
-        window.URL.revokeObjectURL(blobUrl) // Clean up memory
+    try {
+      // Fetch the image and convert it to a blob
+      const response = await fetch(url)
+      if (!response.ok)
+        throw new Error(`Failed to download image. Status: ${response.status}`)
+
+      const blob = await response.blob()
+      const blobUrl = URL.createObjectURL(blob)
+
+      // Create a download link
+      const file_name = url.split('/').pop() || 'downloaded_image.jpg'
+      const link = document.createElement('a')
+      link.href = blobUrl
+      link.download = file_name
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+
+      // Clean up memory
+      URL.revokeObjectURL(blobUrl)
+
+      console.log('Image downloaded successfully')
+    } catch (err) {
+      Swal.fire({
+        title: 'Error',
+        text: err instanceof Error ? err.message : String(err),
+        icon: 'error',
+        showConfirmButton: false,
+        timer: 2000,
+        didOpen: () => {
+          const swalContainer = document.querySelector(
+            '.swal2-container',
+          ) as HTMLElement
+          if (swalContainer) {
+            swalContainer.style.setProperty('z-index', '100000', 'important')
+          }
+        },
       })
-      .catch((err) =>
-        Swal.fire({
-          title: 'Error',
-          text: err instanceof Error ? err.message : String(err),
-          icon: 'error',
-          showConfirmButton: false,
-          timer: 2000,
-          didOpen: () => {
-            const swalContainer = document.querySelector(
-              '.swal2-container',
-            ) as HTMLElement
-            if (swalContainer) {
-              swalContainer.style.setProperty('z-index', '100000', 'important')
-            }
-          },
-        }),
-      )
+    }
   }
 
   const handleDownloadDXF = async (url: string) => {
@@ -379,7 +532,14 @@ function Input() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ file_name, url, userId }),
+        body: JSON.stringify({
+          file_name,
+          url,
+          userId,
+          mask_url: maskUrl,
+          overlay_url: overlayUrl,
+          outline_url: outlineUrl,
+        }),
       })
 
       if (!res.ok) {
@@ -437,6 +597,11 @@ function Input() {
       return
     }
 
+    if (userPlan && new Date(userPlan.expiry_date) < new Date()) {
+      setIsBilingOpen(true)
+      return
+    }
+
     const newTab = window.open()
     if (newTab) {
       newTab.document.body.innerHTML = `<img src="${url}" style="width:100%; height:auto;" />`
@@ -462,9 +627,16 @@ function Input() {
 
         // Convert to preview URL
         const reader = new FileReader()
-        reader.onload = (e) => setImage(e.target?.result as string)
-        reader.readAsDataURL(file)
 
+        reader.readAsDataURL(file)
+        reader.onload = (event) => {
+          setImage(event.target?.result as string)
+          if (typeof reader.result === 'string') {
+            const base64Data = reader.result.split(',')[1]
+            setBase64(base64Data)
+            console.log(base64Data)
+          }
+        }
         // Mimic file input behavior
         const dataTransfer = new DataTransfer()
         dataTransfer.items.add(file)
@@ -514,22 +686,22 @@ function Input() {
       <div className="mt-5">
         <div className="flex md:flex-row flex-col gap-10">
           {/* left */}
-          <div className="bg-[#F2F2F2] md:w-1/2 rounded-b-2xl">
-            <div className="bg-[#266CA8] py-3 rounded-t-2xl">
-              <p className="text-white text-center font-medium text-2xl">
+          <div className="bg-[#F2F2F2] md:w-1/2 rounded-b-2xl rounded-t-2xl">
+            <div className="bg-[#C6C9CB] py-3 rounded-t-2xl">
+              <p className="text-[#000000] text-center font-medium text-[16px] sm:text-[20px] text-[#000000]">
                 Input Data
               </p>
             </div>
             <div className="p-5">
-              <p className="font-semibold text-2xl mb-5">Input Image</p>
+              {/* <p className="font-semibold text-2xl mb-5">Input Image</p> */}
               <form action="" onSubmit={handleSubmit}>
                 <div className="border border-dashed border-[#0000004D] rounded-3xl">
                   <div
                     onDrop={handleDrop}
                     onDragOver={handleDragOver}
                     onDragLeave={handleDragLeave}
-                    className={`bg-[#F2F2F2]  rounded-t-3xl relative flex flex-col justify-center items-center 
-    ${dragging ? 'border-blue-500' : 'border-gray-300'} 
+                    className={`bg-[#F2F2F2]  rounded-t-3xl relative flex flex-col justify-center items-center
+    ${dragging ? 'border-blue-500' : 'border-gray-300'}
     border-dashed rounded-2xl  text-center`}
                     style={{
                       minHeight: image ? '100px' : '400px',
@@ -538,11 +710,11 @@ function Input() {
                     }}
                   >
                     {image ? (
-                      <div className="relative  flex justify-center items-center w-full md:h-[500px] h-[300px]">
+                      <div className="relative  flex justify-center items-center w-full md:h-[450px] h-[300px]">
                         <Image
                           src={image}
                           alt="Uploaded Preview"
-                          className="rounded-t-3xl "
+                          className="rounded-t-3xl object-contain"
                           fill
                           ref={imgRef}
                         />
@@ -604,7 +776,7 @@ function Input() {
                             width={44}
                             height={44}
                           />
-                          <p className="font-semibold text-xl text-center">
+                          <p className="font-semibold text-[14px] sm:text-[16px] text-center">
                             Drag & drop the image or{' '}
                             <span className="text-[#266CA8] underline cursor-pointer">
                               click
@@ -657,7 +829,7 @@ function Input() {
                       viewBox="0 0 36 36"
                       fill="currentColor"
                       xmlns="http://www.w3.org/2000/svg"
-                      className={`w-10 h-10 cursor-pointer transition-colors duration-300 
+                      className={`w-10 h-10 cursor-pointer transition-colors duration-300
         ${
           clicked ? 'text-[#266CA8]' : 'text-[#00000066] hover:text-[#266CA8]'
         }`}
@@ -687,10 +859,10 @@ function Input() {
                       className="w-10 h-10 text-[#00000066] hover:text-[#266CA8] cursor-pointer transition-colors duration-300"
                       onClick={handlePasteImage}
                     >
-                      <g clip-path="url(#clip0_26_1616)">
+                      <g clipPath="url(#clip0_26_1616)">
                         <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
+                          fillRule="evenodd"
+                          clipRule="evenodd"
                           d="M12.3151 7.51046C12.4596 6.15545 13.6065 5.10001 14.9998 5.10001H20.9998C22.3932 5.10001 23.54 6.15545 23.6845 7.51046C24.6003 7.5291 25.3921 7.57647 26.0682 7.70066C26.9778 7.86774 27.7519 8.18602 28.3818 8.81594C29.1041 9.53824 29.4148 10.4477 29.56 11.5278C29.6999 12.5682 29.6998 13.891 29.6998 15.5321V22.8638C29.6998 24.5049 29.6999 25.8277 29.56 26.868C29.4148 27.9482 29.1041 28.8576 28.3818 29.5799C27.6595 30.3022 26.75 30.6129 25.6699 30.7581C24.6295 30.898 23.3068 30.8979 21.6656 30.8979H14.334C12.6929 30.8979 11.3701 30.898 10.3297 30.7581C9.24957 30.6129 8.34013 30.3022 7.61783 29.5799C6.89553 28.8576 6.58485 27.9482 6.43963 26.868C6.29976 25.8277 6.29978 24.5049 6.29981 22.8638V15.5321C6.29978 13.891 6.29976 12.5682 6.43963 11.5278C6.58485 10.4477 6.89553 9.53824 7.61783 8.81594C8.24774 8.18602 9.02183 7.86774 9.93143 7.70066C10.6075 7.57647 11.3994 7.5291 12.3151 7.51046ZM12.3175 9.31096C11.4558 9.32937 10.7918 9.37273 10.2566 9.47104C9.57645 9.59597 9.18276 9.79659 8.89062 10.0887C8.5585 10.4208 8.34197 10.8871 8.22358 11.7677C8.10172 12.6741 8.09981 13.8754 8.09981 15.5979V22.7979C8.09981 24.5204 8.10172 25.7218 8.22358 26.6282C8.34197 27.5087 8.5585 27.975 8.89062 28.3071C9.22273 28.6392 9.68902 28.8558 10.5696 28.9741C11.476 29.096 12.6773 29.0979 14.3998 29.0979H21.5998C23.3223 29.0979 24.5236 29.096 25.4301 28.9741C26.3106 28.8558 26.7769 28.6392 27.109 28.3071C27.4411 27.975 27.6576 27.5087 27.776 26.6282C27.8979 25.7218 27.8998 24.5204 27.8998 22.7979V15.5979C27.8998 13.8754 27.8979 12.6741 27.776 11.7677C27.6576 10.8871 27.4411 10.4208 27.109 10.0887C26.8169 9.79659 26.4232 9.59597 25.743 9.47104C25.2078 9.37273 24.5438 9.32937 23.6821 9.31096C23.5279 10.6557 22.3858 11.7 20.9998 11.7H14.9998C13.6138 11.7 12.4717 10.6557 12.3175 9.31096ZM14.9998 6.90001C14.5027 6.90001 14.0998 7.30295 14.0998 7.80001V9.00001C14.0998 9.49706 14.5027 9.90001 14.9998 9.90001H20.9998C21.4969 9.90001 21.8998 9.49706 21.8998 9.00001V7.80001C21.8998 7.30295 21.4969 6.90001 20.9998 6.90001H14.9998Z"
                           fill="currentColor"
                         />
@@ -709,8 +881,8 @@ function Input() {
                           fill="currentColor"
                         />
                         <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
+                          fillRule="evenodd"
+                          clipRule="evenodd"
                           d="M27.6 19.6C30.2399 19.6 31.5598 19.6 32.3799 20.4201C32.6621 20.7022 32.8471 21.0436 32.9686 21.4775L23.8775 30.5685C23.4436 30.4471 23.1023 30.262 22.8201 29.9799C22 29.1598 22 27.8398 22 25.2C22 22.5601 22 21.2402 22.8201 20.4201C23.6402 19.6 24.9601 19.6 27.6 19.6ZM23.96 23.3841C23.96 24.3836 24.5856 25.55 25.5616 25.9671C25.7891 26.0643 26.0509 26.0643 26.2784 25.9671C27.2544 25.55 27.88 24.3836 27.88 23.3841C27.88 22.3767 27.0025 21.56 25.92 21.56C24.8375 21.56 23.96 22.3767 23.96 23.3841Z"
                           fill="currentColor"
                         />
@@ -729,46 +901,400 @@ function Input() {
                 </div>
                 {/* contour */}
                 <div className="mt-10 ">
-                  <p className="font-semibold text-2xl">
-                    Contour Offset Parameter{' '}
-                    <span className="font-medium text-xl text-[#00000080]">
-                      (inches)
-                    </span>
-                  </p>
-                  <input
-                    type="text"
-                    inputMode="decimal" // Hint to show a numeric keypad on mobile devices
-                    className="border rounded-full w-full p-3 my-5 bg-[#F2F2F2]"
-                    placeholder="0"
-                    value={contour}
-                    required
-                    onChange={(e) => {
-                      const value = e.target.value
-                      // Allow only positive decimals (allowing entries like "0.", "0.1", etc.)
-                      if (/^\d*\.?\d*$/.test(value)) {
-                        setContour(value)
+                  <label className="flex items-center space-x-2 mb-3">
+                    <input
+                      type="checkbox"
+                      checked={fingerCut === 'Yes'}
+                      onChange={() =>
+                        setFingerCut(fingerCut === 'Yes' ? 'No' : 'Yes')
                       }
-                    }}
-                    onBlur={() => {
-                      if (contour !== '') {
-                        const parsed = parseFloat(contour)
-                        if (!isNaN(parsed)) {
-                          setContour(parsed.toString())
-                        }
-                      }
-                    }}
-                  />
+                      className="peer hidden"
+                    />
+                    <div className="w-5 h-5 border border-[#266CA8] rounded cursor-pointer flex items-center justify-center peer-checked:bg-[#266CA8] peer-checked:border-transparent">
+                      {fingerCut === 'Yes' ? (
+                        <span className="text-white">✔</span>
+                      ) : (
+                        ''
+                      )}
+                    </div>
+                    <Text className="">Include Finger clearance cut</Text>
+                  </label>
+                  {/* <div className="flex items-center justify-between mb-5">
+                    <Text className="font-semibold">Contour Dimension</Text>
+                    <div className="flex gap-8">
+                      <label className="flex items-center space-x-1 cursor-pointer">
+                        <input
+                          type="radio"
+                          name="dimension"
+                          value="mm"
+                          checked={unit === 'mm'}
+                          onChange={() => setUnit('mm')}
+                          className="hidden"
+                        />
+                        <span
+                          className={`w-5 h-5 flex items-center justify-center border rounded-full ${
+                            unit === 'mm'
+                              ? 'border-[#266CA8]'
+                              : 'border-gray-400'
+                          }`}
+                        >
+                          {unit === 'mm' && (
+                            <span className="w-3 h-3 bg-[#266CA8] rounded-full"></span>
+                          )}
+                        </span>
+                        <span className="text-gray-700">mm</span>
+                      </label>
 
+                      <label className="flex items-center space-x-1 cursor-pointer">
+                        <input
+                          type="radio"
+                          name="dimension"
+                          value="inch"
+                          checked={unit === 'inch'}
+                          onChange={() => setUnit('inch')}
+                          className="hidden"
+                        />
+                        <span
+                          className={`w-5 h-5 flex items-center justify-center border rounded-full ${
+                            unit === 'inch'
+                              ? 'border-[#266CA8]'
+                              : 'border-gray-400'
+                          }`}
+                        >
+                          {unit === 'inch' && (
+                            <span className="w-3 h-3 bg-[#266CA8] rounded-full"></span>
+                          )}
+                        </span>
+                        <span className="text-gray-700">Inch</span>
+                      </label>
+                    </div>
+                  </div> */}
+                  {/* <Text className="font-semibold">
+                    Contour Offset Parameter{' '}
+                    <span className="font-medium text-[14px] sm:text-[16px] text-[#00000080]">
+                      {unit === 'mm' ? '(mm)' : '(inches)'}
+                    </span>
+                  </Text> */}
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      checked={contourOffset === 'Yes'}
+                      onChange={() =>
+                        setContourOffset(contourOffset === 'Yes' ? 'No' : 'Yes')
+                      }
+                      className="peer hidden"
+                    />
+                    <div className="w-5 h-5 border border-[#266CA8] rounded cursor-pointer flex items-center justify-center peer-checked:bg-[#266CA8] peer-checked:border-transparent">
+                      {contourOffset === 'Yes' ? (
+                        <span className="text-white">✔</span>
+                      ) : (
+                        ''
+                      )}
+                    </div>
+                    <Text className="">Contour Offset Parameter</Text>
+                  </label>
+                  {contourOffset === 'Yes' ? (
+                    <div className="relative flex items-center border rounded-full w-full p-3 mt-5 bg-[#F2F2F2]">
+                      {/* Numeric Input */}
+                      <input
+                        type="text"
+                        inputMode="decimal"
+                        className="bg-transparent placeholder:text-sm text-sm flex-grow outline-none"
+                        placeholder="0"
+                        value={contour}
+                        required
+                        onChange={(e) => {
+                          const value = e.target.value
+                          if (/^\d*\.?\d{0,4}$/.test(value)) {
+                            setContour(value)
+                          }
+                        }}
+                        onBlur={() => {
+                          if (contour !== '') {
+                            const parsed = parseFloat(contour)
+                            if (!isNaN(parsed)) {
+                              setContour(parsed.toString())
+                            }
+                          }
+                        }}
+                      />
+
+                      {/* Unit Selector Dropdown */}
+                      <div className="relative">
+                        <select
+                          className="bg-transparent text-gray-500 text-sm outline-none cursor-pointer"
+                          value={unit}
+                          onChange={(e) => setUnit(e.target.value)}
+                        >
+                          <option value="">select unit</option>
+                          <option value="mm">mm</option>
+                          <option value="inches">inches</option>
+                        </select>
+                      </div>
+                    </div>
+                  ) : (
+                    ''
+                  )}
+
+                  <div className="space-y-4 max-w-sm">
+                    {/* <label className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        checked={fingerCut === 'Yes'}
+                        onChange={() =>
+                          setFingerCut(fingerCut === 'Yes' ? 'No' : 'Yes')
+                        }
+                        className="peer hidden"
+                      />
+                      <div className="w-5 h-5 border border-[#266CA8] rounded cursor-pointer flex items-center justify-center peer-checked:bg-[#266CA8] peer-checked:border-transparent">
+                        {fingerCut === 'Yes' ? (
+                          <span className="text-white">✔</span>
+                        ) : (
+                          ''
+                        )}
+                      </div>
+                      <Text className="">Include Finger clearance cut</Text>
+                    </label> */}
+                    <label className="flex items-center space-x-2 mt-3">
+                      <input
+                        type="checkbox"
+                        checked={boundaryContour === 'Yes'}
+                        onChange={() =>
+                          setBoundaryContour(
+                            boundaryContour === 'Yes' ? 'No' : 'Yes',
+                          )
+                        }
+                        className="peer hidden"
+                      />
+                      <div className="w-5 h-5 border border-[#266CA8] rounded cursor-pointer flex items-center justify-center peer-checked:bg-[#266CA8] peer-checked:border-transparent">
+                        {boundaryContour === 'Yes' ? (
+                          <span className="text-white">✔</span>
+                        ) : (
+                          ''
+                        )}
+                      </div>
+                      <Text>
+                        Include Boundary Contour{' '}
+                        {/* <span className="font-medium text-[14px] sm:text-[16px] text-[#00000080]">
+                          {unit === 'mm'
+                            ? '(mm)'
+                            : unit === 'inches'
+                            ? '(inches)'
+                            : ''}
+                        </span> */}
+                      </Text>
+                      <div className="relative">
+                        <select
+                          className="bg-transparent text-gray-500 text-sm outline-none cursor-pointer"
+                          value={unit}
+                          onChange={(e) => setUnit(e.target.value)}
+                          required={boundaryContour === 'Yes'}
+                        >
+                          <option value="">(select unit)</option>
+                          <option value="mm">mm</option>
+                          <option value="inches">inches</option>
+                        </select>
+                      </div>
+
+                      {/* <Text>
+                        Include Boundary Contour{' '}
+                        <span className="font-medium text-[14px] sm:text-[16px] text-[#00000080]">
+                          {unit === 'mm'
+                            ? '(mm)'
+                            : unit === 'inches'
+                            ? '(inches)'
+                            : ''}
+                        </span>
+                      </Text> */}
+                    </label>
+                  </div>
+
+                  {boundaryContour === 'Yes' ? (
+                    <div className="flex gap-4">
+                      <div className="relative flex items-center border rounded-full w-full p-3 mt-5 bg-[#F2F2F2]">
+                        {/* Numeric Input */}
+                        <input
+                          type="text"
+                          inputMode="decimal"
+                          className="bg-transparent placeholder:text-sm text-sm flex-grow outline-none"
+                          placeholder="Length"
+                          value={boundaryLength === 0 ? '' : boundaryLength}
+                          required={boundaryContour === 'Yes'}
+                          onChange={(e) => {
+                            const value = e.target.value
+                            if (/^(\d+\.?\d*|\.\d+)?$/.test(value)) {
+                              setBoundaryLength(
+                                value === '' ? 0 : parseFloat(value),
+                              )
+                            }
+                          }}
+                          onBlur={() => {
+                            if (boundaryLength !== 0) {
+                              setBoundaryLength(
+                                parseFloat(boundaryLength.toFixed(4)),
+                              )
+                            }
+                          }}
+                        />
+
+                        {/* Unit Selector Dropdown */}
+                        {/* <div className="relative">
+                          <select
+                            className="bg-transparent text-gray-500 text-sm outline-none cursor-pointer"
+                            value={unit}
+                            onChange={(e) => setUnit(e.target.value)}
+                            required={boundaryContour === 'Yes'}
+                          >
+                            <option value="">select unit</option>
+                            <option value="mm">mm</option>
+                            <option value="inches">inches</option>
+                          </select>
+                        </div> */}
+                      </div>
+                      <div className="relative flex items-center border rounded-full w-full p-3 mt-5 bg-[#F2F2F2]">
+                        <input
+                          type="text"
+                          inputMode="decimal"
+                          className="bg-transparent placeholder:text-sm text-sm flex-grow outline-none"
+                          placeholder="Width"
+                          value={boundaryWidth === 0 ? '' : boundaryWidth}
+                          required={boundaryContour === 'Yes'}
+                          onChange={(e) => {
+                            const value = e.target.value
+                            if (/^\d*\.?\d{0,4}$/.test(value)) {
+                              setBoundaryWidth(
+                                value === '' ? 0 : parseFloat(value),
+                              )
+                            }
+                          }}
+                          onBlur={() => {
+                            if (boundaryWidth !== 0) {
+                              setBoundaryWidth(
+                                parseFloat(boundaryWidth.toFixed(4)),
+                              )
+                            }
+                          }}
+                        />
+                        {/* <span className="absolute right-4 top-1/2 transform text-sm">
+                          {unit === 'mm' ? 'mm' : 'inches'}
+                        </span> */}
+                        {/* <div className="relative">
+                          <select
+                            className="bg-transparent text-gray-500 text-sm outline-none cursor-pointer"
+                            value={unit}
+                            onChange={(e) => setUnit(e.target.value)}
+                            required={boundaryContour === 'Yes'}
+                          >
+                            <option value="">select unit</option>
+                            <option value="mm">mm</option>
+                            <option value="inches">inches</option>
+                          </select>
+                        </div> */}
+                      </div>
+                    </div>
+                  ) : (
+                    ''
+                  )}
+                  {/* <div className="mt-4 max-w-sm">
+                    <label className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        checked={includeDrawerId === 'Yes'}
+                        onChange={() =>
+                          setIncludeDrawerId(
+                            includeDrawerId === 'Yes' ? 'No' : 'Yes',
+                          )
+                        }
+                        className="peer hidden"
+                      />
+                      <div className="w-5 h-5 border border-[#266CA8] rounded cursor-pointer flex items-center justify-center peer-checked:bg-[#266CA8] peer-checked:border-transparent">
+                        {includeDrawerId === 'Yes' ? (
+                          <span className="text-white">✔</span>
+                        ) : (
+                          ''
+                        )}
+                      </div>
+                      <Text className="">Include Drawer ID</Text>
+                    </label>
+                  </div> */}
+
+                  {/* {includeDrawerId === 'Yes' ? (
+                    <div className="mt-3">
+                      <input
+                        type="text"
+                        inputMode="decimal"
+                        className="border rounded-full w-full p-3 mt-1 bg-[#F2F2F2] placeholder:text-sm text-sm"
+                        placeholder="Enter Drawer id"
+                        value={drawerId}
+                        maxLength={20}
+                        required={includeDrawerId === 'Yes'}
+                        onChange={(e) => {
+                          setDrawerId(e.target.value)
+                        }}
+                      />
+                    </div>
+                  ) : (
+                    ''
+                  )} */}
+                  {boundaryContour === 'Yes' ? (
+                    <div className="mt-3 relative">
+                      <input
+                        type={showDrawerId ? 'text' : 'password'}
+                        inputMode="decimal"
+                        className="border rounded-full w-full p-3 mt-1 bg-[#F2F2F2] placeholder:text-sm text-sm"
+                        placeholder="Enter Drawer id"
+                        value={drawerId}
+                        maxLength={20}
+                        // required={includeDrawerId === 'Yes'}
+                        onChange={(e) => {
+                          setDrawerId(e.target.value)
+                        }}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowDrawerId(!showDrawerId)}
+                        className="absolute inset-y-0 right-3 top-1/2 transform text-gray-500"
+                        style={{ transform: 'translateY(-43%)' }}
+                      >
+                        {showDrawerId ? (
+                          <FaEye size={20} className="text-[#005B97] mr-2 " />
+                        ) : (
+                          <LuEyeClosed
+                            size={20}
+                            className="text-[#005B97] mr-2"
+                          />
+                        )}
+                      </button>
+                    </div>
+                  ) : (
+                    ''
+                  )}
                   <div className="flex justify-between gap-4 my-8">
                     <button
                       type="reset"
-                      className="w-1/2 bg-white p-3 rounded-full text-[#00000080] font-medium text-2xl"
+                      className="w-1/2 bg-white p-3 rounded-full text-[#00000080] font-medium xl:text-[18px] text-[14px]"
+                      onClick={() => {
+                        setContour('0')
+                        setBoundaryWidth(0)
+                        setBoundaryLength(0)
+                        setImage('')
+                        setOverlay('')
+                        setMask('')
+                        setPreview('')
+                        setDfxFile('')
+                        setIsProcessed(false)
+                        setFingerCut('No')
+                        setContourOffset('No')
+                        setBoundaryContour('No')
+                        setUnit('')
+                        setDrawerId('')
+                      }}
                     >
                       Clear
                     </button>
                     <button
                       type="submit"
-                      className="w-1/2 bg-[#266CA8] p-3 rounded-full text-white font-medium text-2xl"
+                      className="w-1/2 bg-[#266CA8] p-3 rounded-full text-white font-medium xl:text-[18px] text-[14px]"
                     >
                       Submit
                     </button>
@@ -778,9 +1304,9 @@ function Input() {
             </div>
           </div>
           {/* right */}
-          <div className="bg-[#F2F2F2] md:w-1/2 rounded-b-2xl">
-            <div className="bg-[#266CA8] py-3 rounded-t-2xl">
-              <p className="text-white text-center font-medium text-2xl">
+          <div className="bg-[#F2F2F2] md:w-1/2 rounded-b-2xl rounded-t-2xl">
+            <div className="bg-[#C6C9CB] py-3 rounded-t-2xl text-[#000000]">
+              <p className="text-[#000000] text-center font-medium text-[16px] sm:text-[20px]">
                 Output Data
               </p>
             </div>
@@ -801,12 +1327,23 @@ function Input() {
                   <div className="relative">
                     <p className="font-semibold text-2xl mb-5">Overlay Image</p>
                     <div className="relative flex justify-center items-center">
-                      <Image
+                      {/* <Image
                         src={overlay}
                         alt="overlay Image"
                         className="w-full rounded-3xl border"
                         width={350}
                         height={100}
+                      /> */}
+                      <div
+                        className="w-full h-full rounded-3xl border"
+                        style={{
+                          // width: "400px",
+                          height: '400px',
+                          backgroundImage: `url(${overlay})`,
+                          backgroundSize: 'contain',
+                          backgroundPosition: 'center',
+                          backgroundRepeat: 'no-repeat',
+                        }}
                       />
                       <div className="absolute top-0 right-0 bg-white border-r border-t rounded-tr-3xl text-white w-20 h-10 flex items-center justify-around text-sm cursor-pointer">
                         <div
@@ -833,14 +1370,27 @@ function Input() {
                   </div>
 
                   <div className="relative">
-                    <p className="font-semibold text-2xl mb-5">DXF Preview</p>
+                    <p className="font-semibold text-2xl mb-5">
+                      Outline Of Object
+                    </p>
                     <div className="relative flex justify-center items-center">
-                      <Image
+                      {/* <Image
                         src={preview}
                         alt="preview Image"
                         width={350}
                         height={100}
                         className="w-full border rounded-3xl"
+                      /> */}
+                      <div
+                        className="w-full h-full rounded-3xl border"
+                        style={{
+                          // width: "400px",
+                          height: '400px',
+                          backgroundImage: `url(${preview})`,
+                          backgroundSize: 'contain',
+                          backgroundPosition: 'center',
+                          backgroundRepeat: 'no-repeat',
+                        }}
                       />
                       <div className="absolute shadow-card top-0 right-0 bg-white border-r border-t rounded-tr-3xl text-white w-20 h-10 flex items-center justify-around text-sm cursor-pointer">
                         <div className="cursor-pointer">
@@ -869,12 +1419,23 @@ function Input() {
                   <div className="relative">
                     <p className="font-semibold text-2xl mb-5">Mask</p>
                     <div className="relative flex justify-center items-center rounded-3xl">
-                      <Image
+                      {/* <Image
                         src={mask}
                         alt="mask Image"
                         width={350}
                         height={100}
                         className="w-full rounded-3xl border"
+                      /> */}
+                      <div
+                        className="w-full h-full rounded-3xl border"
+                        style={{
+                          // width: "400px",
+                          height: '400px',
+                          backgroundImage: `url(${mask})`,
+                          backgroundSize: 'contain',
+                          backgroundPosition: 'center',
+                          backgroundRepeat: 'no-repeat',
+                        }}
                       />
                       <div className="absolute top-0 right-0 bg-white border-r border-t rounded-tr-3xl text-white w-20 h-10 flex items-center justify-around text-sm cursor-pointer">
                         <div
@@ -902,16 +1463,30 @@ function Input() {
 
                   <div className="relative h-64">
                     <p className="font-semibold text-2xl mb-5">DXF File</p>
-                    <p className="bg-white p-3 rounded-full flex justify-between">
-                      <span>{dfxFile.split('/').pop()}</span>
-                      <span className="flex">
-                        <p className="font-medium text-lg"> {fileSize}kb</p>
-                        <Image
+                    <p className="bg-white py-3 px-5 rounded-full flex justify-between items-center">
+                      {/* File Name with Clickable Truncate */}
+                      <span
+                        className="relative max-w-[60%] cursor-pointer"
+                        onClick={() => setShowFullName(!showFullName)}
+                      >
+                        {showFullName ? (
+                          <span className="">{dfxFile.split('/').pop()}</span>
+                        ) : (
+                          <span className="truncate block overflow-hidden text-ellipsis">
+                            {dfxFile.split('/').pop()}
+                          </span>
+                        )}
+                      </span>
+
+                      {/* File Size & Download Icon */}
+                      <span className="flex items-center">
+                        <span>{fileSize}kb</span>
+                        <img
                           className="cursor-pointer"
                           src="/images/user/GenerateDFX/download.svg"
                           alt="download"
-                          width={30}
-                          height={30}
+                          width={26}
+                          height={26}
                           onClick={() => handleDownloadDXF(dfxFile)}
                         />
                       </span>

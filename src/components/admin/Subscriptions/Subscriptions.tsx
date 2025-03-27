@@ -1,12 +1,14 @@
 'use client'
 import React, { useCallback, useEffect, useState } from 'react'
 import Breadcrumb from '../Breadcrumbs/Breadcrumb'
+import userImage from '/public/images/admin/emptyUser.svg'
 import Image from 'next/image'
 import noSubscriptions from '/public/images/admin/allusers/noSubscriptions.svg'
 import { ObjectId } from 'mongodb'
 import searchIcon from '/public/images/searchIcon.svg'
 import { format } from 'date-fns'
 import { ClipLoader } from 'react-spinners'
+import Text from '@/components/UI/Text'
 interface Subscriptions {
   _id: ObjectId
   user_id: ObjectId
@@ -17,6 +19,8 @@ interface Subscriptions {
   expiry_on: string
   added_on: string
   charges: string
+  image: string
+  status: string
 }
 
 const Subscriptions = () => {
@@ -44,7 +48,6 @@ const Subscriptions = () => {
 
       if (response.ok) {
         const data = await response.json()
-        console.log('subscriptions-> ', data)
         setSubscriptions(data.allSubscriptions)
         setTotalPages(data.totalPages)
         setTotalSubscription(data.totalSubscriptions)
@@ -62,6 +65,16 @@ const Subscriptions = () => {
     fetchSubscriptions()
   }, [fetchSubscriptions])
 
+  // const getStatus = (expiryDate: string, status: string): string => {
+  //   if (status === 'canceled') {
+  //     return 'Canceled'
+  //   } else {
+  //     const currentDate = new Date()
+  //     const expiryDateObj = new Date(expiryDate)
+  //     return currentDate < expiryDateObj ? 'Current' : 'Past'
+  //   }
+  // }
+
   return (
     <div>
       <Breadcrumb
@@ -73,12 +86,14 @@ const Subscriptions = () => {
             <Image
               src={searchIcon}
               alt="searchIcon"
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+              width={14}
+              height={14}
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 opacity-60"
             />
             <input
               type="text"
               placeholder="Search..."
-              className="pl-10 pr-10 py-3 rounded-xl border text-gray-800 text-[18px] focus:outline-none focus:ring-2 focus:ring-[#005B97]"
+              className="pl-8 pr-10 py-2 rounded-xl border text-gray-800 text-[18px] focus:outline-none focus:ring-2 focus:ring-[#005B97] placeholder:text-sm text-sm text-sm"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -91,11 +106,14 @@ const Subscriptions = () => {
           <ClipLoader color="#007bff" size={50} />
         </div>
       ) : subscriptions && subscriptions.length > 0 ? (
-        <table className="min-w-full border-separate border-spacing-y-3">
+        <table className="min-w-full border-separate border-spacing-y-1">
           <thead>
             <tr className="text-[18.45px] text-gray-600">
               <th className="pb-6 px-4 border-b text-start font-medium">
                 Sr No
+              </th>
+              <th className="pb-6 pl-12 border-b text-start font-medium">
+                Added By
               </th>
               <th className="pb-6 px-4 border-b text-start font-medium">
                 Plan name
@@ -103,9 +121,7 @@ const Subscriptions = () => {
               <th className="pb-6 px-4 border-b text-start font-medium">
                 Duration
               </th>
-              <th className="pb-6 pl-20 border-b text-start font-medium">
-                Added By
-              </th>
+
               <th className="pb-6 px-4 border-b text-start font-medium">
                 Added On
               </th>
@@ -115,62 +131,84 @@ const Subscriptions = () => {
               <th className="pb-6 px-4 border-b text-center font-medium">
                 Charges
               </th>
+              <th className="pb-6 px-4 border-b text-center font-medium">
+                Status
+              </th>
             </tr>
           </thead>
           <tbody>
-            {subscriptions.map((user, index) => (
-              <tr
-                key={index}
-                className="text-primary bg-[#F5F5F5] text-[16.45px]"
-              >
-                <td className="py-3 px-4 text-start font-medium rounded-l-xl">
-                  #{(currentPage - 1) * 10 + (index + 1)}
-                </td>
-                <td className="py-3 px-4 text-start text-[19px] font-medium text-[#000000]">
-                  {user.plan_name}
-                </td>
-                <td className="py-3 px-4 text-start font-medium">
-                  {user.duration}
-                </td>
-                <td className="py-3 px-4 text-start font-medium">
-                  <div className="flex justify-start align-center gap-3">
-                    <div>
-                      <span>
-                        <Image
-                          src="/images/admin/emptyUser.svg"
-                          alt="user"
-                          width={200}
-                          height={200}
-                          priority
-                          style={{ width: 'auto', height: 'auto' }}
-                        />
-                      </span>
+            {subscriptions.map((user, index) => {
+              // const status = getStatus(user?.expiry_on, user?.status)
+              return (
+                <tr
+                  key={index}
+                  className="text-primary bg-[#F5F5F5] text-[16.45px]"
+                >
+                  <td className="py-3 px-4 text-start font-medium rounded-l-xl">
+                    #{(currentPage - 1) * 10 + (index + 1)}
+                  </td>
+                  <td className="py-3 px-4 text-start font-medium">
+                    <div className="flex justify-start align-center gap-3">
+                      <div>
+                        <div className="w-10 h-10 rounded-full overflow-hidden">
+                          <Image
+                            src={user?.image ? user.image : userImage}
+                            alt="userImage"
+                            className="w-full h-full object-cover"
+                            width={30}
+                            height={30}
+                            priority
+                          />
+                        </div>
+                      </div>
+                      <div className="flex flex-col gap-0">
+                        <Text className="text-gray-800">{user.user_name}</Text>
+                        <span className="text-[13px]">{user.email}</span>
+                      </div>
                     </div>
-                    <div className="flex flex-col gap-0">
-                      <span className="font-semibold text-gray-800 text-[17px]">
-                        {user.user_name}
-                      </span>
-                      <span className="text-gray-500 text-[13px] font-medium">
-                        {user.email}
-                      </span>
-                    </div>
-                  </div>
-                </td>
-                <td className="py-3 px-4 text-start font-medium">
-                  {user?.added_on
-                    ? format(new Date(user.added_on), 'MMM dd, yyyy')
-                    : 'N/A'}
-                </td>
-                <td className="py-3 px-4 text-start font-medium">
-                  {user?.expiry_on
-                    ? format(new Date(user.expiry_on), 'MMM dd, yyyy')
-                    : 'N/A'}
-                </td>
-                <td className="py-3 px-4 text-center text-[21px] font-medium rounded-r-xl text-[#266CA8]">
-                  ${user.charges}
-                </td>
-              </tr>
-            ))}
+                  </td>
+                  <td className="py-3 px-4 text-start font-medium text-[#000000]">
+                    <Text>{user.plan_name}</Text>
+                  </td>
+                  <td className="py-3 px-4 text-start font-medium">
+                    <Text>{user.duration}</Text>
+                  </td>
+
+                  <td className="py-3 px-4 text-start font-medium">
+                    <Text>
+                      {user?.added_on
+                        ? format(new Date(user.added_on), 'MMM dd, yyyy')
+                        : 'N/A'}
+                    </Text>
+                  </td>
+                  <td className="py-3 px-4 text-start font-medium">
+                    <Text>
+                      {user?.expiry_on
+                        ? format(new Date(user.expiry_on), 'MMM dd, yyyy')
+                        : 'N/A'}
+                    </Text>
+                  </td>
+                  <td className="py-3 px-4 text-center font-medium text-[#266CA8]">
+                    <Text>${user.charges}</Text>
+                  </td>
+                  <td
+                    className={`py-5 pl-2 text-center font-medium rounded-r-xl`}
+                  >
+                    <span
+                      className={`text-[12px] md:text-[14px] ${
+                        user?.status === 'Current'
+                          ? 'text-[#000000] bg-[#CBF0FF] rounded-full px-5 py-2'
+                          : user?.status === 'Canceled'
+                          ? 'bg-[#FED3D1] text-[#000000] px-3 py-2 rounded-full'
+                          : 'bg-[#F9A0001A] text-[#000000] px-8 py-2 rounded-full'
+                      }`}
+                    >
+                      {user.status}
+                    </span>
+                  </td>
+                </tr>
+              )
+            })}
           </tbody>
         </table>
       ) : (

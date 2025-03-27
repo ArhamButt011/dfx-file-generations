@@ -50,6 +50,7 @@ export async function GET(req: NextRequest) {
       if (downloads.length > 0) {
         allDownloads.push(
           ...downloads.map((download) => ({
+            _id: download._id,
             user_id: user._id,
             user_name: user.name,
             email: user.email,
@@ -61,8 +62,13 @@ export async function GET(req: NextRequest) {
       }
     }
 
-    const paginatedDownloads = allDownloads.slice(skip, skip + limit)
+    allDownloads.sort(
+      (a, b) =>
+        new Date(b.downloaded_on).getTime() -
+        new Date(a.downloaded_on).getTime(),
+    )
 
+    const paginatedDownloads = allDownloads.slice(skip, skip + limit)
     const totalDownloads = allDownloads.length
 
     return NextResponse.json(

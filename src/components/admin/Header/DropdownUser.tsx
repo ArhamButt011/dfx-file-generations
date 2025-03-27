@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import ClickOutside from '../ClickOutside'
-import user from '/public/images/admin/dashboard/user.svg'
+// import user from '/public/images/admin/dashboard/user.svg'
 import Edit from '/public/images/admin/dashboard/edit.svg'
 import Lock from '/public/images/admin/dashboard/lock.svg'
 import Bell from '/public/images/admin/dashboard/bell.svg'
@@ -12,13 +12,17 @@ import { useAuth } from '@/context/AuthContext'
 import Modal from '@/components/UI/Modal'
 import dltCircle from '/public/images/admin/allusers/dltCircle.svg'
 import { FaEye } from 'react-icons/fa'
-import eye from '/public/images/admin/eye.svg'
 import blackCross from '/public/images/blackCross.svg'
 import EditIcon from '/public/images/editIcon.svg'
 import userImages from '/public/images/userImage.svg'
 import axios, { AxiosError } from 'axios'
 import Swal from 'sweetalert2'
+import { ClipLoader } from 'react-spinners'
 import { useNotification } from '@/context/NotificationContext'
+import Text from '@/components/UI/Text'
+import Button from '@/components/UI/Button'
+import Label from '@/components/UI/Label'
+import { LuEyeClosed } from 'react-icons/lu'
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false)
@@ -31,17 +35,55 @@ const DropdownUser = () => {
   const [oldPassword, setOldPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  // const [isActive, setIsActive] = useState(false)
   const [name, setName] = useState('')
   const [profileImage, setProfileImage] = useState(userImages) // Set initial image
   const [file, setFile] = useState<File | undefined>(undefined)
+  const [loading, setLoading] = useState(false)
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const { logout } = useAuth()
   const { userData, setUserData } = useAuth()
+  // const [isActive, setIsActive] = useState(false)
   const { isActive, toggleNotifications } = useNotification()
+
   const handleImageClick = () => {
     fileInputRef.current?.click()
   }
+
+  // useEffect(() => {
+  //   const fetchStatus = async () => {
+  //     try {
+  //       const response = await fetch('/api/admin/get-enable-notification')
+  //       const data = await response.json()
+  //       if (response.ok) {
+  //         setIsActive(data.isActive)
+  //       }
+  //     } catch (error) {
+  //       console.error('Error fetching notification status:', error)
+  //     }
+  //   }
+  //   fetchStatus()
+  // }, [])
+
+  // Function to handle toggle change
+  // const handleToggle = async () => {
+  //   const newStatus = !isActive
+  //   setIsActive(newStatus)
+
+  //   try {
+  //     const response = await fetch('/api/admin/enable-notifications', {
+  //       method: 'PUT',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify({ isActive: newStatus }),
+  //     })
+
+  //     if (!response.ok) {
+  //       throw new Error('Failed to update notification status')
+  //     }
+  //   } catch (error) {
+  //     console.error('Error updating notification status:', error)
+  //     setIsActive(!newStatus)
+  //   }
+  // }
 
   useEffect(() => {
     if (userData) {
@@ -79,7 +121,9 @@ const DropdownUser = () => {
     setIsEditOpen(true)
   }
 
-  const handleUpdatePassword = async () => {
+  const handleUpdatePassword = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setLoading(true)
     try {
       if (newPassword !== confirmPassword) {
         Swal.fire({
@@ -88,14 +132,22 @@ const DropdownUser = () => {
           icon: 'error',
           showConfirmButton: false,
           timer: 2000,
+          didOpen: () => {
+            const swalContainer = document.querySelector(
+              '.swal2-container',
+            ) as HTMLElement
+            if (swalContainer) {
+              swalContainer.style.setProperty('z-index', '1000000', 'important')
+            }
+          },
         })
         return
       }
-      if (!userData) {
-        alert('User id not found')
-        return
-      }
-      const id = userData.id
+      // if (!userData) {
+      //   alert('User id not found')
+      //   return
+      // }
+      const id = userData?.id
 
       const response = await axios.put('/api/admin/change-password', {
         id,
@@ -104,7 +156,21 @@ const DropdownUser = () => {
       })
 
       if (response.data.error) {
-        alert(response.data.error)
+        Swal.fire({
+          title: 'Error!',
+          text: response?.data?.error ?? 'An unknown error occurred',
+          icon: 'error',
+          showConfirmButton: false,
+          timer: 2000,
+          didOpen: () => {
+            const swalContainer = document.querySelector(
+              '.swal2-container',
+            ) as HTMLElement
+            if (swalContainer) {
+              swalContainer.style.setProperty('z-index', '1000000', 'important')
+            }
+          },
+        })
       } else {
         Swal.fire({
           title: 'Success',
@@ -112,6 +178,14 @@ const DropdownUser = () => {
           icon: 'success',
           showConfirmButton: false,
           timer: 2000,
+          didOpen: () => {
+            const swalContainer = document.querySelector(
+              '.swal2-container',
+            ) as HTMLElement
+            if (swalContainer) {
+              swalContainer.style.setProperty('z-index', '1000000', 'important')
+            }
+          },
         })
         onPasswordClose()
         setOldPassword('')
@@ -131,8 +205,18 @@ const DropdownUser = () => {
           icon: 'error',
           showConfirmButton: false,
           timer: 2000,
+          didOpen: () => {
+            const swalContainer = document.querySelector(
+              '.swal2-container',
+            ) as HTMLElement
+            if (swalContainer) {
+              swalContainer.style.setProperty('z-index', '1000000', 'important')
+            }
+          },
         })
       }
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -165,6 +249,14 @@ const DropdownUser = () => {
         icon: 'error',
         showConfirmButton: false,
         timer: 2000,
+        didOpen: () => {
+          const swalContainer = document.querySelector(
+            '.swal2-container',
+          ) as HTMLElement
+          if (swalContainer) {
+            swalContainer.style.setProperty('z-index', '100000', 'important')
+          }
+        },
       })
       return
     }
@@ -172,11 +264,11 @@ const DropdownUser = () => {
 
     const formData = new FormData()
     if (file) {
-      formData.append('file', file) // Only append if file exists
+      formData.append('file', file)
     }
     formData.append('name', name)
     formData.append('id', id)
-
+    setLoading(true)
     try {
       const response = await fetch('/api/admin/edit-profile', {
         method: 'PUT',
@@ -201,6 +293,7 @@ const DropdownUser = () => {
           username: data.data.name,
           image: data.data.image,
         }))
+        setIsEditOpen(false)
 
         Swal.fire({
           title: 'Success',
@@ -208,6 +301,14 @@ const DropdownUser = () => {
           icon: 'success',
           showConfirmButton: false,
           timer: 2000,
+          didOpen: () => {
+            const swalContainer = document.querySelector(
+              '.swal2-container',
+            ) as HTMLElement
+            if (swalContainer) {
+              swalContainer.style.setProperty('z-index', '1000000', 'important')
+            }
+          },
         })
         setName('')
         setProfileImage(userImages)
@@ -218,6 +319,14 @@ const DropdownUser = () => {
           icon: 'error',
           showConfirmButton: false,
           timer: 2000,
+          didOpen: () => {
+            const swalContainer = document.querySelector(
+              '.swal2-container',
+            ) as HTMLElement
+            if (swalContainer) {
+              swalContainer.style.setProperty('z-index', '1000000', 'important')
+            }
+          },
         })
       }
     } catch (error) {
@@ -228,43 +337,20 @@ const DropdownUser = () => {
         icon: 'error',
         showConfirmButton: false,
         timer: 2000,
+        didOpen: () => {
+          const swalContainer = document.querySelector(
+            '.swal2-container',
+          ) as HTMLElement
+          if (swalContainer) {
+            swalContainer.style.setProperty('z-index', '1000000', 'important')
+          }
+        },
       })
+    } finally {
+      setLoading(false)
     }
   }
-  // useEffect(() => {
-  //   const fetchStatus = async () => {
-  //     try {
-  //       const response = await fetch('/api/admin/get-enable-notification')
-  //       const data = await response.json()
 
-  //       if (response.ok) {
-  //         setIsActive(data.isActive)
-  //       }
-  //     } catch (error) {
-  //       console.error('Error fetching notification status:', error)
-  //     }
-  //   }
-  //   fetchStatus()
-  // }, [])
-  // const handleToggle = async () => {
-  //   const newStatus = !isActive
-  //   setIsActive(newStatus)
-
-  //   try {
-  //     const response = await fetch('/api/admin/enable-notifications', {
-  //       method: 'PUT',
-  //       headers: { 'Content-Type': 'application/json' },
-  //       body: JSON.stringify({ isActive: newStatus }),
-  //     })
-
-  //     if (!response.ok) {
-  //       throw new Error('Failed to update notification status')
-  //     }
-  //   } catch (error) {
-  //     console.error('Error updating notification status:', error)
-  //     setIsActive(!newStatus) // Revert UI if the request fails
-  //   }
-  // }
   return (
     <>
       <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
@@ -274,20 +360,27 @@ const DropdownUser = () => {
           href="#"
         >
           <span className="hidden text-right lg:block">
-            <span className="block text-[20.94px] font-medium text-black dark:text-white">
+            <Text className="block text-black dark:text-white">
               {userData?.username}
-            </span>
+            </Text>
+            {/* <span className="block text-xs">UX Designer</span> */}
           </span>
 
-          <span className="h-10 w-10 overflow-hidden rounded-full">
-            <Image
-              width={40}
-              height={40}
-              src={userData?.image ? userData.image : user}
-              className="rounded-full object-cover"
-              alt="User"
-            />
-          </span>
+          {userData?.image ? (
+            <div className="w-[44px] h-[44px] rounded-full overflow-hidden flex-shrink-0">
+              <Image
+                width={44}
+                height={44}
+                src={userData.image}
+                className="object-cover w-full h-full"
+                alt="User"
+              />
+            </div>
+          ) : (
+            <div className="w-[44px] h-[44px] text-[26.86px] flex items-center justify-center bg-[#F2F2F2] rounded-full text-[#266CA8] font-bold">
+              {userData?.username?.charAt(0).toUpperCase()}
+            </div>
+          )}
 
           <svg
             className="hidden fill-current sm:block"
@@ -342,6 +435,7 @@ const DropdownUser = () => {
                   <label className="inline-flex items-center cursor-pointer">
                     <input
                       type="checkbox"
+                      value=""
                       className="sr-only peer"
                       checked={isActive}
                       onChange={toggleNotifications}
@@ -375,25 +469,17 @@ const DropdownUser = () => {
       <Modal isOpen={isOpen} onClose={onClose} buttonContent="">
         <div className="flex items-center flex-col">
           <Image src={dltCircle} alt="dltCircle" className="" />
-          <p className="text-[#000000] text-[29px] font-medium">
+          <Text as="h3" className="text-[#000000] font-medium">
             Account Logout
-          </p>
-          <p className="font-medium text-primary text-[21px]">
+          </Text>
+          <Text className="font-medium text-primary text-[21px]">
             Are you sure you want to logout your account??
-          </p>
-          <div className="flex gap-10 mt-5">
-            <button
-              className="font-normal text-[22.48px] rounded-full text-[#266CA8] border border-[#266CA8] px-16 py-3"
-              onClick={() => onClose()}
-            >
+          </Text>
+          <div className="flex gap-10 mt-5 w-full max-w-sm">
+            <Button variant="outlined" onClick={() => onClose()}>
               Cancel
-            </button>
-            <button
-              onClick={handleLogout}
-              className="font-normal text-white text-[22.48px] bg-[#266CA8] rounded-full px-16 py-3"
-            >
-              Yes, I am
-            </button>
+            </Button>
+            <Button onClick={handleLogout}>Yes, I am</Button>
           </div>
         </div>
       </Modal>
@@ -402,13 +488,18 @@ const DropdownUser = () => {
 
       <Modal isOpen={passwordOpen} onClose={onPasswordClose} buttonContent="">
         <div className="flex flex-col gap-4">
+          {loading && (
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[1000000]">
+              <ClipLoader color="#007bff" size={50} />
+            </div>
+          )}
           <div className="flex justify-between items-center w-full mb-7">
-            <p className="text-[#000000] text-[30px] font-medium text-center flex-grow">
+            <Text as="h3" className="text-[#000000] text-center flex-grow">
               Change Password
-            </p>
+            </Text>
             <div>
               <Image
-                className="cursor-pointer"
+                className="cursor-pointer sm:w-[30px] sm:h-[30px]  w-[25px] h-[25px]"
                 src={blackCross}
                 alt="cross"
                 onClick={onPasswordClose}
@@ -416,111 +507,112 @@ const DropdownUser = () => {
             </div>
           </div>
 
-          <div className="mb-2 relative">
-            <label className="text-[#000000] font-medium mb-2 text-[20px]">
-              Old Password
-            </label>
-            <div className="relative">
-              <input
-                type={showOldPassword ? 'text' : 'password'}
-                placeholder="Enter Old Password"
-                value={oldPassword}
-                onChange={(e) => setOldPassword(e.target.value)}
-                className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
-                required
-              />
-              <button
-                type="button"
-                onClick={() => setShowOldPassword(!showOldPassword)}
-                className="absolute inset-y-0 right-3 top-1/2 transform text-gray-500"
-                style={{ transform: 'translateY(-40%)' }}
-              >
-                {showOldPassword ? (
-                  <FaEye size={20} className="text-[#005B97] mr-3" />
-                ) : (
-                  <Image alt="eye" src={eye} className="mr-3" />
-                )}
-              </button>
+          <form onSubmit={handleUpdatePassword}>
+            <div className="mb-2 relative">
+              <Label>Old Password</Label>
+              <div className="relative">
+                <input
+                  type={showOldPassword ? 'text' : 'password'}
+                  placeholder="Enter Old Password"
+                  value={oldPassword}
+                  onChange={(e) => setOldPassword(e.target.value)}
+                  className="w-full px-4 sm:text-sm text-xs sm:py-3 py-3 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full placeholder:text-sm placeholder:text-xs"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowOldPassword(!showOldPassword)}
+                  className="absolute inset-y-0 right-3 top-1/2 transform text-gray-500"
+                  style={{ transform: 'translateY(-40%)' }}
+                >
+                  {showOldPassword ? (
+                    <FaEye size={20} className="text-[#005B97] mr-2" />
+                  ) : (
+                    <LuEyeClosed size={20} className="text-[#005B97] mr-2" />
+                  )}
+                </button>
+              </div>
             </div>
-          </div>
-          <div className="mb-2 relative">
-            <label className="text-[#000000] font-medium text-[20px]">
-              New Password
-            </label>
-            <div className="relative">
-              <input
-                type={showNewPassword ? 'text' : 'password'}
-                placeholder="Enter new Password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
-                required
-              />
-              <button
-                type="button"
-                onClick={() => setShowNewPassword(!showNewPassword)}
-                className="absolute inset-y-0 right-3 top-1/2 transform text-gray-500"
-                style={{ transform: 'translateY(-40%)' }}
-              >
-                {showNewPassword ? (
-                  <FaEye size={20} className="text-[#005B97] mr-3" />
-                ) : (
-                  <Image alt="eye" src={eye} className="mr-3" />
-                )}
-              </button>
+            <div className="mb-2 relative">
+              <Label>New Password</Label>
+              <div className="relative">
+                <input
+                  type={showNewPassword ? 'text' : 'password'}
+                  placeholder="Enter new Password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  className="w-full px-4 sm:text-sm text-xs sm:py-3 py-3 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full placeholder:text-sm placeholder:text-xs"
+                  required
+                  minLength={8}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowNewPassword(!showNewPassword)}
+                  className="absolute inset-y-0 right-3 top-1/2 transform text-gray-500"
+                  style={{ transform: 'translateY(-40%)' }}
+                >
+                  {showNewPassword ? (
+                    <FaEye size={20} className="text-[#005B97] mr-2" />
+                  ) : (
+                    <LuEyeClosed size={20} className="text-[#005B97] mr-2" />
+                  )}
+                </button>
+              </div>
             </div>
-          </div>
-          <div className="mb-2 relative">
-            <label className="text-[#000000] font-medium mb-1 text-[20px]">
-              Confirm New Password
-            </label>
-            <div className="relative">
-              <input
-                type={showConfirmPassword ? 'text' : 'password'}
-                placeholder="Enter new Password"
-                name="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
-                required
-              />
-              <button
-                type="button"
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="absolute inset-y-0 right-3 top-1/2 transform text-gray-500"
-                style={{ transform: 'translateY(-40%)' }}
-              >
-                {showConfirmPassword ? (
-                  <FaEye size={20} className="text-[#005B97] mr-3" />
-                ) : (
-                  <Image alt="eye" src={eye} className="mr-3" />
-                )}
-              </button>
+            <div className="mb-14 relative">
+              <Label>Confirm New Password</Label>
+              <div className="relative">
+                <input
+                  type={showConfirmPassword ? 'text' : 'password'}
+                  placeholder="Enter new Password"
+                  name="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  className="w-full px-4 sm:text-sm text-xs sm:py-3 py-3 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full placeholder:text-sm placeholder:text-xs"
+                  required
+                  minLength={8}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute inset-y-0 right-3 top-1/2 transform text-gray-500"
+                  style={{ transform: 'translateY(-40%)' }}
+                >
+                  {showConfirmPassword ? (
+                    <FaEye size={20} className="text-[#005B97] mr-2" />
+                  ) : (
+                    <LuEyeClosed size={20} className="text-[#005B97] mr-2" />
+                  )}
+                </button>
+              </div>
             </div>
-          </div>
-          <div>
-            <button
-              onClick={handleUpdatePassword}
-              className="font-normal text-white text-[23px] bg-[#266CA8] rounded-full px-16 py-3 w-full mt-5"
-            >
-              Update
-            </button>
-          </div>
+            <div>
+              <Button type="submit">Update</Button>
+            </div>
+          </form>
         </div>
       </Modal>
 
       {/* Edit Profile Modal */}
 
       <Modal isOpen={isEditOpen} onClose={onEditClose} buttonContent="">
+        {loading && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[1000000]">
+            <ClipLoader color="#007bff" size={50} />
+          </div>
+        )}
         <form onSubmit={handleSubmit}>
           <div className="flex items-center flex-col gap-10">
             <div className="flex justify-between items-center w-full mb-7">
-              <div className="text-[#000000] text-[34px] font-semibold text-center flex-grow">
+              <Text
+                as="h3"
+                className="text-[#000000] font-semibold text-center flex-grow"
+              >
                 Edit Profile
-              </div>
+              </Text>
               <div>
                 <Image
-                  className="cursor-pointer"
+                  className="cursor-pointer sm:w-[30px] sm:h-[30px]  w-[25px] h-[25px]"
                   src={blackCross}
                   alt="cross"
                   onClick={onEditClose}
@@ -551,24 +643,22 @@ const DropdownUser = () => {
               />
             </div>
             <div className="mb-2 w-full">
-              <label className="text-[#000000] font-semibold mb-2 text-[21.37px]">
-                User Name
-              </label>
+              <Label> Name</Label>
               <div>
                 <input
                   type="text"
                   placeholder="Enter User Name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
+                  className="w-full px-4 sm:text-sm text-xs sm:py-3 py-3 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full placeholder:text-sm placeholder:text-xs"
                   required
                 />
               </div>
             </div>
-            <div className="w-full mt-24">
-              <button className="font-normal text-white text-[24.56px] bg-[#266CA8] rounded-full px-16 py-3 w-full">
+            <div className="w-full mt-8">
+              <Button type="submit" className="px-16 w-full">
                 Continue
-              </button>
+              </Button>
             </div>
           </div>
         </form>

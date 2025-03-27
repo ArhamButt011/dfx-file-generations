@@ -1,8 +1,9 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import { useParams, useRouter } from 'next/navigation'
+import backImage from '/public/images/user/GenerateDFX/backImage.svg'
+import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import Image from 'next/image'
-import userImage from '/public/images/admin/avatar.jpg'
+import userImage from '/public/images/userImage.svg'
 import email from '/public/images/admin/email.jpg'
 // import cardImage from '/public/images/admin/card.jpg'
 import dltCircle from '/public/images/admin/allusers/dltCircle.svg'
@@ -11,6 +12,9 @@ import Modal from '@/components/UI/Modal'
 import { format } from 'date-fns'
 import { ObjectId } from 'mongodb'
 import Swal from 'sweetalert2'
+import Link from 'next/link'
+import Text from '@/components/UI/Text'
+import Button from '@/components/UI/Button'
 
 interface CardDetails {
   holder_name: string
@@ -20,9 +24,11 @@ interface CardDetails {
 interface UserData {
   _id: ObjectId
   name: string
+  lastName: string
   email: string
   createdAt: string
   cards: CardDetails[]
+  image: string
 }
 
 const UserDetails: React.FC = () => {
@@ -30,6 +36,9 @@ const UserDetails: React.FC = () => {
   const [userData, setUserData] = useState<UserData | null>(null)
   const { id } = useParams<{ id: string }>()
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const source = searchParams.get('source') || 'defaultSource'
+  const page = searchParams.get('page') || '1'
 
   const onClose = () => {
     setIsOpen(false)
@@ -47,12 +56,14 @@ const UserDetails: React.FC = () => {
           title: 'User Deleted',
           text: 'The user has been deleted successfully.',
           timer: 2000,
-        didOpen: () => {
-          const swalContainer = document.querySelector('.swal2-container') as HTMLElement;
-          if (swalContainer) {
-            swalContainer.style.setProperty('z-index', '100000', 'important');
-          }
-        },
+          didOpen: () => {
+            const swalContainer = document.querySelector(
+              '.swal2-container',
+            ) as HTMLElement
+            if (swalContainer) {
+              swalContainer.style.setProperty('z-index', '100000', 'important')
+            }
+          },
           showConfirmButton: false,
         })
         router.push('/admin/allusers')
@@ -84,7 +95,7 @@ const UserDetails: React.FC = () => {
       try {
         const response = await fetch(`/api/admin/get-card-details/${id}`)
         if (response.ok) {
-          const data: UserData = await response.json() // Ensure to parse the response
+          const data: UserData = await response.json()
           setUserData(data)
           console.log('Fetched user data:', data)
         } else {
@@ -100,11 +111,25 @@ const UserDetails: React.FC = () => {
 
   return (
     <>
+      <Link
+        href={{
+          pathname: '/admin/allusers',
+          query: { source, page },
+        }}
+      >
+        <Image
+          src={backImage}
+          height={27}
+          width={27}
+          alt="Back"
+          className="cursor-pointer mb-2"
+        />
+      </Link>
       <div className="flex justify-between bg-[#F5F5F5] rounded-2xl p-5 flex-col md:flex-row">
         <div className="flex flex-col md:flex-row gap-4">
           <div className="">
             <Image
-              src={userImage}
+              src={userData?.image ? userData?.image : userImage}
               alt="useravatar"
               height={175}
               width={178}
@@ -112,25 +137,25 @@ const UserDetails: React.FC = () => {
             />
           </div>
           <div className="flex justify-center flex-col">
-            <h1 className="text-[32.6px] font-semibold text-[#000000]">
-              {userData?.name}
-            </h1>
+            <Text as="h3" className="font-semibold text-[#000000]">
+              {userData?.name} {userData?.lastName}
+            </Text>
             <div className="flex items-center gap-2 mt-2">
               <span>
-                <Image src={email} alt="email" width={23} height={18} />
+                <Image src={email} alt="email" width={20} height={17} />
               </span>
-              <span className="text-primary text-[18.84px] font-medium">
+              <Text as="p1" className="text-primary font-medium">
                 {userData?.email}
-              </span>
+              </Text>
             </div>
-            <p className="mt-2">
-              <span className="text-primary text-[18.27px] font-medium">
+            <p className="mt-2 flex gap-2">
+              <Text as="p1" className="text-primary">
                 Added On:{' '}
-              </span>
-              <span className="text-[#000000] text-[18.27px] font-normal">
+              </Text>
+              <Text as="p1" className="text-[#000000] font-normal">
                 {userData &&
                   format(new Date(userData?.createdAt), 'MMM dd, yyyy')}
-              </span>
+              </Text>
             </p>
             {/* {userData && userData?.cards.length > 0 ? (
               <div className="flex gap-2 bg-white rounded-lg px-2 py-2 mt-4">
@@ -179,19 +204,17 @@ const UserDetails: React.FC = () => {
       <Modal isOpen={isOpen} onClose={onClose} buttonContent="">
         <div className="flex items-center flex-col">
           <Image src={dltCircle} alt="dltCircle" className="" />
-          <p className="text-[#000000] text-[29px] font-medium">Delete User?</p>
-          <p className="font-medium text-primary text-[21px]">
+          <Text as="h3" className="text-[#000000] text-center flex-grow">
+            Delete User?
+          </Text>
+          <Text className="font-medium text-primary text-[21px]">
             Are you sure you want to Delete This User??
-          </p>
-          <div className="flex gap-10 mt-5">
-            <button
-              className="font-normal text-[22.48px] rounded-full text-[#266CA8] border border-[#266CA8] px-16 py-3"
-              onClick={() => onClose()}
-            >
+          </Text>
+          <div className="flex gap-10 mt-5 w-full max-w-sm">
+            <Button variant="outlined" onClick={() => onClose()}>
               Cancel
-            </button>
-            <button
-              className="font-normal text-white text-[22.48px] bg-[#266CA8] rounded-full px-16 py-3"
+            </Button>
+            <Button
               onClick={() => {
                 if (id) {
                   onDelete(id)
@@ -200,7 +223,7 @@ const UserDetails: React.FC = () => {
               }}
             >
               Yes, I am
-            </button>
+            </Button>
           </div>
         </div>
       </Modal>

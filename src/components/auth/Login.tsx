@@ -9,7 +9,8 @@ import RightSection from './common'
 import Swal from 'sweetalert2'
 import { ClipLoader } from 'react-spinners'
 import { useAuth } from '@/context/AuthContext'
-import eye from '/public/images/admin/eye.svg'
+// import eye from '/public/images/admin/eye.svg'
+import { LuEyeClosed } from 'react-icons/lu'
 
 // Defining types for the props
 interface LoginProps {
@@ -84,22 +85,22 @@ const Login: React.FC<LoginProps> = ({ title, content }) => {
   }
 
   return (
-    <div className="flex flex-col w-full md:flex-row">
+    <div className="flex flex-col w-full md:flex-row w-full">
       {loading && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[1000]">
           <ClipLoader color="#007bff" size={50} />
         </div>
       )}
       {/* Left Form Section */}
-      <div className="w-[100%] bg-white flex items-center justify-center md:w-[60%] p-6 md:p-0">
-        <div className="md:w-[70%] w-[100%]">
+      <div className="w-full bg-white flex items-center justify-center md:max-w-[60%] p-6 md:px-5">
+        <div className="md:max-w-[500px] w-full">
           <div className="flex items-center md:mb-6 mb-10 justify-start w-full">
             <Image src={logo} alt="logo" width={360} height={55} priority />
           </div>
-          <h1 className="text-[36px] font-bold mb-2 text-black xl:text-[50.04px]">
+          <h1 className="text-[28px] font-bold mb-2 text-black xl:text-[40px]">
             {title}
           </h1>
-          <p className="text-primary mb-6 text-lg xl:text-[21.56px]">
+          <p className="text-primary mb-6 text-[13px] xl:text-[18px]">
             {content}
           </p>
           {/* {error && <p className="text-red-500 text-center mb-4">{error}</p>}
@@ -110,7 +111,7 @@ const Login: React.FC<LoginProps> = ({ title, content }) => {
           )} */}
           <form onSubmit={handleLogin}>
             <div className="mb-5">
-              <label className="block text-black font-semibold mb-1 text-lg xl:text-[23.8px]">
+              <label className="block text-black font-semibold mb-1 text-lg xl:text-[18px]">
                 Email Address
               </label>
               <input
@@ -119,12 +120,12 @@ const Login: React.FC<LoginProps> = ({ title, content }) => {
                 name="email" // Ensure this matches the state property name
                 value={loginForm.email}
                 onChange={handleLoginChange}
-                className="w-full px-4 py-4 mt-1 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
+                className="placeholder:text-sm w-full px-4 py-4 mt-1 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
                 required
               />
             </div>
             <div className="mb-2 relative">
-              <label className="block text-black font-semibold mb-1 text-lg  xl:text-[23.8px]">
+              <label className="block text-black font-semibold mb-1 text-lg xl:text-[18px]">
                 Password
               </label>
               <div className="relative">
@@ -134,7 +135,7 @@ const Login: React.FC<LoginProps> = ({ title, content }) => {
                   name="password" // Ensure this matches the state property name
                   value={loginForm.password}
                   onChange={handleLoginChange}
-                  className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
+                  className="w-full px-4 py-4 mt-1 pr-10 border text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full placeholder:text-sm"
                   required
                 />
                 <button
@@ -144,15 +145,18 @@ const Login: React.FC<LoginProps> = ({ title, content }) => {
                   style={{ transform: 'translateY(-77%)' }}
                 >
                   {showPassword ? (
-                    <FaEye size={20} className="text-[#005B97] mr-3" />
+                    <FaEye size={20} className="text-[#005B97] mr-2 mb-1" />
                   ) : (
-                    <Image alt="eye" src={eye} className="mr-3" />
+                    <LuEyeClosed
+                      size={20}
+                      className="text-[#005B97] mr-2 mb-1"
+                    />
                   )}
                 </button>
                 <p className="text-right mt-2 xl:mt-3">
                   <Link
                     href="/admin/forgot"
-                    className="text-[#266CA8] underline text-[18px] xl:text-[20.78px] font-semibold"
+                    className="underline text-[#266CAB] md:text-xl text-xs cursor-pointer"
                   >
                     Forget Password?
                   </Link>
@@ -164,7 +168,7 @@ const Login: React.FC<LoginProps> = ({ title, content }) => {
               //   className={`w-full bg-[#005B97] text-white py-2 px-4 mt-20 font-bold rounded-full hover:bg-[#005b97f0] transition duration-300 ${
               //     loading ? 'opacity-50 cursor-not-allowed' : ''
               //   }`}
-              className="w-full bg-[#266CA8] text-white py-4 px-4 mt-5 xl:mt-5 font-semibold rounded-full hover:bg-[#005b97f0] transition duration-300 xl:text-[20px] text-[18px]"
+              className="w-full bg-[#266CA8] text-white py-4 px-4 mt-5 xl:mt-5 font-semibold rounded-full hover:bg-[#005b97f0] transition duration-300 xl:text-[16px] text-[14px]"
               //   disabled={loading}
             >
               Login

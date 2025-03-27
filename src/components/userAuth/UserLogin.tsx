@@ -1,9 +1,9 @@
 'use client'
 
-import React, { useState, FormEvent } from 'react'
+import React, { useState, FormEvent, useEffect } from 'react'
 // import { useRouter } from 'next/navigation'
 import { FaEye } from 'react-icons/fa'
-import { LuEyeClosed } from "react-icons/lu";
+import { LuEyeClosed } from 'react-icons/lu'
 import Image from 'next/image'
 import logo from '/public/images/user/home/user_login.svg'
 import Modal from '../UI/Modal'
@@ -14,12 +14,12 @@ import image3 from '/public/images/user/AuthScreens/rightSection.svg'
 import Swal from 'sweetalert2'
 import { ClipLoader } from 'react-spinners'
 import { useAuth } from '@/context/AuthContext'
+import Link from 'next/link'
 // import { console } from 'inspector';
 // Defining types for the props
 
-
 const UserLogin = () => {
-  const [Timer, setTimer] = useState(0);
+  const [Timer, setTimer] = useState(0)
   // const router = useRouter()
   const [email, setEmail] = useState<string>('')
   const [emailSend, setEmailSend] = useState<string>('')
@@ -33,9 +33,11 @@ const UserLogin = () => {
   const [isVerifyOpen, setIsVerifyOpen] = useState<boolean>(false)
   const [isForgetOpen, setIsForgetOpen] = useState<boolean>(false)
   const [isResetOpen, setIsResetOpen] = useState<boolean>(false)
-  const [isBilingOpen, setIsBilingOpen] = useState(false);
+  const [isBilingOpen, setIsBilingOpen] = useState(false)
   const [isAccountVerified, setIsAccountVerified] = useState<boolean>(false)
   const [isAccountCreated, setIsAccountCreated] = useState<boolean>(false)
+  const [OTPSent, setOTPSent] = useState(false)
+
   const onClose = () => {
     setIsNewOpen(false)
     setIsVerifyOpen(false)
@@ -46,7 +48,9 @@ const UserLogin = () => {
   const [showPassword1, setShowPassword1] = useState<boolean>(false)
   const [showPassword2, setShowPassword2] = useState<boolean>(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false)
-  const [showConfirmPassword1, setShowConfirmPassword1] = useState<boolean>(false)
+  const [showConfirmPassword1, setShowConfirmPassword1] = useState<boolean>(
+    false,
+  )
   const [newAccountFormData, setNewAccountFormData] = useState({
     name: '',
     lastName: '',
@@ -70,23 +74,26 @@ const UserLogin = () => {
     otp5: '',
   })
 
-  const handleOTPChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
-    const value = e.target.value;
+  const handleOTPChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number,
+  ) => {
+    const value = e.target.value
 
     // Only allow digits and ensure only one digit is entered
     if (/^\d?$/.test(value)) {
       setVerifyFormData((prevData) => ({
         ...prevData,
         [`otp${index + 1}`]: value,
-      }));
+      }))
 
       // Move focus to the next input field
       if (value && index < 4) {
-        const nextInput = document.getElementById(`otp-${index + 1}`);
-        nextInput?.focus();
+        const nextInput = document.getElementById(`otp-${index + 1}`)
+        nextInput?.focus()
       }
     }
-  };
+  }
 
   const handleLoginChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -193,11 +200,10 @@ const UserLogin = () => {
 
       const { token, is_verified, email } = await res.json()
 
-      
       if (!is_verified) {
         setEmailSend(email)
         setIsVerifyOpen(true)
-        sendOTP(undefined, email);
+        sendOTP(undefined, email)
         return
       }
 
@@ -208,6 +214,7 @@ const UserLogin = () => {
         password: '',
         role: 'User',
       })
+      sessionStorage.setItem('billingTriggered', 'false')
     } catch (err) {
       Swal.fire({
         title: 'Error!',
@@ -221,7 +228,6 @@ const UserLogin = () => {
     }
   }
 
-
   const handleResetPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
 
@@ -232,9 +238,9 @@ const UserLogin = () => {
   }
 
   const validateEmail = (email: string): boolean => {
-    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    return regex.test(email.trim());
-  };
+    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+    return regex.test(email.trim())
+  }
 
   const handleNewAccountSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -246,16 +252,16 @@ const UserLogin = () => {
         showConfirmButton: false,
         timer: 2000,
         didOpen: () => {
-          const swalContainer = document.querySelector('.swal2-container') as HTMLElement;
+          const swalContainer = document.querySelector(
+            '.swal2-container',
+          ) as HTMLElement
           if (swalContainer) {
-            swalContainer.style.setProperty('z-index', '100000', 'important');
+            swalContainer.style.setProperty('z-index', '100000', 'important')
           }
-        }
-
+        },
       })
       return
-    }
-    else if (/\s/.test(newAccountFormData.password)) {
+    } else if (/\s/.test(newAccountFormData.password)) {
       Swal.fire({
         title: 'Error!',
         text: 'Password should not contain spaces',
@@ -263,16 +269,16 @@ const UserLogin = () => {
         showConfirmButton: false,
         timer: 2000,
         didOpen: () => {
-          const swalContainer = document.querySelector('.swal2-container') as HTMLElement;
+          const swalContainer = document.querySelector(
+            '.swal2-container',
+          ) as HTMLElement
           if (swalContainer) {
-            swalContainer.style.setProperty('z-index', '100000', 'important');
+            swalContainer.style.setProperty('z-index', '100000', 'important')
           }
-        }
-
-      });
-      return;
-    }
-    else if (validateEmail(email)) {
+        },
+      })
+      return
+    } else if (validateEmail(email)) {
       Swal.fire({
         title: 'Error!',
         text: 'Please Enter valid Email',
@@ -280,11 +286,13 @@ const UserLogin = () => {
         showConfirmButton: false,
         timer: 2000,
         didOpen: () => {
-          const swalContainer = document.querySelector('.swal2-container') as HTMLElement;
+          const swalContainer = document.querySelector(
+            '.swal2-container',
+          ) as HTMLElement
           if (swalContainer) {
-            swalContainer.style.setProperty('z-index', '100000', 'important');
+            swalContainer.style.setProperty('z-index', '100000', 'important')
           }
-        }
+        },
       })
       return
     }
@@ -325,11 +333,13 @@ const UserLogin = () => {
         showConfirmButton: false,
         timer: 2000,
         didOpen: () => {
-          const swalContainer = document.querySelector('.swal2-container') as HTMLElement;
+          const swalContainer = document.querySelector(
+            '.swal2-container',
+          ) as HTMLElement
           if (swalContainer) {
-            swalContainer.style.setProperty('z-index', '100000', 'important');
+            swalContainer.style.setProperty('z-index', '100000', 'important')
           }
-        }
+        },
       })
     } finally {
       setLoading(false)
@@ -376,8 +386,6 @@ const UserLogin = () => {
   //   }
   // }
 
-
-
   // const SignupOTPVerification = async (e: React.FormEvent, email: string) => {
   //   e.preventDefault()
   //   setLoading(true)
@@ -420,85 +428,86 @@ const UserLogin = () => {
   // }
 
   const SignupOTPVerification = async (e: React.FormEvent, email: string) => {
-    e.preventDefault();
-    setLoading(true);
+    e.preventDefault()
+    setLoading(true)
+    const otpTexts = 'registration'
 
     try {
-      
-      const res = await verifyOTP(e, email);
+      const res = await verifyOTP(e, email, otpTexts)
 
       if (!res.success) {
-        throw res.error;
+        throw res.error
       }
 
-      setIsAccountCreated(false);
-      setIsAccountVerified(false);
-      setIsVerifyOpen(false);
-      setIsNewOpen(false);
-      setEmail('');
+      setIsAccountCreated(false)
+      setIsAccountVerified(false)
+      setIsVerifyOpen(false)
+      setIsNewOpen(false)
+      setEmail('')
       setVerifyFormData({
         otp1: '',
         otp2: '',
         otp3: '',
         otp4: '',
         otp5: '',
-      });
+      })
 
-      const { token } = res.data;
+      const { token } = res.data
 
-      login(token);
-      setEmailSend('');
-
-    } catch (err: unknown) {
-
+      login(token)
+      setEmailSend('')
+    } catch (err) {
       Swal.fire({
         title: 'Error!',
-        text: typeof err === "string"
-          ? err
-          : (err && typeof err === "object" && "message" in err)
+        text:
+          typeof err === 'string'
+            ? err
+            : err && typeof err === 'object' && 'message' in err
             ? (err as { message: string }).message
             : JSON.stringify(err),
         icon: 'error',
         showConfirmButton: false,
         timer: 2000,
         didOpen: () => {
-          const swalContainer = document.querySelector('.swal2-container') as HTMLElement;
+          const swalContainer = document.querySelector(
+            '.swal2-container',
+          ) as HTMLElement
           if (swalContainer) {
-            swalContainer.style.setProperty('z-index', '100000', 'important');
+            swalContainer.style.setProperty('z-index', '100000', 'important')
           }
-        }
-      });
+        },
+      })
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   const ForgetOTPVerification = async (e: React.FormEvent, email: string) => {
-    e.preventDefault();
-    setLoading(true);
-
+    e.preventDefault()
+    setLoading(true)
+    const otpTexts = 'forget'
     try {
-      const res = await verifyOTP(e, email);
+      const res = await verifyOTP(e, email, otpTexts)
 
       if (!res.success) {
-        throw res.error;
+        throw res.error
       }
-      setIsForgetOpen(false);
-      setIsResetOpen(true);
+      setIsForgetOpen(false)
+      setIsResetOpen(true)
       setVerifyFormData({
         otp1: '',
         otp2: '',
         otp3: '',
         otp4: '',
         otp5: '',
-      });
-    } catch (err: unknown) {
-
-      const errorMessage = typeof err === "string"
-        ? err
-        : (err && typeof err === "object" && "message" in err)
+      })
+    } catch (err) {
+      const errorMessage =
+        typeof err === 'string'
+          ? err
+          : err && typeof err === 'object' && 'message' in err
           ? (err as { message: string }).message
-          : JSON.stringify(err);
+          : JSON.stringify(err)
 
       Swal.fire({
         title: 'Error!',
@@ -507,47 +516,55 @@ const UserLogin = () => {
         showConfirmButton: false,
         timer: 2000,
         didOpen: () => {
-          const swalContainer = document.querySelector('.swal2-container') as HTMLElement;
+          const swalContainer = document.querySelector(
+            '.swal2-container',
+          ) as HTMLElement
           if (swalContainer) {
-            swalContainer.style.setProperty('z-index', '100000', 'important');
+            swalContainer.style.setProperty('z-index', '100000', 'important')
           }
-        }
-      });
+        },
+      })
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
-  const verifyOTP = async (e: React.FormEvent, email: string) => {
-    e.preventDefault();
+  const verifyOTP = async (
+    e: React.FormEvent,
+    email: string,
+    otpTexts: string,
+  ) => {
+    e.preventDefault()
     try {
       const otp = parseInt(
         verifyFormData.otp1 +
-        verifyFormData.otp2 +
-        verifyFormData.otp3 +
-        verifyFormData.otp4 +
-        verifyFormData.otp5,
-        10
-      );
-
+          verifyFormData.otp2 +
+          verifyFormData.otp3 +
+          verifyFormData.otp4 +
+          verifyFormData.otp5,
+        10,
+      )
 
       const res = await fetch('/api/auth/OTPVerification/verifyOTP', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, otp }),
-      });
+        body: JSON.stringify({ email, otp, otpTexts }),
+      })
 
-      const data = await res.json();
+      const data = await res.json()
 
       if (!res.ok) {
-        return { success: false, error: data };
+        return { success: false, error: data }
       }
 
-      return { success: true, data };
+      return { success: true, data }
     } catch (err) {
-      return { success: false, error: err instanceof Error ? err.message : String(err) };
+      return {
+        success: false,
+        error: err instanceof Error ? err.message : String(err),
+      }
     }
-  };
+  }
 
   // const sendOTP = async (e: React.FormEvent) => {
   //   e.preventDefault();
@@ -600,55 +617,57 @@ const UserLogin = () => {
   // };
 
   const sendOTP = async (e?: React.FormEvent, userEmail?: string) => {
-    if (e) e.preventDefault();
-    if (Timer > 0) return;
-  
-    const targetEmail = userEmail || email;
-  
+    if (e) e.preventDefault()
+    if (Timer > 0) return
+    console.log('call')
+    const targetEmail = userEmail || email
+
     try {
-      setLoading(true);
-      const res = await fetch("/api/auth/OTPVerification/sendOTP", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      setLoading(true)
+      const res = await fetch('/api/auth/OTPVerification/sendOTP', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: targetEmail }),
-      });
-  
+      })
+
       if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.message);
+        const data = await res.json()
+        throw new Error(data.message)
       }
-  
+
       // Start Timer (e.g., 60 seconds)
-      let timeLeft = 60;
-      setTimer(timeLeft);
-  
+      let timeLeft = 60
+      setTimer(timeLeft)
+
       const timerInterval = setInterval(() => {
-        timeLeft -= 1;
-        setTimer(timeLeft);
-  
+        timeLeft -= 1
+        setTimer(timeLeft)
+
         if (timeLeft <= 0) {
-          clearInterval(timerInterval);
+          clearInterval(timerInterval)
         }
-      }, 1000);
+      }, 1000)
+      setOTPSent(true)
     } catch (err) {
       Swal.fire({
-        title: "Error!",
+        title: 'Error!',
         text: err instanceof Error ? err.message : String(err),
-        icon: "error",
+        icon: 'error',
         showConfirmButton: false,
         timer: 2000,
         didOpen: () => {
-          const swalContainer = document.querySelector('.swal2-container') as HTMLElement;
+          const swalContainer = document.querySelector(
+            '.swal2-container',
+          ) as HTMLElement
           if (swalContainer) {
-            swalContainer.style.setProperty('z-index', '100000', 'important');
+            swalContainer.style.setProperty('z-index', '100000', 'important')
           }
-        }
-      });
+        },
+      })
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
-  
+  }
 
   const handleResetPasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -660,15 +679,16 @@ const UserLogin = () => {
         showConfirmButton: false,
         timer: 2000,
         didOpen: () => {
-          const swalContainer = document.querySelector('.swal2-container') as HTMLElement;
+          const swalContainer = document.querySelector(
+            '.swal2-container',
+          ) as HTMLElement
           if (swalContainer) {
-            swalContainer.style.setProperty('z-index', '100000', 'important');
+            swalContainer.style.setProperty('z-index', '100000', 'important')
           }
-        }
+        },
       })
       return
-    }
-    else if (/\s/.test(ResetFormData.password)) {
+    } else if (/\s/.test(ResetFormData.password)) {
       Swal.fire({
         title: 'Error!',
         text: 'Password should not contain spaces',
@@ -676,13 +696,15 @@ const UserLogin = () => {
         showConfirmButton: false,
         timer: 2000,
         didOpen: () => {
-          const swalContainer = document.querySelector('.swal2-container') as HTMLElement;
+          const swalContainer = document.querySelector(
+            '.swal2-container',
+          ) as HTMLElement
           if (swalContainer) {
-            swalContainer.style.setProperty('z-index', '100000', 'important');
+            swalContainer.style.setProperty('z-index', '100000', 'important')
           }
-        }
-      });
-      return;
+        },
+      })
+      return
     }
 
     setLoading(true)
@@ -701,16 +723,18 @@ const UserLogin = () => {
 
       Swal.fire({
         title: 'Success',
-        text: "Password Reset Successfully",
+        text: 'Password Reset Successfully',
         icon: 'success',
         showConfirmButton: false,
         timer: 2000,
         didOpen: () => {
-          const swalContainer = document.querySelector('.swal2-container') as HTMLElement;
+          const swalContainer = document.querySelector(
+            '.swal2-container',
+          ) as HTMLElement
           if (swalContainer) {
-            swalContainer.style.setProperty('z-index', '100000', 'important');
+            swalContainer.style.setProperty('z-index', '100000', 'important')
           }
-        }
+        },
       })
       setResetFormData({
         password: '',
@@ -724,8 +748,8 @@ const UserLogin = () => {
         showConfirmButton: false,
         timer: 2000,
         customClass: {
-          popup: 'swal-high-zindex'  // Custom class
-        }
+          popup: 'swal-high-zindex', // Custom class
+        },
       })
     } finally {
       setLoading(false)
@@ -735,6 +759,14 @@ const UserLogin = () => {
     //const response=fetch();
     setIsResetOpen(false)
   }
+  useEffect(() => {
+    setTimeout(() => {
+      const firstInput = document.getElementById('otp-1')
+      if (firstInput) {
+        firstInput.focus()
+      }
+    }, 100) // Small delay to ensure DOM is rendered
+  }, [])
 
   return (
     <div className="flex flex-col w-full h-[100vh] md:h-full md:flex-row">
@@ -744,22 +776,16 @@ const UserLogin = () => {
         </div>
       )}
       {/* Left Form Section */}
-      <div className="flex-1 bg-white flex md:items-center justify-center md:p-6  md:mt-0 mt-10">
+      <div className="w-full bg-white flex items-center justify-center md:max-w-[60%] p-6 md:px-5">
         {/* <div className="w-[60%] sm:w-[90%] md:p-6 md:pb-0 mx-5"> */}
-        <div className="w-[90%] sm:w-[95%] md:w-[90%]  lg:w-[90%] xl:w-[90%] 2xl:w-[60%] md:p-6 md:pb-0 mx-5">
+        <div className="md:max-w-[500px] w-full">
           <div className="flex items-center 2xl:mb-10 md:mb-5 sm:mb-5 mb-10">
-            <Image
-              src={logo}
-              alt="logo"
-              width={300}
-              height={300}
-              priority
-            />
+            <Image src={logo} alt="logo" width={300} height={300} priority />
           </div>
-          <h1 className="md:text-[40px] text-[28px] font-medium text-black -mb-5">
+          <h1 className="md:text-[36px] text-[22px] font-medium text-black -mb-5">
             Effortless & Efficient
           </h1>
-          <p className="font-[550] md:text-[55px] text-[39px] md:mt-0  2xl:mb-15 mt-5 sm:mb-2 mb-5 text-black">
+          <p className="font-[550] md:text-[46px] text-[32px] md:mt-0  2xl:mb-15 mt-5 sm:mb-2 mb-5 text-black">
             <span className="text-[#266CAB]">DXF</span> File Creation
           </p>
           <form onSubmit={handleLogin}>
@@ -773,7 +799,7 @@ const UserLogin = () => {
                 name="email"
                 value={loginForm.email}
                 onChange={handleLoginChange}
-                className="w-full px-4 py-3 mt-1 border text-black focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-[94.17px]"
+                className="w-full px-4 py-3 mt-1 border text-black focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-[94.17px] placeholder:text-sm"
                 required
                 readOnly
                 onFocus={(e) => e.target.removeAttribute('readonly')}
@@ -790,7 +816,7 @@ const UserLogin = () => {
                   value={loginForm.password}
                   name="password"
                   onChange={handleLoginChange}
-                  className="w-full px-4 py-3 mt-1 pr-10 border text-black focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-[94.17px]"
+                  className="w-full px-4 py-3 mt-1 pr-10 border text-black focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-[94.17px] placeholder:text-sm"
                   required
                   readOnly
                   onFocus={(e) => e.target.removeAttribute('readonly')}
@@ -809,7 +835,7 @@ const UserLogin = () => {
                 </button>
                 <p className="text-right mt-2">
                   <span
-                    className=" underline text-[#266CAB] md:text-xl text-xs cursor-pointer"
+                    className="underline text-[#266CAB] md:text-xl text-xs cursor-pointer"
                     onClick={() => setIsForgetOpen(true)}
                   >
                     {' '}
@@ -821,12 +847,12 @@ const UserLogin = () => {
 
             <button
               type="submit"
-              className="w-full text-xl bg-[#005B97] text-white py-3 px-4 2xl:mt-18 md:mt-11 2xl:mb-6 md:mb-3 mb-3 mt-10 font-bold rounded-3xl hover:bg-[#005b97f0] transition duration-300"
+              className="w-full xl:text-[16px] text-[14px] bg-[#005B97] text-white py-3 px-4 2xl:mt-18 md:mt-11 2xl:mb-6 md:mb-3 mb-3 mt-10 font-bold rounded-3xl hover:bg-[#005b97f0] transition duration-300"
             >
               Login
             </button>
-            <p className="font-[550] md:text-xl text-sm text-center text-black mb-5">
-              Don&apos;t have an account?{" "}
+            <p className="font-[550] md:text-[18px] text-[12px] text-center text-black mb-5">
+              Don&apos;t have an account?{' '}
               <span
                 className=" underline text-[#266CAB] cursor-pointer"
                 onClick={() => {
@@ -841,7 +867,7 @@ const UserLogin = () => {
                       confirm: '',
                       agree: false,
                       role: 'User',
-                    });
+                    })
                     setIsNewOpen(true)
                   }
                 }}
@@ -864,18 +890,34 @@ const UserLogin = () => {
       </div>
 
       {/* create account */}
-      <Modal isOpen={isNewOpen} onClose={onClose} buttonContent={<Image src="/images/user/cross.svg" alt="cross" width={22} height={20} />}>
+      <Modal
+        isOpen={isNewOpen}
+        onClose={onClose}
+        buttonContent={
+          <Image
+            src="/images/user/cross.svg"
+            alt="cross"
+            width={22}
+            height={20}
+          />
+        }
+      >
         <div>
           <div className="text-center">
-            <p className="font-[550] md:text-3xl text-2xl text-black">Create Account</p>
-            <p className="font-medium md:text-xl text-sm text-[#00000080]">
-              Create your account with Lumashape by providing the following information
+            <p className="font-[550] md:text-2xl text-xl text-black">
+              Create Account
+            </p>
+            <p className="font-medium md:text-[16px] text-[14px] text-[#00000080]">
+              Create your account with Lumashape by providing the following
+              information
             </p>
           </div>
           <form action="" onSubmit={handleNewAccountSubmit}>
             {/* name */}
             <div className="mb-4">
-              <label className="text-black font-[550]" htmlFor="name">First Name</label>
+              <label className="text-black font-[550]" htmlFor="name">
+                First Name
+              </label>
               <br />
               <input
                 type="text"
@@ -884,12 +926,14 @@ const UserLogin = () => {
                 required
                 value={newAccountFormData.name}
                 placeholder="Enter First Name"
-                className="border border-[#0000001A] w-full mt-1 p-3 rounded-full focus:outline-none focus:ring-2 focus:ring-[#005B97] text-black"
+                className="border border-[#0000001A] w-full mt-1 p-3 rounded-full focus:outline-none focus:ring-2 focus:ring-[#005B97] text-black placeholder:text-sm"
                 onChange={handleSignupChange}
               />
             </div>
             <div className="mb-4">
-              <label className="text-black font-[550]" htmlFor="last name">Last Name</label>
+              <label className="text-black font-[550]" htmlFor="last name">
+                Last Name
+              </label>
               <br />
               <input
                 type="text"
@@ -898,13 +942,15 @@ const UserLogin = () => {
                 required
                 value={newAccountFormData.lastName}
                 placeholder="Enter Last Name"
-                className="border text-black border-[#0000001A] w-full mt-1 p-3 rounded-full focus:outline-none focus:ring-2 focus:ring-[#005B97]"
+                className="placeholder:text-sm border text-black border-[#0000001A] w-full mt-1 p-3 rounded-full focus:outline-none focus:ring-2 focus:ring-[#005B97]"
                 onChange={handleSignupChange}
               />
             </div>
             {/* email */}
             <div className="mb-4">
-              <label className="text-black font-[550]" htmlFor="email">Email Address</label>
+              <label className="text-black font-[550]" htmlFor="email">
+                Email Address
+              </label>
               <br />
               <input
                 type="email"
@@ -913,7 +959,7 @@ const UserLogin = () => {
                 required
                 value={newAccountFormData.email}
                 placeholder="Enter Email Address"
-                className="border text-black border-[#0000001A] w-full mt-1 p-3 rounded-full focus:outline-none focus:ring-2 focus:ring-[#005B97]"
+                className=" placeholder:text-sm border text-black border-[#0000001A] w-full mt-1 p-3 rounded-full focus:outline-none focus:ring-2 focus:ring-[#005B97]"
                 onChange={handleSignupChange}
                 readOnly
                 onFocus={(e) => e.target.removeAttribute('readonly')}
@@ -921,9 +967,7 @@ const UserLogin = () => {
             </div>
             {/* password */}
             <div className="mb-4 relative">
-              <label className="text-black font-[550]">
-                Password
-              </label>
+              <label className="text-black font-[550]">Password</label>
               <div className="relative">
                 <input
                   type={showPassword1 ? 'text' : 'password'}
@@ -931,7 +975,7 @@ const UserLogin = () => {
                   placeholder="Enter Password"
                   value={newAccountFormData.password}
                   onChange={handleSignupChange}
-                  className="w-full border-[#0000001A] mt-1 p-3 pr-10 border text-black focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
+                  className="placeholder:text-sm w-full border-[#0000001A] mt-1 p-3 pr-10 border text-black focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
                   required
                   minLength={8}
                   readOnly
@@ -952,9 +996,7 @@ const UserLogin = () => {
             </div>
             {/* confirm password */}
             <div className="mb-4 relative">
-              <label className="text-black font-[550]">
-                Confirm Password
-              </label>
+              <label className="text-black font-[550]">Confirm Password</label>
               <div className="relative">
                 <input
                   type={showConfirmPassword ? 'text' : 'password'}
@@ -962,7 +1004,7 @@ const UserLogin = () => {
                   placeholder="Confirm Password"
                   value={newAccountFormData.confirm}
                   onChange={handleSignupChange}
-                  className="w-full border-[#0000001A] mt-1 p-3 pr-10 border text-black focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
+                  className="placeholder:text-sm w-full border-[#0000001A] mt-1 p-3 pr-10 border text-black focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
                   required
                   minLength={8}
                 />
@@ -980,7 +1022,7 @@ const UserLogin = () => {
               </div>
             </div>
             {/* agreement */}
-            <div className="flex items-center">
+            <div className="flex items-baseline">
               <input
                 type="checkbox"
                 name="agree"
@@ -989,23 +1031,34 @@ const UserLogin = () => {
                 className="mr-2"
                 onChange={handleSignupChange}
               />
-              <label htmlFor="agree" className="flex items-center space-x-1 text-black">
-                <span>I have read and agree to the{" "}
-                  <a href="#" className="underline text-[#266CAB]">
+              <label
+                htmlFor="agree"
+                className="flex items-center space-x-1 text-black"
+              >
+                <span>
+                  I have read and agree to the{' '}
+                  <Link
+                    href="/privacy-policy"
+                    className="underline text-[#266CAB]"
+                  >
                     Privacy Policy
-                  </a>
-                  <span>{" "}&{" "}</span>
-                  <a href="#" className="underline text-[#266CAB]">
-                    User Agreement
-                  </a>
+                  </Link>
+                  <span> & </span>
+                  <Link
+                    href="Terms&Condition"
+                    className="underline text-[#266CAB]"
+                  >
+                    Terms & Conditions
+                  </Link>
                 </span>
               </label>
             </div>
             <button
               type="submit"
               disabled={!newAccountFormData.agree}
-              className={`w-full bg-[#005B97] text-white p-3 font-bold rounded-full hover:bg-[#005b97f0] transition duration-300 mt-10 ${!newAccountFormData.agree ? 'opacity-50 cursor-not-allowed' : ''
-                }`}
+              className={`w-full bg-[#005B97] text-white p-3 font-bold rounded-full hover:bg-[#005b97f0] transition duration-300 mt-10 ${
+                !newAccountFormData.agree ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
             >
               Continue
             </button>
@@ -1013,14 +1066,27 @@ const UserLogin = () => {
         </div>
       </Modal>
       {/* verification */}
-      <Modal isOpen={isVerifyOpen} onClose={onClose} buttonContent={<Image src="/images/user/cross.svg" alt="cross" width={20} height={20} />}>
+      <Modal
+        isOpen={isVerifyOpen}
+        onClose={onClose}
+        buttonContent={
+          <Image
+            src="/images/user/cross.svg"
+            alt="cross"
+            width={20}
+            height={20}
+          />
+        }
+      >
         <div>
           <div className="text-center">
-            <p className="font-[550] md:text-3xl text-2xl">Account Verification</p>
+            <p className="font-[550] md:text-3xl text-2xl">
+              Account Verification
+            </p>
             <p className="font-medium md:text-xl text-sm text-[#00000080]">
               Please enter the verification code sent to
               <span className="underline text-black block">
-                <span className='font-[550]'>{emailSend}</span>
+                <span className="font-[550]">{emailSend}</span>
               </span>
             </p>
           </div>
@@ -1039,16 +1105,23 @@ const UserLogin = () => {
                     value={otp}
                     onChange={(e) => handleOTPChange(e, index)}
                     onKeyUp={(e) => {
-                      const input = e.target as HTMLInputElement;
-                      if (e.key === "Backspace" && input.value.length === 0) {
-                        const prevInput = document.getElementById(`otp-${index}`);
+                      const input = e.target as HTMLInputElement
+                      if (e.key === 'Backspace' && input.value.length === 0) {
+                        const prevInput = document.getElementById(
+                          `otp-${index}`,
+                        )
                         if (prevInput) {
-                          prevInput.focus();
+                          prevInput.focus()
                         }
-                      } else if (e.key === "Enter" || input.value.length === 1) {
-                        const nextInput = document.getElementById(`otp-${index + 2}`);
+                      } else if (
+                        e.key === 'Enter' ||
+                        input.value.length === 1
+                      ) {
+                        const nextInput = document.getElementById(
+                          `otp-${index + 2}`,
+                        )
                         if (nextInput) {
-                          nextInput.focus();
+                          nextInput.focus()
                         }
                       }
                     }}
@@ -1060,18 +1133,17 @@ const UserLogin = () => {
               ))}
             </div>
 
-
             <button
               type="submit"
               className="w-full bg-[#005B97] text-white p-3 md:mt-10 mt-10 font-bold rounded-[94.17px] hover:bg-[#005b97f0] transition duration-300"
-            //   disabled={loading}
+              //   disabled={loading}
             >
               Verify
             </button>
             <p className="font-[550] md:text-xl text-base text-center mt-5">
-              Didn’t receive the code?{" "}
+              Didn’t receive the code?{' '}
               {Timer > 0 ? (
-                <span className="text-gray-500">Resend in {Timer}s</span>
+                <span className="text-[#266CAB]">Resend in {Timer}s</span>
               ) : (
                 <span
                   className="underline text-[#266CAB] cursor-pointer"
@@ -1086,20 +1158,31 @@ const UserLogin = () => {
       </Modal>
 
       {/* Forget Password */}
-      <Modal isOpen={isForgetOpen} onClose={onClose} buttonContent={<Image src="/images/user/cross.svg" alt="cross" width={20} height={20} />}>
+      <Modal
+        isOpen={isForgetOpen}
+        onClose={onClose}
+        buttonContent={
+          <Image
+            src="/images/user/cross.svg"
+            alt="cross"
+            width={20}
+            height={20}
+          />
+        }
+      >
         <div>
-          <div className="text-center">
+          <div className="text-center mt-2">
             <p className="font-[550] md:text-3xl text-2xl cursor-pointer">
               Forgot Password
             </p>
-            <p className="font-medium md:text-xl text-sm text-[#00000080]">
+            <p className="font-medium md:text-[16px] text-[14px] text-[#00000080]">
               Please enter the email address so that we can verify your account
             </p>
           </div>
 
           <form action="" onSubmit={sendOTP}>
             <div className="mb-4">
-              <label className="block text-black font-[550] mb-1">
+              <label className="block text-black font-[550] mb-1 text-lg xl:text-[18px]">
                 Email Address
               </label>
               <input
@@ -1107,7 +1190,7 @@ const UserLogin = () => {
                 placeholder="Enter Your Email Address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full p-3 mt-1 border text-black focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-[94.17px]"
+                className="w-full p-3 mt-1 border text-black focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-[94.17px] placeholder:text-sm"
                 required
               />
               <div className="flex justify-end">
@@ -1118,9 +1201,7 @@ const UserLogin = () => {
                   {Timer > 0 ? (
                     <span className="text-gray-500">Resend in {Timer}s</span>
                   ) : (
-                    <>
-                      Send OTP
-                    </>
+                    <>{`${OTPSent ? 'Resend OTP' : 'Send OTP'}`}</>
                   )}
                 </button>
               </div>
@@ -1169,7 +1250,7 @@ const UserLogin = () => {
 
             <div className="flex justify-center space-x-5 mb-2 mt-10">
               {Array.from({ length: 5 }).map((_, index) => {
-                const key = `otp${index + 1}` as keyof typeof verifyFormData;
+                const key = `otp${index + 1}` as keyof typeof verifyFormData
 
                 return (
                   <div key={index} className="relative">
@@ -1177,46 +1258,58 @@ const UserLogin = () => {
                       type="text"
                       maxLength={1}
                       id={`otp-${index}`}
-                      value={verifyFormData[key] || ""}
+                      value={verifyFormData[key] || ''}
                       onChange={(e) => {
                         // const input = e.target;
-                        const value = e.target.value.replace(/[^0-9]/g, "");
-                        handleOTPChange(e, index);
+                        const value = e.target.value.replace(/[^0-9]/g, '')
+                        handleOTPChange(e, index)
                         if (value && index < 4) {
-                          document.getElementById(`otp-${index + 1}`)?.focus();
+                          document.getElementById(`otp-${index + 1}`)?.focus()
                         }
                       }}
                       onKeyDown={(e) => {
-                        const input = e.target as HTMLInputElement;
+                        const input = e.target as HTMLInputElement
 
-                        if (e.key === "Backspace" && !input.value && index > 0) {
-                          document.getElementById(`otp-${index - 1}`)?.focus();
+                        if (
+                          e.key === 'Backspace' &&
+                          !input.value &&
+                          index > 0
+                        ) {
+                          document.getElementById(`otp-${index - 1}`)?.focus()
                         }
                       }}
                       className="w-[50px] h-[50px] text-center px-4 py-2 mt-1 border text-black focus:outline-none focus:ring-2 focus:ring-[#005B97] rounded-full"
                       required
                     />
                   </div>
-                );
+                )
               })}
             </div>
 
-
-
             <button
               type="submit"
-              className="w-full bg-[#005B97] text-white p-3 md:mt-10 mt-10 font-bold rounded-[94.17px] hover:bg-[#005b97f0] transition duration-300"
-            //   disabled={loading}
+              className="w-full bg-[#005B97] xl:text-[16px] text-[14px] text-white p-3 md:mt-10 mt-10 font-bold rounded-[94.17px] hover:bg-[#005b97f0] transition duration-300"
+              //   disabled={loading}
             >
               Verify
             </button>
-
           </form>
         </div>
       </Modal>
 
       {/* Reset Password */}
-      <Modal isOpen={isResetOpen} onClose={onClose} buttonContent={<Image src="/images/user/cross.svg" alt="cross" width={20} height={20} />}>
+      <Modal
+        isOpen={isResetOpen}
+        onClose={onClose}
+        buttonContent={
+          <Image
+            src="/images/user/cross.svg"
+            alt="cross"
+            width={20}
+            height={20}
+          />
+        }
+      >
         <div>
           <div className="text-center">
             <p className="font-[550] md:text-3xl text-2xl cursor-pointer">
@@ -1270,7 +1363,9 @@ const UserLogin = () => {
                   />
                   <button
                     type="button"
-                    onClick={() => setShowConfirmPassword1(!showConfirmPassword1)}
+                    onClick={() =>
+                      setShowConfirmPassword1(!showConfirmPassword1)
+                    }
                     className="absolute inset-y-0 right-3 flex items-center text-gray-500"
                   >
                     {showConfirmPassword1 ? (
@@ -1286,17 +1381,18 @@ const UserLogin = () => {
             <button
               type="submit"
               className="w-full bg-[#005B97] text-white p-3 md:mt-10 mt-10 font-bold rounded-[94.17px] hover:bg-[#005b97f0] transition duration-300"
-            //   disabled={loading}
+              //   disabled={loading}
             >
               Continue
             </button>
-
           </form>
         </div>
       </Modal>
 
-      <Subscribe isBilingOpen={isBilingOpen} setIsBilingOpen={setIsBilingOpen} />
-
+      <Subscribe
+        isBilingOpen={isBilingOpen}
+        setIsBilingOpen={setIsBilingOpen}
+      />
     </div>
   )
 }

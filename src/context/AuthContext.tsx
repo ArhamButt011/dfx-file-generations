@@ -7,7 +7,7 @@ import React, {
   useEffect,
   ReactNode,
 } from 'react'
-import { useRouter } from 'next/navigation' // Import useRouter for navigation
+import { useRouter } from 'next/navigation'
 
 interface UserData {
   id: string
@@ -67,7 +67,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         if (axios.isAxiosError(error) && error.response?.status === 401) {
           logout()
           setTimeout(() => {
-            router.push('/admin')
+            router.push('/user')
           }, 0)
         }
       }
@@ -84,6 +84,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const logout = () => {
     localStorage.removeItem('token')
     localStorage.removeItem('selectedMenu')
+    sessionStorage.removeItem('billingTriggered')
+    sessionStorage.clear()
     setUserData(null)
     setIsLoggedIn(false)
   }

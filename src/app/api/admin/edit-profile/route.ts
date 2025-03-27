@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import fs from 'node:fs/promises'
+import path from 'path'
 import { ObjectId } from 'mongodb'
 import jwt from 'jsonwebtoken'
 import clientPromise from '@/lib/mongodb'
@@ -12,6 +13,7 @@ export const config = { runtime: 'experimental-edge' }
 type UpdateData = {
   name?: string
   image?: string
+  lastName?: string
 }
 
 export async function PUT(req: Request) {
@@ -19,6 +21,7 @@ export async function PUT(req: Request) {
     const formData = await req.formData()
     const id = formData.get('id') as string
     const name = formData.get('name') as string
+    const lastName = formData.get('lastName') as string
     const file = formData.get('file')
 
     if (!id) {
@@ -41,13 +44,34 @@ export async function PUT(req: Request) {
     if (name && name !== existingUser.name) {
       updateData.name = name
     }
+    if (lastName && lastName !== existingUser.lastName) {
+      updateData.lastName = lastName
+    }
 
-    if (file instanceof File) {
+    if (file && file instanceof Blob) {
       const arrayBuffer = await file.arrayBuffer()
       const buffer = new Uint8Array(arrayBuffer)
-      const filePath = `/uploads/${file.name}`
-      await fs.writeFile(`./public${filePath}`, buffer)
-      updateData.image = filePath
+
+      const uploadsDir = path.join(process.cwd(), 'public/uploads')
+
+      if (existingUser.image) {
+        const oldImagePath = path.join(
+          uploadsDir,
+          path.basename(existingUser.image),
+        )
+        try {
+          await fs.unlink(oldImagePath)
+          console.log(`Deleted old image: ${oldImagePath}`)
+        } catch (error) {
+          console.warn(`Failed to delete old image: ${oldImagePath}`, error)
+        }
+      }
+
+      // Save the new image
+      const fileName = `${id}_${Date.now()}_${file.name}`
+      const filePath = path.join(uploadsDir, fileName)
+      await fs.writeFile(filePath, buffer)
+      updateData.image = `/uploads/${fileName}`
     }
 
     if (Object.keys(updateData).length === 0) {
@@ -79,6 +103,7 @@ export async function PUT(req: Request) {
       {
         id: updatedUser._id.toString(),
         username: updatedUser.name,
+        lastName: updateData.lastName,
         email: updatedUser.email,
         role: updatedUser.role,
       },
@@ -86,7 +111,10 @@ export async function PUT(req: Request) {
       { expiresIn: '24h' },
     )
 
-    if (updatedUser.role !== 'admin' && (updateData.name || updateData.image)) {
+    if (
+      updatedUser.role !== 'admin' &&
+      (updateData.name || updateData.image || updateData.lastName)
+    ) {
       await addNotification(id, '', 'profile_update')
     }
 

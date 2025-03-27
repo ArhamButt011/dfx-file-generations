@@ -69,6 +69,7 @@ export async function GET(req: NextRequest) {
             email: user.email,
             image: user.image,
             plan_name: subscription.plan_name,
+            status: subscription.status,
             duration: subscription.duration,
             added_on: subscription.added_on,
             expiry_on: subscription.expiry_on,
@@ -78,6 +79,9 @@ export async function GET(req: NextRequest) {
         )
       }
     }
+    allDownloads.sort(
+      (a, b) => new Date(b.added_on).getTime() - new Date(a.added_on).getTime(),
+    )
 
     const paginatedSubscriptions = allDownloads.slice(skip, skip + limit)
 

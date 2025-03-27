@@ -1,3 +1,4 @@
+import Text from '@/components/UI/Text'
 import { ApexOptions } from 'apexcharts'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
@@ -89,9 +90,9 @@ const ChartThree: React.FC = () => {
     <div className="col-span-12 rounded-xl border border-stroke bg-bodydark px-5 pb-5 pt-7.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-4">
       <div className="mb-3 justify-between gap-4 sm:flex">
         <div>
-          <h5 className="text-xl font-semibold text-black dark:text-white">
+          <Text as="h5" className=" font-semibold text-black">
             Subscriptions
-          </h5>
+          </Text>
         </div>
       </div>
 
