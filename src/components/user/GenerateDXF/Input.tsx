@@ -352,7 +352,7 @@ function Input() {
     if (!image || contour === undefined || contour === null) {
       Swal.fire({
         title: 'Error!',
-        text: 'Please give both image and contour offset',
+        text: 'Please upload image.',
         icon: 'error',
         showConfirmButton: false,
         timer: 2000,
@@ -431,6 +431,7 @@ function Input() {
       // Catch any error in the try block and log it
       Swal.fire({
         title: 'Error',
+        // text: err instanceof Error ? err.message : String(err),
         text: err instanceof Error ? err.message : String(err),
         icon: 'error',
         showConfirmButton: false,

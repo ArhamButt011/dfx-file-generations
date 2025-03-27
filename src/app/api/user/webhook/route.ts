@@ -97,7 +97,7 @@ export async function POST(req: Request) {
         .findOne({
           user_id: objectUserId,
           plan_name: 'Free',
-          status: 'active',
+          status: 'Current',
         })
 
       if (existingFreePlan) {
@@ -152,6 +152,7 @@ export async function POST(req: Request) {
     const subscriptionId = subscription.id
     const customer_id = subscription.customer as string
     const cancelingDate = subscription.canceled_at ?? 0
+    console.log('webhook called')
 
     if (!cancelingDate || !subscriptionId || !customer_id) {
       return NextResponse.json(
