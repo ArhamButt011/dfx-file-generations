@@ -331,7 +331,7 @@ function Input() {
       added_on: new Date().toISOString(),
       expiry_on: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
       charges: 0,
-      status: 'active',
+      status: 'Current',
       added_date: Date.now(),
       expiry_date: Date.now() + 7 * 24 * 60 * 60 * 1000,
     }
