@@ -9,14 +9,6 @@ export const sendSubscriptionEmail = async (
   subTotal: number,
   user_name: string,
 ) => {
-  // const transporter = nodemailer.createTransport({
-  //   service: 'Gmail',
-  //   auth: {
-  //     user: process.env.EMAIL_USER,
-  //     pass: process.env.EMAIL_PASS,
-  //   },
-  // })
-
   const transporter = nodemailer.createTransport({
     host: 'smtp.office365.com',
     port: 587,
