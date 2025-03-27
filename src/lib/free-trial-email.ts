@@ -54,7 +54,7 @@ const FreeTrialEmail = async (email: string, name: string, expiry: string) => {
 
   try {
     const mailOptions = {
-      from: process.env.EMAIL_USER,
+      from: `"LumaShape" <${process.env.EMAIL_USER}>`,
       to: email,
       subject: 'Free Subscription',
       html: htmlContent,

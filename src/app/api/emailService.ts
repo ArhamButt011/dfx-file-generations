@@ -20,13 +20,12 @@ const sendEmail = async (email: string, message: string) => {
     tls: {
       ciphers: 'SSLv3',
     },
-    debug: true,
   })
 
   // Send the email
   try {
     await transporter.sendMail({
-      from: process.env.EMAIL_USER,
+      from: `"LumaShape" <${process.env.EMAIL_USER}>`,
       to: email,
       subject: 'OTP',
       text: message,

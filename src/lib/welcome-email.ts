@@ -48,7 +48,7 @@ const sendWelcomeEmail = async (email: string, name: string) => {
 
   try {
     await transporter.sendMail({
-      from: process.env.EMAIL_USER,
+      from: `"LumaShape" <${process.env.EMAIL_USER}>`,
       to: email,
       subject: 'Welcome to Lumashape',
       html: htmlContent,
