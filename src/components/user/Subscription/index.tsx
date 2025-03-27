@@ -164,7 +164,7 @@ const Index: React.FC<SubscriptionProps> = ({
                 </span>
               </p>
             </>
-          ) : subscriptions[0]?.status === 'active' &&
+          ) : subscriptions[0]?.status === 'Current' &&
             subscriptions[0]?.plan_name === 'Free' ? (
             <div className="font-semibold sm:text-[16px] text-[14px]">
               Free Trial Activated.
