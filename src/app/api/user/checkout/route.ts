@@ -31,7 +31,7 @@ export async function POST(req: Request) {
       ],
       mode: 'subscription',
       //   customer_creation: 'always',
-      success_url: `${origin}/Generate_DXF?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${origin}/Generate_DXF`,
       cancel_url: `${origin}/subscription`,
       customer_email: body.email,
       metadata: {
