@@ -72,7 +72,7 @@ const DXFDownloads = () => {
   return (
     <div>
       <Breadcrumb
-        pageName="Files History"
+        pageName="DXF Downloads"
         totalContent={totalDXFDownloads}
         totalText="Total DXF Imported"
         rightContent={
