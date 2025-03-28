@@ -59,7 +59,7 @@ const SubscribedEmails = () => {
     } finally {
       setLoadingTable(false)
     }
-  }, [currentPage, selectAll])
+  }, [currentPage])
 
   useEffect(() => {
     fetchEmails()
