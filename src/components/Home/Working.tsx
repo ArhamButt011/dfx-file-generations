@@ -54,7 +54,7 @@ const stepImages = ['one', 'two', 'three']
 function Working() {
   return (
     <div
-      className="xl:max-w-[1200px] max-w-[90%] mx-auto  md:py-0 pb-2"
+      className="xl:max-w-[1200px] max-w-[90%] mx-auto  md:py-0 pb-2 mt-16"
       id="working"
     >
       <motion.div
