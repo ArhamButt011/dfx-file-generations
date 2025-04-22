@@ -372,20 +372,23 @@ function Input() {
     }
 
     try {
-      const res = await fetch('https://dxf.lumashape.com/predict', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          image_path_or_base64: base64,
-          offset_value: contour,
-          finger_clearance: fingerCut,
-          add_boundary: boundaryContour,
-          boundary_length: boundaryLength,
-          boundary_width: boundaryWidth,
-          annotation_text: drawerId,
-          offset_unit: unit,
-        }),
-      })
+      const res = await fetch(
+        `https://dxf.lumashape.com/predict?offset_value=${contour}&offset_unit=${unit}&finger_clearance=Yes&add_boundary=Yes&boundary_length=30&boundary_width=30&annotation_text=asd`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            image_path_or_base64: base64,
+            offset_value: contour,
+            finger_clearance: fingerCut,
+            add_boundary: boundaryContour,
+            boundary_length: boundaryLength,
+            boundary_width: boundaryWidth,
+            annotation_text: drawerId,
+            offset_unit: unit,
+          }),
+        },
+      )
 
       if (!res.ok) {
         console.log(res)
@@ -1010,7 +1013,7 @@ function Input() {
                         required
                         onChange={(e) => {
                           const value = e.target.value
-                          if (/^\d*\.?\d{0,4}$/.test(value)) {
+                          if (/^\d*\.?\d{0,2}$/.test(value)) {
                             setContour(value)
                           }
                         }}
@@ -1118,6 +1121,12 @@ function Input() {
                     <div className="flex gap-4">
                       <div className="relative flex items-center border rounded-full w-full p-3 mt-5 bg-[#F2F2F2]">
                         {/* Numeric Input */}
+                        <Image
+                          src={'/images/user/GenerateDFX/length.svg'}
+                          alt="length"
+                          width={28}
+                          height={28}
+                        />
                         <input
                           type="text"
                           inputMode="decimal"
@@ -1157,6 +1166,13 @@ function Input() {
                         </div> */}
                       </div>
                       <div className="relative flex items-center border rounded-full w-full p-3 mt-5 bg-[#F2F2F2]">
+                        <Image
+                          src={'/images/user/GenerateDFX/length.svg'}
+                          alt="length"
+                          width={28}
+                          height={28}
+                          className="rotate-90"
+                        />
                         <input
                           type="text"
                           inputMode="decimal"

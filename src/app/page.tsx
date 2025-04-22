@@ -1,7 +1,7 @@
 'use client'
 import Navbar from '@/components/Home/navbar'
 import Hero from '@/components/Home/Hero'
-import Sample from '@/components/Home/Sample'
+// import Sample from '@/components/Home/Sample'
 import Working from '@/components/Home/Working'
 import Pricing from '@/components/Home/Pricing'
 import FAQ from '@/components/Home/FAQ'
@@ -16,7 +16,7 @@ export default function Home() {
     <>
       <Navbar />
       <Hero />
-      <Sample />
+      {/* <Sample /> */}
       <Working />
       <Pricing />
       <FAQ />
