@@ -486,7 +486,6 @@ SidebarProps) => {
       })
 
       const data = await response.json()
-      console.log(data)
 
       if (data.status === 'success') {
         const newToken = data?.token

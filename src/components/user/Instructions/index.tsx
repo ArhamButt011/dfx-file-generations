@@ -7,7 +7,7 @@ import BestPractices from './BestPractices'
 function Instructions() {
   return (
     <div className="bg-[#F2F2F2] px-4 md:px-10 rounded-2xl pt-5 pb-10">
-      <Text className="text-[26px] font-semibold" as="h3">
+      <Text className="sm:text-[26px] text-[20px] font-semibold" as="h3">
         LumaShape Guide
       </Text>
       <ul className="mt-7">

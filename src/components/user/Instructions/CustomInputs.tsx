@@ -19,29 +19,45 @@ const CustomInputs = () => {
       </Text>
       <ul className="list-disc text-[#00000080] ml-6">
         <li>
-          Adds a constant clearance around each tool contour to adjust tool
-          fitment.
+          <Text as="p1">
+            Adds a constant clearance around each tool contour to adjust tool
+            fitment.
+          </Text>
         </li>
         <li>
-          Useful for tightening or loosening fit depending on your application.
+          <Text as="p1">
+            Useful for tightening or loosening fit depending on your
+            application.
+          </Text>
         </li>
-        <li>Units selectable (mm/inches).</li>
+        <li>
+          <Text as="p1">Units selectable (mm/inches).</Text>
+        </li>
       </ul>
       <Text as="h4" className="mt-5 mb-2">
         Boundary Contour
       </Text>
       <ul className="list-disc text-[#00000080] ml-6">
-        <li>Optional: defines a boundary around your layout.</li>
-        <li>Units selectable (mm/inches).</li>
         <li>
-          Lumashape calculates the centerpoint of your layout by finding the
-          maximum horizontal and vertical span of all detected objects. It then
-          centers the tool contours within the defined boundary dimensions.
+          <Text as="p1">Optional: defines a boundary around your layout.</Text>
         </li>
         <li>
-          A minimum margin of 0.25 inches is required between the tool layout
-          and the entered boundary dimensions. If the layout exceeds the
-          boundary limits, the software will display an error.
+          <Text as="p1">Units selectable (mm/inches).</Text>
+        </li>
+        <li>
+          <Text as="p1">
+            Lumashape calculates the centerpoint of your layout by finding the
+            maximum horizontal and vertical span of all detected objects. It
+            then centers the tool contours within the defined boundary
+            dimensions.
+          </Text>
+        </li>
+        <li>
+          <Text as="p1">
+            A minimum margin of 0.25 inches is required between the tool layout
+            and the entered boundary dimensions. If the layout exceeds the
+            boundary limits, the software will display an error.
+          </Text>
         </li>
       </ul>
       <div className="w-full mt-7">
@@ -73,20 +89,32 @@ const CustomInputs = () => {
         Drawer ID
       </Text>
       <ul className="list-disc text-[#00000080] ml-6">
-        <li>Requires boundary contour to be enabled.</li>
-        <li>Centered horizontally within the width of the boundary contour.</li>
         <li>
-          Inserts customizable text labels within a 1-inch margin above the
-          bottom boundary.
+          <Text as="p1">Requires boundary contour to be enabled.</Text>
         </li>
         <li>
-          A minimum 0.25 inch margin is required between the text and the left,
-          right, and topmost tool contours.
+          <Text as="p1">
+            Centered horizontally within the width of the boundary contour.
+          </Text>
         </li>
         <li>
-          There must be at least a 1 inch margin between the lowest tool contour
-          and the bottom boundary to allow space for the annotation. If this
-          margin is not met, the software will display an error.
+          <Text as="p1">
+            Inserts customizable text labels within a 1-inch margin above the
+            bottom boundary.
+          </Text>
+        </li>
+        <li>
+          <Text as="p1">
+            A minimum 0.25 inch margin is required between the text and the
+            left, right, and topmost tool contours.
+          </Text>
+        </li>
+        <li>
+          <Text as="p1">
+            There must be at least a 1 inch margin between the lowest tool
+            contour and the bottom boundary to allow space for the annotation.
+            If this margin is not met, the software will display an error.
+          </Text>
         </li>
       </ul>
       <div className="w-full mt-7">

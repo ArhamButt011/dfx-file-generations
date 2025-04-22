@@ -26,6 +26,7 @@ function Input() {
   const [image, setImage] = useState<string>(
     () => sessionStorage.getItem('image') || '',
   )
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const { userData } = useAuth()
   const [contour, setContour] = useState<string>(
     () => sessionStorage.getItem('contour') || '0',
@@ -64,7 +65,7 @@ function Input() {
   const [isProcessed, setIsProcessed] = useState<boolean>(
     JSON.parse(sessionStorage.getItem('isProcessed') || 'false'),
   )
-  const [base64, setBase64] = useState<string>('')
+  // const [base64, setBase64] = useState<string>('')
 
   const [overlayUrl, setOverlayUrl] = useState<string>(
     () => sessionStorage.getItem('overlayUrl') || '',
@@ -210,7 +211,7 @@ function Input() {
     sessionStorage.setItem('mask', mask)
     sessionStorage.setItem('preview', preview)
     sessionStorage.setItem('dxf_file', dfxFile)
-    sessionStorage.setItem('image', image)
+    // sessionStorage.setItem('image', image)
     // sessionStorage.setItem('contour', contour)
     sessionStorage.setItem('contour', contour.toString())
 
@@ -233,7 +234,7 @@ function Input() {
     setMask(sessionStorage.getItem('mask') ?? '')
     setPreview(sessionStorage.getItem('preview') ?? '')
     setDfxFile(sessionStorage.getItem('dxf_file') ?? '')
-    setImage(sessionStorage.getItem('image') ?? '')
+    // setImage(sessionStorage.getItem('image') ?? '')
     setContour(sessionStorage.getItem('contour') ?? '')
     // setContour(parseFloat(sessionStorage.getItem('contour') ?? '0'))
     setBoundaryLength(
@@ -249,49 +250,72 @@ function Input() {
     setisProcessingOpen(false)
     setIsProcessed(false)
   }
+  // const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+  //   e.preventDefault()
+  //   setDragging(false)
+  //   if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+  //     const file = e.dataTransfer.files[0]
+  //     // Validate file type
+  //     if (file.type.startsWith('image/')) {
+  //       const reader = new FileReader()
+  //       reader.onload = (event) => {
+  //         if (event.target?.result) {
+  //           const result = event.target.result as string
+  //           setImage(result)
+  //           const cleanBase64 = result.replace(
+  //             /^data:image\/[a-zA-Z]+;base64,/,
+  //             '',
+  //           )
+  //           setBase64(cleanBase64)
+  //           console.log(cleanBase64)
+  //         }
+  //       }
+  //       reader.readAsDataURL(file)
+  //     } else {
+  //       Swal.fire({
+  //         title: 'Error',
+  //         text: 'Please upload an image file',
+  //         icon: 'error',
+  //         showConfirmButton: false,
+  //         timer: 2000,
+  //         didOpen: () => {
+  //           const swalContainer = document.querySelector(
+  //             '.swal2-container',
+  //           ) as HTMLElement
+  //           if (swalContainer) {
+  //             swalContainer.style.setProperty('z-index', '100000', 'important')
+  //           }
+  //         },
+  //       })
+  //     }
+  //   }
+  // }
+
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault()
     setDragging(false)
 
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      const file = e.dataTransfer.files[0]
-
-      // Validate file type
-      if (file.type.startsWith('image/')) {
-        const reader = new FileReader()
-
-        reader.onload = (event) => {
-          if (event.target?.result) {
-            const result = event.target.result as string
-            setImage(result)
-
-            const cleanBase64 = result.replace(
-              /^data:image\/[a-zA-Z]+;base64,/,
-              '',
-            )
-            setBase64(cleanBase64)
-            console.log(cleanBase64)
+    const file = e.dataTransfer.files?.[0]
+    if (file && file.type.startsWith('image/')) {
+      const imageUrl = URL.createObjectURL(file)
+      setImage(imageUrl)
+      setSelectedFile(file)
+    } else {
+      Swal.fire({
+        title: 'Error',
+        text: 'Please upload an image file',
+        icon: 'error',
+        showConfirmButton: false,
+        timer: 2000,
+        didOpen: () => {
+          const swalContainer = document.querySelector(
+            '.swal2-container',
+          ) as HTMLElement
+          if (swalContainer) {
+            swalContainer.style.setProperty('z-index', '100000', 'important')
           }
-        }
-
-        reader.readAsDataURL(file)
-      } else {
-        Swal.fire({
-          title: 'Error',
-          text: 'Please upload an image file',
-          icon: 'error',
-          showConfirmButton: false,
-          timer: 2000,
-          didOpen: () => {
-            const swalContainer = document.querySelector(
-              '.swal2-container',
-            ) as HTMLElement
-            if (swalContainer) {
-              swalContainer.style.setProperty('z-index', '100000', 'important')
-            }
-          },
-        })
-      }
+        },
+      })
     }
   }
 
@@ -305,19 +329,28 @@ function Input() {
     setDragging(false)
   }
 
+  // const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const file = e.target.files?.[0]
+  //   if (file && file.type.startsWith('image/')) {
+  //     const reader = new FileReader()
+
+  //     reader.readAsDataURL(file)
+  //     reader.onload = (event) => {
+  //       setImage(event.target?.result as string)
+  //       if (typeof reader.result === 'string') {
+  //         const base64Data = reader.result.split(',')[1]
+  //         setBase64(base64Data)
+  //       }
+  //     }
+  //   }
+  // }
+
   const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file && file.type.startsWith('image/')) {
-      const reader = new FileReader()
-
-      reader.readAsDataURL(file)
-      reader.onload = (event) => {
-        setImage(event.target?.result as string)
-        if (typeof reader.result === 'string') {
-          const base64Data = reader.result.split(',')[1]
-          setBase64(base64Data)
-        }
-      }
+      const imageUrl = URL.createObjectURL(file)
+      setImage(imageUrl)
+      setSelectedFile(file)
     }
   }
 
@@ -370,23 +403,18 @@ function Input() {
       setisProcessingOpen(false)
       return
     }
-
+    const formData = new FormData()
+    if (selectedFile) {
+      formData.append('file', selectedFile)
+    }
+    console.log('file-> ', selectedFile)
     try {
       const res = await fetch(
-        `https://dxf.lumashape.com/predict?offset_value=${contour}&offset_unit=${unit}&finger_clearance=Yes&add_boundary=Yes&boundary_length=30&boundary_width=30&annotation_text=asd`,
+        `https://dxf.lumashape.com/predict?offset_value=${contour}&offset_unit=${unit}&finger_clearance=${fingerCut}&add_boundary=${boundaryContour}&boundary_length=${boundaryLength}&boundary_width=${boundaryWidth}&annotation_text=${drawerId}`,
         {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            image_path_or_base64: base64,
-            offset_value: contour,
-            finger_clearance: fingerCut,
-            add_boundary: boundaryContour,
-            boundary_length: boundaryLength,
-            boundary_width: boundaryWidth,
-            annotation_text: drawerId,
-            offset_unit: unit,
-          }),
+          // headers: { 'Content-Type': 'application/json' },
+          body: formData,
         },
       )
 
@@ -623,6 +651,69 @@ function Input() {
     }
   }, [dfxFile])
 
+  // const handlePasteImage = async () => {
+  //   try {
+  //     const clipboardItems = await navigator.clipboard.read()
+  //     const firstItem = clipboardItems[0] // Get only the first item
+  //     if (firstItem && firstItem.types[0].startsWith('image')) {
+  //       const blob = await firstItem.getType(firstItem.types[0])
+  //       const file = new File([blob], 'pasted-image.png', { type: blob.type })
+  //       // Convert to preview URL
+  //       const reader = new FileReader()
+  //       reader.readAsDataURL(file)
+  //       reader.onload = (event) => {
+  //         setImage(event.target?.result as string)
+  //         if (typeof reader.result === 'string') {
+  //           const base64Data = reader.result.split(',')[1]
+  //           setBase64(base64Data)
+  //           console.log(base64Data)
+  //         }
+  //       }
+  //       // Mimic file input behavior
+  //       const dataTransfer = new DataTransfer()
+  //       dataTransfer.items.add(file)
+  //       if (fileInputRef.current) {
+  //         fileInputRef.current.files = dataTransfer.files
+  //         const event = new Event('change', { bubbles: true })
+  //         fileInputRef.current.dispatchEvent(event)
+  //       }
+  //     } else {
+  //       Swal.fire({
+  //         title: 'Error',
+  //         text: 'No image found in clipboard. Copy an image first!',
+  //         icon: 'error',
+  //         showConfirmButton: false,
+  //         timer: undefined,
+  //         showCloseButton: true,
+  //         didOpen: () => {
+  //           const swalContainer = document.querySelector(
+  //             '.swal2-container',
+  //           ) as HTMLElement
+  //           if (swalContainer) {
+  //             swalContainer.style.setProperty('z-index', '100000', 'important')
+  //           }
+  //         },
+  //       })
+  //     }
+  //   } catch (err) {
+  //     Swal.fire({
+  //       title: 'Error',
+  //       text: err instanceof Error ? err.message : String(err),
+  //       icon: 'error',
+  //       showConfirmButton: false,
+  //       timer: 2000,
+  //       didOpen: () => {
+  //         const swalContainer = document.querySelector(
+  //           '.swal2-container',
+  //         ) as HTMLElement
+  //         if (swalContainer) {
+  //           swalContainer.style.setProperty('z-index', '100000', 'important')
+  //         }
+  //       },
+  //     })
+  //   }
+  // }
+
   const handlePasteImage = async () => {
     try {
       const clipboardItems = await navigator.clipboard.read()
@@ -632,18 +723,10 @@ function Input() {
         const blob = await firstItem.getType(firstItem.types[0])
         const file = new File([blob], 'pasted-image.png', { type: blob.type })
 
-        // Convert to preview URL
-        const reader = new FileReader()
+        const imageUrl = URL.createObjectURL(file)
+        setImage(imageUrl)
+        setSelectedFile(file)
 
-        reader.readAsDataURL(file)
-        reader.onload = (event) => {
-          setImage(event.target?.result as string)
-          if (typeof reader.result === 'string') {
-            const base64Data = reader.result.split(',')[1]
-            setBase64(base64Data)
-            console.log(base64Data)
-          }
-        }
         // Mimic file input behavior
         const dataTransfer = new DataTransfer()
         dataTransfer.items.add(file)

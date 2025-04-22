@@ -218,6 +218,7 @@ const DropdownUser = () => {
     if (file) {
       formData.append('file', file)
     }
+
     formData.append('name', name)
     formData.append('lastName', lastName)
     formData.append('id', id)
@@ -230,7 +231,6 @@ const DropdownUser = () => {
       })
 
       const data = await response.json()
-      console.log('edit data->', data)
 
       if (data.status === 'success') {
         const newToken = data?.token
