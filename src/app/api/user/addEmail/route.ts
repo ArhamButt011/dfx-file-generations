@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server'
 import clientPromise from '@/lib/mongodb'
-import GetConnectedEmail from '@/lib/get-connected-emial'
 
 export async function POST(req: Request) {
   try {
@@ -26,16 +25,18 @@ export async function POST(req: Request) {
       )
     }
 
+    console.log('existing user....')
+
     // Attempt to send the email first
-    try {
-      await GetConnectedEmail(email)
-    } catch (emailError) {
-      console.error('Error Sending Email:', emailError)
-      return NextResponse.json(
-        { message: 'Failed to send email' },
-        { status: 500 },
-      )
-    }
+    // try {
+    //   await GetConnectedEmail(email)
+    // } catch (emailError) {
+    //   console.error('Error Sending Email:', emailError)
+    //   return NextResponse.json(
+    //     { message: 'Failed to send email' },
+    //     { status: 500 },
+    //   )
+    // }
 
     // If email is sent successfully, insert into the database
     await db.collection('promotions').insertOne({
@@ -44,7 +45,7 @@ export async function POST(req: Request) {
     })
 
     return NextResponse.json(
-      { message: 'Email Sent & Added Successfully' },
+      { message: 'Email Sent Successfully' },
       { status: 201 },
     )
   } catch (error) {
