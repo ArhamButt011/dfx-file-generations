@@ -1,4 +1,5 @@
 'use client'
+import axios from 'axios'
 import React, { FormEvent, useState } from 'react'
 import { ClipLoader } from 'react-spinners'
 import Swal from 'sweetalert2'
@@ -7,33 +8,104 @@ function Signup() {
   const [email, setEmail] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
 
+  // const handleSignIn = async (e: FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault()
+  //   setLoading(true)
+  //   try {
+  //     console.log(email)
+  //     const res = await fetch('/api/user/addEmail', {
+  //       method: 'POST',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify({ email }),
+  //     })
+
+  //     if (!res.ok) {
+  //       const data = await res.json()
+  //       throw new Error(data.message)
+  //     }
+  //     Swal.fire({
+  //       icon: 'success',
+  //       title: 'Success',
+  //       text: 'Our Team will reach out to you soon',
+  //       timer: 2000,
+  //       showConfirmButton: false,
+  //     })
+  //     setEmail('')
+  //   } catch (err) {
+  //     Swal.fire({
+  //       title: 'Error!',
+  //       text: err instanceof Error ? err.message : String(err),
+  //       icon: 'error',
+  //       showConfirmButton: false,
+  //       timer: 2000,
+  //     })
+  //   } finally {
+  //     setLoading(false)
+  //   }
+  // }
+
   const handleSignIn = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setLoading(true)
-    try {
-      console.log(email)
-      const res = await fetch('/api/user/addEmail', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      })
 
-      if (!res.ok) {
-        const data = await res.json()
-        throw new Error(data.message)
-      }
+    try {
+      const res1 = await axios.post('/api/user/addEmail', { email })
+
+      const successMessage =
+        res1.data.message || 'Our Team will reach out to you soon'
+
       Swal.fire({
         icon: 'success',
         title: 'Success',
-        text: 'Our Team will reach out to you soon',
+        text: successMessage,
         timer: 2000,
         showConfirmButton: false,
       })
+
       setEmail('')
+
+      const emailData = {
+        to: email,
+        subject: 'Thanks for Subscribing to Lumashape!',
+        body: `
+        <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
+          <div style="text-align:center">
+            <img src="https://aletheia.ai.ml-bench.com/public/images/mailLogo.jpg" alt="Lumashape Logo" width="250" />
+          </div>
+          <p style="color:#333333; font-size: 18px; font-weight: 600;">Hi there,</p>
+          <div style="font-size: 16px;">
+            <p style="margin-bottom: 30px;">Thank you for subscribing to Lumashape! You’re now on our exclusive list for the latest updates, special announcements, and early access to new features.</p>
+            <p style="margin-top: 30px;">If you have any questions or need assistance, please contact our founder at <a href="mailto:sam.peterson@lumashape.com" style="color: #266CA8;">sam.peterson@lumashape.com</a></p>
+          </div>
+          <p style="margin-top: 60px;">
+            <a href="https://www.lumashape.com" style="color: #000000; text-decoration: none;">www.lumashape.com</a> 
+            <span style="color: #000000;">  |  </span>
+            <a href="mailto:sam.peterson@lumashape.com" style="color: #000000;">sam.peterson@lumashape.com</a>
+          </p>
+        </div>
+      `,
+      }
+
+      const res = axios
+        .post(
+          'https://aletheia.ai.ml-bench.com/api/send-microsoft-email',
+          emailData,
+        )
+        .catch(() => {
+          // Error is caught silently and ignored
+        })
+      console.log('res-> ', res)
     } catch (err) {
+      let errorMessage = 'Something went wrong'
+      if (axios.isAxiosError(err) && err.response?.data?.message) {
+        errorMessage = err.response.data.message
+      } else if (err instanceof Error) {
+        errorMessage = err.message
+      }
+
       Swal.fire({
         title: 'Error!',
-        text: err instanceof Error ? err.message : String(err),
+        text: errorMessage,
         icon: 'error',
         showConfirmButton: false,
         timer: 2000,
@@ -42,6 +114,7 @@ function Signup() {
       setLoading(false)
     }
   }
+
   return (
     <>
       {loading && (

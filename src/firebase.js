@@ -4,7 +4,7 @@ import { getDatabase, ref, update, get, onValue } from 'firebase/database' // âœ
 const firebaseConfig = {
   apiKey: 'AIzaSyDUA5PKQZzdEIOA2AaQNwK6CdbKrZtRUbs',
   authDomain: 'dxf-file-generation.firebaseapp.com',
-  databaseURL: 'https://dxf-file-generation-default-rtdb.firebaseio.com/',
+  databaseURL: 'https://dxf-file-generation-default-rtdb.firebaseio.com',
   projectId: 'dxf-file-generation',
   storageBucket: 'dxf-file-generation.appspot.com',
   messagingSenderId: '596898415906',
@@ -12,8 +12,7 @@ const firebaseConfig = {
   measurementId: 'G-BHH8QE0K91',
 }
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig)
 const database = getDatabase(app)
 
-export { database, ref, update, get, onValue } // âœ… Export `onValue`
+export { database, ref, update, get, onValue }
