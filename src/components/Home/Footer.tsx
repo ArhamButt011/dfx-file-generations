@@ -109,7 +109,7 @@ function ContactUsFooter() {
               >
                 Benefits
               </a>
-              <a
+              {/* <a
                 href="#sample"
                 onClick={(e) => {
                   e.preventDefault()
@@ -121,7 +121,7 @@ function ContactUsFooter() {
                 }}
               >
                 Samples
-              </a>
+              </a> */}
               <a
                 href="#working"
                 onClick={(e) => {
@@ -133,7 +133,7 @@ function ContactUsFooter() {
                   })
                 }}
               >
-                Working
+                How It Works
               </a>
               <a
                 href="#pricing"

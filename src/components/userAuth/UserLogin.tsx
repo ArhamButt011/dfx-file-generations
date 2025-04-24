@@ -1045,7 +1045,7 @@ const UserLogin = () => {
                   </Link>
                   <span> & </span>
                   <Link
-                    href="Terms&Condition"
+                    href="/Terms&Condition"
                     className="underline text-[#266CAB]"
                   >
                     Terms & Conditions

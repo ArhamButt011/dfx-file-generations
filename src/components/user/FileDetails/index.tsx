@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import backImage from '/public/images/user/GenerateDFX/backImage.svg'
 import Link from 'next/link'
-import dltImage from '/public/images/user/delete.svg'
+// import dltImage from '/public/images/user/delete.svg'
 import downloadImg from '/public/images/user/download.svg'
 import { useParams, useSearchParams } from 'next/navigation'
 import Swal from 'sweetalert2'
-import axios from 'axios'
 import { ClipLoader } from 'react-spinners'
 
 interface FilesData {
@@ -19,7 +18,7 @@ interface FilesData {
 
 const FileDetails = () => {
   const { id } = useParams()
-  const idString = Array.isArray(id) ? id[0] : id ?? ''
+  // const idString = Array.isArray(id) ? id[0] : id ?? ''
   const [loading, setLoading] = useState<boolean>(false)
   const [mask, setMask] = useState('')
   const [maskUrl, setMaskUrl] = useState('')
@@ -179,55 +178,55 @@ const FileDetails = () => {
     document.body.removeChild(link)
   }
 
-  const handleDelete = async (fileId: string, text: string) => {
-    if (!fileId) {
-      console.error('File ID is missing')
-      return
-    }
-    console.log(text, 'text')
-    try {
-      const response = await axios.put('/api/user/update-downloads', {
-        id: fileId,
-        text,
-      })
+  // const handleDelete = async (fileId: string, text: string) => {
+  //   if (!fileId) {
+  //     console.error('File ID is missing')
+  //     return
+  //   }
+  //   console.log(text, 'text')
+  //   try {
+  //     const response = await axios.put('/api/user/update-downloads', {
+  //       id: fileId,
+  //       text,
+  //     })
 
-      if (response.data.success)
-        if (text === 'overlayImage') {
-          setOverlay('')
-          setOverlayUrl('')
-        } else if (text === 'outlineImage') {
-          setOutline('')
-          setOutlineUrl('')
-        } else {
-          setMask('')
-          setMaskUrl('')
-        }
+  //     if (response.data.success)
+  //       if (text === 'overlayImage') {
+  //         setOverlay('')
+  //         setOverlayUrl('')
+  //       } else if (text === 'outlineImage') {
+  //         setOutline('')
+  //         setOutlineUrl('')
+  //       } else {
+  //         setMask('')
+  //         setMaskUrl('')
+  //       }
 
-      await Swal.fire({
-        title: 'Deleted!',
-        text: 'Your file has been deleted successfully.',
-        icon: 'success',
-        showConfirmButton: false,
-        timer: 2000,
-      })
-    } catch (error) {
-      console.error('Error deleting file:', error)
+  //     await Swal.fire({
+  //       title: 'Deleted!',
+  //       text: 'Your file has been deleted successfully.',
+  //       icon: 'success',
+  //       showConfirmButton: false,
+  //       timer: 2000,
+  //     })
+  //   } catch (error) {
+  //     console.error('Error deleting file:', error)
 
-      const errorMessage =
-        axios.isAxiosError(error) && error.response?.data?.message
-          ? error.response.data.message
-          : 'Something went wrong'
+  //     const errorMessage =
+  //       axios.isAxiosError(error) && error.response?.data?.message
+  //         ? error.response.data.message
+  //         : 'Something went wrong'
 
-      await Swal.fire({
-        title: 'Error',
-        text: errorMessage,
-        icon: 'error',
-        showConfirmButton: false,
-        timer: 2000,
-      })
-    } finally {
-    }
-  }
+  //     await Swal.fire({
+  //       title: 'Error',
+  //       text: errorMessage,
+  //       icon: 'error',
+  //       showConfirmButton: false,
+  //       timer: 2000,
+  //     })
+  //   } finally {
+  //   }
+  // }
 
   return (
     <div className="w-full">
@@ -271,12 +270,12 @@ const FileDetails = () => {
                       <h3 className="font-semibold text-lg">Overlay Image</h3>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Image
+                      {/* <Image
                         src={dltImage}
                         alt="Delete"
                         className="cursor-pointer w-7 h-7"
                         onClick={() => handleDelete(idString, 'overlayImage')}
-                      />
+                      /> */}
 
                       <Image
                         src={downloadImg}
@@ -305,12 +304,12 @@ const FileDetails = () => {
                       </h3>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Image
+                      {/* <Image
                         src={dltImage}
                         alt="Delete"
                         className="cursor-pointer  w-7 h-7"
                         onClick={() => handleDelete(idString, 'outlineImage')}
-                      />
+                      /> */}
                       <Image
                         src={downloadImg}
                         alt="Download"
@@ -338,12 +337,12 @@ const FileDetails = () => {
                       <h3 className="font-semibold text-lg">Mask</h3>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Image
+                      {/* <Image
                         src={dltImage}
                         alt="Delete"
                         className="cursor-pointer  w-7 h-7"
                         onClick={() => handleDelete(idString, 'maskImage')}
-                      />
+                      /> */}
                       <Image
                         src={downloadImg}
                         alt="Download"

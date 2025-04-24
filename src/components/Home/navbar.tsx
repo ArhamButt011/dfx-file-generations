@@ -157,7 +157,7 @@ function Navbar() {
                     Benefits
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <a
                     href="#sample"
                     onClick={(e) => {
@@ -176,7 +176,7 @@ function Navbar() {
                   >
                     Sample
                   </a>
-                </li>
+                </li> */}
 
                 <li>
                   <a
@@ -195,7 +195,7 @@ function Navbar() {
                         : 'text-[#00000080]'
                     }`}
                   >
-                    Working
+                    How It Works
                   </a>
                 </li>
                 <li>
@@ -341,7 +341,7 @@ function Navbar() {
                           Benefits
                         </a>
                       </li>
-                      <li>
+                      {/* <li>
                         <a
                           href="#sample"
                           onClick={(e) => {
@@ -360,7 +360,7 @@ function Navbar() {
                         >
                           Sample
                         </a>
-                      </li>
+                      </li> */}
 
                       <li>
                         <a
@@ -379,7 +379,7 @@ function Navbar() {
                               : 'text-[#00000080]'
                           }`}
                         >
-                          Working
+                          How It Works
                         </a>
                       </li>
                       <li>

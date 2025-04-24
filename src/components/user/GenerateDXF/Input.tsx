@@ -8,9 +8,7 @@ import { useAuth } from '@/context/AuthContext'
 import Subscribe from '../Subscription/Subscribe'
 import { PulseLoader } from 'react-spinners'
 import Text from '@/components/UI/Text'
-// import { LuEyeClosed } from 'react-icons/lu'
-// import { FaEye } from 'react-icons/fa'
-// import { useSearchParams } from 'next/navigation'
+
 interface UserPlan {
   plan_name: string
   duration: number
@@ -36,10 +34,14 @@ function Input() {
   //   return storedValue ? parseFloat(storedValue) : 0
   // })
 
-  const [boundaryLength, setBoundaryLength] = useState<number>(() => {
-    const storedValue = sessionStorage.getItem('boundaryLength')
-    return storedValue ? parseFloat(storedValue) : 0
-  })
+  // const [boundaryLength, setBoundaryLength] = useState<number>(() => {
+  //   const storedValue = sessionStorage.getItem('boundaryLength')
+  //   return storedValue ? parseFloat(storedValue) : 0
+  // })
+
+  const [boundaryLength, setBoundaryLength] = useState<string>(
+    () => sessionStorage.getItem('boundaryLength') || '0',
+  )
   const [showFullName, setShowFullName] = useState(false)
 
   const [drawerId, setDrawerId] = useState<string>(
@@ -47,10 +49,14 @@ function Input() {
   )
   // const [showDrawerId, setShowDrawerId] = useState(false)
 
-  const [boundaryWidth, setBoundaryWidth] = useState<number>(() => {
-    const storedValue = sessionStorage.getItem('boundaryWidth')
-    return storedValue ? parseFloat(storedValue) : 0
-  })
+  // const [boundaryWidth, setBoundaryWidth] = useState<number>(() => {
+  //   const storedValue = sessionStorage.getItem('boundaryWidth')
+  //   return storedValue ? parseFloat(storedValue) : 0
+  // })
+
+  const [boundaryWidth, setBoundaryWidth] = useState<string>(
+    () => sessionStorage.getItem('boundaryWidth') || '0',
+  )
 
   const [dragging, setDragging] = useState<boolean>(false)
   const [isProcessingOpen, setisProcessingOpen] = useState<boolean>(false)
@@ -99,12 +105,12 @@ function Input() {
   // const sessionId = searchParams.get('session_id')
 
   // const [lensPos, setLensPos] = useState({ x: 0, y: 0, visible: false });
-  const [isMagnifierActive, setIsMagnifierActive] = useState(false)
+  // const [isMagnifierActive, setIsMagnifierActive] = useState(false)
   const [isBilingOpen, setIsBilingOpen] = useState(false) // New state for Subscribe modal
   const [userPlan, setUserPlan] = useState<UserPlan | null>(null)
-  const userId = userData?.id
-  const [clicked, setClicked] = useState(false)
-  const zoom = 3,
+  const userId = userData?.id,
+    // const [clicked, setClicked] = useState(false)
+    // const zoom = 3,
     lensSize = 150
   useEffect(() => {
     async function fetchUserPlan() {
@@ -129,65 +135,65 @@ function Input() {
     }
   }, [userId])
 
-  useEffect(() => {
-    if (!isMagnifierActive || !image) return // Only attach event listeners if magnifier is active
+  // useEffect(() => {
+  //   if (!isMagnifierActive || !image) return // Only attach event listeners if magnifier is active
 
-    const img = imgRef.current
-    const lens = lensRef.current
-    if (!img || !lens) return // Check if refs are available
+  //   const img = imgRef.current
+  //   const lens = lensRef.current
+  //   if (!img || !lens) return // Check if refs are available
 
-    // Set up the background for the lens using the source image
-    lens.style.backgroundImage = `url('${image}')`
-    lens.style.backgroundSize = `${img.width * zoom}px ${img.height * zoom}px`
+  //   // Set up the background for the lens using the source image
+  //   lens.style.backgroundImage = `url('${image}')`
+  //   lens.style.backgroundSize = `${img.width * zoom}px ${img.height * zoom}px`
 
-    const moveLens = (e: MouseEvent) => {
-      e.preventDefault()
-      const pos = getCursorPos(e)
-      let x = pos.x - lensSize / 2
-      let y = pos.y - lensSize / 2
+  //   const moveLens = (e: MouseEvent) => {
+  //     e.preventDefault()
+  //     const pos = getCursorPos(e)
+  //     let x = pos.x - lensSize / 2
+  //     let y = pos.y - lensSize / 2
 
-      // Prevent the lens from going outside the image
-      if (x > img.width - lensSize) x = img.width - lensSize
-      if (x < 0) x = 0
-      if (y > img.height - lensSize) y = img.height - lensSize
-      if (y < 0) y = 0
+  //     // Prevent the lens from going outside the image
+  //     if (x > img.width - lensSize) x = img.width - lensSize
+  //     if (x < 0) x = 0
+  //     if (y > img.height - lensSize) y = img.height - lensSize
+  //     if (y < 0) y = 0
 
-      // Move the lens to the correct position
-      lens.style.left = `${x}px`
-      lens.style.top = `${y}px`
+  //     // Move the lens to the correct position
+  //     lens.style.left = `${x}px`
+  //     lens.style.top = `${y}px`
 
-      // Correct background positioning
-      const bgX = -pos.x * zoom + lensSize / 2
-      const bgY = -pos.y * zoom + lensSize / 2
+  //     // Correct background positioning
+  //     const bgX = -pos.x * zoom + lensSize / 2
+  //     const bgY = -pos.y * zoom + lensSize / 2
 
-      lens.style.backgroundPosition = `${bgX}px ${bgY}px`
-    }
+  //     lens.style.backgroundPosition = `${bgX}px ${bgY}px`
+  //   }
 
-    const getCursorPos = (e: MouseEvent) => {
-      const rect = img.getBoundingClientRect()
-      const x = e.pageX - rect.left - window.pageXOffset
-      const y = e.pageY - rect.top - window.pageYOffset
-      return { x, y }
-    }
+  //   const getCursorPos = (e: MouseEvent) => {
+  //     const rect = img.getBoundingClientRect()
+  //     const x = e.pageX - rect.left - window.pageXOffset
+  //     const y = e.pageY - rect.top - window.pageYOffset
+  //     return { x, y }
+  //   }
 
-    // Attach event listeners only when active
-    img.addEventListener('mousemove', moveLens)
-    lens.addEventListener('mousemove', moveLens)
+  //   // Attach event listeners only when active
+  //   img.addEventListener('mousemove', moveLens)
+  //   lens.addEventListener('mousemove', moveLens)
 
-    // Clean up event listeners on unmount or when deactivated
-    return () => {
-      img.removeEventListener('mousemove', moveLens)
-      lens.removeEventListener('mousemove', moveLens)
-    }
-  }, [isMagnifierActive])
+  //   // Clean up event listeners on unmount or when deactivated
+  //   return () => {
+  //     img.removeEventListener('mousemove', moveLens)
+  //     lens.removeEventListener('mousemove', moveLens)
+  //   }
+  // }, [isMagnifierActive])
 
   useEffect(() => {
     // if (includeDrawerId === 'No') {
     //   setDrawerId('')
     // }
     if (boundaryContour === 'No') {
-      setBoundaryLength(0)
-      setBoundaryWidth(0)
+      setBoundaryLength('0')
+      setBoundaryWidth('0')
     }
   }, [boundaryContour])
 
@@ -226,7 +232,6 @@ function Input() {
   }, [overlay, image, contour, boundaryLength, boundaryWidth, drawerId, unit])
 
   useEffect(() => {
-    console.log('image', sessionStorage.getItem('contour'))
     setOverlayUrl(sessionStorage.getItem('overlayUrl') ?? '')
     setOutlineUrl(sessionStorage.getItem('outlineUrl') ?? '')
     setMaskUrl(sessionStorage.getItem('maskUrl') ?? '')
@@ -237,11 +242,15 @@ function Input() {
     // setImage(sessionStorage.getItem('image') ?? '')
     setContour(sessionStorage.getItem('contour') ?? '')
     // setContour(parseFloat(sessionStorage.getItem('contour') ?? '0'))
-    setBoundaryLength(
-      parseFloat(sessionStorage.getItem('boundaryLength') ?? '0'),
-    )
+    // setBoundaryLength(
+    //   parseFloat(sessionStorage.getItem('boundaryLength') ?? '0'),
+    // )
+    setBoundaryLength(sessionStorage.getItem('boundaryLength') ?? '')
+
     setDrawerId(sessionStorage.getItem('drawerId') ?? '')
-    setBoundaryWidth(parseFloat(sessionStorage.getItem('boundaryWidth') ?? '0'))
+    // setBoundaryWidth(parseFloat(sessionStorage.getItem('boundaryWidth') ?? '0'))
+    setBoundaryWidth(sessionStorage.getItem('boundaryWidth') ?? '')
+
     setUnit(sessionStorage.getItem('unit') ?? '')
     setIsProcessed(JSON.parse(sessionStorage.getItem('isProcessed') || 'false'))
   }, [])
@@ -812,7 +821,7 @@ function Input() {
                         <div
                           ref={lensRef}
                           style={{
-                            display: isMagnifierActive ? 'block' : 'none',
+                            display: 'none',
                             position: 'absolute',
                             border: '3px solid #000',
                             width: lensSize,
@@ -842,7 +851,7 @@ function Input() {
                             height={14}
                             onClick={() => {
                               setImage('')
-                              setClicked(false)
+                              // setClicked(false)
                             }}
                           />
                         </div>
@@ -914,7 +923,7 @@ function Input() {
                         />
                       </svg>
                     </label>
-                    <svg
+                    {/* <svg
                       width="36"
                       height="36"
                       viewBox="0 0 36 36"
@@ -939,7 +948,7 @@ function Input() {
                         d="M15.4884 18C15.4884 16.6129 16.6129 15.4884 18 15.4884C19.3871 15.4884 20.5116 16.6129 20.5116 18C20.5116 19.3872 19.3871 20.5117 18 20.5117C16.6129 20.5117 15.4884 19.3872 15.4884 18Z"
                         fill="currentColor"
                       />
-                    </svg>
+                    </svg> */}
 
                     <svg
                       width="36"
@@ -1096,7 +1105,7 @@ function Input() {
                         required
                         onChange={(e) => {
                           const value = e.target.value
-                          if (/^\d*\.?\d{0,2}$/.test(value)) {
+                          if (/^\d*\.?\d{0,3}$/.test(value)) {
                             setContour(value)
                           }
                         }}
@@ -1215,21 +1224,36 @@ function Input() {
                           inputMode="decimal"
                           className="bg-transparent placeholder:text-sm text-sm flex-grow outline-none"
                           placeholder="Length"
-                          value={boundaryLength === 0 ? '' : boundaryLength}
+                          // value={boundaryLength === 0 ? '' : boundaryLength}
+                          value={boundaryLength}
                           required={boundaryContour === 'Yes'}
+                          // onChange={(e) => {
+                          //   const value = e.target.value
+                          //   if (/^(\d+\.?\d*|\.\d+)?$/.test(value)) {
+                          //     setBoundaryLength(
+                          //       value === '' ? 0 : parseFloat(value),
+                          //     )
+                          //   }
+                          // }}
                           onChange={(e) => {
                             const value = e.target.value
-                            if (/^(\d+\.?\d*|\.\d+)?$/.test(value)) {
-                              setBoundaryLength(
-                                value === '' ? 0 : parseFloat(value),
-                              )
+                            if (/^\d*\.?\d{0,3}$/.test(value)) {
+                              setBoundaryLength(value)
                             }
                           }}
+                          // onBlur={() => {
+                          //   if (boundaryLength !== 0) {
+                          //     setBoundaryLength(
+                          //       parseFloat(boundaryLength.toFixed(4)),
+                          //     )
+                          //   }
+                          // }}
                           onBlur={() => {
-                            if (boundaryLength !== 0) {
-                              setBoundaryLength(
-                                parseFloat(boundaryLength.toFixed(4)),
-                              )
+                            if (boundaryLength !== '') {
+                              const parsed = parseFloat(boundaryLength)
+                              if (!isNaN(parsed)) {
+                                setBoundaryLength(parsed.toString())
+                              }
                             }
                           }}
                         />
@@ -1261,21 +1285,36 @@ function Input() {
                           inputMode="decimal"
                           className="bg-transparent placeholder:text-sm text-sm flex-grow outline-none"
                           placeholder="Width"
-                          value={boundaryWidth === 0 ? '' : boundaryWidth}
+                          // value={boundaryWidth === 0 ? '' : boundaryWidth}
+                          value={boundaryWidth}
                           required={boundaryContour === 'Yes'}
+                          // onChange={(e) => {
+                          //   const value = e.target.value
+                          //   if (/^\d*\.?\d{0,4}$/.test(value)) {
+                          //     setBoundaryWidth(
+                          //       value === '' ? 0 : parseFloat(value),
+                          //     )
+                          //   }
+                          // }}
                           onChange={(e) => {
                             const value = e.target.value
-                            if (/^\d*\.?\d{0,4}$/.test(value)) {
-                              setBoundaryWidth(
-                                value === '' ? 0 : parseFloat(value),
-                              )
+                            if (/^\d*\.?\d{0,3}$/.test(value)) {
+                              setBoundaryWidth(value)
                             }
                           }}
+                          // onBlur={() => {
+                          //   if (boundaryWidth !== 0) {
+                          //     setBoundaryWidth(
+                          //       parseFloat(boundaryWidth.toFixed(4)),
+                          //     )
+                          //   }
+                          // }}
                           onBlur={() => {
-                            if (boundaryWidth !== 0) {
-                              setBoundaryWidth(
-                                parseFloat(boundaryWidth.toFixed(4)),
-                              )
+                            if (boundaryWidth !== '') {
+                              const parsed = parseFloat(boundaryWidth)
+                              if (!isNaN(parsed)) {
+                                setBoundaryWidth(parsed.toString())
+                              }
                             }
                           }}
                         />
@@ -1345,7 +1384,6 @@ function Input() {
                       <input
                         // type={showDrawerId ? 'text' : 'password'}
                         type="text"
-                        inputMode="decimal"
                         className="border rounded-full w-full p-3 mt-1 bg-[#F2F2F2] placeholder:text-sm text-sm"
                         placeholder="Enter Drawer id"
                         value={drawerId}
@@ -1380,8 +1418,8 @@ function Input() {
                       className="w-1/2 bg-white p-3 rounded-full text-[#00000080] font-medium xl:text-[18px] text-[14px]"
                       onClick={() => {
                         setContour('0')
-                        setBoundaryWidth(0)
-                        setBoundaryLength(0)
+                        setBoundaryWidth('0')
+                        setBoundaryLength('0')
                         setImage('')
                         setOverlay('')
                         setMask('')

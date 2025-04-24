@@ -59,19 +59,16 @@ function Hero() {
           viewport={{ once: false }}
         >
           <Text as="h2" className="text-center mb-3">
-            Why <span className="text-[#266CAB]">Choose</span> Our DXF
-            Generator?
+            Why <span className="text-[#266CAB]">Choose</span> Lumashape
           </Text>
           <Text
             as="p1"
             className="text-center text-[#00000066] mx-auto font-medium max-w-[90%]"
           >
-            Simplify the creation of DXF files with precision and ease. Designed
-            for both hobbyists and professionals, our software eliminates
-            tedious manual design work, delivers accurate files ready for
-            manufacturing custom tool drawer inserts, and saves you time and
-            effort. Choose a fast, reliable, and cost-effective solution that
-            streamlines your workflow and puts you in control.
+            Lumashape enables a semi-automated workflow for tool organization
+            and shadowboard creation—no CAD, no manual tracing. It fits
+            seamlessly into your process, enabling tool organization that keeps
+            up with you.
           </Text>
         </motion.div>
         <div className="flex md:flex-row flex-col pt-20 justify-between items-start ">
@@ -111,7 +108,7 @@ function Hero() {
             viewport={{ once: false }}
           >
             <Image
-              src="/images/user/home/fast.svg"
+              src="/images/user/home/access.svg"
               alt=""
               className=""
               width={120}
@@ -139,7 +136,7 @@ function Hero() {
             viewport={{ once: false }}
           >
             <Image
-              src="/images/user/home/access.svg"
+              src="/images/user/home/fast.svg"
               alt=""
               className=""
               width={120}
