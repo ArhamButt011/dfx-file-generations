@@ -8,7 +8,7 @@ const PrivacyPolicy = () => {
       <div className="flex items-center mb-20">
         <Image src={logo} alt="LUMASHAPE Logo" height={73} width={400} />
       </div>
-      <h1 className="font-bold md:text-5xl text-4xl">Privacy Policy</h1>
+      <h1 className="font-bold md:text-5xl text-4xl mb-4">Privacy Policy</h1>
       <p className="mb-4 sm:text-[20px] text-[16px] font-medium">
         This Privacy Policy describes how Lumashape collects, uses, and shares
         information when you use our web application. By using the web app, you

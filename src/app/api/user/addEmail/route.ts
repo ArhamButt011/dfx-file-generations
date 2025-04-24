@@ -25,8 +25,6 @@ export async function POST(req: Request) {
       )
     }
 
-    console.log('existing user....')
-
     // Attempt to send the email first
     // try {
     //   await GetConnectedEmail(email)
