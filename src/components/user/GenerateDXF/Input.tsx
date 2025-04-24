@@ -1465,7 +1465,7 @@ function Input() {
                 />
               </div>
             ) : (
-              <div className="p-5 h-[900px] overflow-y-auto">
+              <div className="p-5 sm:h-[900px] sm:overflow-y-auto">
                 <div className="flex flex-col gap-6">
                   <div className="relative">
                     <p className="font-semibold text-2xl mb-5">Overlay Image</p>
