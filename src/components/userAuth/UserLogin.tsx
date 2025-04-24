@@ -619,7 +619,6 @@ const UserLogin = () => {
   const sendOTP = async (e?: React.FormEvent, userEmail?: string) => {
     if (e) e.preventDefault()
     if (Timer > 0) return
-    console.log('call')
     const targetEmail = userEmail || email
 
     try {
@@ -839,7 +838,7 @@ const UserLogin = () => {
                     onClick={() => setIsForgetOpen(true)}
                   >
                     {' '}
-                    Forget Password?
+                    Forgot Password?
                   </span>
                 </p>
               </div>

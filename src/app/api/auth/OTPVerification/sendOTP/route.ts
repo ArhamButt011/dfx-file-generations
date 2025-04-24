@@ -15,6 +15,9 @@ const generateEmailBody = (otp: string, name: string) => {
       <p style="font-size: 14px; color: #666;">
         To change your password, you need to add a verification code; otherwise, you can't change your password.
       </p>
+       <p style="font-size: 14px; color: #666;">
+        This code is valid for 1 minute only. Please do not share it with anyone.
+      </p>
       <p style="font-size: 16px; font-weight: bold; color: #000; margin-top: 20px;">Your Verification Code Is</p>
       <div style="text-align: center; font-size: 28px; font-weight: bold; color: #000; margin: 20px 0;">
         ${otp}

@@ -110,7 +110,7 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json(
-      { message: 'Use2r verified successfully', token, name: user.name },
+      { message: 'User verified successfully', token, name: user.name },
       { status: 200 },
     )
   } catch (error) {
