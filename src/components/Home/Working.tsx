@@ -30,8 +30,7 @@ const data: { left: DataItem[]; right: DataItem[] } = {
     {
       id: 2,
       title: 'Upload Your Image',
-      description:
-        'Start by uploading your input image in a supported format. Specify your optional contour offset parameter and bounding box dimensions',
+      description: `Start by uploading a photo of your tool layout. Then, select any optional customizations you'd like to apply.`,
     },
     {
       id: 4,
@@ -71,8 +70,8 @@ function Working() {
           as="p1"
           className="text-center text-[#00000066] mx-auto md:max-w-[90%]"
         >
-          Our DXF Generator simplifies the file creation process, offering an
-          intuitive and user-friendly experience powered by advanced AI
+          Lumashape simplifies the file creation process, offering an intuitive
+          and user-friendly experience powered by advanced AI.
         </Text>
       </motion.div>
       <div className="relative hidden md:grid [grid-template-columns:2fr_auto_2fr] gap-10 mt-16 items-start ">
