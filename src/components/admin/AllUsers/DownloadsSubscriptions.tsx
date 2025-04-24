@@ -111,7 +111,6 @@ const DownloadsSubscriptions = () => {
   const fetchSubscriptions = useCallback(async () => {
     try {
       setLoadingTable(true)
-
       const searchParam = searchQuery
         ? `&search=${encodeURIComponent(searchQuery)}`
         : ''
