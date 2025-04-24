@@ -172,6 +172,11 @@ export const sendSubscriptionEmail = async (
 
             </div>
           </div>
+          <div style="text-align: start; margin-top: 10px;">
+        <a href="https://www.linkedin.com/company/lumashape/" style="text-decoration: none;">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="LinkedIn" width="20" />
+        </a>
+      </div>
         </div>
       </body>
       </html>
