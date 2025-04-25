@@ -76,7 +76,7 @@ export async function POST(req: NextRequest) {
       <hr />
 
       <p style="margin-top: 30px; font-size: 18px; font-weight: 300; color: #00000099;">If you have any questions or need assistance, please contact our support team at 
-        <a href="mailto:sam.peterson@lumashape.com" style="color: #266CA8;">sam.peterson@lumashape.com</a>.
+        <a href="mailto:support@lumashape.com" style="color: #266CA8;">support@lumashape.com</a>.
       </p>
 
       <p style="font-size: 18px; font-weight: 300; color: #00000099;">Thank you for reaching out to us! We have received your inquiry and our team will review it shortly.</p>
@@ -84,7 +84,7 @@ export async function POST(req: NextRequest) {
       <p style="margin-top: 60px;">
         <a href="https://www.lumashape.com" style="color: #000000; text-decoration: none;">www.lumashape.com</a> 
         <span style="color: #000000;"> | </span>     
-        <a href="mailto:sam.peterson@lumashape.com" style="color: #000000;">sam.peterson@lumashape.com</a>
+        <a href="mailto:support@lumashape.com" style="color: #000000;">support@lumashape.com</a>
       </p>
 
       <div style="text-align: start; margin-top: 10px;">

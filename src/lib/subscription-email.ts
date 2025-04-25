@@ -170,13 +170,13 @@ export const sendSubscriptionEmail = async (
             <p>This payment is recurring and will charge every month if not cancelled beforehand (for subscriptions).</p>
             <p>This payment is for one-time use and to use this feature again, please make another payment on the app.</p>
             <p>${`If this payment was not made by you, please get in touch with our customer service team at ${
-              planName === 'Premium' ? 'sam.peterson@lumashape.com' : ''
+              planName === 'Premium' ? 'support@lumashape.com' : ''
             }`}</p>
           </div>
           <div class="footer">
             <div class="footer-links">
             <a href="https://www.lumashape.com" target="_blank">www.lumashape.com</a> &nbsp; | &nbsp;  
-<a href="mailto:sam.peterson@lumashape.com">sam.peterson@lumashape.com</a>
+<a href="mailto:support@lumashape.com">support@lumashape.com</a>
 
             </div>
           </div>

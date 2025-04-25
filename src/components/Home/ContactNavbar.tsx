@@ -4,11 +4,14 @@ import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { useTabContext } from '@/context/TabContsxt'
 import Drawer from '../UI/Drawer'
-
+import { usePathname } from 'next/navigation'
 function ContactNavbar() {
   const { activeTab, setActiveTab } = useTabContext()
+  console.log('active tab-> ', activeTab)
+  const pathname = usePathname()
+  const isActive = pathname === '/Contact_Us'
   const handleTabChange = (tab: string) => {
-    setActiveTab(tab) // Update context
+    setActiveTab(tab)
     onClose()
   }
   const [isOpen, setIsOpen] = useState(false)
@@ -16,39 +19,8 @@ function ContactNavbar() {
     setIsOpen(false)
   }
   useEffect(() => {
-    setActiveTab('/home')
+    setActiveTab('')
   }, [])
-
-  useEffect(() => {
-    const handleScroll = () => {
-      let currentTab = ''
-
-      const sectionIds = [
-        'home',
-        'benefits',
-        'sample',
-        'working',
-        'pricing',
-        'faqs',
-        'contact',
-      ]
-
-      sectionIds.forEach((id) => {
-        const section = document.getElementById(id)
-        if (section) {
-          const rect = section.getBoundingClientRect()
-          if (rect.top >= 0 && rect.top <= window.innerHeight / 3) {
-            currentTab = `/${id}`
-          }
-        }
-      })
-
-      if (currentTab) handleTabChange(currentTab)
-    }
-
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [handleTabChange])
 
   return (
     <>
@@ -75,7 +47,7 @@ function ContactNavbar() {
                         block: 'start',
                       })
                     }}
-                    className={`block text-xl font-inter text-[#00000080] font-light leading-[25.5px] hover:text-[#266CA8] ${
+                    className={`block text-lg font-inter text-[#00000080] font-light leading-[25.5px] hover:text-[#266CA8] ${
                       activeTab === '/home'
                         ? 'text-[#266CA8]'
                         : 'text-[#00000080]'
@@ -87,7 +59,7 @@ function ContactNavbar() {
                 <li>
                   <Link
                     href="/"
-                    className={`block text-xl font-inter text-[#00000080] font-light leading-[25.5px] hover:text-[#266CA8] ${
+                    className={`block text-lg font-inter text-[#00000080] font-light leading-[25.5px] hover:text-[#266CA8] ${
                       activeTab === '/benefits'
                         ? 'text-[#266CA8]'
                         : 'text-[#00000080]'
@@ -96,62 +68,23 @@ function ContactNavbar() {
                     Benefits
                   </Link>
                 </li>
-                <li>
-                  <Link
-                    href="/"
-                    // href="#sample"
-                    // onClick={(e) => {
-                    //   e.preventDefault()
-                    //   handleTabChange('/sample')
-                    //   document.getElementById('sample')?.scrollIntoView({
-                    //     behavior: 'smooth',
-                    //     block: 'start',
-                    //   })
-                    // }}
-                    className={`block text-xl font-inter text-[#00000080] font-light leading-[25.5px] hover:text-[#266CA8] ${
-                      activeTab === '/sample'
-                        ? 'text-[#266CA8]'
-                        : 'text-[#00000080]'
-                    }`}
-                  >
-                    Sample
-                  </Link>
-                </li>
 
                 <li>
                   <Link
                     href="/"
-                    // href="#working"
-                    // onClick={(e) => {
-                    //   e.preventDefault()
-                    //   handleTabChange('/working')
-                    //   document.getElementById('working')?.scrollIntoView({
-                    //     behavior: 'smooth',
-                    //     block: 'start',
-                    //   })
-                    // }}
-                    className={`block text-xl font-inter font-light text-[#00000080] leading-[25.5px] hover:text-[#266CA8] ${
+                    className={`block text-lg font-inter font-light text-[#00000080] leading-[25.5px] hover:text-[#266CA8] ${
                       activeTab === '/working'
                         ? 'text-[#266CA8]'
                         : 'text-[#00000080]'
                     }`}
                   >
-                    Working
+                    How It Works
                   </Link>
                 </li>
                 <li>
                   <Link
                     href="/"
-                    // href="#pricing"
-                    // onClick={(e) => {
-                    //   e.preventDefault()
-                    //   handleTabChange('/pricing')
-                    //   document.getElementById('pricing')?.scrollIntoView({
-                    //     behavior: 'smooth',
-                    //     block: 'start',
-                    //   })
-                    // }}
-                    className={`block text-xl font-inter font-light text-[#00000080] leading-[25.5px] hover:text-[#266CA8] ${
+                    className={`block text-lg font-inter font-light text-[#00000080] leading-[25.5px] hover:text-[#266CA8] ${
                       activeTab === '/pricing'
                         ? 'text-[#266CA8]'
                         : 'text-[#00000080]'
@@ -163,15 +96,7 @@ function ContactNavbar() {
                 <li>
                   <Link
                     href="/"
-                    // onClick={(e) => {
-                    //   e.preventDefault()
-                    //   handleTabChange('/faqs')
-                    //   document.getElementById('faqs')?.scrollIntoView({
-                    //     behavior: 'smooth',
-                    //     block: 'start',
-                    //   })
-                    // }}
-                    className={`block text-xl font-inter font-light text-[#00000080] leading-[25.5px] hover:text-[#266CA8] ${
+                    className={`block text-lg font-inter font-light text-[#00000080] leading-[25.5px] hover:text-[#266CA8] ${
                       activeTab === '/faqs'
                         ? 'text-[#266CA8]'
                         : 'text-[#00000080]'
@@ -183,13 +108,8 @@ function ContactNavbar() {
                 <li>
                   <Link
                     href="/Contact_Us"
-                    // onClick={() => {
-                    //   handleTabChange('/contact')
-                    // }}
-                    className={`block text-xl font-inter font-light text-[#00000080] leading-[25.5px] hover:text-[#266CA8] ${
-                      activeTab === '/contact'
-                        ? 'text-[#266CA8]'
-                        : 'text-[#00000080]'
+                    className={`block text-lg font-inter font-light leading-[25.5px] hover:text-[#266CA8] ${
+                      isActive ? 'text-[#266CA8]' : 'text-[#00000080]'
                     }`}
                   >
                     Contact Us
@@ -264,17 +184,6 @@ function ContactNavbar() {
                       <li>
                         <Link
                           href="/"
-                          //   href="#"
-                          //   onClick={(e) => {
-                          //     e.preventDefault()
-                          //     handleTabChange('/benefits')
-                          //     document
-                          //       .getElementById('benefits')
-                          //       ?.scrollIntoView({
-                          //         behavior: 'smooth',
-                          //         block: 'start',
-                          //       })
-                          //   }}
                           className={`block text-xl font-inter text-[#00000080] font-light leading-[25.5px] hover:text-[#266CA8] ${
                             activeTab === '/benefits'
                               ? 'text-[#266CA8]'
@@ -287,15 +196,6 @@ function ContactNavbar() {
                       <li>
                         <Link
                           href="/"
-                          //   href="#sample"
-                          //   onClick={(e) => {
-                          //     e.preventDefault()
-                          //     handleTabChange('/sample')
-                          //     document.getElementById('sample')?.scrollIntoView({
-                          //       behavior: 'smooth',
-                          //       block: 'start',
-                          //     })
-                          //   }}
                           className={`block text-xl font-inter text-[#00000080] font-light leading-[25.5px] hover:text-[#266CA8] ${
                             activeTab === '/sample'
                               ? 'text-[#266CA8]'
@@ -309,36 +209,18 @@ function ContactNavbar() {
                       <li>
                         <Link
                           href="/"
-                          //   href="#working"
-                          //   onClick={(e) => {
-                          //     e.preventDefault()
-                          //     handleTabChange('/working')
-                          //     document.getElementById('working')?.scrollIntoView({
-                          //       behavior: 'smooth',
-                          //       block: 'start',
-                          //     })
-                          //   }}
                           className={`block text-xl font-inter font-light text-[#00000080] leading-[25.5px] hover:text-[#266CA8] ${
                             activeTab === '/working'
                               ? 'text-[#266CA8]'
                               : 'text-[#00000080]'
                           }`}
                         >
-                          Working
+                          How It Works
                         </Link>
                       </li>
                       <li>
                         <Link
                           href="/"
-                          //   href="#pricing"
-                          //   onClick={(e) => {
-                          //     e.preventDefault()
-                          //     handleTabChange('/pricing')
-                          //     document.getElementById('pricing')?.scrollIntoView({
-                          //       behavior: 'smooth',
-                          //       block: 'start',
-                          //     })
-                          //   }}
                           className={`block text-xl font-inter font-light text-[#00000080] leading-[25.5px] hover:text-[#266CA8] ${
                             activeTab === '/pricing'
                               ? 'text-[#266CA8]'
@@ -351,15 +233,6 @@ function ContactNavbar() {
                       <li>
                         <Link
                           href="/"
-                          //   href="#faqs"
-                          //   onClick={(e) => {
-                          //     e.preventDefault()
-                          //     handleTabChange('/faqs')
-                          //     document.getElementById('faqs')?.scrollIntoView({
-                          //       behavior: 'smooth',
-                          //       block: 'start',
-                          //     })
-                          //   }}
                           className={`block text-xl font-inter font-light text-[#00000080] leading-[25.5px] hover:text-[#266CA8] ${
                             activeTab === '/faqs'
                               ? 'text-[#266CA8]'
@@ -376,9 +249,7 @@ function ContactNavbar() {
                           //   handleTabChange('/contact')
                           // }}
                           className={`block text-xl font-inter font-light text-[#00000080] leading-[25.5px] hover:text-[#266CA8] ${
-                            activeTab === '/contact'
-                              ? 'text-[#266CA8]'
-                              : 'text-[#00000080]'
+                            isActive ? 'text-[#266CA8]' : 'text-[#00000080]'
                           }`}
                         >
                           Contact Us
