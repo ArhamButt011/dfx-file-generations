@@ -33,10 +33,10 @@ const Examples = () => {
                 <th className="p-3 border-b text-center font-medium">
                   Offset Unit
                 </th>
-                <th className="p-3 border-b text-center font-medium rounded-tr-3xl">
+                <th className="p-3 border-b text-center font-medium">
                   Add Finger Clearance?
                 </th>
-                <th className="p-3 border-b text-center font-medium rounded-tr-3xl">
+                <th className="p-3 border-b text-center font-medium">
                   Add Rectangular Boundary?
                 </th>
                 <th className="p-3 border-b text-center font-medium rounded-tr-3xl">
