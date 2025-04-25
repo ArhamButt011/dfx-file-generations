@@ -14,7 +14,10 @@ const generateEmailBody = (otp: string, name: string) => {
       </div>
       <p style="font-size: 16px; color: #333;">Dear ${name},</p>
       <p style="font-size: 14px; color: #666;">
-        Welcome to Lumashape! To complete your account setup, please verify your email address using the verification code below.      </p>
+        Welcome to Lumashape! To complete your account setup, please verify your email address using the verification code below. </p>
+         <p style="font-size: 14px; color: #666;">
+        This code is valid for 1 minute only. Please do not share it with anyone.
+      </p>
       <p style="font-size: 16px; font-weight: bold; color: #000; margin-top: 20px;">Your Verification Code Is</p>
       <div style="text-align: center; font-size: 28px; font-weight: bold; color: #000; margin: 20px 0;">
         ${otp}

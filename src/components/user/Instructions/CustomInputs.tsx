@@ -1,10 +1,13 @@
 import Text from '@/components/UI/Text'
 import Image from 'next/image'
-import React from 'react'
+import React, { forwardRef } from 'react'
 
-const CustomInputs = () => {
+const CustomInputs = forwardRef<
+  HTMLDivElement,
+  React.HTMLProps<HTMLDivElement>
+>((props, ref) => {
   return (
-    <div className="mt-10">
+    <div className="mt-10" ref={ref}>
       <Text as="h3" className="mb-4">
         Custom Inputs
       </Text>
@@ -128,6 +131,7 @@ const CustomInputs = () => {
       </div>
     </div>
   )
-}
+})
+CustomInputs.displayName = 'CustomInputs'
 
 export default CustomInputs

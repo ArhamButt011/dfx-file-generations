@@ -1210,7 +1210,7 @@ function Input() {
                   </div>
 
                   {boundaryContour === 'Yes' ? (
-                    <div className="flex gap-4">
+                    <div className="flex gap-4 sm:flex-row flex-col">
                       <div className="relative flex items-center border rounded-full w-full p-3 mt-5 bg-[#F2F2F2]">
                         {/* Numeric Input */}
                         <Image
@@ -1237,7 +1237,7 @@ function Input() {
                           // }}
                           onChange={(e) => {
                             const value = e.target.value
-                            if (/^\d*\.?\d{0,3}$/.test(value)) {
+                            if (/^\d*\.?\d{0,2}$/.test(value)) {
                               setBoundaryLength(value)
                             }
                           }}
@@ -1298,7 +1298,7 @@ function Input() {
                           // }}
                           onChange={(e) => {
                             const value = e.target.value
-                            if (/^\d*\.?\d{0,3}$/.test(value)) {
+                            if (/^\d*\.?\d{0,2}$/.test(value)) {
                               setBoundaryWidth(value)
                             }
                           }}
