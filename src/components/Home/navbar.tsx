@@ -4,11 +4,15 @@ import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { useTabContext } from '@/context/TabContsxt'
 import Drawer from '../UI/Drawer'
+import { usePathname } from 'next/navigation'
 
 function Navbar() {
   const { activeTab, setActiveTab } = useTabContext()
+  const pathname = usePathname()
+  const isActive = pathname === '/Contact_Us'
   const handleTabChange = (tab: string) => {
-    setActiveTab(tab) // Update context
+    console.log('tab-> ', tab)
+    setActiveTab(tab)
     onClose()
   }
   const [isOpen, setIsOpen] = useState(false)
@@ -244,10 +248,9 @@ function Navbar() {
                     // onClick={() => {
                     //   handleTabChange('/contact')
                     // }}
-                    className={`block text-lg font-inter font-light text-[#00000080] leading-[25.5px] hover:text-[#266CA8] ${
-                      activeTab === '/contact'
-                        ? 'text-[#266CA8]'
-                        : 'text-[#00000080]'
+
+                    className={`block text-lg font-inter font-light leading-[25.5px] hover:text-[#266CA8] ${
+                      isActive ? 'text-[#266CA8]' : 'text-[#00000080]'
                     }`}
                   >
                     Contact Us
@@ -428,10 +431,8 @@ function Navbar() {
                           // onClick={() => {
                           //   handleTabChange('/contact')
                           // }}
-                          className={`block text-lg font-inter font-light text-[#00000080] leading-[25.5px] hover:text-[#266CA8] ${
-                            activeTab === '/contact'
-                              ? 'text-[#266CA8]'
-                              : 'text-[#00000080]'
+                          className={`block text-lg font-inter font-light leading-[25.5px] hover:text-[#266CA8] ${
+                            isActive ? 'text-[#266CA8]' : 'text-[#00000080]'
                           }`}
                         >
                           Contact Us

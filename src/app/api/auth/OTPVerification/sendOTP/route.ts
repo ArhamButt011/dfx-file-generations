@@ -24,12 +24,12 @@ const generateEmailBody = (otp: string, name: string) => {
       </div>
       <hr style="border: none; border-top: 1px solid #eee;" />
       <p style="font-size: 13px; color: #555;">
-        If you have any questions or need assistance, please contact our founder at 
-        <a href="mailto:sam.peterson@lumashape.com" style="color: #266CA8;">sam.peterson@lumashape.com</a>
+        If you have any questions or need assistance, please contact our support team at 
+        <a href="mailto:support@lumashape.com" style="color: #266CA8;">support@lumashape.com</a>
       </p>
       <p style="font-size: 13px; color: #555;">Thank you for joining us & we hope you have a great experience on the app!</p>
       <p style="margin-top: 30px;"><a href="https://www.lumashape.com" style="color: #000000; text-decoration: none;">www.lumashape.com</a> <span style="color: #000000;">&nbsp;  |   &nbsp;</span>
-     <a href="mailto:sam.peterson@lumashape.com" style="color: #000000;">sam.peterson@lumashape.com</a></p>
+     <a href="mailto:support@lumashape.com" style="color: #000000;">support@lumashape.com</a></p>
       <div style="text-align: start; margin-top: 10px;">
         <a href="https://www.linkedin.com/company/lumashape/" style="text-decoration: none;">
           <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="LinkedIn" width="20" />

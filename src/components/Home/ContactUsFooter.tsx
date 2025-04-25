@@ -131,19 +131,15 @@ function ContactUsFooter() {
             <div className="text-[#22222280] font-medium md:text-lg text-sm space-y-4 flex flex-col pl-1">
               <Link href="/">Home</Link>
               <Link href="/">Benefits</Link>
-              <Link href="/">Samples</Link>
+              {/* <Link href="/">Samples</Link> */}
               <Link href="/">Working</Link>
               <Link href="/">Pricing</Link>
               <Link href="/">FAQ&apos;s</Link>
               <a
-                href="#contact"
+                href="/Contact_Us"
                 onClick={(e) => {
                   e.preventDefault()
-                  handleTabChange('/contact')
-                  document.getElementById('contact')?.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start',
-                  })
+                  handleTabChange('/Contact_Us')
                 }}
               >
                 Contact Us
