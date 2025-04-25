@@ -193,7 +193,7 @@ function ContactNavbar() {
                           Benefits
                         </Link>
                       </li>
-                      <li>
+                      {/* <li>
                         <Link
                           href="/"
                           className={`block text-xl font-inter text-[#00000080] font-light leading-[25.5px] hover:text-[#266CA8] ${
@@ -204,7 +204,7 @@ function ContactNavbar() {
                         >
                           Sample
                         </Link>
-                      </li>
+                      </li> */}
 
                       <li>
                         <Link
