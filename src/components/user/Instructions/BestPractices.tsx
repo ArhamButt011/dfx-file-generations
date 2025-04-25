@@ -1,10 +1,13 @@
 import Text from '@/components/UI/Text'
 import Image from 'next/image'
-import React from 'react'
+import React, { forwardRef } from 'react'
 
-const BestPractices = () => {
+const BestPractices = forwardRef<
+  HTMLDivElement,
+  React.HTMLProps<HTMLDivElement>
+>((props, ref) => {
   return (
-    <div className="mt-10 border-b border-[#000000]">
+    <div className="mt-10 border-b border-[#000000]" ref={ref}>
       <Text as="h4" className="mb-2">
         Best Practices
       </Text>
@@ -88,6 +91,6 @@ const BestPractices = () => {
       </ul>
     </div>
   )
-}
-
+})
+BestPractices.displayName = 'BestPractices' // For better debugging
 export default BestPractices
