@@ -1,42 +1,167 @@
 import Text from '@/components/UI/Text'
-import Image from 'next/image'
-import React from 'react'
 
-const Examples = () => {
+import Image from 'next/image'
+interface ExamplesProps {
+  setImage: (image: string) => void
+  setMask: (mask: string) => void
+  setOverlay: (overlay: string) => void
+  setPreview: (preview: string) => void
+  setDfxFile: (dfxfile: string) => void
+  setIsProcessed: (isprocess: boolean) => void
+  setSelectedFile: (file: File) => void
+  setBoundaryLength: (length: string) => void
+  setBoundaryContour: (contour: string) => void
+  setBoundaryWidth: (width: string) => void
+  setisProcessingOpen: (isOpen: boolean) => void
+  setFingerCut: (cut: string) => void
+  setContourOffset: (offset: string) => void
+  setContour: (contour: string) => void
+  setUnit: (unit: string) => void
+}
+
+const Examples: React.FC<ExamplesProps> = (props) => {
   const examples = [
     {
-      image: '/images/user/GenerateDFX/dxf1.jpg',
-      valueForMask: 0.075,
-      offsetUnit: 'inches',
-      fingerClearence: 'Yes',
-      rectangularBoundary: 'No',
-      boundaryLength: 400,
-    },
-    {
-      image: '/images/user/GenerateDFX/dxf2.png',
-      valueForMask: 0,
+      id: 1,
+      image: '/images/user/GenerateDFX/dxf1.svg',
+      actualImage: '/images/user/GenerateDFX/img1.png',
+      valueForMask: '0.016',
       offsetUnit: 'inches',
       fingerClearence: 'Yes',
       rectangularBoundary: 'Yes',
-      boundaryLength: 300,
+      boundaryLength: '300',
+      overlayUrl:
+        'https://dxf.lumashape.com/outputs/c805ff06-4e30-41d6-80c6-b9ca1691d92d/Overlay_Image.jpg',
+      outlineUrl:
+        'https://dxf.lumashape.com/outputs/c805ff06-4e30-41d6-80c6-b9ca1691d92d/DXF_Preview.jpg',
+      maskUrl:
+        'https://dxf.lumashape.com/outputs/c805ff06-4e30-41d6-80c6-b9ca1691d92d/mask.jpg',
+      dxf_file:
+        'https://dxf.lumashape.com/outputs/c805ff06-4e30-41d6-80c6-b9ca1691d92d/DXF_28-04-2025_offset-0.0160.dxf',
     },
     {
+      id: 2,
+      image: '/images/user/GenerateDFX/dxf2.svg',
+      actualImage: '/images/user/GenerateDFX/img2.png',
+      valueForMask: '0.075',
+      offsetUnit: 'inches',
+      fingerClearence: 'Yes',
+      rectangularBoundary: 'Yes',
+      boundaryLength: '50',
+      overlayUrl:
+        'https://dxf.lumashape.com/outputs/ef75928c-ffa7-44e2-94e2-200a3d6c9dbf/Overlay_Image.jpg',
+      outlineUrl:
+        'https://dxf.lumashape.com/outputs/ef75928c-ffa7-44e2-94e2-200a3d6c9dbf/DXF_Preview.jpg',
+      maskUrl:
+        'https://dxf.lumashape.com/outputs/ef75928c-ffa7-44e2-94e2-200a3d6c9dbf/mask.jpg',
+      dxf_file:
+        'https://dxf.lumashape.com/outputs/ef75928c-ffa7-44e2-94e2-200a3d6c9dbf/DXF_28-04-2025_offset-0.0750.dxf',
+    },
+    {
+      id: 3,
       image: '/images/user/GenerateDFX/dxf3.svg',
-      valueForMask: 0.075,
+      actualImage: '/images/user/GenerateDFX/img3.png',
+      valueForMask: '0.025',
+      offsetUnit: 'mm',
+      fingerClearence: 'Yes',
+      rectangularBoundary: 'Yes',
+      boundaryLength: '500',
+      overlayUrl:
+        'https://dxf.lumashape.com/outputs/ccd24b28-fc07-4682-bf90-9369af01936c/Overlay_Image.jpg',
+      outlineUrl:
+        'https://dxf.lumashape.com/outputs/ccd24b28-fc07-4682-bf90-9369af01936c/DXF_Preview.jpg',
+      maskUrl:
+        'https://dxf.lumashape.com/outputs/ccd24b28-fc07-4682-bf90-9369af01936c/mask.jpg',
+      dxf_file:
+        'https://dxf.lumashape.com/outputs/ccd24b28-fc07-4682-bf90-9369af01936c/DXF_28-04-2025_offset-0.0250.dxf',
+    },
+    {
+      id: 4,
+      image: '/images/user/GenerateDFX/dxf4.svg',
+      actualImage: '/images/user/GenerateDFX/img4.png',
+      valueForMask: '0.045',
       offsetUnit: 'mm',
       fingerClearence: 'Yes',
       rectangularBoundary: 'No',
-      boundaryLength: 300,
-    },
-    {
-      image: '/images/user/GenerateDFX/dxf4.svg',
-      valueForMask: 0.075,
-      offsetUnit: 'inches',
-      fingerClearence: 'Yes',
-      rectangularBoundary: 'No',
-      boundaryLength: 300,
+      boundaryLength: '--',
+      overlayUrl:
+        'https://dxf.lumashape.com/outputs/b731b8ad-b060-41e4-8dfb-77b143cfed4b/Overlay_Image.jpg',
+      outlineUrl:
+        'https://dxf.lumashape.com/outputs/b731b8ad-b060-41e4-8dfb-77b143cfed4b/DXF_Preview.jpg',
+      maskUrl:
+        'https://dxf.lumashape.com/outputs/b731b8ad-b060-41e4-8dfb-77b143cfed4b/mask.jpg',
+      dxf_file:
+        'https://dxf.lumashape.com/outputs/b731b8ad-b060-41e4-8dfb-77b143cfed4b/DXF_28-04-2025_offset-0.0450.dxf',
     },
   ]
+
+  const handleRowClick = async (id: number) => {
+    const example = examples.filter((data) => data.id === id)
+    const actualImage = example[0].actualImage
+    const boundaryLength = example[0].boundaryLength
+    props.setDfxFile(example[0].dxf_file)
+    props.setIsProcessed(true)
+
+    const fetchBase64Images = async () => {
+      const convertToBase64 = async (url: string): Promise<string> => {
+        const response = await fetch(url)
+        const blob = await response.blob()
+        return new Promise((resolve) => {
+          const reader = new FileReader()
+          reader.onloadend = () => resolve(reader.result as string)
+          reader.readAsDataURL(blob)
+        })
+      }
+
+      try {
+        const [maskBase64, overlayBase64, previewBase64] = await Promise.all([
+          convertToBase64(example[0].maskUrl),
+          convertToBase64(example[0].overlayUrl),
+          convertToBase64(example[0].outlineUrl),
+        ])
+
+        props.setMask(maskBase64)
+        props.setOverlay(overlayBase64)
+        props.setPreview(previewBase64)
+      } catch (error) {
+        console.error('Error fetching base64 images:', error)
+      }
+    }
+    fetchBase64Images()
+
+    if (actualImage) {
+      try {
+        const response = await fetch(actualImage)
+        const blob = await response.blob()
+
+        const file = new File(
+          [blob],
+          actualImage.split('/').pop() || 'default.png',
+          {
+            type: blob.type,
+          },
+        )
+
+        const boundaryLengthValue =
+          boundaryLength === '--' ? '0' : boundaryLength
+
+        props.setContour(example[0].valueForMask)
+        props.setImage(actualImage)
+        props.setSelectedFile(file)
+        props.setBoundaryLength(boundaryLengthValue)
+        props.setFingerCut(example[0].fingerClearence)
+        props.setBoundaryContour(example[0].rectangularBoundary)
+        props.setContourOffset('Yes')
+        props.setUnit(example[0].offsetUnit)
+        props.setBoundaryWidth(boundaryLengthValue)
+      } catch (error) {
+        console.error('Failed to load the image:', error)
+      }
+    } else {
+      console.error('Image not found')
+    }
+  }
+
   return (
     <div>
       <div className="flex items-center mt-4 gap-1 mb-4">
@@ -54,7 +179,7 @@ const Examples = () => {
       </div>
 
       <div className="w-full overflow-x-auto grid grid-cols-1">
-        <div className="w-full  sm:max-w-full">
+        <div className="w-full sm:max-w-full">
           <table className="w-full rounded-3xl overflow-hidden border border-[#C6C9CB]">
             <thead className="bg-[#C6C9CB] rounded-3xl">
               <tr className="md:text-[16px] text-[14px] text-black">
@@ -84,9 +209,10 @@ const Examples = () => {
                 return (
                   <tr
                     key={index}
-                    className={`text-primary text-[14px] md:text-[16px] ${
+                    className={`text-primary text-[14px] md:text-[16px] hover:cursor-pointer ${
                       index % 2 !== 0 ? 'bg-[#F2F2F2]' : 'bg-white'
                     }`}
+                    onClick={() => handleRowClick(data.id)}
                   >
                     <td
                       className={`py-4 px-4 text-center font-medium border border-[#C6C9CB] ${
