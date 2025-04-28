@@ -8,6 +8,7 @@ import { useAuth } from '@/context/AuthContext'
 import Subscribe from '../Subscription/Subscribe'
 import { PulseLoader } from 'react-spinners'
 import Text from '@/components/UI/Text'
+import Examples from './Examples'
 
 interface UserPlan {
   plan_name: string
@@ -111,6 +112,7 @@ function Input() {
   const userId = userData?.id,
     // const [clicked, setClicked] = useState(false)
     // const zoom = 3,
+
     lensSize = 150
   useEffect(() => {
     async function fetchUserPlan() {
@@ -134,7 +136,6 @@ function Input() {
       fetchUserPlan()
     }
   }, [userId])
-
   // useEffect(() => {
   //   if (!isMagnifierActive || !image) return // Only attach event listeners if magnifier is active
 
@@ -210,8 +211,6 @@ function Input() {
     }
   }, [userPlan])
 
-  console.log(boundaryLength, boundaryWidth, unit)
-
   useEffect(() => {
     sessionStorage.setItem('overlay', overlay)
     sessionStorage.setItem('mask', mask)
@@ -220,7 +219,6 @@ function Input() {
     // sessionStorage.setItem('image', image)
     // sessionStorage.setItem('contour', contour)
     sessionStorage.setItem('contour', contour.toString())
-
     sessionStorage.setItem('boundaryLength', boundaryLength.toString())
     sessionStorage.setItem('boundaryWidth', boundaryWidth.toString())
     sessionStorage.setItem('drawerId', drawerId)
@@ -299,7 +297,7 @@ function Input() {
   //     }
   //   }
   // }
-
+  console.log('dxf file-> ', dfxFile)
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault()
     setDragging(false)
@@ -416,7 +414,6 @@ function Input() {
     if (selectedFile) {
       formData.append('file', selectedFile)
     }
-    console.log('file-> ', selectedFile)
     try {
       const res = await fetch(
         `https://dxf.lumashape.com/predict?offset_value=${contour}&offset_unit=${unit}&finger_clearance=${fingerCut}&add_boundary=${boundaryContour}&boundary_length=${boundaryLength}&boundary_width=${boundaryWidth}&annotation_text=${drawerId}`,
@@ -428,7 +425,6 @@ function Input() {
       )
 
       if (!res.ok) {
-        console.log(res)
         const data = await res.json()
         throw new Error(
           data.detail + ' or Invalid Image' || 'An error occurred',
@@ -525,8 +521,6 @@ function Input() {
 
       // Clean up memory
       URL.revokeObjectURL(blobUrl)
-
-      console.log('Image downloaded successfully')
     } catch (err) {
       Swal.fire({
         title: 'Error',
@@ -589,8 +583,6 @@ function Input() {
       if (!res.ok) {
         throw new Error(`Failed to save file info. Status: ${res.status}`)
       }
-
-      console.log('File info saved successfully')
     } catch (err) {
       Swal.fire({
         title: 'Error',
@@ -1641,6 +1633,23 @@ function Input() {
           </div>
         </div>
       </div>
+      <Examples
+        setImage={setImage}
+        setMask={setMask}
+        setSelectedFile={setSelectedFile}
+        setBoundaryLength={setBoundaryLength}
+        setBoundaryContour={setBoundaryContour}
+        setBoundaryWidth={setBoundaryWidth}
+        setisProcessingOpen={setisProcessingOpen}
+        setFingerCut={setFingerCut}
+        setContourOffset={setContourOffset}
+        setContour={setContour}
+        setUnit={setUnit}
+        setOverlay={setOverlay}
+        setPreview={setPreview}
+        setDfxFile={setDfxFile}
+        setIsProcessed={setIsProcessed}
+      />
       {/* processing */}
       <Modal isOpen={isProcessingOpen} onClose={onClose} buttonContent="">
         <>

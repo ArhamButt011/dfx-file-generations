@@ -1,201 +1,15 @@
 'use client'
 import Text from '@/components/UI/Text'
-import React, { useEffect, useRef, useState } from 'react'
 import CustomInputs from './CustomInputs'
 import BestPractices from './BestPractices'
-import InstructionMobile from './InstructionMobile'
 
 function Instructions() {
-  const introRef = useRef<HTMLLIElement | null>(null)
-  const overviewRef = useRef<HTMLLIElement | null>(null)
-  const howItWorksRef = useRef<HTMLLIElement | null>(null)
-  const customInputsRef = useRef<HTMLDivElement | null>(null)
-  const bestPracticesRef = useRef<HTMLDivElement | null>(null)
-  const scrollContainerRef = useRef<HTMLDivElement | null>(null)
-  const fingerClearanceRef = useRef<HTMLDivElement | null>(null)
-  const contourOffsetRef = useRef<HTMLDivElement | null>(null)
-  const boundaryContourRef = useRef<HTMLDivElement | null>(null)
-  const boundaryDimensionRef = useRef<HTMLDivElement | null>(null)
-  const drawerIdRef = useRef<HTMLDivElement | null>(null)
-
-  const [activeSection, setActiveSection] = useState('introduction')
-  const [isSmallScreen, setIsSmallScreen] = useState(false)
-
-  const scrollToSection = (ref: React.RefObject<HTMLElement | null>) => {
-    const target = ref?.current
-
-    if (!target) return
-
-    if (isSmallScreen) {
-      // Scroll using window.scrollTo for small screens
-      const targetTop = target.getBoundingClientRect().top + window.scrollY
-      window.scrollTo({ top: targetTop, behavior: 'smooth' })
-    } else {
-      // Scroll using scrollContainerRef for large screens
-      const container = scrollContainerRef.current
-      if (container) {
-        const containerTop = container.getBoundingClientRect().top
-        const targetTop = target.getBoundingClientRect().top
-        const scrollOffset = targetTop - containerTop + container.scrollTop
-        container.scrollTo({ top: scrollOffset, behavior: 'smooth' })
-      }
-    }
-  }
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsSmallScreen(window.innerWidth < 768)
-    }
-
-    // Initialize the screen size detection
-    handleResize()
-    window.addEventListener('resize', handleResize)
-
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
-
-  useEffect(() => {
-    const container = scrollContainerRef.current
-    if (!container) return
-
-    const handleScroll = () => {
-      const refs = [
-        { ref: introRef, id: 'introduction' },
-        { ref: overviewRef, id: 'overview' },
-        { ref: howItWorksRef, id: 'howitworks' },
-        { ref: customInputsRef, id: 'custominputs' },
-        { ref: bestPracticesRef, id: 'bestpractice' },
-        { ref: fingerClearanceRef, id: 'fingerclearance' },
-        { ref: contourOffsetRef, id: 'contouroffset' },
-        { ref: boundaryContourRef, id: 'boundarycontour' },
-        { ref: boundaryDimensionRef, id: 'boundarydimension' },
-        { ref: drawerIdRef, id: 'drawerid' },
-      ]
-
-      const current = refs.find(({ ref }) => {
-        const rect = ref.current?.getBoundingClientRect()
-        const containerRect = container.getBoundingClientRect()
-
-        // Check if the top of the section is within the visible area of the container
-        return (
-          rect &&
-          rect.top >= containerRect.top &&
-          rect.top <= containerRect.bottom - 100 // Adjust this threshold as necessary
-        )
-      })
-
-      console.log('current-> ', current)
-
-      if (current) {
-        setActiveSection(current.id)
-      }
-    }
-
-    container.addEventListener('scroll', handleScroll, { passive: true })
-    return () => container.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  const getLinkClass = (section: string) => {
-    return `cursor-pointer ${
-      activeSection === section
-        ? 'text-[#266CA8] font-semibold sm:border-r sm:border-[#266CA8] sm:border-r-[3px]'
-        : 'text-[#00000066]'
-    }`
-  }
-
   return (
     <>
-      <div className="bg-[#F2F2F2] rounded-2xl flex flex-col md:flex-row gap-1 sm:gap-8 hidden sm:flex">
-        {/* Sidebar */}
-        <div className="md:w-[250px] w-full md:border-r md:border-[#ddd] pl-3 md:pl-10 mt-3 sm:mt-10 sticky top-18 bg-[#F2F2F2] z-10 hidden sm:block">
-          <Text
-            className="sm:text-[26px] text-[20px] font-semibold sm:hidden sm:mb-0 mb-3"
-            as="h3"
-          >
-            LumaShape Guide
-          </Text>
-          <ul className="text-sm space-y-0 sm:space-y-3">
-            <li
-              className={getLinkClass('introduction')}
-              onClick={() => scrollToSection(introRef)}
-            >
-              <Text className="flex items-center gap-2">
-                <span className="text-2xl">•</span> Introduction
-              </Text>
-            </li>
-            <li
-              className={getLinkClass('overview')}
-              onClick={() => scrollToSection(overviewRef)}
-            >
-              <Text className="flex items-center gap-2">
-                <span className="text-2xl">•</span> Overview
-              </Text>
-            </li>
-            <li
-              className={getLinkClass('howitworks')}
-              onClick={() => scrollToSection(howItWorksRef)}
-            >
-              <Text className="flex items-center gap-2">
-                <span className="text-2xl">•</span> How It Works
-              </Text>
-            </li>
-            <li
-              className={getLinkClass('custominputs')}
-              onClick={() => scrollToSection(customInputsRef)}
-            >
-              <Text className="flex items-center gap-2">
-                <span className="text-2xl">•</span>Custom Inputs
-              </Text>
-            </li>
-
-            <li
-              className={getLinkClass('fingerclearance')}
-              onClick={() => scrollToSection(fingerClearanceRef)}
-            >
-              Finger Clearance
-            </li>
-            <li
-              className={getLinkClass('contouroffset')}
-              onClick={() => scrollToSection(contourOffsetRef)}
-            >
-              Contour Offset
-            </li>
-            <li
-              className={getLinkClass('boundarycontour')}
-              onClick={() => scrollToSection(boundaryContourRef)}
-            >
-              Boundary Contour
-            </li>
-            <li
-              className={getLinkClass('boundarydimension')}
-              onClick={() => scrollToSection(boundaryDimensionRef)}
-            >
-              Boundary Dimension
-            </li>
-            <li
-              className={getLinkClass('drawerid')}
-              onClick={() => scrollToSection(drawerIdRef)}
-            >
-              Drawer ID
-            </li>
-
-            <li
-              className={getLinkClass('bestpractice')}
-              onClick={() => scrollToSection(bestPracticesRef)}
-            >
-              <Text className="flex items-center gap-2">
-                <span className="text-2xl">•</span> Best Practices
-              </Text>
-            </li>
-          </ul>
-        </div>
-
+      <div className="bg-[#F2F2F2] rounded-2xl flex flex-col md:flex-row gap-1 sm:gap-8 sm:px-10 pb-10">
         {/* Main Content */}
         <div className="flex-1 sm:pt-10 pb-3 px-5 sm:px-0">
-          <div
-            ref={scrollContainerRef}
-            className="sm:overflow-y-auto sm:max-h-[calc(100vh-5rem)] sm:scrollbar-thin sm: scrollbar-thumb-gray-400 sm: scrollbar-track-gray-100"
-          >
+          <div>
             <div className="pr-4 md:pr-10">
               <Text
                 className="sm:text-[26px] text-[20px] font-semibold hidden sm:block"
@@ -204,7 +18,7 @@ function Instructions() {
                 LumaShape Guide
               </Text>
               <ul className="mt-7">
-                <li ref={introRef}>
+                <li>
                   <Text as="h3" className="mb-2">
                     Introduction
                   </Text>
@@ -222,7 +36,7 @@ function Instructions() {
                   </ul>
                 </li>
 
-                <li ref={overviewRef}>
+                <li>
                   <Text as="h3" className="mt-10 mb-2">
                     Overview
                   </Text>
@@ -247,7 +61,7 @@ function Instructions() {
                   </ul>
                 </li>
 
-                <li ref={howItWorksRef}>
+                <li>
                   <Text as="h3" className="mt-10 mb-2">
                     How it Works
                   </Text>
@@ -290,15 +104,8 @@ function Instructions() {
                   </ul>
                 </li>
               </ul>
-              <CustomInputs
-                ref={customInputsRef}
-                fingerClearanceRef={fingerClearanceRef}
-                contourOffsetRef={contourOffsetRef}
-                boundaryContourRef={boundaryContourRef}
-                boundaryDimensionRef={boundaryDimensionRef}
-                drawerIdRef={drawerIdRef}
-              />
-              <BestPractices ref={bestPracticesRef} />
+              <CustomInputs />
+              <BestPractices />
               <Text
                 as="p1"
                 className="font-semibold text-[18px] md:text-[21px] mt-4"
@@ -310,7 +117,6 @@ function Instructions() {
           </div>
         </div>
       </div>
-      <InstructionMobile />
     </>
   )
 }

@@ -7,7 +7,6 @@ import Input from '@/components/user/GenerateDXF/Input'
 // import { useAuth } from '@/context/AuthContext'
 // import axios from 'axios'
 import withAuth from '@/hoc/withAuth'
-import Examples from '@/components/user/GenerateDXF/Examples'
 
 function Page() {
   // const { userData, logout } = useAuth()
@@ -40,7 +39,6 @@ function Page() {
       <DefaultLayout>
         <Title />
         <Input />
-        <Examples />
       </DefaultLayout>
       {/* ) : null} */}
     </>
