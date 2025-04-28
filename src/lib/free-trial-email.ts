@@ -60,8 +60,7 @@ const FreeTrialEmail = async (email: string, name: string, expiry: string) => {
       html: htmlContent,
     }
 
-    const info = await transporter.sendMail(mailOptions)
-    console.log('Email sent successfully:', info.messageId)
+    await transporter.sendMail(mailOptions)
   } catch (error) {
     console.error('Error sending email:', error)
     throw new Error('Failed to send email')

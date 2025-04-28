@@ -59,20 +59,27 @@ export async function POST(req: NextRequest) {
       <p style="font-size: 22px; font-weight: 600;">Your Submitted Details</p>
       <hr/>
 
-      <div style="display:flex; justify-content:start;">
-        <p style="font-size: 18px; min-width: 300px; font-weight: 200; color: #00000080;">Name:</p>
-        <p style="font-size: 18px; font-weight: 500;">${data.formData.first} ${data.formData.last}</p>
-      </div>
+ <table style="width: 100%; border-collapse: separate; border-spacing: 10px;">
+  <tr>
+    <td style="font-size: 20px; min-width: 150px; font-weight: 200; color: #00000080;">Name:</td>
+    <td style="font-size: 20px; font-weight: 500;">${data.formData.first} ${data.formData.last}</td>
+  </tr>
+  <tr>
+    <td style="font-size: 20px; min-width: 150px; font-weight: 200; color: #00000080;">Email Address:</td>
+    <td style="font-size: 20px; font-weight: 500;">${data.formData.email}</td>
+  </tr>
 
-      <div style="display:flex">
-        <p style="font-size: 18px; min-width: 300px; font-weight: 200; color: #00000080;">Email Address:</p>
-        <p style="font-size: 18px; font-weight: 500;">${data.formData.email}</p>
-      </div>
+  <tr>
+    <td style="font-size: 20px; min-width: 300px; font-weight: 200; color: #00000080; margin-bottom:0px;">Message:</td>
+  </tr>
+  <tr>
+    <td style="font-size: 20px; font-weight: 100;">${data.formData.message}</td>
+  </tr>
+</table>
 
-      <div">
-        <p style="font-size: 18px; min-width: 300px; font-weight: 200; color: #00000080;">Message:</p>
-        <p style="font-size: 18px; font-weight: 100;">${data.formData.message}</p>
-      </div>
+
+
+      
       <hr />
 
       <p style="margin-top: 30px; font-size: 18px; font-weight: 300; color: #00000099;">If you have any questions or need assistance, please contact our support team at 
@@ -156,7 +163,7 @@ export async function POST(req: NextRequest) {
 
     // Send email to the user
     await transporter.sendMail({
-      from: process.env.EMAIL_USER,
+      from: `"LumaShape" <${process.env.EMAIL_USER}>`,
       to: data.formData.email,
       subject: 'Thank you for contacting Lumashape!',
       html: userEmailTemplate,
@@ -164,7 +171,7 @@ export async function POST(req: NextRequest) {
 
     // Send internal email to Sam Peterson
     await transporter.sendMail({
-      from: process.env.EMAIL_USER,
+      from: `"LumaShape" <${process.env.EMAIL_USER}>`,
       to: 'sam.peterson@lumashape.com',
       subject: 'New Inquiry Received',
       html: internalEmailTemplate,

@@ -5,7 +5,7 @@ import React from 'react'
 const Examples = () => {
   const examples = [
     {
-      image: '/images/user/GenerateDFX/dxf1.svg',
+      image: '/images/user/GenerateDFX/dxf1.jpg',
       valueForMask: 0.075,
       offsetUnit: 'inches',
       fingerClearence: 'Yes',
@@ -13,7 +13,7 @@ const Examples = () => {
       boundaryLength: 400,
     },
     {
-      image: '/images/user/GenerateDFX/dxf2.svg',
+      image: '/images/user/GenerateDFX/dxf2.png',
       valueForMask: 0,
       offsetUnit: 'inches',
       fingerClearence: 'Yes',
@@ -96,7 +96,7 @@ const Examples = () => {
                       <Image
                         src={data.image}
                         alt="dxfimage"
-                        height={75}
+                        height={100}
                         width={75}
                       />
                     </td>
