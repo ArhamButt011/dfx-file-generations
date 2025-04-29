@@ -40,6 +40,7 @@ function Hero() {
             className="w-full object-cover rounded-lg" // Optional rounded corners
             loop
             muted
+            autoPlay
             controls
           >
             <source
