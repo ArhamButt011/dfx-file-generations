@@ -25,7 +25,7 @@ const Examples: React.FC<ExamplesProps> = (props) => {
     {
       id: 1,
       image: '/images/user/GenerateDFX/dxf1.svg',
-      actualImage: '/images/user/GenerateDFX/img1.png',
+      actualImage: '/images/user/GenerateDFX/img1.jpg',
       valueForMask: '0.016',
       offsetUnit: 'inches',
       fingerClearence: 'Yes',
@@ -35,13 +35,13 @@ const Examples: React.FC<ExamplesProps> = (props) => {
       text: 'TEXT',
 
       overlayUrl:
-        'https://dxf.lumashape.com/outputs/c805ff06-4e30-41d6-80c6-b9ca1691d92d/Overlay_Image.jpg',
+        'https://dxf.lumashape.com/outputs/a302ce29-695f-4fe9-822c-5f748e7273fb/Overlay_Image.jpg',
       outlineUrl:
-        'https://dxf.lumashape.com/outputs/c805ff06-4e30-41d6-80c6-b9ca1691d92d/DXF_Preview.jpg',
+        'https://dxf.lumashape.com/outputs/a302ce29-695f-4fe9-822c-5f748e7273fb/DXF_Preview.jpg',
       maskUrl:
-        'https://dxf.lumashape.com/outputs/c805ff06-4e30-41d6-80c6-b9ca1691d92d/mask.jpg',
+        'https://dxf.lumashape.com/outputs/a302ce29-695f-4fe9-822c-5f748e7273fb/mask.jpg',
       dxf_file:
-        'https://dxf.lumashape.com/outputs/c805ff06-4e30-41d6-80c6-b9ca1691d92d/DXF_28-04-2025_offset-0.0160.dxf',
+        'https://dxf.lumashape.com/outputs/a302ce29-695f-4fe9-822c-5f748e7273fb/DXF_29-04-2025_offset-0.0160.dxf',
     },
     {
       id: 2,
@@ -55,13 +55,13 @@ const Examples: React.FC<ExamplesProps> = (props) => {
       boundaryWidth: '50',
       text: 'TEXT',
       overlayUrl:
-        'https://dxf.lumashape.com/outputs/ef75928c-ffa7-44e2-94e2-200a3d6c9dbf/Overlay_Image.jpg',
+        'https://dxf.lumashape.com/outputs/25a32f97-a865-4d05-ba36-2a32177b31e5/Overlay_Image.jpg',
       outlineUrl:
-        'https://dxf.lumashape.com/outputs/ef75928c-ffa7-44e2-94e2-200a3d6c9dbf/DXF_Preview.jpg',
+        'https://dxf.lumashape.com/outputs/25a32f97-a865-4d05-ba36-2a32177b31e5/DXF_Preview.jpg',
       maskUrl:
-        'https://dxf.lumashape.com/outputs/ef75928c-ffa7-44e2-94e2-200a3d6c9dbf/mask.jpg',
+        'https://dxf.lumashape.com/outputs/25a32f97-a865-4d05-ba36-2a32177b31e5/mask.jpg',
       dxf_file:
-        'https://dxf.lumashape.com/outputs/ef75928c-ffa7-44e2-94e2-200a3d6c9dbf/DXF_28-04-2025_offset-0.0750.dxf',
+        'https://dxf.lumashape.com/outputs/25a32f97-a865-4d05-ba36-2a32177b31e5/DXF_29-04-2025_offset-0.0750.dxf',
     },
     {
       id: 3,
@@ -75,18 +75,18 @@ const Examples: React.FC<ExamplesProps> = (props) => {
       boundaryWidth: '500',
       text: 'ANNOTATION',
       overlayUrl:
-        'https://dxf.lumashape.com/outputs/ccd24b28-fc07-4682-bf90-9369af01936c/Overlay_Image.jpg',
+        'https://dxf.lumashape.com/outputs/c4d94087-becf-45f4-a0f4-72b14870522c/Overlay_Image.jpg',
       outlineUrl:
-        'https://dxf.lumashape.com/outputs/ccd24b28-fc07-4682-bf90-9369af01936c/DXF_Preview.jpg',
+        'https://dxf.lumashape.com/outputs/c4d94087-becf-45f4-a0f4-72b14870522c/DXF_Preview.jpg',
       maskUrl:
-        'https://dxf.lumashape.com/outputs/ccd24b28-fc07-4682-bf90-9369af01936c/mask.jpg',
+        'https://dxf.lumashape.com/outputs/c4d94087-becf-45f4-a0f4-72b14870522c/mask.jpg',
       dxf_file:
-        'https://dxf.lumashape.com/outputs/ccd24b28-fc07-4682-bf90-9369af01936c/DXF_28-04-2025_offset-0.0250.dxf',
+        'https://dxf.lumashape.com/outputs/c4d94087-becf-45f4-a0f4-72b14870522c/DXF_29-04-2025_offset-0.0250.dxf',
     },
     {
       id: 4,
       image: '/images/user/GenerateDFX/dxf4.svg',
-      actualImage: '/images/user/GenerateDFX/img4.png',
+      actualImage: '/images/user/GenerateDFX/img4.jpg',
       valueForMask: '0.045',
       offsetUnit: 'mm',
       fingerClearence: 'Yes',
@@ -95,13 +95,13 @@ const Examples: React.FC<ExamplesProps> = (props) => {
       boundaryWidth: '--',
       text: '--',
       overlayUrl:
-        'https://dxf.lumashape.com/outputs/b731b8ad-b060-41e4-8dfb-77b143cfed4b/Overlay_Image.jpg',
+        'https://dxf.lumashape.com/outputs/e8c6c864-7593-4718-9da0-89fb5152f8b3/Overlay_Image.jpg',
       outlineUrl:
-        'https://dxf.lumashape.com/outputs/b731b8ad-b060-41e4-8dfb-77b143cfed4b/DXF_Preview.jpg',
+        'https://dxf.lumashape.com/outputs/e8c6c864-7593-4718-9da0-89fb5152f8b3/DXF_Preview.jpg',
       maskUrl:
-        'https://dxf.lumashape.com/outputs/b731b8ad-b060-41e4-8dfb-77b143cfed4b/mask.jpg',
+        'https://dxf.lumashape.com/outputs/e8c6c864-7593-4718-9da0-89fb5152f8b3/mask.jpg',
       dxf_file:
-        'https://dxf.lumashape.com/outputs/b731b8ad-b060-41e4-8dfb-77b143cfed4b/DXF_28-04-2025_offset-0.0450.dxf',
+        'https://dxf.lumashape.com/outputs/e8c6c864-7593-4718-9da0-89fb5152f8b3/DXF_29-04-2025_offset-0.0450.dxf',
     },
   ]
 
@@ -192,7 +192,7 @@ const Examples: React.FC<ExamplesProps> = (props) => {
         </Text>
       </div>
 
-      <div className="w-full overflow-x-auto grid grid-cols-1">
+      <div className="w-full overflow-x-auto grid grid-cols-1 relative mx-auto">
         <div className="w-full sm:max-w-full">
           <table className="w-full rounded-3xl overflow-hidden border border-[#C6C9CB]">
             <thead className="bg-[#C6C9CB] rounded-3xl">
