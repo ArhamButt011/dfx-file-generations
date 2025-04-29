@@ -7,7 +7,6 @@ import Drawer from '../UI/Drawer'
 import { usePathname } from 'next/navigation'
 function ContactNavbar() {
   const { activeTab, setActiveTab } = useTabContext()
-  console.log('active tab-> ', activeTab)
   const pathname = usePathname()
   const isActive = pathname === '/Contact_Us'
   const handleTabChange = (tab: string) => {
@@ -164,14 +163,14 @@ function ContactNavbar() {
                       <li>
                         <Link
                           href="/"
-                          onClick={(e) => {
-                            e.preventDefault()
-                            handleTabChange('/home')
-                            document.getElementById('home')?.scrollIntoView({
-                              behavior: 'smooth',
-                              block: 'start',
-                            })
-                          }}
+                          // onClick={(e) => {
+                          //   e.preventDefault()
+                          //   handleTabChange('/home')
+                          //   document.getElementById('home')?.scrollIntoView({
+                          //     behavior: 'smooth',
+                          //     block: 'start',
+                          //   })
+                          // }}
                           className={` text-xl text-[#00000080] font-light leading-[25.5px] hover:text-[#266CA8] ${
                             activeTab === '/home'
                               ? 'text-[#266CA8]'
