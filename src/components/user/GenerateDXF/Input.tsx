@@ -297,7 +297,6 @@ function Input() {
   //     }
   //   }
   // }
-  console.log('dxf file-> ', dfxFile)
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault()
     setDragging(false)
