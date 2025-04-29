@@ -55,13 +55,13 @@ const Examples: React.FC<ExamplesProps> = (props) => {
       boundaryWidth: '50',
       text: 'TEXT',
       overlayUrl:
-        'https://dxf.lumashape.com/outputs/25a32f97-a865-4d05-ba36-2a32177b31e5/Overlay_Image.jpg',
+        'https://dxf.lumashape.com/outputs/199097db-c333-4122-8978-b2a4e3d9a899/Overlay_Image.jpg',
       outlineUrl:
-        'https://dxf.lumashape.com/outputs/25a32f97-a865-4d05-ba36-2a32177b31e5/DXF_Preview.jpg',
+        'https://dxf.lumashape.com/outputs/199097db-c333-4122-8978-b2a4e3d9a899/DXF_Preview.jpg',
       maskUrl:
-        'https://dxf.lumashape.com/outputs/25a32f97-a865-4d05-ba36-2a32177b31e5/mask.jpg',
+        'https://dxf.lumashape.com/outputs/199097db-c333-4122-8978-b2a4e3d9a899/mask.jpg',
       dxf_file:
-        'https://dxf.lumashape.com/outputs/25a32f97-a865-4d05-ba36-2a32177b31e5/DXF_29-04-2025_offset-0.0750.dxf',
+        'https://dxf.lumashape.com/outputs/6d16d4af-d466-4b88-8305-02c6a91490d6/DXF_29-04-2025_offset-0.0750.dxf',
     },
     {
       id: 3,
@@ -75,13 +75,13 @@ const Examples: React.FC<ExamplesProps> = (props) => {
       boundaryWidth: '500',
       text: 'ANNOTATION',
       overlayUrl:
-        'https://dxf.lumashape.com/outputs/c4d94087-becf-45f4-a0f4-72b14870522c/Overlay_Image.jpg',
+        'https://dxf.lumashape.com/outputs/199097db-c333-4122-8978-b2a4e3d9a899/Overlay_Image.jpg',
       outlineUrl:
-        'https://dxf.lumashape.com/outputs/c4d94087-becf-45f4-a0f4-72b14870522c/DXF_Preview.jpg',
+        'https://dxf.lumashape.com/outputs/199097db-c333-4122-8978-b2a4e3d9a899/DXF_Preview.jpg',
       maskUrl:
-        'https://dxf.lumashape.com/outputs/c4d94087-becf-45f4-a0f4-72b14870522c/mask.jpg',
+        'https://dxf.lumashape.com/outputs/199097db-c333-4122-8978-b2a4e3d9a899/mask.jpg',
       dxf_file:
-        'https://dxf.lumashape.com/outputs/c4d94087-becf-45f4-a0f4-72b14870522c/DXF_29-04-2025_offset-0.0250.dxf',
+        'https://dxf.lumashape.com/outputs/199097db-c333-4122-8978-b2a4e3d9a899/DXF_29-04-2025_offset-0.0250.dxf',
     },
     {
       id: 4,
