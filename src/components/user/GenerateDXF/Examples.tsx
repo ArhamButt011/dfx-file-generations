@@ -201,16 +201,16 @@ const Examples: React.FC<ExamplesProps> = (props) => {
                   Input Image
                 </th>
                 <th className="p-3 border-b text-center font-medium">
-                  Offset Value For Mask
+                  Offset Value
                 </th>
                 <th className="p-3 border-b text-center font-medium">
                   Offset Unit
                 </th>
                 <th className="p-3 border-b text-center font-medium">
-                  Add Finger Clearance?
+                  Finger Clearance
                 </th>
                 <th className="p-3 border-b text-center font-medium">
-                  Add Rectangular Boundary?
+                  Rectangular Boundary
                 </th>
                 <th className="p-3 border-b text-center font-medium">
                   Boundary Length
@@ -219,7 +219,7 @@ const Examples: React.FC<ExamplesProps> = (props) => {
                   Boundary Width
                 </th>
                 <th className="p-3 border-b text-center font-medium rounded-tr-3xl">
-                  Annotation (Max 20 characters)
+                  Drawer ID
                 </th>
               </tr>
             </thead>
