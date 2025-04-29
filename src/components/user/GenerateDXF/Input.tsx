@@ -1649,6 +1649,7 @@ function Input() {
         setPreview={setPreview}
         setDfxFile={setDfxFile}
         setIsProcessed={setIsProcessed}
+        setDrawerId={setDrawerId}
       />
       {/* processing */}
       <Modal isOpen={isProcessingOpen} onClose={onClose} buttonContent="">

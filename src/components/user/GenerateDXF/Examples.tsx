@@ -5,6 +5,7 @@ interface ExamplesProps {
   setImage: (image: string) => void
   setMask: (mask: string) => void
   setOverlay: (overlay: string) => void
+  setDrawerId: (drawerId: string) => void
   setPreview: (preview: string) => void
   setDfxFile: (dfxfile: string) => void
   setIsProcessed: (isprocess: boolean) => void
@@ -30,6 +31,9 @@ const Examples: React.FC<ExamplesProps> = (props) => {
       fingerClearence: 'Yes',
       rectangularBoundary: 'Yes',
       boundaryLength: '300',
+      boundaryWidth: '300',
+      text: 'TEXT',
+
       overlayUrl:
         'https://dxf.lumashape.com/outputs/c805ff06-4e30-41d6-80c6-b9ca1691d92d/Overlay_Image.jpg',
       outlineUrl:
@@ -48,6 +52,8 @@ const Examples: React.FC<ExamplesProps> = (props) => {
       fingerClearence: 'Yes',
       rectangularBoundary: 'Yes',
       boundaryLength: '50',
+      boundaryWidth: '50',
+      text: 'TEXT',
       overlayUrl:
         'https://dxf.lumashape.com/outputs/ef75928c-ffa7-44e2-94e2-200a3d6c9dbf/Overlay_Image.jpg',
       outlineUrl:
@@ -66,6 +72,8 @@ const Examples: React.FC<ExamplesProps> = (props) => {
       fingerClearence: 'Yes',
       rectangularBoundary: 'Yes',
       boundaryLength: '500',
+      boundaryWidth: '500',
+      text: 'ANNOTATION',
       overlayUrl:
         'https://dxf.lumashape.com/outputs/ccd24b28-fc07-4682-bf90-9369af01936c/Overlay_Image.jpg',
       outlineUrl:
@@ -84,6 +92,8 @@ const Examples: React.FC<ExamplesProps> = (props) => {
       fingerClearence: 'Yes',
       rectangularBoundary: 'No',
       boundaryLength: '--',
+      boundaryWidth: '--',
+      text: '--',
       overlayUrl:
         'https://dxf.lumashape.com/outputs/b731b8ad-b060-41e4-8dfb-77b143cfed4b/Overlay_Image.jpg',
       outlineUrl:
@@ -99,6 +109,8 @@ const Examples: React.FC<ExamplesProps> = (props) => {
     const example = examples.filter((data) => data.id === id)
     const actualImage = example[0].actualImage
     const boundaryLength = example[0].boundaryLength
+    const boundaryWidth = example[0].boundaryWidth
+
     props.setDfxFile(example[0].dxf_file)
     props.setIsProcessed(true)
 
@@ -144,6 +156,7 @@ const Examples: React.FC<ExamplesProps> = (props) => {
 
         const boundaryLengthValue =
           boundaryLength === '--' ? '0' : boundaryLength
+        const boundaryWidthVal = boundaryWidth === '--' ? '0' : boundaryWidth
 
         props.setContour(example[0].valueForMask)
         props.setImage(actualImage)
@@ -153,7 +166,8 @@ const Examples: React.FC<ExamplesProps> = (props) => {
         props.setBoundaryContour(example[0].rectangularBoundary)
         props.setContourOffset('Yes')
         props.setUnit(example[0].offsetUnit)
-        props.setBoundaryWidth(boundaryLengthValue)
+        props.setBoundaryWidth(boundaryWidthVal)
+        props.setDrawerId(example[0].text)
       } catch (error) {
         console.error('Failed to load the image:', error)
       }
@@ -198,8 +212,14 @@ const Examples: React.FC<ExamplesProps> = (props) => {
                 <th className="p-3 border-b text-center font-medium">
                   Add Rectangular Boundary?
                 </th>
-                <th className="p-3 border-b text-center font-medium rounded-tr-3xl">
+                <th className="p-3 border-b text-center font-medium">
                   Boundary Length
+                </th>
+                <th className="p-3 border-b text-center font-medium">
+                  Boundary Width
+                </th>
+                <th className="p-3 border-b text-center font-medium rounded-tr-3xl">
+                  Annotation (Max 20 characters)
                 </th>
               </tr>
             </thead>
@@ -240,11 +260,21 @@ const Examples: React.FC<ExamplesProps> = (props) => {
                       {data.rectangularBoundary}
                     </td>
                     <td
+                      className={`py-4 px-4 text-center font-medium border border-[#C6C9CB] `}
+                    >
+                      {data.boundaryLength}
+                    </td>
+                    <td
+                      className={`py-4 px-4 text-center font-medium border border-[#C6C9CB] `}
+                    >
+                      {data.boundaryWidth}
+                    </td>
+                    <td
                       className={`py-4 px-4 text-center font-medium border border-[#C6C9CB] ${
                         isLastRow ? 'rounded-br-3xl' : ''
                       }`}
                     >
-                      {data.boundaryLength}
+                      {data.text}
                     </td>
                   </tr>
                 )
