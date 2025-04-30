@@ -1,15 +1,14 @@
 'use client'
 
 import React, { useState, FormEvent, useEffect } from 'react'
-// import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { FaEye } from 'react-icons/fa'
 import { LuEyeClosed } from 'react-icons/lu'
 import Image from 'next/image'
 import Modal from '../UI/Modal'
 import Subscribe from '@/components/user/Subscription/Subscribe'
-// import { useRouter } from 'next/navigation'
 // import backarrow from '/public/images/admin/backarrow.svg'
-import image3 from '/public/images/user/AuthScreens/rightSection.svg'
+import image3 from '/public/images/admin/login/arrowsLogin.svg'
 import Swal from 'sweetalert2'
 import { ClipLoader } from 'react-spinners'
 import { useAuth } from '@/context/AuthContext'
@@ -19,7 +18,7 @@ import Link from 'next/link'
 
 const UserLogin = () => {
   const [Timer, setTimer] = useState(0)
-  // const router = useRouter()
+  const router = useRouter()
   const [email, setEmail] = useState<string>('')
   const [emailSend, setEmailSend] = useState<string>('')
   const [loginForm, setLoginForm] = useState({
@@ -777,6 +776,16 @@ const UserLogin = () => {
       <div className="w-full bg-white flex items-center justify-center md:max-w-[60%] p-6 md:px-5">
         {/* <div className="w-[60%] sm:w-[90%] md:p-6 md:pb-0 mx-5"> */}
         <div className="md:max-w-[500px] w-full">
+          <div className="2xl:mb-10 md:mb-6">
+            <Image
+              src={'/images/user/GenerateDFX/backImage.svg'}
+              className="cursor-pointer"
+              onClick={() => router.push('/')}
+              alt="backArrow"
+              height={30}
+              width={30}
+            />
+          </div>
           <div className="flex items-center 2xl:mb-10 md:mb-5 sm:mb-5 mb-10">
             {/* <Image src={logo} alt="logo" width={300} height={300} priority /> */}
             <svg
@@ -894,7 +903,7 @@ const UserLogin = () => {
 
             <button
               type="submit"
-              className="w-full xl:text-[16px] text-[14px] bg-[#005B97] text-white py-3 px-4 2xl:mt-18 md:mt-11 2xl:mb-6 md:mb-3 mb-3 mt-10 font-bold rounded-3xl hover:bg-[#005b97f0] transition duration-300"
+              className="w-full xl:text-[16px] text-[14px] bg-[#005B97] text-white py-3 px-4 2xl:mt-18 md:mt-8 2xl:mb-6 md:mb-3 mb-3 mt-10 font-bold rounded-3xl hover:bg-[#005b97f0] transition duration-300"
             >
               Login
             </button>
@@ -927,13 +936,23 @@ const UserLogin = () => {
       </div>
 
       {/* Right Section */}
-      <div className="md:w-[40%] w-[100%] md:bg-[#266CA8] bg-[#266CA8] flex justify-center">
+      {/* <div className="md:w-[40%] w-[100%] md:bg-[#266CA8] bg-[#266CA8] flex justify-center">
         <Image
           src={image3}
           alt="image3"
           priority
           className="xxl:object-cover md:h-[100vh]"
         />
+      </div> */}
+      <div className="md:w-[40%] w-[100%] md:bg-[#266CA8] bg-[#266CA8] flex justify-center h-screen">
+        <div className="max-w-xl px-3">
+          <p className="text-white text-[28px] md:text-[32px] lg:text-[39px] font-bold text-end mt-24">
+            Transform your desired tool layouts into production-ready DXF files
+          </p>
+          <div className="w-full flex justify-end">
+            <Image src={image3} alt="image" className="mt-10" />
+          </div>
+        </div>
       </div>
 
       {/* create account */}

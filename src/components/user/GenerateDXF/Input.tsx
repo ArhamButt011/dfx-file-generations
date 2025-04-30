@@ -1376,7 +1376,7 @@ function Input() {
                         // type={showDrawerId ? 'text' : 'password'}
                         type="text"
                         className="border rounded-full w-full p-3 mt-1 bg-[#F2F2F2] placeholder:text-sm text-sm"
-                        placeholder="Enter Drawer id"
+                        placeholder="Enter Drawer id (optional)"
                         value={drawerId}
                         maxLength={20}
                         // required={includeDrawerId === 'Yes'}

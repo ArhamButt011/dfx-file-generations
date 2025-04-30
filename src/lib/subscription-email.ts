@@ -125,9 +125,9 @@ export const sendSubscriptionEmail = async (
           </table>
           <table style="width: 100%; border-collapse: collapse; margin-top: 14px; ">
             <tr>
-              <th align="left" style="color: #666;">Subscription Name</th>
-              <th align="right">Exp Date</th>
-              <th align="right">Amount</th>
+              <th align="left" style="color: #666;">SUBSCRIPTION NAME</th>
+              <th align="right">RENEWAL DATE</th>
+              <th align="right">AMOUNT</th>
             </tr>
             <tr style="border-bottom: 1px solid #0000001A;">
               <td style="padding-top: 16px;" align="left"><strong>${planName}</strong></td>
@@ -159,9 +159,8 @@ export const sendSubscriptionEmail = async (
 
           <div class="important-info">
             <p><strong>Important Information</strong></p>
-            <p>This payment is recurring and will charge every month if not cancelled beforehand (for subscriptions).</p>
-            <p>This payment is for one-time use and to use this feature again, please make another payment on the app.</p>
-            <p>${`If this payment was not made by you, please get in touch with our customer service team at ${
+            
+            <p>${`This is a monthly subscription that will renew automatically unless canceled. You can manage or cancel your subscription anytime from your account settings. For questions or assistance, please contact our support team at ${
               planName === 'Premium' ? 'support@lumashape.com' : ''
             }`}</p>
           </div>
