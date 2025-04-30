@@ -163,7 +163,7 @@ export async function POST(req: NextRequest) {
 
     // Send email to the user
     await transporter.sendMail({
-      from: `"LumaShape" <${process.env.EMAIL_USER}>`,
+      from: `"Lumashape" <${process.env.EMAIL_USER}>`,
       to: data.formData.email,
       subject: 'Thank you for contacting Lumashape!',
       html: userEmailTemplate,
@@ -171,7 +171,7 @@ export async function POST(req: NextRequest) {
 
     // Send internal email to Sam Peterson
     await transporter.sendMail({
-      from: `"LumaShape" <${process.env.EMAIL_USER}>`,
+      from: `"Lumashape" <${process.env.EMAIL_USER}>`,
       to: 'sam.peterson@lumashape.com',
       subject: 'New Inquiry Received',
       html: internalEmailTemplate,
