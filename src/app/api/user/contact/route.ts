@@ -3,6 +3,8 @@ import nodemailer from 'nodemailer'
 
 export async function POST(req: NextRequest) {
   const logoUrl = `${process.env.NEXT_PUBLIC_BASE_URL ?? ''}mailLogo.jpg`
+  const linkedinUrl = `${process.env.NEXT_PUBLIC_BASE_URL ?? ''}linkedin.jpg`
+  const youtubeUrl = `${process.env.NEXT_PUBLIC_BASE_URL ?? ''}youtube.jpg`
 
   try {
     const data = await req.json()
@@ -96,7 +98,10 @@ export async function POST(req: NextRequest) {
 
       <div style="text-align: start; margin-top: 10px;">
         <a href="https://www.linkedin.com/company/lumashape/" style="text-decoration: none;">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="LinkedIn" width="20" />
+          <img src=${linkedinUrl} alt="LinkedIn" width="20" />
+        </a>
+         <a href="https://www.linkedin.com/company/lumashape/" style="text-decoration: none;">
+          <img src=${youtubeUrl} alt="youtube" width="20" />
         </a>
       </div>
     </div>`
