@@ -9,22 +9,14 @@ import Subscribe from '../Subscription/Subscribe'
 import { PulseLoader } from 'react-spinners'
 import Text from '@/components/UI/Text'
 import Examples from './Examples'
-
-interface UserPlan {
-  plan_name: string
-  duration: number
-  user_id: string
-  added_on: string
-  expiry_on: string
-  charges: number
-  added_date: string
-  expiry_date: string
-}
+import { useUserPlan } from '@/context/PlanContext'
 
 function Input() {
   const [image, setImage] = useState<string>(
     () => sessionStorage.getItem('image') || '',
   )
+  const { userPlan } = useUserPlan()
+
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const { userData } = useAuth()
   const [contour, setContour] = useState<string>(
@@ -108,34 +100,32 @@ function Input() {
   // const [lensPos, setLensPos] = useState({ x: 0, y: 0, visible: false });
   // const [isMagnifierActive, setIsMagnifierActive] = useState(false)
   const [isBilingOpen, setIsBilingOpen] = useState(false) // New state for Subscribe modal
-  const [userPlan, setUserPlan] = useState<UserPlan | null>(null)
   const userId = userData?.id,
     // const [clicked, setClicked] = useState(false)
     // const zoom = 3,
-
     lensSize = 150
-  useEffect(() => {
-    async function fetchUserPlan() {
-      try {
-        const response = await fetch('/api/user/get-user-plan', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ user_id: userId }),
-        })
+  // useEffect(() => {
+  //   async function fetchUserPlan() {
+  //     try {
+  //       const response = await fetch('/api/user/get-user-plan', {
+  //         method: 'POST',
+  //         headers: { 'Content-Type': 'application/json' },
+  //         body: JSON.stringify({ user_id: userId }),
+  //       })
 
-        const data = await response.json()
-        if (data?.subscription) {
-          setUserPlan(data.subscription)
-        }
-      } catch (error) {
-        console.error('Error fetching user plan:', error)
-      }
-    }
+  //       const data = await response.json()
+  //       if (data?.subscription) {
+  //         setUserPlan(data.subscription)
+  //       }
+  //     } catch (error) {
+  //       console.error('Error fetching user plan:', error)
+  //     }
+  //   }
 
-    if (userId) {
-      fetchUserPlan()
-    }
-  }, [userId])
+  //   if (userId) {
+  //     fetchUserPlan()
+  //   }
+  // }, [userId])
 
   // useEffect(() => {
   //   if (!isMagnifierActive || !image) return // Only attach event listeners if magnifier is active

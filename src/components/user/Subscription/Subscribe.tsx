@@ -9,6 +9,7 @@ const stripePromise = loadStripe(
 import { useAuth } from '@/context/AuthContext'
 import { useState } from 'react'
 import Swal from 'sweetalert2'
+import { useUserPlan } from '@/context/PlanContext'
 
 type included = {
   id: number
@@ -128,6 +129,7 @@ SubscribeProps) {
   //   const router = useRouter()
   const { userData, setUserData } = useAuth()
   const [processingPlanId, setProcessingPlanId] = useState<number | null>(null)
+  const { setUserPlan } = useUserPlan()
 
   const onClose = () => {
     setIsBilingOpen(false)
@@ -155,9 +157,23 @@ SubscribeProps) {
       if (plan_name === 'Free') {
         const res = await axios.post('/api/user/subscription', data)
         if (res.status === 201) {
+          setIsBilingOpen(false)
           setUserData((prev) =>
             prev ? { ...prev, subscription: 'Free' } : prev,
           )
+
+          console.log('Subscription data:', res.data)
+
+          setUserPlan({
+            added_date: res.data.data.added_date,
+            added_on: res.data.data.added_on,
+            charges: res.data.data.charges,
+            duration: res.data.data.duration,
+            expiry_date: res.data.data.expiry_date,
+            expiry_on: res.data.data.expiry_on,
+            plan_name: res.data.data.plan_name,
+            user_id: res.data.data.user_id,
+          })
           Swal.fire({
             icon: 'success',
             title: 'Success',

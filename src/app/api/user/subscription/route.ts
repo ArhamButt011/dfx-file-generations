@@ -158,7 +158,7 @@ export async function POST(req: Request) {
     )
 
     // Insert the new subscription
-    await subscriptionsCollection.insertOne({
+    const insertResult = await subscriptionsCollection.insertOne({
       plan_name,
       duration,
       user_id: userIdObject,
@@ -169,13 +169,19 @@ export async function POST(req: Request) {
       added_date: addedDate,
       expiry_date: expiryDate,
     })
-
+    const insertedSubscription = await subscriptionsCollection.findOne({
+      _id: insertResult.insertedId,
+    })
     await addNotification(user_id, '', 'free_subscription')
 
     await FreeTrailEmail(email, name, expiryOnFormatted)
 
     return NextResponse.json(
-      { message: 'Subscription successfully created' },
+      {
+        message: 'Subscription successfully created',
+        data: insertedSubscription,
+      },
+
       { status: 201 },
     )
   } catch (error) {

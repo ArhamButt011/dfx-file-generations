@@ -1,26 +1,27 @@
-"use client"
-// components/MyProvider.tsx
-import React, { ReactNode, useEffect } from 'react';
+'use client'
+import React, { ReactNode, useEffect } from 'react'
+import AOS from 'aos'
+import 'aos/dist/aos.css'
 
-import "aos/dist/aos.css"; // Import AOS CSS
-import AOS from "aos";
+import { useAuth } from '@/context/AuthContext'
+import { UserPlanProvider } from '@/context/PlanContext'
+
 interface MyProviderProps {
-  children: ReactNode;
+  children: ReactNode
 }
 
 const MyProvider: React.FC<MyProviderProps> = ({ children }) => {
-  // You can add any state or functionality you need here
-  useEffect(() => {
-    AOS.init({ once: false });
-  }, []);
+  const { userData } = useAuth()
 
+  useEffect(() => {
+    AOS.init({ once: false })
+  }, [])
 
   return (
-    <>
-      {/* Your global state or logic can go here */}
+    <UserPlanProvider userId={userData?.id || null}>
       {children}
-    </>
-  );
-};
+    </UserPlanProvider>
+  )
+}
 
-export default MyProvider;
+export default MyProvider
