@@ -27,6 +27,8 @@ const FreeTrialEmail = async (email: string, name: string, expiry: string) => {
   })
 
   const logoUrl = `${process.env.NEXT_PUBLIC_BASE_URL ?? ''}mailLogo.jpg`
+  const linkedinUrl = `${process.env.NEXT_PUBLIC_BASE_URL ?? ''}linkedin.jpg`
+  const youtubeUrl = `${process.env.NEXT_PUBLIC_BASE_URL ?? ''}youtube.jpg`
 
   const htmlContent = `
     <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
@@ -49,6 +51,14 @@ const FreeTrialEmail = async (email: string, name: string, expiry: string) => {
         <span style="color: #000000;"> | </span>     
         <a href="mailto:support@lumashape.com" style="color: #000000;">support@lumashape.com</a>
       </p>
+        <div style="text-align: start; margin-top: 10px;">
+        <a href="https://www.linkedin.com/company/lumashape/" style="text-decoration: none;">
+          <img src=${linkedinUrl} alt="LinkedIn" width="20" />
+        </a>
+         <a href="https://www.youtube.com/@Lumashape?app=desktop" style="text-decoration: none; margin-left: 20px;">
+          <img src=${youtubeUrl} alt="youtube" width="20" />
+        </a>
+      </div>
     </div>
   `
 
