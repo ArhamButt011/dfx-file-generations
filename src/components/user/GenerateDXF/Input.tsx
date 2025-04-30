@@ -136,6 +136,7 @@ function Input() {
       fetchUserPlan()
     }
   }, [userId])
+
   // useEffect(() => {
   //   if (!isMagnifierActive || !image) return // Only attach event listeners if magnifier is active
 
@@ -207,7 +208,7 @@ function Input() {
       new Date(userPlan.expiry_date) < new Date()
     ) {
       setIsBilingOpen(true)
-      sessionStorage.setItem('billingTriggered', 'true') // Mark that the effect has run
+      sessionStorage.setItem('billingTriggered', 'true')
     }
   }, [userPlan])
 
@@ -362,32 +363,37 @@ function Input() {
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
-
-    const data = {
-      plan_name: 'Free',
-      duration: '7 Days',
-      user_id: userData?.id,
-      added_on: new Date().toISOString(),
-      expiry_on: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
-      charges: 0,
-      status: 'Current',
-      added_date: Date.now(),
-      expiry_date: Date.now() + 7 * 24 * 60 * 60 * 1000,
-    }
-    setisProcessingOpen(true)
     if (!userPlan) {
-      const res = await fetch('/api/user/subscription', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      })
-
-      if (!res.ok) {
-        throw new Error('Failed to create subscription')
-      }
+      setIsBilingOpen(true)
+      return
     }
+
+    // const data = {
+    //   plan_name: 'Free',
+    //   duration: '7 Days',
+    //   user_id: userData?.id,
+    //   added_on: new Date().toISOString(),
+    //   expiry_on: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+    //   charges: 0,
+    //   status: 'Current',
+    //   added_date: Date.now(),
+    //   expiry_date: Date.now() + 7 * 24 * 60 * 60 * 1000,
+    // }
+    setisProcessingOpen(true)
+
+    // if (!userPlan) {
+    //   const res = await fetch('/api/user/subscription', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify(data),
+    //   })
+
+    //   if (!res.ok) {
+    //     throw new Error('Failed to create subscription')
+    //   }
+    // }
     if (!image || contour === undefined || contour === null) {
       Swal.fire({
         title: 'Error!',
@@ -779,7 +785,7 @@ function Input() {
           {/* left */}
           <div className="bg-[#F2F2F2] md:w-1/2 rounded-b-2xl rounded-t-2xl">
             <div className="bg-[#C6C9CB] py-3 rounded-t-2xl">
-              <p className="text-[#000000] text-center font-medium text-[16px] sm:text-[20px] text-[#000000]">
+              <p className="text-center font-medium text-[16px] sm:text-[20px] text-[#000000]">
                 Input Data
               </p>
             </div>
@@ -792,8 +798,8 @@ function Input() {
                     onDragOver={handleDragOver}
                     onDragLeave={handleDragLeave}
                     className={`bg-[#F2F2F2]  rounded-t-3xl relative flex flex-col justify-center items-center
-    ${dragging ? 'border-blue-500' : 'border-gray-300'}
-    border-dashed rounded-2xl  text-center`}
+                       ${dragging ? 'border-blue-500' : 'border-gray-300'}
+                       border-dashed rounded-2xl  text-center`}
                     style={{
                       minHeight: image ? '100px' : '400px',
                       padding: image ? '0' : '10px',
@@ -921,9 +927,9 @@ function Input() {
                       fill="currentColor"
                       xmlns="http://www.w3.org/2000/svg"
                       className={`w-10 h-10 cursor-pointer transition-colors duration-300
-        ${
-          clicked ? 'text-[#266CA8]' : 'text-[#00000066] hover:text-[#266CA8]'
-        }`}
+                         ${
+                         clicked ? 'text-[#266CA8]' : 'text-[#00000066] hover:text-[#266CA8]'
+                         }`}
                       onClick={() => {
                         setClicked(!clicked)
                         setIsMagnifierActive(!isMagnifierActive)

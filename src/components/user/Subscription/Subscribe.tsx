@@ -8,6 +8,7 @@ const stripePromise = loadStripe(
 )
 import { useAuth } from '@/context/AuthContext'
 import { useState } from 'react'
+import Swal from 'sweetalert2'
 
 type included = {
   id: number
@@ -28,7 +29,7 @@ const bilingPlans: DataItem[] = [
   {
     id: 1,
     desc: '',
-    plan_name: 'Free Trial',
+    plan_name: 'Free',
     price: 'Free',
     price_id: '',
     include: [
@@ -125,12 +126,13 @@ function Subscribe({
 SubscribeProps) {
   // const [isBilingOpen, setIsBilingOpen] = useState<boolean>(false);
   //   const router = useRouter()
-  const { userData } = useAuth()
+  const { userData, setUserData } = useAuth()
   const [processingPlanId, setProcessingPlanId] = useState<number | null>(null)
 
   const onClose = () => {
     setIsBilingOpen(false)
   }
+
   const handleSubscribe = async (
     price_id: string,
     plan_name: string,
@@ -138,20 +140,81 @@ SubscribeProps) {
   ) => {
     if (!userData?.id) return
     setProcessingPlanId(planId)
-
+    const data = {
+      plan_name: 'Free',
+      duration: '7 Days',
+      user_id: userData?.id,
+      added_on: new Date().toISOString(),
+      expiry_on: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+      charges: 0,
+      status: 'Current',
+      added_date: Date.now(),
+      expiry_date: Date.now() + 7 * 24 * 60 * 60 * 1000,
+    }
     try {
-      const res = await axios.post('/api/user/checkout', {
-        price_id: price_id,
-        user_id: userData?.id,
-        plan_name: plan_name,
-      })
+      if (plan_name === 'Free') {
+        const res = await axios.post('/api/user/subscription', data)
+        if (res.status === 201) {
+          setUserData((prev) =>
+            prev ? { ...prev, subscription: 'Free' } : prev,
+          )
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'Free Trial started successfully',
+            timer: undefined,
+            showConfirmButton: false,
+            // confirmButtonText: 'Close',
+            showCloseButton: true,
+            didOpen: () => {
+              const swalContainer = document.querySelector(
+                '.swal2-container',
+              ) as HTMLElement
+              if (swalContainer) {
+                swalContainer.style.setProperty(
+                  'z-index',
+                  '100000',
+                  'important',
+                )
+              }
+            },
+          })
+        } else {
+          Swal.fire({
+            title: 'Error',
+            text: 'Failed to start free trial',
+            icon: 'error',
+            showConfirmButton: false,
+            timer: 2000,
+            didOpen: () => {
+              const swalContainer = document.querySelector(
+                '.swal2-container',
+              ) as HTMLElement
+              if (swalContainer) {
+                swalContainer.style.setProperty(
+                  'z-index',
+                  '100000',
+                  'important',
+                )
+              }
+            },
+          })
+        }
+      } else {
+        // Proceed with regular subscription flow
+        const res = await axios.post('/api/user/checkout', {
+          price_id: price_id,
+          user_id: userData.id,
+          plan_name: plan_name,
+        })
 
-      if (!res.data.sessionId) throw new Error('Missing sessionId from API')
+        if (!res.data.sessionId) throw new Error('Missing sessionId from API')
 
-      const stripe = await stripePromise
-      if (!stripe) throw new Error('Stripe failed to initialize')
+        const stripe = await stripePromise
+        if (!stripe) throw new Error('Stripe failed to initialize')
 
-      await stripe.redirectToCheckout({ sessionId: res.data.sessionId })
+        await stripe.redirectToCheckout({ sessionId: res.data.sessionId })
+      }
     } catch (error) {
       console.error('Checkout Error:', error)
     } finally {
@@ -217,7 +280,7 @@ SubscribeProps) {
                     </div>
                   ))}
                 </div>
-                {item.plan_name !== 'Free Trial' && (
+                {
                   <button
                     className={`mt-4 py-2 px-4 rounded-full ${
                       item.plan_name === userData?.subscription ||
@@ -239,7 +302,7 @@ SubscribeProps) {
                       ? 'Processing...'
                       : item.buttonText}
                   </button>
-                )}
+                }
               </div>
             ))}
           </div>
