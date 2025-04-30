@@ -24,6 +24,8 @@ const sendWelcomeEmail = async (email: string, name: string) => {
   })
 
   const logoUrl = `${process.env.NEXT_PUBLIC_BASE_URL ?? ''}mailLogo.jpg`
+  const linkedinUrl = `${process.env.NEXT_PUBLIC_BASE_URL ?? ''}linkedin.jpg`
+  const youtubeUrl = `${process.env.NEXT_PUBLIC_BASE_URL ?? ''}youtube.jpg`
 
   const htmlContent = `
    <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
@@ -40,9 +42,20 @@ const sendWelcomeEmail = async (email: string, name: string) => {
      <a href="mailto:support@lumashape.com" style="color: #266CA8;">support@lumashape.com</a></p>
   <p>Thank you for joining us & we hope you have a great experience on the app!</p>
   </div>
+  
   <p style="margin-top: 60px;"><a href="https://www.lumashape.com" style="color: #000000; text-decoration: none;">www.lumashape.com</a> <span style="color: #000000;">  |  </span>     
      <a href="mailto:support@lumashape.com" style="color: #000000;">support@lumashape.com</a></p>
+     <div style="text-align: start; margin-top: 10px;">
+        <a href="https://www.linkedin.com/company/lumashape/" style="text-decoration: none;">
+          <img src=${linkedinUrl} alt="LinkedIn" width="20" />
+        </a>
+         <a href="https://www.youtube.com/@Lumashape?app=desktop" style="text-decoration: none; margin-left: 20px;">
+          <img src=${youtubeUrl} alt="youtube" width="20" />
+        </a>
+      </div>
 </div>
+
+
 
   `
 

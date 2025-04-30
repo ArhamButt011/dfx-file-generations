@@ -776,10 +776,10 @@ const UserLogin = () => {
       <div className="w-full bg-white flex items-center justify-center md:max-w-[60%] p-6 md:px-5">
         {/* <div className="w-[60%] sm:w-[90%] md:p-6 md:pb-0 mx-5"> */}
         <div className="md:max-w-[500px] w-full">
-          <div className="2xl:mb-10 md:mb-6">
+          <div className="2xl:mb-10 md:mb-6 mb-8">
             <Image
               src={'/images/user/GenerateDFX/backImage.svg'}
-              className="cursor-pointer"
+              className="cursor-pointer w-[24px] h-[24px] md:w-[30px] md:h-[30px]"
               onClick={() => router.push('/')}
               alt="backArrow"
               height={30}

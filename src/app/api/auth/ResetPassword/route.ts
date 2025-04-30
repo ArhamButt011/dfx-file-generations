@@ -18,11 +18,13 @@ export async function POST(req: Request) {
     const normalizedEmail = email.toLowerCase()
     const hashedPassword = await bcrypt.hash(password, 10)
 
-    const user = await db.collection('users').findOneAndUpdate(
-      { email: normalizedEmail },
-      { $set: { password: hashedPassword } },
-      { returnDocument: 'after' }, // Optionally, specify to return the document after the update);
-    )
+    const user = await db
+      .collection('users')
+      .findOneAndUpdate(
+        { email: normalizedEmail },
+        { $set: { password: hashedPassword } },
+        { returnDocument: 'after' },
+      )
 
     if (!user) {
       return NextResponse.json(

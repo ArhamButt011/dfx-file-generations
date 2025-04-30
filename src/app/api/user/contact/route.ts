@@ -100,7 +100,7 @@ export async function POST(req: NextRequest) {
         <a href="https://www.linkedin.com/company/lumashape/" style="text-decoration: none;">
           <img src=${linkedinUrl} alt="LinkedIn" width="20" />
         </a>
-         <a href="https://www.linkedin.com/company/lumashape/" style="text-decoration: none;">
+         <a href="https://www.youtube.com/@Lumashape?app=desktop" style="text-decoration: none; margin-left: 20px;">
           <img src=${youtubeUrl} alt="youtube" width="20" />
         </a>
       </div>
@@ -161,7 +161,10 @@ export async function POST(req: NextRequest) {
 
       <div style="text-align: start; margin-top: 10px;">
         <a href="https://www.linkedin.com/company/lumashape/" style="text-decoration: none;">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="LinkedIn" width="20" />
+          <img src=${linkedinUrl} alt="LinkedIn" width="20" />
+        </a>
+         <a href="https://www.youtube.com/@Lumashape?app=desktop" style="text-decoration: none; margin-left: 20px;">
+          <img src=${youtubeUrl} alt="youtube" width="20" />
         </a>
       </div>
     </div>`

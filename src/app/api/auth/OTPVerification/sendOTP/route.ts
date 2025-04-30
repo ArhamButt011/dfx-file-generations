@@ -5,6 +5,8 @@ import EmailService from '@/app/api/emailService'
 // const SECRET_KEY = process.env.NEXT_JWT_SECRET as string;
 const generateEmailBody = (otp: string, name: string) => {
   const logoUrl = `${process.env.NEXT_PUBLIC_BASE_URL ?? ''}mailLogo.jpg`
+  const linkedinUrl = `${process.env.NEXT_PUBLIC_BASE_URL ?? ''}linkedin.jpg`
+  const youtubeUrl = `${process.env.NEXT_PUBLIC_BASE_URL ?? ''}youtube.jpg`
 
   return `
     <div style="font-family: Arial, sans-serif; padding: 30px; max-width: 600px; margin: auto; border: 1px solid #eee;">
@@ -32,7 +34,10 @@ const generateEmailBody = (otp: string, name: string) => {
      <a href="mailto:support@lumashape.com" style="color: #000000;">support@lumashape.com</a></p>
       <div style="text-align: start; margin-top: 10px;">
         <a href="https://www.linkedin.com/company/lumashape/" style="text-decoration: none;">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="LinkedIn" width="20" />
+          <img src=${linkedinUrl} alt="LinkedIn" width="20" />
+        </a>
+         <a href="https://www.youtube.com/@Lumashape?app=desktop" style="text-decoration: none; margin-left: 20px;">
+          <img src=${youtubeUrl} alt="youtube" width="20" />
         </a>
       </div>
     </div>
