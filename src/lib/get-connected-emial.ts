@@ -56,7 +56,7 @@ const GetConnectedEmail = async (email: string) => {
 
   try {
     await transporter.sendMail({
-      from: '"LumaShape" <noreply@lumashape.com>',
+      from: '"Lumashape" <noreply@lumashape.com>',
       to: email,
       subject: 'Thanks for Signing Up!',
       html: htmlContent,

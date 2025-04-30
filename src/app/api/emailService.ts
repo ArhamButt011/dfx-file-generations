@@ -17,7 +17,7 @@ const sendEmail = async (email: string, message: string) => {
   // Send the email
   try {
     await transporter.sendMail({
-      from: `"LumaShape" <${process.env.EMAIL_USER}>`,
+      from: `"Lumashape" <${process.env.EMAIL_USER}>`,
       to: email,
       subject: 'Your Verification Code',
       html: message,
