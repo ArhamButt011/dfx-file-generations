@@ -133,7 +133,11 @@ const AllUsers = () => {
                     <div>
                       <div className="w-8 h-8 rounded-full overflow-hidden">
                         <Image
-                          src={user?.image ? user.image : userImage}
+                          src={
+                            user?.image
+                              ? `${process.env.NEXT_PUBLIC_SITE_URL}${user.image}`
+                              : userImage
+                          }
                           alt="userImage"
                           className="w-full h-full object-cover"
                           width={30}

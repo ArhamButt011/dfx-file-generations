@@ -36,18 +36,25 @@ const DropdownUser = () => {
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [name, setName] = useState('')
-  const [profileImage, setProfileImage] = useState(userImages) // Set initial image
+  const { userData, setUserData } = useAuth()
+  const [profileImage, setProfileImage] = useState(userImages)
+
   const [file, setFile] = useState<File | undefined>(undefined)
   const [loading, setLoading] = useState(false)
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const { logout } = useAuth()
-  const { userData, setUserData } = useAuth()
   // const [isActive, setIsActive] = useState(false)
   const { isActive, toggleNotifications } = useNotification()
 
   const handleImageClick = () => {
     fileInputRef.current?.click()
   }
+
+  // useEffect(() => {
+  //   if (userData?.image) {
+  //     setProfileImage(`${process.env.NEXT_PUBLIC_SITE_URL}${userData.image}`)
+  //   }
+  // }, [userData])
 
   // useEffect(() => {
   //   const fetchStatus = async () => {
@@ -88,7 +95,7 @@ const DropdownUser = () => {
   useEffect(() => {
     if (userData) {
       setName(userData.username || '')
-      setProfileImage(userData.image || userImages)
+      setProfileImage(`${process.env.NEXT_PUBLIC_SITE_URL}${userData.image}`)
     }
   }, [userData])
 

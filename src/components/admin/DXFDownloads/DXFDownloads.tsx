@@ -132,7 +132,11 @@ const DXFDownloads = () => {
                     <div className="">
                       <div className="w-10 h-10 rounded-full overflow-hidden">
                         <Image
-                          src={data?.image ? data.image : userImage}
+                          src={
+                            data?.image
+                              ? `${process.env.NEXT_PUBLIC_SITE_URL}${data.image}`
+                              : userImage
+                          }
                           alt="userImage"
                           className="w-full h-full object-cover"
                           width={30}
