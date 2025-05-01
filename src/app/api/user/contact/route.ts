@@ -1,28 +1,44 @@
+import axios from 'axios'
 import { NextRequest, NextResponse } from 'next/server'
-import nodemailer from 'nodemailer'
 
 export async function POST(req: NextRequest) {
   const logoUrl = `${process.env.NEXT_PUBLIC_BASE_URL ?? ''}mailLogo.jpg`
   const linkedinUrl = `${process.env.NEXT_PUBLIC_BASE_URL ?? ''}linkedin.jpg`
   const youtubeUrl = `${process.env.NEXT_PUBLIC_BASE_URL ?? ''}youtube.jpg`
+  const sendEmail = async (email: string, subject: string, html: string) => {
+    const payload = {
+      to: email,
+      subject,
+      body: html,
+    }
+
+    try {
+      await axios.post(
+        'https://aletheia.ai.ml-bench.com/api/send-microsoft-email',
+        payload,
+      )
+    } catch {
+      throw new Error('Failed to send email')
+    }
+  }
 
   try {
     const data = await req.json()
     console.log(JSON.stringify(data, null, 2))
 
-    const transporter = nodemailer.createTransport({
-      host: 'smtp.office365.com',
-      port: 587,
-      secure: false,
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-      tls: {
-        ciphers: 'SSLv3',
-      },
-      debug: true,
-    })
+    // const transporter = nodemailer.createTransport({
+    //   host: 'smtp.office365.com',
+    //   port: 587,
+    //   secure: false,
+    //   auth: {
+    //     user: process.env.EMAIL_USER,
+    //     pass: process.env.EMAIL_PASS,
+    //   },
+    //   tls: {
+    //     ciphers: 'SSLv3',
+    //   },
+    //   debug: true,
+    // })
 
     function formatDateUTC(date: Date) {
       const options: Intl.DateTimeFormatOptions = {
@@ -170,20 +186,31 @@ export async function POST(req: NextRequest) {
     </div>`
 
     // Send email to the user
-    await transporter.sendMail({
-      from: `"Lumashape" <${process.env.EMAIL_USER}>`,
-      to: data.formData.email,
-      subject: 'Thank you for contacting Lumashape!',
-      html: userEmailTemplate,
-    })
+    // await transporter.sendEmail({
+    //   from: `"Lumashape" <${process.env.EMAIL_USER}>`,
+    //   to: data.formData.email,
+    //   subject: 'Thank you for contacting Lumashape!',
+    //   html: userEmailTemplate,
+    // })
+    await sendEmail(
+      data.formData.email,
+      'Thank you for contacting Lumashape!',
+      userEmailTemplate,
+    )
+
+    await sendEmail(
+      'sam.peterson@lumashape.com',
+      'New Inquiry Received',
+      internalEmailTemplate,
+    )
 
     // Send internal email to Sam Peterson
-    await transporter.sendMail({
-      from: `"Lumashape" <${process.env.EMAIL_USER}>`,
-      to: 'sam.peterson@lumashape.com',
-      subject: 'New Inquiry Received',
-      html: internalEmailTemplate,
-    })
+    // await transporter.sendMail({
+    //   from: `"Lumashape" <${process.env.EMAIL_USER}>`,
+    //   to: 'sam.peterson@lumashape.com',
+    //   subject: 'New Inquiry Received',
+    //   html: internalEmailTemplate,
+    // })
 
     return NextResponse.json({
       success: true,
@@ -191,13 +218,11 @@ export async function POST(req: NextRequest) {
     })
   } catch (error) {
     if (error instanceof Error) {
-      console.error('Error sending email:', error)
       return NextResponse.json(
         { message: 'Error processing request', error: error.message },
         { status: 400 },
       )
     } else {
-      console.error('Unexpected error:', error)
       return NextResponse.json(
         { message: 'Unexpected error', error: 'Unknown error occurred' },
         { status: 400 },
