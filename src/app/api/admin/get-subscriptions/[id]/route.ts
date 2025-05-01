@@ -57,8 +57,20 @@ export async function GET(req: NextRequest) {
     const subscriptions = await db
       .collection<Subscription>('all-subscriptions')
       .find(filter)
-      .sort({ added_on: -1 }) // Sorting by added_on in descending order
+      .sort({ added_on: -1 })
       .toArray()
+
+    const currentDate = new Date()
+
+    subscriptions.forEach((subscription) => {
+      if (
+        subscription.status === 'Current' &&
+        subscription.expiry_date &&
+        new Date(subscription.expiry_date) < currentDate
+      ) {
+        subscription.status = 'Past'
+      }
+    })
 
     subscriptions.sort(
       (a, b) =>
