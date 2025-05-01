@@ -748,7 +748,7 @@ SidebarProps) => {
                       <Image
                         width={44}
                         height={44}
-                        src={userData.image}
+                        src={`${process.env.NEXT_PUBLIC_SITE_URL}${userData.image}`}
                         className="w-full h-full object-cover"
                         alt="User"
                       />
@@ -804,7 +804,11 @@ SidebarProps) => {
                               width={100}
                               height={100}
                               className="rounded-full"
-                              src={userData?.image ? userData.image : user}
+                              src={
+                                userData?.image
+                                  ? `${process.env.NEXT_PUBLIC_SITE_URL}${userData.image}`
+                                  : user
+                              }
                               style={{
                                 width: '100%',
                                 height: '100%',
