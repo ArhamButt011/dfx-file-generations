@@ -62,8 +62,6 @@ const FileDetails = () => {
           setOutline(overlayBase64)
           setMask(maskBase64)
           setOverlay(previewBase64)
-
-          console.log('Fetched files data:', data)
         } else {
           console.error('Failed to fetch files data')
         }
@@ -109,8 +107,6 @@ const FileDetails = () => {
 
       // Clean up memory
       URL.revokeObjectURL(blobUrl)
-
-      console.log('Image downloaded successfully')
     } catch (err) {
       Swal.fire({
         title: 'Error',

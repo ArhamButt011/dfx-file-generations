@@ -152,7 +152,6 @@ export async function POST(req: Request) {
     const subscriptionId = subscription.id
     const customer_id = subscription.customer as string
     const cancelingDate = subscription.canceled_at ?? 0
-    console.log('webhook called')
 
     if (!cancelingDate || !subscriptionId || !customer_id) {
       return NextResponse.json(
@@ -226,8 +225,6 @@ export async function POST(req: Request) {
       const plan_name = existingSubscription.plan_name
 
       if (billingReason === 'subscription_cycle') {
-        console.log(`Subscription Renewal: ${subscriptionId}`)
-
         await db.collection('all-subscriptions').updateOne(
           { subscription_id: subscriptionId, status: 'Current' },
           {
@@ -239,7 +236,6 @@ export async function POST(req: Request) {
           },
         )
       } else if (billingReason === 'subscription_create') {
-        console.log(`New Subscription Created: ${subscriptionId}`)
         return NextResponse.json({ received: true })
       }
 

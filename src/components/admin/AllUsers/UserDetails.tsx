@@ -97,7 +97,6 @@ const UserDetails: React.FC = () => {
         if (response.ok) {
           const data: UserData = await response.json()
           setUserData(data)
-          console.log('Fetched user data:', data)
         } else {
           console.error('Failed to fetch user data')
         }

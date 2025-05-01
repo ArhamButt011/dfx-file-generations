@@ -162,8 +162,6 @@ SubscribeProps) {
             prev ? { ...prev, subscription: 'Free' } : prev,
           )
 
-          console.log('Subscription data:', res.data)
-
           setUserPlan({
             added_date: res.data.data.added_date,
             added_on: res.data.data.added_on,

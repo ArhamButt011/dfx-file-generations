@@ -120,7 +120,6 @@ const DownloadsSubscriptions = () => {
 
       if (response.ok) {
         const data = await response.json()
-        console.log(data)
         setSubscriptions(data.subscriptions)
         setTotalPages(data.totalPages)
         setTotalSubscriptions(data.totalSubscriptions)

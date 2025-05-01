@@ -38,7 +38,6 @@ function Page() {
         await axios.post('/api/auth/verifyToken', { token })
       } catch (error) {
         if (axios.isAxiosError(error) && error.response?.status === 401) {
-          console.log('Token expired or invalid. Logging out...')
           logout()
           router.push('/user')
         }
@@ -58,7 +57,6 @@ function Page() {
 
       if (response.ok) {
         const data = await response.json()
-        console.log('subscriptions-> ', data)
         setSubscriptions(data.subscriptions)
       } else {
         console.log('Failed to fetch users')

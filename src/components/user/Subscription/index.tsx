@@ -104,7 +104,6 @@ const Index: React.FC<SubscriptionProps> = ({
   }
   const onClose = () => {
     setIsOpen(false)
-    console.log(loading)
   }
 
   const activeSubscriptions = subscriptions.filter(

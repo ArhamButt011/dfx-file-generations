@@ -62,7 +62,6 @@ const DropdownUser = () => {
 
   const handleChangePassword = () => {
     setPasswordOpen(true)
-    console.log(passwordOpen)
   }
 
   const onPasswordClose = () => {

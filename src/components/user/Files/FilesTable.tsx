@@ -65,8 +65,6 @@ function FilesTable() {
   }
 
   const fetchDownloads = useCallback(async () => {
-    console.log(searchQuery)
-
     if (!userData) {
       return
     }
