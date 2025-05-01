@@ -1,4 +1,4 @@
-import nodemailer from 'nodemailer'
+import axios from 'axios'
 
 const FreeTrialEmail = async (email: string, name: string, expiry: string) => {
   if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
@@ -6,25 +6,18 @@ const FreeTrialEmail = async (email: string, name: string, expiry: string) => {
   }
 
   // const transporter = nodemailer.createTransport({
-  //   service: 'gmail',
+  //   host: 'smtp.office365.com',
+  //   port: 587,
+  //   secure: false,
   //   auth: {
   //     user: process.env.EMAIL_USER,
   //     pass: process.env.EMAIL_PASS,
   //   },
+  //   tls: {
+  //     ciphers: 'SSLv3',
+  //   },
+  //   debug: true,
   // })
-  const transporter = nodemailer.createTransport({
-    host: 'smtp.office365.com',
-    port: 587,
-    secure: false,
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-    tls: {
-      ciphers: 'SSLv3',
-    },
-    debug: true,
-  })
 
   const logoUrl = `${process.env.NEXT_PUBLIC_BASE_URL ?? ''}mailLogo.jpg`
   const linkedinUrl = `${process.env.NEXT_PUBLIC_BASE_URL ?? ''}linkedin.jpg`
@@ -62,18 +55,33 @@ const FreeTrialEmail = async (email: string, name: string, expiry: string) => {
     </div>
   `
 
-  try {
-    const mailOptions = {
-      from: `"Lumashape" <${process.env.EMAIL_USER}>`,
-      to: email,
-      subject: 'Free Subscription',
-      html: htmlContent,
-    }
+  // try {
+  //   const mailOptions = {
+  //     from: `"Lumashape" <${process.env.EMAIL_USER}>`,
+  //     to: email,
+  //     subject: 'Free Subscription',
+  //     html: htmlContent,
+  //   }
 
-    await transporter.sendMail(mailOptions)
-  } catch (error) {
-    console.error('Error sending email:', error)
-    throw new Error('Failed to send email')
+  //   await transporter.sendMail(mailOptions)
+  // } catch (error) {
+  //   console.error('Error sending email:', error)
+  //   throw new Error('Failed to send email')
+  // }
+
+  const payload = {
+    to: email,
+    subject: 'Free Subscription',
+    body: htmlContent,
+  }
+
+  try {
+    await axios.post(
+      'https://aletheia.ai.ml-bench.com/api/send-microsoft-email',
+      payload,
+    )
+  } catch {
+    throw new Error('Failed to send free trial email')
   }
 }
 

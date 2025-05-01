@@ -1,4 +1,4 @@
-import nodemailer from 'nodemailer'
+import axios from 'axios'
 
 export const sendSubscriptionEmail = async (
   toEmail: string,
@@ -10,37 +10,27 @@ export const sendSubscriptionEmail = async (
   user_name: string,
 ) => {
   // const transporter = nodemailer.createTransport({
-  //   service: 'Gmail',
+  //   host: 'smtp.office365.com',
+  //   port: 587,
+  //   secure: false,
   //   auth: {
   //     user: process.env.EMAIL_USER,
   //     pass: process.env.EMAIL_PASS,
   //   },
+  //   tls: {
+  //     ciphers: 'SSLv3',
+  //   },
+  //   debug: true,
   // })
-
-  const transporter = nodemailer.createTransport({
-    host: 'smtp.office365.com',
-    port: 587,
-    secure: false,
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-    tls: {
-      ciphers: 'SSLv3',
-    },
-    debug: true,
-  })
 
   const logoUrl = `${process.env.NEXT_PUBLIC_BASE_URL ?? ''}mailLogo.jpg`
   const linkedinUrl = `${process.env.NEXT_PUBLIC_BASE_URL ?? ''}linkedin.jpg`
   const youtubeUrl = `${process.env.NEXT_PUBLIC_BASE_URL ?? ''}youtube.jpg`
 
   const mailOptions = {
-    from: `"Lumashape" <${process.env.EMAIL_USER}>`,
     to: toEmail,
     subject: `Subscription Activated: ${planName}`,
-
-    html: `
+    body: `
       <!DOCTYPE html>
       <html>
       <head>
@@ -196,8 +186,16 @@ export const sendSubscriptionEmail = async (
   }
 
   try {
-    await transporter.sendMail(mailOptions)
-  } catch (error) {
-    console.error('Error sending email:', error)
+    await axios.post(
+      'https://aletheia.ai.ml-bench.com/api/send-microsoft-email',
+      mailOptions,
+    )
+  } catch {
+    throw new Error('Failed to send subscription email')
   }
+  // try {
+  //   await transporter.sendMail(mailOptions)
+  // } catch (error) {
+  //   console.error('Error sending email:', error)
+  // }
 }
