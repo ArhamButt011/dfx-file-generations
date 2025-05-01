@@ -59,7 +59,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           '/api/auth/verifyToken',
           formData,
         )
-        console.log('Data from API:', response.data)
         setUserData(response.data)
       } catch (error) {
         console.error('API Error:', error)

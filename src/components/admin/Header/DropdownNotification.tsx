@@ -60,7 +60,6 @@ const DropdownNotification = () => {
         const notificationRef = ref(database, 'notifications')
         await update(notificationRef, { isNewNotification: false })
 
-        console.log('Updated isNewNotification to false in Firebase')
         setNotifying(false)
       } catch (error) {
         console.error('Error updating isNewNotification:', error)

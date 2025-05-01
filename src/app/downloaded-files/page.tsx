@@ -24,7 +24,6 @@ function Page() {
         await axios.post('/api/auth/verifyToken', { token })
       } catch (error) {
         if (axios.isAxiosError(error) && error.response?.status === 401) {
-          console.log('Token expired or invalid. Logging out...')
           logout()
           router.push('/user')
         }

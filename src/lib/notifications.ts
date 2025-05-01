@@ -77,7 +77,6 @@ export async function addNotification(
     }
 
     await notificationsCollection.insertOne(notificationData)
-    console.log('Notification added successfully:', message)
 
     const notificationRef = ref(database, 'notifications')
     await update(notificationRef, { isNewNotification: true })

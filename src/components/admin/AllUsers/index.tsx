@@ -53,7 +53,6 @@ const AllUsers = () => {
 
       if (response.ok) {
         const data = await response.json()
-        console.log(data)
         setUsers(data.users)
         setTotalPages(data.totalPages)
         setTotalUsers(data.totalUsers)

@@ -19,7 +19,6 @@ interface FilesData {
 
 const DownloadedFilesDetails = () => {
   const [loading, setLoading] = useState<boolean>(false)
-  console.log(loading)
   const { id } = useParams<{ id: string }>()
   const [mask, setMask] = useState('')
   const [maskUrl, setMaskUrl] = useState('')
@@ -62,8 +61,6 @@ const DownloadedFilesDetails = () => {
           setOutline(overlayBase64)
           setMask(maskBase64)
           setOverlay(previewBase64)
-
-          console.log('Fetched files data:', data)
         } else {
           console.error('Failed to fetch files data')
         }
@@ -109,8 +106,6 @@ const DownloadedFilesDetails = () => {
 
       // Clean up memory
       URL.revokeObjectURL(blobUrl)
-
-      console.log('Image downloaded successfully')
     } catch (err) {
       Swal.fire({
         title: 'Error',
