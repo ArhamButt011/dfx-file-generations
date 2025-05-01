@@ -69,7 +69,11 @@ const UserDetails: React.FC<UserDetailsProps> = ({ userId }) => {
         <div className="flex flex-col md:flex-row gap-4">
           <div className="">
             <Image
-              src={userData?.image ? userData?.image : userImage}
+              src={
+                userData?.image
+                  ? `${process.env.NEXT_PUBLIC_SITE_URL}${userData.image}`
+                  : userImage
+              }
               alt="useravatar"
               height={175}
               width={178}

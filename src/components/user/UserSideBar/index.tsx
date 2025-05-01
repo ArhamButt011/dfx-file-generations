@@ -555,7 +555,7 @@ SidebarProps) => {
     if (userData) {
       setName(userData.username || '')
       setLastName(userData.lastName || '')
-      setProfileImage(userData.image || userImages)
+      setProfileImage(`${process.env.NEXT_PUBLIC_SITE_URL}${userData.image}`)
     }
   }, [userData])
 

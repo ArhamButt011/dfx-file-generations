@@ -47,7 +47,11 @@ const LastestUsersCard = () => {
           >
             <div className="w-14 h-14 rounded-full overflow-hidden">
               <Image
-                src={user?.image ? user.image : userImage}
+                src={
+                  user?.image
+                    ? `${process.env.NEXT_PUBLIC_SITE_URL}${user.image}`
+                    : userImage
+                }
                 width={56}
                 height={56}
                 alt="userImage"

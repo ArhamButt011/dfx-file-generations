@@ -96,7 +96,11 @@ const DropdownNotification = () => {
                     <div className="flex gap-4 items-start">
                       <div className="w-[45px] h-[45px] rounded-full overflow-hidden flex-shrink-0">
                         <Image
-                          src={data?.image ? data.image : userImage}
+                          src={
+                            data?.image
+                              ? `${process.env.NEXT_PUBLIC_SITE_URL}${data.image}`
+                              : userImage
+                          }
                           width={60}
                           height={60}
                           alt="userImage"
