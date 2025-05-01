@@ -370,7 +370,7 @@ const DropdownUser = () => {
               <Image
                 width={44}
                 height={44}
-                src={userData.image}
+                src={`${process.env.NEXT_PUBLIC_SITE_URL}${userData.image}`}
                 className="object-cover w-full h-full"
                 alt="User"
               />
