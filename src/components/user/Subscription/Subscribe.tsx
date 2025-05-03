@@ -299,7 +299,9 @@ SubscribeProps) {
                     className={`mt-4 py-2 px-4 rounded-full ${
                       item.plan_name === userData?.subscription ||
                       processingPlanId === item.id ||
-                      item.plan_name === 'Coming Soon...'
+                      item.plan_name === 'Coming Soon...' ||
+                      (item.plan_name === 'Free' &&
+                        userData?.subscription === 'Basic')
                         ? 'bg-[#266CA8] text-white cursor-not-allowed opacity-70'
                         : 'bg-[#266CA8] text-white cursor-pointer'
                     }`}
@@ -309,7 +311,9 @@ SubscribeProps) {
                     disabled={
                       item.plan_name === userData?.subscription ||
                       processingPlanId === item.id ||
-                      item.plan_name === 'Coming Soon...'
+                      item.plan_name === 'Coming Soon...' ||
+                      (item.plan_name === 'Free' &&
+                        userData?.subscription === 'Basic')
                     }
                   >
                     {processingPlanId === item.id

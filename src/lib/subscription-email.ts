@@ -160,9 +160,7 @@ export const sendSubscriptionEmail = async (
           <div class="important-info">
             <p><strong>Important Information</strong></p>
             
-            <p>${`This is a monthly subscription that will renew automatically unless canceled. You can manage or cancel your subscription anytime from your account settings. For questions or assistance, please contact our support team at ${
-              planName === 'Premium' ? 'support@lumashape.com' : ''
-            }`}</p>
+            <p>${`This is a monthly subscription that will renew automatically unless canceled. You can manage or cancel your subscription anytime from your account settings. For questions or assistance, please contact our support team at support@lumashape.com.`}</p>
           </div>
           <div class="footer">
             <div class="footer-links">
