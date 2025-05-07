@@ -1145,11 +1145,11 @@ const UserLogin = () => {
         }
       >
         <div>
-          <div className="text-center">
-            <p className="font-[550] md:text-3xl text-2xl">
+          <div className="">
+            <p className="font-[550] md:text-3xl text-2xl text-center">
               Account Verification
             </p>
-            <p className="font-medium md:text-xl text-sm text-[#00000080]">
+            <p className="font-medium md:text-xl text-sm text-[#00000080] mt-2 pl-7">
               Please enter the verification code sent to
               <span className="underline text-black block">
                 <span className="font-[550]">{emailSend}</span>
@@ -1220,6 +1220,11 @@ const UserLogin = () => {
               )}
             </p>
           </form>
+          <div className="text-[14px] sm:text-[16px] text-center mt-3">
+            <span className="text-[#266CA8] font-semibold">Note: </span> If you
+            do not receive the verification code in your inbox, please check
+            your junk or spam folder.
+          </div>
         </div>
       </Modal>
 
@@ -1351,10 +1356,17 @@ const UserLogin = () => {
                 )
               })}
             </div>
+            {OTPSent && (
+              <div className="text-[14px] sm:text-[16px] text-center mt-14">
+                <span className="text-[#266CA8] font-semibold">Note: </span> If
+                you do not receive the verification code in your inbox, please
+                check your junk or spam folder.
+              </div>
+            )}
 
             <button
               type="submit"
-              className="w-full bg-[#005B97] xl:text-[16px] text-[14px] text-white p-3 md:mt-10 mt-10 font-bold rounded-[94.17px] hover:bg-[#005b97f0] transition duration-300"
+              className="w-full bg-[#005B97] xl:text-[16px] text-[14px] text-white p-3 mt-5  font-bold rounded-[94.17px] hover:bg-[#005b97f0] transition duration-300"
               //   disabled={loading}
             >
               Verify
