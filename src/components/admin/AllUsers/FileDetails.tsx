@@ -20,7 +20,6 @@ interface FilesData {
 
 const FileDetails = () => {
   const { fileId } = useParams()
-
   const [loading, setLoading] = useState<boolean>(false)
   const [mask, setMask] = useState('')
   const [maskUrl, setMaskUrl] = useState('')
