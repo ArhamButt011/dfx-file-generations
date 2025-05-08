@@ -491,7 +491,11 @@ function Input() {
     }
 
     // Check if user's plan is expired
-    if (userPlan && new Date(userPlan.expiry_date) < new Date()) {
+    if (
+      userPlan &&
+      !userPlan.isLifeTimeAccess &&
+      new Date(userPlan.expiry_date) < new Date()
+    ) {
       setIsBilingOpen(true)
       return
     }
@@ -542,7 +546,11 @@ function Input() {
     }
 
     // Check if user's plan is expired
-    if (userPlan && new Date(userPlan.expiry_date) < new Date()) {
+    if (
+      userPlan &&
+      !userPlan.isLifeTimeAccess &&
+      new Date(userPlan.expiry_date) < new Date()
+    ) {
       setIsBilingOpen(true)
       return
     }
