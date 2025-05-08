@@ -16,6 +16,7 @@ interface UserPlan {
   charges: number
   added_date: string
   expiry_date: string
+  isLifeTimeAccess?: boolean
 }
 
 interface UserPlanContextType {
