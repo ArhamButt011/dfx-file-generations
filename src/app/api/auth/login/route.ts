@@ -140,7 +140,7 @@ export async function POST(req: Request) {
     const subscriptionsCollection = db.collection('all-subscriptions')
     const latestSubscription = await subscriptionsCollection.findOne(
       { user_id: user._id, status: 'active' },
-      { sort: { added_on: -1 } }, // Sort by added_on in descending order
+      { sort: { added_on: -1 } },
     )
     let plan = ''
     if (latestSubscription?.status === 'active') {
