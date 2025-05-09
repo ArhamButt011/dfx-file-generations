@@ -84,7 +84,7 @@ const Login: React.FC<LoginProps> = ({ title, content }) => {
   }
 
   return (
-    <div className="flex flex-col w-full md:flex-row w-full">
+    <div className="flex flex-col  md:flex-row w-full">
       {loading && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[1000]">
           <ClipLoader color="#007bff" size={50} />
