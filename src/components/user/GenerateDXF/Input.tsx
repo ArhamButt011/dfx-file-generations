@@ -218,7 +218,18 @@ function Input() {
     sessionStorage.setItem('outlineUrl', outlineUrl)
     sessionStorage.setItem('isProcessed', JSON.stringify(isProcessed))
     sessionStorage.setItem('unit', unit)
-  }, [overlay, image, contour, boundaryLength, boundaryWidth, drawerId, unit])
+  }, [
+    overlay,
+    image,
+    contour,
+    boundaryLength,
+    boundaryWidth,
+    drawerId,
+    unit,
+    overlayUrl,
+    outlineUrl,
+    maskUrl,
+  ])
 
   useEffect(() => {
     setOverlayUrl(sessionStorage.getItem('overlayUrl') ?? '')
@@ -492,9 +503,9 @@ function Input() {
 
     // Check if user's plan is expired
     if (
-      userPlan &&
-      !userPlan.isLifeTimeAccess &&
-      new Date(userPlan.expiry_date) < new Date()
+      !userPlan ||
+      (!userPlan.isLifeTimeAccess &&
+        new Date(userPlan.expiry_date) < new Date())
     ) {
       setIsBilingOpen(true)
       return
@@ -545,11 +556,10 @@ function Input() {
       return
     }
 
-    // Check if user's plan is expired
     if (
-      userPlan &&
-      !userPlan.isLifeTimeAccess &&
-      new Date(userPlan.expiry_date) < new Date()
+      !userPlan ||
+      (!userPlan.isLifeTimeAccess &&
+        new Date(userPlan.expiry_date) < new Date())
     ) {
       setIsBilingOpen(true)
       return
@@ -1653,6 +1663,9 @@ function Input() {
         setDfxFile={setDfxFile}
         setIsProcessed={setIsProcessed}
         setDrawerId={setDrawerId}
+        setMaskUrl={setMaskUrl}
+        setOvelayUrl={setOverlayUrl}
+        setOutlineUrl={setOutlineUrl}
       />
       {/* processing */}
       <Modal isOpen={isProcessingOpen} onClose={onClose} buttonContent="">

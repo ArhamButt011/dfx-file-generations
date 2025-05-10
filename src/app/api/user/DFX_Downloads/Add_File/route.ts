@@ -14,6 +14,13 @@ export async function POST(req: Request) {
       outline_url,
     } = await req.json()
 
+    console.log('file anme -> ', file_name)
+    console.log('file url -> ', url)
+    console.log('user id -> ', userId)
+    console.log('mask_url -> ', mask_url)
+    console.log('overlay url -> ', overlay_url)
+    console.log('outline url -> ', outline_url)
+
     if (
       !file_name ||
       !url ||

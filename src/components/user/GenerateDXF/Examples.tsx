@@ -18,6 +18,9 @@ interface ExamplesProps {
   setContourOffset: (offset: string) => void
   setContour: (contour: string) => void
   setUnit: (unit: string) => void
+  setMaskUrl: (mask: string) => void
+  setOvelayUrl: (overlay: string) => void
+  setOutlineUrl: (outline: string) => void
 }
 
 const Examples: React.FC<ExamplesProps> = (props) => {
@@ -113,6 +116,10 @@ const Examples: React.FC<ExamplesProps> = (props) => {
     const boundaryWidth = example[0].boundaryWidth
 
     props.setDfxFile(example[0].dxf_file)
+    props.setOvelayUrl(example[0].overlayUrl)
+    props.setOutlineUrl(example[0].outlineUrl)
+    props.setMaskUrl(example[0].maskUrl)
+
     props.setIsProcessed(true)
 
     const fetchBase64Images = async () => {
