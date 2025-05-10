@@ -17,7 +17,7 @@ const BestPractices = () => {
         <li>
           <Text as="p1">
             Capture photos from a distance of 3-4 feet directly above the
-            object(s)
+            object(s).
           </Text>
         </li>
         <li>

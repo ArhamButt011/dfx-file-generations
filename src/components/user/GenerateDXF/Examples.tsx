@@ -43,6 +43,7 @@ const Examples: React.FC<ExamplesProps> = (props) => {
       dxf_file:
         'https://dxf.lumashape.com/outputs/a302ce29-695f-4fe9-822c-5f748e7273fb/DXF_29-04-2025_offset-0.0160.dxf',
     },
+
     {
       id: 2,
       image: '/images/user/GenerateDFX/dxf2.svg',
@@ -55,11 +56,11 @@ const Examples: React.FC<ExamplesProps> = (props) => {
       boundaryWidth: '50',
       text: 'TEXT',
       overlayUrl:
-        'https://dxf.lumashape.com/outputs/199097db-c333-4122-8978-b2a4e3d9a899/Overlay_Image.jpg',
+        'https://dxf.lumashape.com/outputs/6d16d4af-d466-4b88-8305-02c6a91490d6/Overlay_Image.jpg',
       outlineUrl:
-        'https://dxf.lumashape.com/outputs/199097db-c333-4122-8978-b2a4e3d9a899/DXF_Preview.jpg',
+        'https://dxf.lumashape.com/outputs/6d16d4af-d466-4b88-8305-02c6a91490d6/DXF_Preview.jpg',
       maskUrl:
-        'https://dxf.lumashape.com/outputs/199097db-c333-4122-8978-b2a4e3d9a899/mask.jpg',
+        'https://dxf.lumashape.com/outputs/6d16d4af-d466-4b88-8305-02c6a91490d6/mask.jpg',
       dxf_file:
         'https://dxf.lumashape.com/outputs/6d16d4af-d466-4b88-8305-02c6a91490d6/DXF_29-04-2025_offset-0.0750.dxf',
     },
