@@ -16,7 +16,6 @@ function Input() {
     () => sessionStorage.getItem('image') || '',
   )
   const { userPlan } = useUserPlan()
-
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const { userData } = useAuth()
   const [contour, setContour] = useState<string>(
@@ -36,7 +35,6 @@ function Input() {
     () => sessionStorage.getItem('boundaryLength') || '0',
   )
   const [showFullName, setShowFullName] = useState(false)
-
   const [drawerId, setDrawerId] = useState<string>(
     () => sessionStorage.getItem('drawerId') || '',
   )
@@ -203,9 +201,9 @@ function Input() {
   }, [userPlan])
 
   useEffect(() => {
-    sessionStorage.setItem('overlay', overlay)
-    sessionStorage.setItem('mask', mask)
-    sessionStorage.setItem('preview', preview)
+    // sessionStorage.setItem('overlay', overlay)
+    // sessionStorage.setItem('mask', mask)
+    // sessionStorage.setItem('preview', preview)
     sessionStorage.setItem('dxf_file', dfxFile)
     // sessionStorage.setItem('image', image)
     // sessionStorage.setItem('contour', contour)
@@ -448,28 +446,28 @@ function Input() {
       setMaskUrl(mask_url)
 
       // Function to convert image URL to Base64
-      const convertToBase64 = async (url: string): Promise<string> => {
-        const response = await fetch(url)
-        const blob = await response.blob()
-        return new Promise((resolve) => {
-          const reader = new FileReader()
-          reader.onloadend = () => resolve(reader.result as string) // Explicitly cast to string
-          reader.readAsDataURL(blob)
-        })
-      }
+      // const convertToBase64 = async (url: string): Promise<string> => {
+      //   const response = await fetch(url)
+      //   const blob = await response.blob()
+      //   return new Promise((resolve) => {
+      //     const reader = new FileReader()
+      //     reader.onloadend = () => resolve(reader.result as string) // Explicitly cast to string
+      //     reader.readAsDataURL(blob)
+      //   })
+      // }
 
-      // Convert images to base64
-      const [maskBase64, overlayBase64, previewBase64] = await Promise.all([
-        convertToBase64(mask_url),
-        convertToBase64(output_image_url),
-        convertToBase64(outlines_url),
-      ])
+      // // Convert images to base64
+      // const [maskBase64, overlayBase64, previewBase64] = await Promise.all([
+      //   convertToBase64(mask_url),
+      //   convertToBase64(output_image_url),
+      //   convertToBase64(outlines_url),
+      // ])
 
       // Save the base64 images
-      setMask(maskBase64)
+      // setMask(maskBase64)
       setDfxFile(dxf_file)
-      setPreview(previewBase64)
-      setOverlay(overlayBase64)
+      // setPreview(previewBase64)
+      // setOverlay(overlayBase64)
       setIsProcessed(true)
     } catch (err) {
       // Catch any error in the try block and log it
@@ -494,6 +492,48 @@ function Input() {
       setisProcessingOpen(false)
     }
   }
+
+  useEffect(() => {
+    const convertToBase64 = async (url: string): Promise<string> => {
+      const response = await fetch(url)
+      const blob = await response.blob()
+      return new Promise((resolve) => {
+        const reader = new FileReader()
+        reader.onloadend = () => resolve(reader.result as string)
+        reader.readAsDataURL(blob)
+      })
+    }
+
+    const processImages = async () => {
+      const maskLink = sessionStorage.getItem('maskUrl')
+      const outlineLink = sessionStorage.getItem('outlineUrl')
+      const overlayLink = sessionStorage.getItem('overlayUrl')
+
+      // Validate that all links exist
+      if (!maskLink || !outlineLink || !overlayLink) {
+        console.error('One or more image URLs are missing in sessionStorage.')
+        return
+      }
+
+      try {
+        const [maskBase64, overlayBase64, previewBase64] = await Promise.all([
+          convertToBase64(maskLink),
+          convertToBase64(overlayLink),
+          convertToBase64(outlineLink),
+        ])
+
+        // Save the base64 images
+        setMask(maskBase64)
+        setPreview(previewBase64)
+        setOverlay(overlayBase64)
+        setIsProcessed(true)
+      } catch (error) {
+        console.error('Error while converting images to Base64:', error)
+      }
+    }
+
+    processImages()
+  }, [overlayUrl, maskUrl, outlineUrl])
 
   const handleDownload = async (url: string) => {
     if (!url) {
@@ -1436,6 +1476,9 @@ function Input() {
                         setBoundaryContour('No')
                         setUnit('')
                         setDrawerId('')
+                        setOverlayUrl('')
+                        setMaskUrl('')
+                        setOutlineUrl('')
                       }}
                     >
                       Clear
@@ -1511,7 +1554,7 @@ function Input() {
                           alt="download"
                           width={24}
                           height={24}
-                          onClick={() => handleDownload(overlay)}
+                          onClick={() => handleDownload(overlayUrl)}
                         />
                       </div>
                     </div>
@@ -1547,7 +1590,7 @@ function Input() {
                             alt="fullscreen"
                             width={24}
                             height={24}
-                            onClick={() => handleFullScreen(preview)}
+                            onClick={() => handleFullScreen(outlineUrl)}
                           />
                         </div>
                         {/* <Image src="/images/user/GenerateDFX/Share.svg" alt="share" width={24} height={24} /> */}
@@ -1556,7 +1599,7 @@ function Input() {
                           alt="download"
                           width={24}
                           height={24}
-                          onClick={() => handleDownload(preview)}
+                          onClick={() => handleDownload(outlineUrl)}
                         />
                       </div>
                     </div>
@@ -1588,7 +1631,7 @@ function Input() {
                       <div className="absolute top-0 right-0 bg-white border-r border-t rounded-tr-3xl text-white w-20 h-10 flex items-center justify-around text-sm cursor-pointer">
                         <div
                           className="cursor-pointer"
-                          onClick={() => handleFullScreen(mask)}
+                          onClick={() => handleFullScreen(maskUrl)}
                         >
                           <Image
                             src="/images/user/GenerateDFX/Full Screen.svg"
@@ -1603,7 +1646,7 @@ function Input() {
                           alt="download"
                           width={24}
                           height={24}
-                          onClick={() => handleDownload(mask)}
+                          onClick={() => handleDownload(maskUrl)}
                         />
                       </div>
                     </div>

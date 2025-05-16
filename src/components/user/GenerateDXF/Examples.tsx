@@ -120,34 +120,34 @@ const Examples: React.FC<ExamplesProps> = (props) => {
     props.setOutlineUrl(example[0].outlineUrl)
     props.setMaskUrl(example[0].maskUrl)
 
-    props.setIsProcessed(true)
+    // props.setIsProcessed(true)
 
-    const fetchBase64Images = async () => {
-      const convertToBase64 = async (url: string): Promise<string> => {
-        const response = await fetch(url)
-        const blob = await response.blob()
-        return new Promise((resolve) => {
-          const reader = new FileReader()
-          reader.onloadend = () => resolve(reader.result as string)
-          reader.readAsDataURL(blob)
-        })
-      }
+    // const fetchBase64Images = async () => {
+    //   const convertToBase64 = async (url: string): Promise<string> => {
+    //     const response = await fetch(url)
+    //     const blob = await response.blob()
+    //     return new Promise((resolve) => {
+    //       const reader = new FileReader()
+    //       reader.onloadend = () => resolve(reader.result as string)
+    //       reader.readAsDataURL(blob)
+    //     })
+    //   }
 
-      try {
-        const [maskBase64, overlayBase64, previewBase64] = await Promise.all([
-          convertToBase64(example[0].maskUrl),
-          convertToBase64(example[0].overlayUrl),
-          convertToBase64(example[0].outlineUrl),
-        ])
+    //   try {
+    //     const [maskBase64, overlayBase64, previewBase64] = await Promise.all([
+    //       convertToBase64(example[0].maskUrl),
+    //       convertToBase64(example[0].overlayUrl),
+    //       convertToBase64(example[0].outlineUrl),
+    //     ])
 
-        props.setMask(maskBase64)
-        props.setOverlay(overlayBase64)
-        props.setPreview(previewBase64)
-      } catch (error) {
-        console.error('Error fetching base64 images:', error)
-      }
-    }
-    fetchBase64Images()
+    //     props.setMask(maskBase64)
+    //     props.setOverlay(overlayBase64)
+    //     props.setPreview(previewBase64)
+    //   } catch (error) {
+    //     console.error('Error fetching base64 images:', error)
+    //   }
+    // }
+    // fetchBase64Images()
 
     if (actualImage) {
       try {
