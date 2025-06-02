@@ -9,7 +9,7 @@ function Hero() {
   return (
     <div className="xl:max-w-[1200px] max-w-[90%] flex flex-col items-center justify-center mx-auto">
       <motion.div
-        className="md:pt-36 md:pb-20 pt-32 pb-10 "
+        className="md:pt-10 md:pb-20 pt-8 pb-10"
         id="home"
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
