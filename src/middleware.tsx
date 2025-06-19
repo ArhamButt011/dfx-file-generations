@@ -25,8 +25,6 @@
 //   matcher: "/:path*",
 // };
 
-// middleware.ts (at project root or under /pages depending on your version)
-
 import { NextRequest, NextResponse } from "next/server";
 
 const isAppUnderDevelopment = true;
@@ -40,7 +38,8 @@ export function middleware(req: NextRequest) {
       pathname.startsWith("/_next/") ||
       pathname.startsWith("/images/") ||
       pathname.startsWith("/video/") ||
-      pathname.startsWith("/favicon.ico");
+      pathname.startsWith("/favicon.ico") ||
+      pathname.startsWith("/api/user/addEmail");
 
     if (!isAllowedPath) {
       const url = req.nextUrl.clone();
