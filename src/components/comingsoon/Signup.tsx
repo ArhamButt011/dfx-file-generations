@@ -7,8 +7,8 @@ import Swal from "sweetalert2";
 function Signup() {
   const [email, setEmail] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  const linkedinUrl = `${process.env.NEXT_PUBLIC_BASE_URL ?? ""}linkedin.jpg`;
-  const youtubeUrl = `${process.env.NEXT_PUBLIC_BASE_URL ?? ""}youtube.jpg`;
+  // const linkedinUrl = `${process.env.NEXT_PUBLIC_SITE_URL ?? ""}linkedin.jpg`;
+  // const youtubeUrl = `${process.env.NEXT_PUBLIC_SITE_URL ?? ""}youtube.jpg`;
 
   const handleSignIn = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -45,10 +45,10 @@ function Signup() {
             </p>
             <div style="text-align: start; margin-top: 10px;">
               <a href="https://www.linkedin.com/company/lumashape/" style="text-decoration: none;">
-                <img src="${linkedinUrl}" alt="LinkedIn" width="20" />
+                <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn" width="20" />
               </a>
               <a href="https://www.youtube.com/@Lumashape?app=desktop" style="text-decoration: none; margin-left: 20px;">
-                <img src="${youtubeUrl}" alt="YouTube" width="20" />
+                <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube" width="20" />
               </a>
             </div>
           </div>
