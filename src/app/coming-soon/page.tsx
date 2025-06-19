@@ -1,4 +1,5 @@
 import Signup from "@/components/comingsoon/Signup";
+import Image from "next/image";
 import React from "react";
 
 function page() {
@@ -62,7 +63,7 @@ function page() {
         </div>
 
         <div className="flex flex-col justify-center items-center">
-          <div className="flex flex-col justify-center items-center bg-gray-100 text-secondary">
+          {/* <div className="flex flex-col justify-center items-center bg-gray-100 text-secondary">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="180"
@@ -78,7 +79,14 @@ function page() {
                 <rect fill="#266ca8" y="52" width="64" height="8" rx="2" />
               </g>
             </svg>
-          </div>
+          </div> */}
+
+          <Image
+            src="/images/constructioncoan.png"
+            alt="LUMASHAPE Logo"
+            width={150}
+            height={150}
+          />
 
           <h1 className="flex justify-center items-center font-semibold text-[36px] text-secondary md:text-[50px] text-center">
             NEW VERSION IS ON THE WAY
