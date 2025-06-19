@@ -1,3 +1,5 @@
+import Signup from "@/components/comingsoon/Signup";
+import Image from "next/image";
 import React from "react";
 
 function page() {
@@ -59,13 +61,40 @@ function page() {
             </defs>
           </svg>
         </div>
-        <div className="">
-          <h1 className="flex justify-center items-center font-semibold text-[50px] text-secondary text-center">
-            New Version is on the way!
+
+        <div className="flex flex-col justify-center items-center">
+          {/* <div className="flex flex-col justify-center items-center bg-gray-100 text-secondary">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="180"
+              height="180"
+              viewBox="0 0 64 64"
+              className="mb-6"
+            >
+              <g fill="none" fillRule="evenodd">
+                <path fill="#266ca8" d="M32 4l-6 20h12L32 4z" />
+                <path fill="#FFF3E0" d="M26 24h12l2 6H24l2-6z" />
+                <path fill="#8A99AF" d="M22 32h20l2 8H20l2-8z" />
+                <path fill="#FFF3E0" d="M18 42h28l2 6H16l2-6z" />
+                <rect fill="#266ca8" y="52" width="64" height="8" rx="2" />
+              </g>
+            </svg>
+          </div> */}
+
+          <Image
+            src="/images/constructioncoan.png"
+            alt="LUMASHAPE Logo"
+            width={150}
+            height={150}
+          />
+
+          <h1 className="flex justify-center items-center font-semibold text-[36px] text-secondary md:text-[50px] text-center">
+            NEW VERSION IS ON THE WAY
           </h1>
-          <h1 className="flex justify-center items-center font-semibold text-[36px] text-primary text-center">
-            Stay Tuned!
+          <h1 className="flex justify-center items-center font-semibold text-[24px] text-primary md:text-[36px] text-center">
+            Stay tuned!
           </h1>
+          <Signup />
         </div>
       </div>
     </div>
